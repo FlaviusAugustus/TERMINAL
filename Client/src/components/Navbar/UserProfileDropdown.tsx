@@ -2,6 +2,18 @@ import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/react";
 import {UserCircleIcon} from "@heroicons/react/24/outline";
 import {Link} from "react-router-dom";
 
+/**
+ * UserProfileDropdown Component
+ *
+ * The UserProfileDropdown component displays the user profile dropdown in the Navbar.
+ *
+ * @example
+ * ```tsx
+ * <UserProfileDropdown />
+ * ```
+ *
+ * @returns {JSX.Element} - The rendered UserProfileDropdown component.
+ */
 const UserProfileDropdown = () => {
     {/* Profile dropdown */}
     return   (
@@ -33,9 +45,9 @@ const UserProfileDropdown = () => {
 
                 <MenuItem as="li">
                     <a
-                        href="#"
+                        href="/login"
                     >
-                        Sign out
+                        Sign in
                     </a>
                 </MenuItem>
             </MenuItems>

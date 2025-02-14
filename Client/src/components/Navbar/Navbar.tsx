@@ -13,11 +13,24 @@ export interface Navigation {
 
 const navigation: Navigation [] = [
     { name: 'Home',  href: '/'},
-    { name: 'Test1', href: '/test1' },
+    { name: 'Add project', href: '/add-new-project' },
     { name: 'Test2', href: '/test2'},
     { name: 'Test3', href: '/tes3'},
 ]
 
+/**
+ * Navbar Component
+ *
+ * The Navbar component displays the navigation bar at the top of the page. It
+ * includes the site logo, navigation links, and user profile information.
+ *
+ * @example
+ * ```tsx
+ * <Navbar />
+ * ```
+ *
+ * @returns {JSX.Element} - The rendered Navbar component
+ */
 const Navbar = () => {
 
     const [isAuth] = useState(true);

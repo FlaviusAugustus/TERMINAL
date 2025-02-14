@@ -4,6 +4,21 @@ import InputField from "../Shared/Forms/InputField.tsx";
 import SubmitButton from "../Shared/Forms/SubmitButton.tsx";
 import RememberMeButton from "./RememberMeButton";
 
+
+/**
+ * LoginForm Component
+ *
+ * A form component for user login. It includes fields for email and password,
+ * a "Remember Me" checkbox, and a submit button. The form validates the email
+ * format and displays a loading indicator while the form is being submitted.
+ *
+ * @example
+ * ```tsx
+ * <LoginForm />
+ * ```
+ *
+ * @returns {JSX.Element} - The rendered LoginForm component.
+ */
 const LoginForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [userData, setUserData] = useState({
@@ -45,27 +60,31 @@ const LoginForm = () => {
     }, [userData]);
 
     return (
-        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-            <TerminalBanner />
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
-                <InputField
-                    name="email"
-                    type="text"
-                    label="Email"
-                    value={userData.email}
-                    onChange={handleChange}
-                    isValid={isEmailValid}
-                />
-                <InputField
-                    name="password"
-                    type="password"
-                    label="Password"
-                    value={userData.password}
-                    onChange={handleChange}
-                />
-                <RememberMeButton />
-                <SubmitButton label="Sign in" isLoading={isLoading} />
-            </form>
+        <div className="flex min-h-screen items-center justify-center bg-gray-100">
+            <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+                <TerminalBanner />
+                <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
+                    <InputField
+                        name="email"
+                        type="text"
+                        label="Email"
+                        value={userData.email}
+                        description="email address"
+                        onChange={handleChange}
+                        isValid={isEmailValid}
+                    />
+                    <InputField
+                        name="password"
+                        type="password"
+                        label="Password"
+                        value={userData.password}
+                        description="password"
+                        onChange={handleChange}
+                    />
+                    <RememberMeButton />
+                    <SubmitButton label="Sign in" isLoading={isLoading} />
+                </form>
+            </div>
         </div>
     );
 };

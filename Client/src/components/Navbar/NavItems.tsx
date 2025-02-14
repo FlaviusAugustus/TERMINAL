@@ -5,6 +5,19 @@ interface NavItemsProps {
     navigationItems: Navigation[];
 }
 
+/**
+ * NavItems Component
+ *
+ * The NavItems component displays the navigation links in the Navbar.
+ *
+ * @example
+ * ```tsx
+ * <NavItems navigationItems={navigation}/>
+ * ```
+ *
+ * @param {NavItemsProps} props - The props of the component.
+ * @returns {JSX.Element} - The rendered NavItems component.
+ */
 const NavItems = (props: NavItemsProps) => {
     const location = useLocation()
 

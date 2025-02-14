@@ -2,6 +2,18 @@ import {Link} from "react-router-dom";
 import {IdentificationIcon, KeyIcon} from "@heroicons/react/24/outline";
 import { Button } from '@headlessui/react'
 
+/**
+ * UserAuthButtons Component
+ *
+ * The UserAuthButtons component displays the login and sign up buttons in the Navbar.
+ *
+ * @example
+ * ```tsx
+ * <UserAuthButtons />
+ * ```
+ *
+ * @returns {JSX.Element} - The rendered UserAuthButtons component.
+ */
 const UserAuthButtons = () => {
     return(
         <>

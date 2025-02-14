@@ -7,6 +7,20 @@ interface MobileDropdownButtonProps {
     navigationItems: Navigation [];
 }
 
+/**
+ * NavMobileDropdown Component
+ *
+ * The NavMobileDropdown component displays the navigation links in the Navbar
+ * on mobile devices.
+ *
+ * @example
+ * ```tsx
+ * <NavMobileDropdown navigationItems={navigation}/>
+ * ```
+ *
+ * @param {MobileDropdownButtonProps} props - The props of the component.
+ * @returns {JSX.Element} - The rendered NavMobileDropdown component.
+ */
 const NavMobileDropdown = (props: MobileDropdownButtonProps) => {
     return (
         <Menu as="div" className="dropdown">

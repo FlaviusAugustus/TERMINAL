@@ -2,11 +2,12 @@ import React from 'react';
 import { Input, Label, Field } from '@headlessui/react';
 import clsx from 'clsx';
 
-interface InputFieldProps {
+export interface InputFieldProps {
     label: string;
     type: string;
     name: string;
     value: string;
+    description?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     isValid?: boolean;
     validationInfo?: string;
