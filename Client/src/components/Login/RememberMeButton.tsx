@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Checkbox, Field, Label } from "@headlessui/react";
 
+/**
+ * RememberMeButton Component
+ *
+ * A component that renders a "Remember me" checkbox and a "Forgot password?" link.
+ *
+ * @component
+ * @returns {JSX.Element} - The rendered RememberMeButton component.
+ */
 const RememberMeButton = () => {
   const [enabled, setEnabled] = useState(false);
 

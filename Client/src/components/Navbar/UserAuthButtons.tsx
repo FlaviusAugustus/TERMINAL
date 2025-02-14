@@ -2,6 +2,14 @@ import {Link} from "react-router-dom";
 import {IdentificationIcon, KeyIcon} from "@heroicons/react/24/outline";
 import { Button } from '@headlessui/react'
 
+/**
+ * UserAuthButtons Component
+ *
+ * A component that renders authentication buttons.
+ *
+ * @component
+ * @returns {JSX.Element} - The rendered UserAuthButtons component.
+ */
 const UserAuthButtons = () => {
     return(
         <>

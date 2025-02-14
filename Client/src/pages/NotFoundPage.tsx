@@ -1,6 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * NotFoundPage Component
+ *
+ * A component that renders a 404 page.
+ *
+ * @component
+ * @returns {JSX.Element} - The rendered NotFoundPage component.
+ */
 const NotFoundPage = () => {
 
     const navigate = useNavigate();

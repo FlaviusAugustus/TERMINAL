@@ -6,6 +6,9 @@ import NavItems from "./NavItems.tsx";
 import UserProfileDropdown from "./UserProfileDropdown.tsx";
 import UserAuthButtons from "./UserAuthButtons.tsx";
 
+/**
+ * Interface for navigation items
+ */
 export interface Navigation {
     name: string;
     href: string;
@@ -13,11 +16,19 @@ export interface Navigation {
 
 const navigation: Navigation [] = [
     { name: 'Home',  href: '/'},
-    { name: 'Test1', href: '/test1' },
+    { name: 'Add project', href: '/add-new-project' },
     { name: 'Test2', href: '/test2'},
     { name: 'Test3', href: '/tes3'},
 ]
 
+/**
+ * Navbar Component
+ *
+ * A navigation bar component that includes navigation items, a user profile dropdown, and authentication buttons.
+ *
+ * @component
+ * @returns {JSX.Element} - The rendered Navbar component.
+ */
 const Navbar = () => {
 
     const [isAuth] = useState(true);
