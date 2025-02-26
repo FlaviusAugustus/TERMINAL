@@ -213,3 +213,18 @@ export type UpdateSampleStepDto = {
 export type UpdateTagRequest = {
   name?: string | null;
 };
+
+export type SampleDto = {
+  code?: string | null;
+  projectName?: string | null;
+  createdAt?: Date | null;
+};
+
+export type SampleDetailsDto = {
+  code?: string | null;
+  projectName?: string | null;
+  createdAt?: Date | null;
+  comment?: string | null;
+  steps?: SampleStep[] | null;
+  tags?: string[] | null;
+};
