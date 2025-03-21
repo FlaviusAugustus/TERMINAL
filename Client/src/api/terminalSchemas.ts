@@ -223,23 +223,23 @@ export type UpdateTagRequest = {
     name?: string | null;
 };
 
+
 export type SampleDto = {
-    code?: string;
-    projectName?: string;
-    createdAt?: Date | null;
+    id: string;
+    code: string;
+    project: string;
+    createdAtUtc: Date;
+    comment: string
 };
 
 export type SampleDetailsDto = {
-    code?: string;
-    projectName?: string;
-    createdAt?: Date | null;
-    comment?: string | null;
+    id: string
+    code: string;
+    recipe?: string;
+    createdAtUtc: Date;
+    comment: string
+    projectId: string;
     steps?: SampleStep[] | null;
-    tags?: string[] | null;
+    tags?: TagDto[] | null;
 };
 
-export type SamplesQueryResponse = {
-    rows: SampleDto[];
-    rowCount: number;
-    pageCount: number;
-};
