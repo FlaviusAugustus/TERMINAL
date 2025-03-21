@@ -1,11 +1,11 @@
-import {Link, useLocation} from "react-router-dom";
-import {Navigation} from "./Navbar.tsx";
+import { Link, useLocation } from "react-router-dom";
+import { Navigation } from "./Navbar.tsx";
 
 /**
  * Props interface for NavItems component
  */
 interface NavItemsProps {
-    navigationItems: Navigation[];
+  navigationItems: Navigation[];
 }
 
 /**
@@ -18,24 +18,24 @@ interface NavItemsProps {
  * @returns {JSX.Element} - The rendered NavItems component.
  */
 const NavItems = (props: NavItemsProps) => {
-    const location = useLocation()
+  const location = useLocation();
 
-    return (
-        <ul className="menu menu-horizontal px-1">
-            {props.navigationItems.map((item, index) => (
-                <li key={index}>
-                    <Link
-                        to={{
-                            pathname: `${item.href}`
-                        }}
-                        aria-current={(location.pathname===item.href) ? "page" : undefined}
-                    >
-                        {item.name}
-                    </Link>
-                </li>
-            ))}
-        </ul>
-    );
+  return (
+    <ul className="menu menu-horizontal px-1">
+      {props.navigationItems.map((item, index) => (
+        <li key={index}>
+          <Link
+            to={{
+              pathname: `${item.href}`,
+            }}
+            aria-current={location.pathname === item.href ? "page" : undefined}
+          >
+            {item.name}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
 };
 
 export default NavItems;

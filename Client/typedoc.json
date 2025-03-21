@@ -1,17 +1,13 @@
 {
-    "entryPoints": ["./src"],
-    "entryPointStrategy": "expand",
-    "out": "./docs",
-    "includeVersion": true,
-    "exclude": [
-        "**/*.test.*",
-        "**/*.spec.*",
-        "node_modules/**"
-    ],
-    "excludeExternals": true,
-    "excludePrivate": true,
-    "theme": "default",
-    "tsconfig": "./tsconfig.json",
-    "hideGenerator": true,
-    "readme": "none",
+  "entryPoints": ["./src"],
+  "entryPointStrategy": "expand",
+  "out": "./docs",
+  "includeVersion": true,
+  "exclude": ["**/*.test.*", "**/*.spec.*", "node_modules/**"],
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "theme": "default",
+  "tsconfig": "./tsconfig.json",
+  "hideGenerator": true,
+  "readme": "none"
 }
