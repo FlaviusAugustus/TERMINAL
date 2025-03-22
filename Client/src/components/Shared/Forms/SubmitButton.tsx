@@ -1,5 +1,5 @@
-import { Button } from "@headlessui/react";
-import LoadingIndicator from "@components/Login/LoadingIndicator.tsx";
+import { Button } from '@headlessui/react';
+import clsx from "clsx";
 
 /**
  * Props interface for SubmitButton component
@@ -18,16 +18,18 @@ export interface SubmitButtonProps {
  * @param {SubmitButtonProps} props - The props for the SubmitButton component
  */
 const SubmitButton = ({ label, isLoading }: SubmitButtonProps) => (
-    <div className="w-full">
-        <Button
-            type="submit"
-            className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-black hover:bg-black/85 transition-colors duration-100 py-2 px-4 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            disabled={isLoading}
-        >
-            {isLoading ? <LoadingIndicator /> : label}
-            {isLoading && "Loading..."}
-        </Button>
-    </div>
+  <div className="w-full">
+      <Button
+          type="submit"
+          className={clsx(
+              'mt-8 w-full rounded-xl py-2 px-4 text-white bg-gray-600 hover:bg-gray-500',
+              { 'bg-gray-300 hover:bg-gray-300' : isLoading }
+          )}
+          disabled={isLoading}
+      >
+          {label}
+      </Button>
+  </div>
 );
 
 export default SubmitButton;
