@@ -1,98 +1,118 @@
 import { useState, useEffect } from "react";
+import { AxiosResponse } from "axios";
+import { UseMutationResult } from "@tanstack/react-query";
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
-import { Input } from "@headlessui/react";
-import { Button } from '@headlessui/react'
+import { Button, Input, Select } from "@headlessui/react";
+import { toastPromise } from "../../utils/toast.utils.tsx";
+import { EnvelopeIcon, KeyIcon, TrashIcon, UserIcon } from "@heroicons/react/20/solid";
 
-/**
- * Props for the UserDetails component.
- */
 export interface UserDetailsProps {
     dataQuery: UserDetailsDto | undefined;
+    mutation: UseMutationResult<AxiosResponse<any>, Error, string, unknown>;
 }
 
-/**
- * UserDetails component displays and allows editing of user details such as email and role.
- *
- * @param {UserDetailsProps} props - The props for the component.
- * @param {UserDetailsDto | undefined} props.dataQuery - The user data to display and edit.
- *
- * @returns {JSX.Element} The rendered UserDetails component.
- */
 const UserDetails = (props: UserDetailsProps) => {
-    const [email, setEmail] = useState<string | undefined>(props.dataQuery?.email);
-    const [role, setRole] = useState<string | undefined>(props.dataQuery?.role);
+    const [email, setEmail] = useState(props.dataQuery?.email || "");
+    const [role, setRole] = useState(props.dataQuery?.role || "");
     const [isChanged, setIsChanged] = useState(false);
 
     useEffect(() => {
-        const initialEmail = props.dataQuery?.email || "";
-        const initialRole = props.dataQuery?.role || "";
-        setIsChanged(email !== initialEmail || role !== initialRole);
-    }, [email, role, props.dataQuery]);
+        setEmail(props.dataQuery?.email || "");
+        setRole(props.dataQuery?.role || "");
+        setIsChanged(false);
+    }, [props.dataQuery]);
 
     const handleReset = () => {
         setEmail(props.dataQuery?.email || "");
         setRole(props.dataQuery?.role || "");
+        setIsChanged(false);
     };
 
     const handleSubmit = () => {
         // Submit logic here
     };
 
+    const handleDeletion = async () => {
+        if (props.dataQuery?.id != undefined) {
+            try {
+                await toastPromise(
+                    props.mutation.mutateAsync(props.dataQuery.id),
+                    {
+                        success: "User deleted successfully",
+                        error: "Failed to delete user",
+                        loading: "Deleting user...",
+                    }
+                );
+            } catch {
+                // Error is already handled by the toastPromise
+            }
+        }
+    };
+
     return (
-        <div className="card-body">
-            <div className="card-title text-4xl">User</div>
-            <div className="divider"></div>
-            <div className="grid grid-cols-[35%_65%] gap-y-3">
-                <div className="font-bold">Email:</div>
-                <b><div>{props.dataQuery?.email}</div></b>
-                <div className="flex flex-col">
-                    <label htmlFor="email" className="mt-1">
-                        Email*
-                    </label>
-                    <Input
-                        id="email"
-                        type="email"
-                        placeholder={props.dataQuery?.email}
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="bg-gray-200 px-3 py-2 rounded mt-2 text-gray-500"
-                    />
-                </div>
-                <div></div>
-                <div className="flex flex-col">
-                    <label htmlFor="text" className="mt-1">
-                        Role*
-                    </label>
-                    <select
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
-                        className="bg-gray-200 px-3 py-2 rounded mt-2 text-gray-500"
-                    >
-                        <option value="Role">{props.dataQuery?.role}</option>
-                        <option>Moderator</option>
-                        <option>User</option>
-                        <option>Guest</option>
-                    </select>
-                </div>
-                <div></div>
-                <div className="mt-6 flex gap-2">
-                    <Button
-                        className="btn btn-sm btn-soft rounded"
-                        onClick={handleReset}
-                        disabled={!isChanged}
-                    >
-                        Reset
-                    </Button>
-                    <Button
-                        className="btn btn-sm btn-soft rounded"
-                        onClick={handleSubmit}
-                        disabled={!isChanged}
-                    >
-                        Submit changes
-                    </Button>
-                    <Button className="btn btn-sm btn-primary text-white rounded">Change password</Button>
-                    <Button className="btn btn-sm btn-error text-white rounded">Delete</Button>
-                </div>
+        <div className="border border-gray-200 rounded-lg bg-white p-2">
+            <div className="text-lg font-medium border-b border-gray-200 h-[40.5px] p-2 flex">
+                User Details
+            </div>
+            <div className="flex items-center font-light text-sm text-gray-600">
+                <EnvelopeIcon className="w-6 h-6 pr-2" />
+                <p className="font-medium flex items-center pr-1">Email:</p>
+                <Input
+                    id="email"
+                    type="email"
+                    placeholder="Enter email"
+                    value={email}
+                    onChange={(e) => {
+                        setEmail(e.target.value);
+                        setIsChanged(true);
+                    }}
+                    className="bg-gray-200 px-3 py-2 rounded mt-2 text-gray-500"
+                />
+            </div>
+            <div className="flex items-center font-light text-sm text-gray-600">
+                <UserIcon className="w-6 h-6 pr-2" />
+                <p className="font-medium flex items-center pr-1">Role:</p>
+                <Select
+                    value={role}
+                    onChange={(e) => {
+                        setRole(e.target.value);
+                        setIsChanged(true);
+                    }}
+                    className="bg-gray-200 px-3 py-2 rounded mt-2 text-gray-500"
+                >
+                    <option value="Admin">Admin</option>
+                    <option value="Moderator">Moderator</option>
+                    <option value="Registered">Registered</option>
+                    <option value="Guest">Guest</option>
+                </Select>
+            </div>
+            <div className="flex flex-wrap gap-2 mt-4">
+                <Button
+                    className="btn btn-sm btn-soft rounded"
+                    onClick={handleReset}
+                    disabled={!isChanged}
+                >
+                    Reset
+                </Button>
+                <Button
+                    className="btn btn-sm btn-soft rounded"
+                    onClick={handleSubmit}
+                    disabled={!isChanged}
+                >
+                    Submit changes
+                </Button>
+                <Button className="btn btn-sm btn-primary text-white rounded gap-1">
+                    <KeyIcon className="w-4 h-4" />
+                    Change password
+                </Button>
+                <Button
+                    className="btn btn-sm btn-error text-white rounded gap-1"
+                    onClick={handleDeletion}
+                    disabled={props.mutation.isPending}
+                >
+                    <TrashIcon className="w-4 h-4" />
+                    Delete
+                </Button>
             </div>
         </div>
     );

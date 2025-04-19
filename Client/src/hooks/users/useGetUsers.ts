@@ -5,16 +5,17 @@ import apiClient from "@api/apiClient.ts";
 export type UsersRequest = {
     pageNumber: number;
     pageSize: number;
+    orderBy?: string;
     desc?: boolean;
 }
 
-export type UsersQueryResponse = {
+export type UsersResponse = {
     rows: UserDetailsDto[];
     pageAmount: number;
     rowsAmount: number;
 }
 
-async function fetchDataUsers(params:UsersRequest): Promise<UsersQueryResponse> {
+async function fetchDataUsers(params:UsersRequest): Promise<UsersResponse> {
     const users = await apiClient.get('/users', {params});
     const amountOfUsers = await apiClient.get('/users/amount');
     return{
