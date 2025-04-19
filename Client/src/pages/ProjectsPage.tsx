@@ -1,9 +1,9 @@
 import Projects from "@components/Projects/Projects.tsx";
 import { useState } from "react";
 import { PaginationState, SortingState } from "@tanstack/react-table";
-import { useProjects } from "@hooks/useProjectQuery.ts";
+import { useProjects } from "@hooks/projects/useGetProjects.ts";
 import ProjectDetails from "@components/Projects/ProjectDetails.tsx";
-import { useProjectDetails } from "@hooks/useProjectDetailsQuery.ts";
+import {useProjectDetails} from "@hooks/projects/useGetProjectDetails.ts";
 
 const ProjectsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
