@@ -2,16 +2,38 @@ import { useState, useEffect } from "react";
 import { UserDetailsDto } from "@api/terminalSchemas.ts";
 import { Button, Input, Select } from "@headlessui/react";
 import { EnvelopeIcon, KeyIcon, TrashIcon, UserIcon } from "@heroicons/react/20/solid";
+import ChangePasswordDialog from "@components/Users/ChangePasswordDialog.tsx";
 
+/**
+ * UserDetailsProps Interface
+ *
+ * Defines the properties for the UserDetails component.
+ *
+ * @interface
+ * @property {UserDetailsDto} dataQuery - The user details data.
+ * @property {function} onDeleted - Function to handle user deletion.
+ * @property {function} onSubmit - Function to handle form submission.
+ */
 export interface UserDetailsProps {
     dataQuery: UserDetailsDto;
     onDeleted: (id: string) => void;
+    onSubmit: (id: string, email: string, role: string) => void;
 }
+
+/**
+ * UserDetails Component
+ *
+ * A component for displaying and editing user details.
+ *
+ * @component
+ * @param {UserDetailsProps} props - The properties for the component.
+ */
 
 const UserDetails = (props: UserDetailsProps) => {
     const [email, setEmail] = useState(props.dataQuery?.email);
     const [role, setRole] = useState(props.dataQuery?.role);
     const [isChanged, setIsChanged] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     useEffect(() => {
         setEmail(props.dataQuery?.email || "");
@@ -25,8 +47,11 @@ const UserDetails = (props: UserDetailsProps) => {
         setIsChanged(false);
     };
 
-    const handleSubmit = () => {
-        // Submit logic here
+    const handleSubmit = async () => {
+        if (props.dataQuery?.id) {
+            props.onSubmit(props.dataQuery.id, email, role);
+            setIsChanged(false);
+        }
     };
 
     const handleDeletion = () => {
@@ -35,10 +60,18 @@ const UserDetails = (props: UserDetailsProps) => {
         }
     }
 
+    const handleDialogOpen = () => {
+        setIsDialogOpen(true);
+    }
+
+    const handleDialogClose = () => {
+        setIsDialogOpen(false);
+    }
+
 
     return (
-        <div className="border border-gray-200 rounded-lg bg-white p-2">
-            <div className="text-lg font-medium border-b border-gray-200 h-[40.5px] p-2 flex">
+        <div className="border border-gray-200 rounded-lg bg-white">
+            <div className="text-lg font-medium border-b border-gray-200 h-[40.5px] flex items-center px-2">
                 User Details
             </div>
             <div className="flex items-center font-light text-sm text-gray-600">
@@ -84,14 +117,22 @@ const UserDetails = (props: UserDetailsProps) => {
                 <Button
                     className="btn btn-sm btn-soft rounded"
                     onClick={handleSubmit}
-                    disabled={!isChanged}
+                    disabled={!isChanged || !props.dataQuery?.id }
                 >
                     Submit changes
                 </Button>
-                <Button className="btn btn-sm btn-primary text-white rounded gap-1">
+                <Button
+                    className="btn btn-sm btn-primary text-white rounded gap-1"
+                    onClick={handleDialogOpen}
+                >
                     <KeyIcon className="w-4 h-4" />
                     Change password
                 </Button>
+                <ChangePasswordDialog
+                    userId={props.dataQuery?.id}
+                    isOpen={isDialogOpen}
+                    onClose={handleDialogClose}
+                />
                 <Button
                     className="btn btn-sm btn-error text-white rounded gap-1"
                     onClick={handleDeletion}
