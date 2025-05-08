@@ -3,9 +3,7 @@ import { UserDataResponse } from "../api/terminalSchemas";
 import apiClient from "../api/apiClient";
 
 async function getUserData(): Promise<UserDataResponse> {
-  const response = await apiClient.get<UserDataResponse>(
-    "http://localhost:5006/api/users/me",
-  );
+  const response = await apiClient.get<UserDataResponse>("/users/me");
 
   return response.data;
 }
