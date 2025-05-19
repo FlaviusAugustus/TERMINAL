@@ -7,13 +7,13 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import {ProjectDto} from "@api/terminalSchemas.ts";
-import {ProjectsQueryResponse} from "@hooks/projects/useGetProjects.ts";
+import {ProjectsResponse} from "@hooks/projects/useGetProjects.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import TableCard from "@components/Shared/Table/TableCard";
 
 export interface ProjectsProps {
-    dataQuery: ProjectsQueryResponse | undefined;
+    dataQuery: ProjectsResponse | undefined;
     sorting: SortingState;
     setSorting: OnChangeFn<SortingState>;
     pagination: PaginationState;

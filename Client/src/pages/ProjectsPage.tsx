@@ -4,6 +4,7 @@ import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useProjects } from "@hooks/projects/useGetProjects.ts";
 import ProjectDetails from "@components/Projects/ProjectDetails.tsx";
 import {useProjectDetails} from "@hooks/projects/useGetProjectDetails.ts";
+import {useDeleteProject} from "@hooks/projects/useDeleteProject.ts";
 
 const ProjectsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -17,6 +18,14 @@ const ProjectsPage = () => {
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
   });
+
+    const mutation = useDeleteProject(
+        {
+            pageNumber: pagination.pageIndex,
+            pageSize: pagination.pageSize,
+            desc: sorting[0]?.desc ?? true
+        }
+    );
 
   const [projectDetailsId, setProjectDetailsId] = useState<string | null>(null);
 
@@ -48,9 +57,12 @@ const ProjectsPage = () => {
                                 <span className="loading loading-spinner loading-md"></span>
                             </div>
                         ) : projectDetailsId ? (
-                            <ProjectDetails dataQuery={dataQueryProjectDetails.data}/>
+                            <ProjectDetails dataQuery={dataQueryProjectDetails.data}
+                                            mutateAsync={mutation.mutateAsync}
+                                            isPending={mutation.isPending}
+                            />
                         ) : (
-                            ""
+                            <div className="bg-white text-center text-gray-500 p-3 rounded">Select a project to view details</div>
                         )}
                     </div>
                 </div>

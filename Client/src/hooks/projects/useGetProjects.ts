@@ -8,13 +8,13 @@ export type ProjectsRequest = {
     desc?: boolean;
 }
 
-export type ProjectsQueryResponse = {
+export type ProjectsResponse = {
     rows: ProjectDto[];
     pageAmount: number;
     rowsAmount: number;
 }
 
-async function fetchDataProject(params:ProjectsRequest): Promise<ProjectsQueryResponse> {
+async function fetchDataProject(params:ProjectsRequest): Promise<ProjectsResponse> {
     const projects = await apiClient.get('/projects', {params});
     const amountOfProjects = await apiClient.get('/projects/amount');
     return{
