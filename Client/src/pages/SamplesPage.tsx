@@ -68,7 +68,7 @@ const SamplesPage = () => {
                                        isPending={mutation.isPending}
                         />
                     ) : (
-                        ""
+                        <div className="bg-white text-center text-gray-500 p-3 rounded">Select a sample to view details</div>
                     )}
                 </div>
             </div>

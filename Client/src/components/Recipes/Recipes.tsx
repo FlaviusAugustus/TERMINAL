@@ -6,14 +6,14 @@ import {
     SortingState,
     useReactTable,
 } from "@tanstack/react-table";
-import {RecipesQueryResponse} from "@hooks/recipes/useGetRecipes.ts";
+import {RecipesResponse} from "@hooks/recipes/useGetRecipes.ts";
 import {ProjectDto, RecipeDto, SampleDto} from "@api/terminalSchemas.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import TableCard from "@components/Shared/Table/TableCard";
 
 export interface RecipesProps {
-    dataQuery: RecipesQueryResponse | undefined;
+    dataQuery: RecipesResponse | undefined;
     sorting: SortingState;
     setSorting: OnChangeFn<SortingState>;
     pagination: PaginationState;

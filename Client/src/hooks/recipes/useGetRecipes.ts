@@ -8,13 +8,13 @@ export type RecipesRequest = {
     desc?: boolean;
 }
 
-export type RecipesQueryResponse = {
+export type RecipesResponse = {
     rows: RecipeDto[];
     pageAmount: number;
     rowsAmount: number;
 }
 
-async function fetchDataProject(params:RecipesRequest): Promise<RecipesQueryResponse> {
+async function fetchDataProject(params:RecipesRequest): Promise<RecipesResponse> {
     const recipes = await apiClient.get('/recipes', {params});
     const amountOfProjects = await apiClient.get('/recipes/amount');
     return{

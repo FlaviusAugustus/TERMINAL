@@ -28,8 +28,8 @@ const AuthorizedNavbarLayout = ({pageName}: AuthorizedNavbarLayoutProps) => {
                     {/* Page content */}
                     <div className="p-2 ps-0 md:h-screen w-full">
                         <div
-                            className="bg-white rounded-md inline-block border border-gray-200 shadow-sm w-full h-full overflow-hidden">
-                            <div className="h-[60px] text-xl flex font-medium items-center px-4 rounded-md">
+                            className="rounded-md inline-block border border-gray-200 shadow-sm w-full h-full overflow-hidden">
+                            <div className="bg-white h-[60px] text-xl flex font-medium items-center px-4 rounded-md">
                                 {pageName}
                             </div>
                             <div className="h-px border-t border-solid border-gray-200 w-full"></div>
