@@ -1,12 +1,7 @@
 import { SampleDetailsDto } from "@api/terminalSchemas.ts";
+import Chip from "@components/Shared/Chip";
 import { DialogComp } from "@components/Shared/DialogComp";
-import {
-  ClockIcon,
-  TagIcon,
-  ChatBubbleBottomCenterTextIcon,
-  NumberedListIcon,
-} from "@heroicons/react/16/solid";
-import { EyeDropperIcon } from "@heroicons/react/20/solid";
+import { ReactNode } from "react";
 
 export interface SampleDetailsProps {
   sample: SampleDetailsDto | undefined;
@@ -24,53 +19,49 @@ export interface SampleDetailsProps {
  * @param {SampleDetailsProps} - The properties for the component.
  */
 const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
-  const date = new Date(sample?.createdAtUtc ?? "");
+  const date = new Date(sample?.createdAtUtc ?? "").toDateString();
 
   return (
     <DialogComp isOpen={open} setIsOpen={openChange} title="Sample details">
-      <div className="p-4 space-y-3 font-light text-sm text-gray-600">
-        <div className="flex items-center ">
-          <EyeDropperIcon className="w-6 h-6 pr-2" />
-          <p className="font-medium flex items-center pr-1">
-            Sample Code: {sample?.code}
-          </p>
+      <div className="space-y-3 font-light text-sm text-gray-600 w-full">
+        <div className="flex w-full justify-between">
+          <div className="flex flex-col items-start gap-2">
+            <Detail value={sample?.code} label="code" />
+            <Detail value={date} label="creation date" />
+          </div>
+          <div className="flex flex-col items-start gap-2">
+            <Detail value={sample?.steps?.length} label="step count" />
+            <Detail value={sample?.comment} label="comment" />
+          </div>
         </div>
-        <div className="flex items-center">
-          <ClockIcon className="w-6 h-6 pr-2" />
-          <p className="font-medium flex items-center pr-1">Created:</p>
-          <p>
-            {`
-                ${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}
-                ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}
-            `}
+        <div className="flex flex-col gap-1 items-start w-full justify-center">
+          <p className="flex items-center pr-1 text-xs text-gray-500 uppercase">
+            tags
           </p>
-        </div>
-        <div className="flex items-center ">
-          <TagIcon className="w-6 h-6 pr-2" />
-          <div className="font-medium flex items-center pr-1">Tags:</div>
           <div className="flex gap-1">
             {sample?.tags?.map((tag) => (
-              <div
-                key={tag.id}
-                className="border border-gray-200 hover:cursor-default p-1 w-fit rounded-2xl text-xs"
-              >
-                {tag.name}
-              </div>
+              <Chip key={tag.id} value={tag.name ?? ""} className="text-xs" />
             ))}
           </div>
         </div>
-        <div className="flex items-center font-light text-sm text-gray-600">
-          <ChatBubbleBottomCenterTextIcon className="w-6 h-6 pr-2" />
-          <div className="font-medium pr-1">Comment:</div>
-          <div>{sample?.comment}</div>
-        </div>
-        <div className="flex items-center font-light text-sm text-gray-600">
-          <NumberedListIcon className="w-6 h-6 pr-1" />
-          <div className="font-medium pr-2">Number of steps:</div>
-          <div>{sample?.steps?.length}</div>
-        </div>
       </div>
     </DialogComp>
+  );
+};
+
+type DetailProps = {
+  label: string;
+  value: ReactNode | undefined;
+};
+
+const Detail = ({ label, value }: DetailProps) => {
+  return (
+    <div className="flex flex-col gap-1 items-start">
+      <p className="flex items-center text-xs text-gray-500 uppercase">
+        {label}
+      </p>
+      <p className="text-base">{value}</p>
+    </div>
   );
 };
 

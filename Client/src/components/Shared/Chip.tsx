@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import { useMemo } from "react";
+import { HTMLProps, useMemo } from "react";
 import { Color, tailwindColorFrom } from "utils/colorUtils";
 
-type ChipProps = {
+type ChipProps = HTMLProps<HTMLSpanElement> & {
   value: string;
   getColorValue?: () => Color;
 };
@@ -16,7 +16,6 @@ const colorStyles: Record<Color, string> = {
   indigo: "bg-indigo-200 border-indigo-400 text-indigo-600",
   red: "bg-red-200 border-red-400 text-red-600",
   blue: "bg-blue-200 border-blue-400 text-blue-600",
-  lightBlue: "bg-lightBlue-200 border-lightBlue-400 text-lightBlue-600",
   cyan: "bg-cyan-200 border-cyan-400 text-cyan-600",
   teal: "bg-teal-200 border-teal-400 text-teal-600",
   emerald: "bg-emerald-200 border-emerald-400 text-emerald-600",
@@ -27,7 +26,7 @@ const colorStyles: Record<Color, string> = {
   orange: "bg-orange-200 border-orange-400 text-orange-600",
 };
 
-const Chip = ({ value, getColorValue }: ChipProps) => {
+const Chip = ({ value, getColorValue, className, ...rest }: ChipProps) => {
   const colorClasses = useMemo(() => {
     return getColorValue
       ? colorStyles[getColorValue()]
@@ -35,7 +34,10 @@ const Chip = ({ value, getColorValue }: ChipProps) => {
   }, [value]);
 
   return (
-    <span className={clsx("border rounded-full py-1 px-2", colorClasses)}>
+    <span
+      {...rest}
+      className={clsx("border rounded-full py-1 px-2", colorClasses, className)}
+    >
       {value}
     </span>
   );
