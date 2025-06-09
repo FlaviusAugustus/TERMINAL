@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-table";
 import { SamplesResponse } from "@hooks/samples/useGetSamples.ts";
 import SamplesRowActions from "./SamplesRowActions";
-import { useMemo, useState } from "react";
+import {useCallback, useMemo, useState, useEffect} from "react";
 import Chip from "@components/Shared/Chip";
 import IndeterminateCheckbox from "@components/Shared/IndeterminateCheckbox";
 import {
@@ -25,16 +25,20 @@ import TableManagement from "@components/Shared/Table/TableManagment";
 import TableView from "@components/Shared/Table/TableView";
 import { Link } from "react-router-dom";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
+import {SamplesSearchResponse} from "@hooks/samples/useSearchSamples.ts";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
-  samples: SamplesResponse | undefined;
+  samples: SamplesResponse | SamplesSearchResponse | undefined;
   sorting: SortingState;
   pagination: PaginationState;
   setSorting: OnChangeFn<SortingState>;
   setPagination: OnChangeFn<PaginationState>;
   onEdit: (sampleId: string) => void;
   onDelete: (sampleId: string) => void;
+  onSearch: (query: string) => void;
+  isSearching: boolean;
+  searchValue: string; // Dodajemy nowy prop
 }
 
 const columnHelper = createColumnHelper<SampleDto>();
@@ -50,54 +54,62 @@ const columnHelper = createColumnHelper<SampleDto>();
  * @param {SamplesProps} props - The properties for the Samples component.
  */
 const Samples = (props: SamplesProps) => {
-  const columns = useMemo(
-    () => [
-      {
-        id: "select-col",
-        size: 0,
-        header: ({ table }) => (
-          <IndeterminateCheckbox
-            checked={table.getIsAllRowsSelected()}
-            indeterminate={table.getIsSomeRowsSelected()}
-            onChange={table.getToggleAllPageRowsSelectedHandler()}
-          />
-        ),
-        cell: ({ row }: { row: Row<SampleDto> }) => (
-          <IndeterminateCheckbox
-            checked={row.getIsSelected()}
-            disabled={!row.getCanSelect()}
-            onChange={row.getToggleSelectedHandler()}
-          />
-        ),
-      },
-      columnHelper.accessor("code", {
-        header: "Code",
-        cell: (info) => info.getValue(),
-      }),
-      columnHelper.accessor("project", {
-        header: "Project Name",
-        cell: (info) => <Chip value={info.getValue()} />,
-      }),
-      columnHelper.accessor("createdAtUtc", {
-        header: "Created At",
-        cell: (info) => new Date(info.getValue()).toDateString(),
-      }),
-      columnHelper.display({
-        id: "actions",
-        header: "Actions",
-        size: 0,
-        cell: ({ row }) => (
-          <SamplesRowActions
-            onEdit={() => props.onEdit(row.original.id)}
-            onDelete={() => props.onDelete(row.original.id)}
-          />
-        ),
-      }),
-    ],
-    [],
-  );
 
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+  const [localSearchValue, setLocalSearchValue] = useState<string>(props.searchValue || "");
+  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  // Synchronizuj lokalną wartość z props gdy się zmieni z zewnątrz
+  useEffect(() => {
+    setLocalSearchValue(props.searchValue || "");
+  }, [props.searchValue]);
+
+  const columns = useMemo(
+      () => [
+        {
+          id: "select-col",
+          size: 0,
+          header: ({ table }) => (
+              <IndeterminateCheckbox
+                  checked={table.getIsAllRowsSelected()}
+                  indeterminate={table.getIsSomeRowsSelected()}
+                  onChange={table.getToggleAllPageRowsSelectedHandler()}
+              />
+          ),
+          cell: ({ row }: { row: Row<SampleDto> }) => (
+              <IndeterminateCheckbox
+                  checked={row.getIsSelected()}
+                  disabled={!row.getCanSelect()}
+                  onChange={row.getToggleSelectedHandler()}
+              />
+          ),
+        },
+        columnHelper.accessor("code", {
+          header: "Code",
+          cell: (info) => info.getValue(),
+        }),
+        columnHelper.accessor("project", {
+          header: "Project Name",
+          cell: (info) => <Chip value={info.getValue()} />,
+        }),
+        columnHelper.accessor("createdAtUtc", {
+          header: "Created At",
+          cell: (info) => new Date(info.getValue()).toDateString(),
+        }),
+        columnHelper.display({
+          id: "actions",
+          header: "Actions",
+          size: 0,
+          cell: ({ row }) => (
+              <SamplesRowActions
+                  onEdit={() => props.onEdit(row.original.id)}
+                  onDelete={() => props.onDelete(row.original.id)}
+              />
+          ),
+        }),
+      ],
+      [],
+  );
 
   const table = useReactTable({
     columns: columns,
@@ -121,6 +133,30 @@ const Samples = (props: SamplesProps) => {
     manualPagination: true,
   });
 
+  const delaySearch = useCallback(
+      (searchPhrase: string) => {
+        if (searchTimeout) {
+          clearTimeout(searchTimeout);
+        }
+
+        const timeout = setTimeout(() => {
+          props.setPagination(prev => ({...prev, pageIndex: 0}));
+          props.onSearch(searchPhrase);
+        }, 500);
+
+        setSearchTimeout(timeout);
+      },
+      [props.onSearch, props.setPagination, searchTimeout]
+  )
+
+  const handleSearchChange = useCallback(
+      (value: string) => {
+        setLocalSearchValue(value); // Ustawiamy lokalną wartość
+        delaySearch(value.trim());
+      },
+      [delaySearch]
+  );
+
   const handleClickRow = (id: string | null) => {
     if (!props.onChangeSampleDetails || !id) return;
 
@@ -134,39 +170,43 @@ const Samples = (props: SamplesProps) => {
   };
 
   return (
-    <>
-      <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <InputField
-          className="!text-sm !h-[40px]"
-          placeholder="Search"
-          icon={<MagnifyingGlassIcon className="h-4" />}
-        />
-        <VisibleForRoles roles={["Administrator", "Moderator"]}>
-          <div className="flex gap-1">
-            <IconButton
-              onClick={handleDeleteSelected}
-              disabled={
-                !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
-              }
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
-            >
-              <XMarkIcon className="h-4 " />
-              <p className="text-xs">Delete Selected</p>
-            </IconButton>
-            <Link to="/new-sample">
-              <IconButton className="h-[40px] flex bg-white items-center gap-1">
-                <PlusIcon className="h-4" />
-                <p className="text-xs">Add new</p>
+      <>
+        <div className="flex justify-between gap-1 items-end pb-3 h-14">
+          <InputField
+              className="!text-sm !h-[40px]"
+              placeholder="Search"
+              icon={<MagnifyingGlassIcon className="h-4" />}
+              value={localSearchValue} // Używamy lokalnej wartości
+              onChange={((e) => {
+                handleSearchChange(e.target.value);
+              })}
+          />
+          <VisibleForRoles roles={["Administrator", "Moderator"]}>
+            <div className="flex gap-1">
+              <IconButton
+                  onClick={handleDeleteSelected}
+                  disabled={
+                    !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
+                  }
+                  className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+              >
+                <XMarkIcon className="h-4 " />
+                <p className="text-xs">Delete Selected</p>
               </IconButton>
-            </Link>
-          </div>
-        </VisibleForRoles>
-      </div>
-      <TableCard className="!h-full">
-        <TableView<SampleDto> table={table} handleClickRow={handleClickRow} />
-        <TableManagement<SampleDto> table={table} />
-      </TableCard>
-    </>
+              <Link to="/new-sample">
+                <IconButton className="h-[40px] flex bg-white items-center gap-1">
+                  <PlusIcon className="h-4" />
+                  <p className="text-xs">Add new</p>
+                </IconButton>
+              </Link>
+            </div>
+          </VisibleForRoles>
+        </div>
+        <TableCard className="!h-full">
+          <TableView<SampleDto> table={table} handleClickRow={handleClickRow} />
+          <TableManagement<SampleDto> table={table} />
+        </TableCard>
+      </>
   );
 };
 
