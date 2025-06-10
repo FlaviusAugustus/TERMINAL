@@ -38,7 +38,7 @@ export interface SamplesProps {
   onDelete: (sampleId: string) => void;
   onSearch: (query: string) => void;
   isSearching: boolean;
-  searchValue: string; // Dodajemy nowy prop
+  searchValue: string;
 }
 
 const columnHelper = createColumnHelper<SampleDto>();
@@ -59,7 +59,6 @@ const Samples = (props: SamplesProps) => {
   const [localSearchValue, setLocalSearchValue] = useState<string>(props.searchValue || "");
   const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
 
-  // Synchronizuj lokalną wartość z props gdy się zmieni z zewnątrz
   useEffect(() => {
     setLocalSearchValue(props.searchValue || "");
   }, [props.searchValue]);
@@ -151,7 +150,7 @@ const Samples = (props: SamplesProps) => {
 
   const handleSearchChange = useCallback(
       (value: string) => {
-        setLocalSearchValue(value); // Ustawiamy lokalną wartość
+        setLocalSearchValue(value);
         delaySearch(value.trim());
       },
       [delaySearch]
@@ -176,7 +175,7 @@ const Samples = (props: SamplesProps) => {
               className="!text-sm !h-[40px]"
               placeholder="Search"
               icon={<MagnifyingGlassIcon className="h-4" />}
-              value={localSearchValue} // Używamy lokalnej wartości
+              value={localSearchValue}
               onChange={((e) => {
                 handleSearchChange(e.target.value);
               })}

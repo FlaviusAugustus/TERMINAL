@@ -10,6 +10,7 @@ export type SamplesSearchParams = {
 
 export type SamplesSearchResponse = {
     rows: SampleDto[];
+    pageAmount: number;
     rowsAmount: number;
 }
 
@@ -18,7 +19,8 @@ async function fetchSamples(params: SamplesSearchParams): Promise<SamplesSearchR
 
     return {
         rows: resultSamples.data.samples,
-        rowsAmount: resultSamples.data.rowsAmount,
+        pageAmount: Math.ceil(resultSamples.data.totalAmount / params.pageNumber),
+        rowsAmount: resultSamples.data.totalAmount,
     };
 }
 
