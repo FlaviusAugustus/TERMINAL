@@ -113,6 +113,17 @@ public static class SamplesModule
             }).RequireAuthorization(Permission.SampleRead.ToString())
             .WithTags(SwaggerSetup.SampleTag);
 
+        /* app.MapGet(ApiRouteBase + "/search/amount", async (
+                [FromQuery] string searchPhrase,
+                ISender sender,
+                CancellationToken ct) =>
+            {
+                var query = new SearchSampleAmountQuery { SearchPhrase = searchPhrase };
+                var amount = await sender.Send(query, ct);
+                return Results.Ok(amount);
+            }).RequireAuthorization(Permission.SampleRead.ToString())
+            .WithTags(SwaggerSetup.SampleTag); */
+
         app.MapDelete(ApiRouteBase + "/{id:guid}", async (
                 Guid id,
                 ISender sender,
