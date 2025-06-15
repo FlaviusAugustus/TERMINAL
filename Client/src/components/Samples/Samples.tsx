@@ -4,20 +4,31 @@ import {
   getCoreRowModel,
   useReactTable,
   createColumnHelper,
+  Row,
   SortingState,
   PaginationState,
 } from "@tanstack/react-table";
 import { SamplesResponse } from "@hooks/samples/useGetSamples.ts";
-import TableView from "@components/Shared/Table/TableView.tsx";
-import TableManagement from "@components/Shared/Table/TableManagment.tsx";
-import TableCard from "@components/Shared/Table/TableCard";
 import SamplesRowActions from "./SamplesRowActions";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Chip from "@components/Shared/Chip";
+import IndeterminateCheckbox from "@components/Shared/IndeterminateCheckbox";
+import {
+  MagnifyingGlassIcon,
+  PlusIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import IconButton from "@components/Shared/IconButton";
+import InputField from "@components/Shared/InputField";
+import TableCard from "@components/Shared/Table/TableCard";
+import TableManagement from "@components/Shared/Table/TableManagment";
+import TableView from "@components/Shared/Table/TableView";
+import { Link } from "react-router-dom";
+import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
-  dataQuery: SamplesResponse | undefined;
+  samples: SamplesResponse | undefined;
   sorting: SortingState;
   pagination: PaginationState;
   setSorting: OnChangeFn<SortingState>;
@@ -41,6 +52,24 @@ const columnHelper = createColumnHelper<SampleDto>();
 const Samples = (props: SamplesProps) => {
   const columns = useMemo(
     () => [
+      {
+        id: "select-col",
+        size: 0,
+        header: ({ table }) => (
+          <IndeterminateCheckbox
+            checked={table.getIsAllRowsSelected()}
+            indeterminate={table.getIsSomeRowsSelected()}
+            onChange={table.getToggleAllPageRowsSelectedHandler()}
+          />
+        ),
+        cell: ({ row }: { row: Row<SampleDto> }) => (
+          <IndeterminateCheckbox
+            checked={row.getIsSelected()}
+            disabled={!row.getCanSelect()}
+            onChange={row.getToggleSelectedHandler()}
+          />
+        ),
+      },
       columnHelper.accessor("code", {
         header: "Code",
         cell: (info) => info.getValue(),
@@ -68,9 +97,11 @@ const Samples = (props: SamplesProps) => {
     [],
   );
 
+  const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+
   const table = useReactTable({
     columns: columns,
-    data: props.dataQuery?.rows ?? [],
+    data: props.samples?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
     defaultColumn: {
       size: "auto" as unknown as number,
@@ -78,8 +109,12 @@ const Samples = (props: SamplesProps) => {
     state: {
       sorting: props.sorting,
       pagination: props.pagination,
+      rowSelection: rowSelection,
     },
-    rowCount: props.dataQuery?.rowsAmount ?? 0,
+    getRowId: (row) => row.id,
+    onRowSelectionChange: setRowSelection,
+    enableMultiRowSelection: true,
+    rowCount: props.samples?.rowsAmount ?? 0,
     onSortingChange: props.setSorting,
     onPaginationChange: props.setPagination,
     manualSorting: true,
@@ -92,11 +127,46 @@ const Samples = (props: SamplesProps) => {
     props?.onChangeSampleDetails(id);
   };
 
+  const handleDeleteSelected = () => {
+    table.getSelectedRowModel().rows.forEach((row) => {
+      props.onDelete(row.original.id);
+    });
+  };
+
   return (
-    <TableCard className="!h-full">
-      <TableView<SampleDto> table={table} handleClickRow={handleClickRow} />
-      <TableManagement<SampleDto> table={table} />
-    </TableCard>
+    <>
+      <div className="flex justify-between gap-1 items-end pb-3 h-14">
+        <InputField
+          className="!text-sm !h-[40px]"
+          placeholder="Search"
+          icon={<MagnifyingGlassIcon className="h-4" />}
+        />
+        <VisibleForRoles roles={["Administrator", "Moderator"]}>
+          <div className="flex gap-1">
+            <IconButton
+              onClick={handleDeleteSelected}
+              disabled={
+                !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
+              }
+              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+            >
+              <XMarkIcon className="h-4 " />
+              <p className="text-xs">Delete Selected</p>
+            </IconButton>
+            <Link to="/new-sample">
+              <IconButton className="h-[40px] flex bg-white items-center gap-1">
+                <PlusIcon className="h-4" />
+                <p className="text-xs">Add new</p>
+              </IconButton>
+            </Link>
+          </div>
+        </VisibleForRoles>
+      </div>
+      <TableCard className="!h-full">
+        <TableView<SampleDto> table={table} handleClickRow={handleClickRow} />
+        <TableManagement<SampleDto> table={table} />
+      </TableCard>
+    </>
   );
 };
 

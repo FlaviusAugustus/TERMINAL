@@ -8,6 +8,9 @@ import { toastPromise } from "../utils/toast.utils.tsx";
 import { useUpdateUserEmail } from "@hooks/users/useUpdateUserEmail.ts";
 import { useUpdateUserRole } from "@hooks/users/useUpdateUserRole.ts";
 import { useState } from "react";
+import TableLayout from "./layouts/TableLayout.tsx";
+import ComponentOrLoader from "@components/Shared/ComponentOrLoader.tsx";
+import Loader from "@components/Shared/Loader.tsx";
 
 const UsersPage = () => {
   const [userDetailsId, setUserDetailsId] = useState<string | null>(null);
@@ -45,36 +48,31 @@ const UsersPage = () => {
   });
 
   const handleDeletion = async (id: string) => {
-    try {
-      await toastPromise(deleteMutation.mutateAsync(id), {
-        success: "User deleted successfully",
-        error: "Failed to delete user",
-        loading: "Deleting user...",
-      });
-    } catch {
-      // Error is already handled by the toastPromise
-    }
+    await toastPromise(
+        deleteMutation.mutateAsync(id),
+        {
+          loading: 'Deleting user...',
+          success: 'User deleted successfully',
+          error: 'Failed to delete user'
+        }
+    );
   };
 
   const handleSubmit = async (id: string, email: string, role: string) => {
-    try {
-      if (dataQueryUserDetails.data?.email !== email) {
-        await toastPromise(updateEmailMutation.mutateAsync({ id, email }), {
-          success: "Email updated successfully",
-          error: "Failed to update email",
-          loading: "Updating email...",
-        });
-      }
+    if (dataQueryUserDetails.data?.email !== email) {
+      await toastPromise(updateEmailMutation.mutateAsync({ id, email }), {
+        success: "Email updated successfully",
+        error: "Failed to update email",
+        loading: "Updating email...",
+      });
+    }
 
-      if (dataQueryUserDetails.data?.role !== role) {
-        await toastPromise(updateRoleMutation.mutateAsync({ id, role }), {
-          success: "Role updated successfully",
-          error: "Failed to update role",
-          loading: "Updating role...",
-        });
-      }
-    } catch {
-      // Error is already handled by the toastPromise
+    if (dataQueryUserDetails.data?.role !== role) {
+      await toastPromise(updateRoleMutation.mutateAsync({ id, role }), {
+        success: "Role updated successfully",
+        error: "Failed to update role",
+        loading: "Updating role...",
+      });
     }
   };
 
@@ -84,34 +82,34 @@ const UsersPage = () => {
   };
 
   return (
-    <div className="h-full flex gap-3 flex-wrap sm:flex-nowrap justify-center p-3">
-      <div className="sm:w-10/12 xl:w-8-12 h-full">
-        {dataQueryUsers.isLoading ? (
-          <div className="flex justify-center">
-            <span className="loading loading-spinner loading-md"></span>
-          </div>
-        ) : (
-          <Users
-            dataQuery={dataQueryUsers.data}
-            sorting={sorting}
-            setSorting={setSorting}
-            pagination={pagination}
-            setPagination={setPagination}
-            onEdit={editUser}
-            onDelete={handleDeletion}
-            onChangePassword={() => {}}
-          />
-        )}
-      </div>
-      {dataQueryUserDetails.data && (
+    <TableLayout>
+      <ComponentOrLoader
+        isLoading={dataQueryUsers.isLoading}
+        loader={<Loader />}
+      >
+        <Users
+          dataQuery={dataQueryUsers.data}
+          sorting={sorting}
+          setSorting={setSorting}
+          pagination={pagination}
+          setPagination={setPagination}
+          onEdit={editUser}
+          onDelete={handleDeletion}
+          onChangePassword={() => {}}
+        />
+      </ComponentOrLoader>
+      <ComponentOrLoader
+        isLoading={dataQueryUserDetails.isLoading}
+        loader={<Loader />}
+      >
         <UserDetails
           open={detailsOpen}
           setOpen={setDetailsOpen}
-          dataQuery={dataQueryUserDetails.data}
+          dataQuery={dataQueryUserDetails.data!}
           onSubmit={handleSubmit}
         />
-      )}
-    </div>
+      </ComponentOrLoader>
+    </TableLayout>
   );
 };
 

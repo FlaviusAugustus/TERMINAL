@@ -26,18 +26,14 @@ const RecipeDetails = (props: RecipeDetailsProps) => {
 
     const handleDeletion = async () => {
         if (props.dataQuery?.id === undefined) return null;
-        try {
-            await toastPromise(
-                props.mutateAsync(props.dataQuery.id),
-                {
-                    loading: "Deleting recipe...",
-                    success: "Deletion successful",
-                    error: "Deletion failed",
-                }
-            );
-        } catch {
-            // Error is handled by toastPromise
-        }
+        await toastPromise(
+            props.mutateAsync(props.dataQuery.id),
+            {
+                loading: "Deleting recipe...",
+                success: 'Recipe deleted successfully',
+                error: 'Failed to delete recipe'
+            }
+        );
     }
 
     return (

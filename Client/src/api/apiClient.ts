@@ -1,9 +1,7 @@
 import axios from "axios";
 import { LoginResponse } from "../hooks/useLoginMutation";
 
-export const apiUrl = import.meta.env.DEV
-  ? "http://localhost:5006/api"
-  : "/api";
+export const apiUrl = import.meta.env.VITE_API_URL + "/api";
 
 const apiClient = axios.create({
   baseURL: apiUrl,

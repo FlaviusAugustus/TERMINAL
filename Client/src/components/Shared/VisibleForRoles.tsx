@@ -1,8 +1,9 @@
 import {ReactNode} from "react";
 import {useUserRoles} from "@hooks/useUserRoles.ts";
+import {Role} from "@api/models/Role.ts";
 
 export interface VisibleForRoleProps {
-    roles: Array<string>,
+    roles: Array<Role>,
     children: ReactNode
 }
 

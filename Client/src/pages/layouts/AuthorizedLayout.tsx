@@ -1,15 +1,20 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useIsAuthenticated } from "@hooks/useIsAuthenticated";
 import Sidebar from "@components/Navbar/Sidebar.tsx";
-import MobileNavbar from "@components/Navbar/MobileNavbar.tsx"
-import {useUserRoles} from "@hooks/useUserRoles.ts";
+import MobileNavbar from "@components/Navbar/MobileNavbar.tsx";
+import { useUserRoles } from "@hooks/useUserRoles.ts";
+import Loader from "@components/Shared/Loader.tsx";
+import {Role} from "@api/models/Role.ts";
 
 type AuthorizedNavbarLayoutProps = {
   pageName: string;
-  roles?: Array<string>;
+  roles?: Array<Role>;
 };
 
-const AuthorizedNavbarLayout = ({ pageName, roles }: AuthorizedNavbarLayoutProps) => {
+const AuthorizedNavbarLayout = ({
+  pageName,
+  roles,
+}: AuthorizedNavbarLayoutProps) => {
   const isAuthenticated = useIsAuthenticated();
   const userRole = useUserRoles();
 
@@ -18,12 +23,10 @@ const AuthorizedNavbarLayout = ({ pageName, roles }: AuthorizedNavbarLayoutProps
   }
 
   if (isAuthenticated === undefined || userRole === undefined) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
-  if(roles && !roles.includes(userRole))
-    return <Navigate to="/"/>;
-
+  if (roles && !roles.includes(userRole)) return <Navigate to="/" />;
 
   return (
     <div className="w-screen flex flex-col sm:flex-row bg-gray-100">
@@ -38,7 +41,7 @@ const AuthorizedNavbarLayout = ({ pageName, roles }: AuthorizedNavbarLayoutProps
               <Outlet />
             </div>
             <div className="rounded-md sm:flex hidden flex-col border border-gray-200 shadow-sm w-full h-full overflow-hidden">
-              <div className="bg-white h-[60px] text-xl flex font-medium items-center px-4 rounded-md">
+              <div className="bg-white h-[60px] text-xl flex font-medium items-center px-4 rounded-t-md flex-shrink-0">
                 {pageName}
               </div>
               <div className="h-px border-t border-solid border-gray-200 w-full"></div>

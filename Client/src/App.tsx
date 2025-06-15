@@ -14,7 +14,6 @@ import SamplesPage from "@pages/SamplesPage";
 import UsersPage from "@pages/UsersPage.tsx";
 import AddRecipeWithContexts from "@pages/AddRecipe.tsx";
 import DashboardPage from "@pages/DashboardPage.tsx";
-import { Role } from "./utils/roles.ts";
 import LoginOrNotFound from "@pages/LoginOrNotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -51,7 +50,7 @@ export default function App() {
           </Route>
           <Route
             element={
-              <AuthorizedLayout pageName="Users" roles={[Role.ADMINISTRATOR]} />
+              <AuthorizedLayout pageName="Users" roles={["Administrator", "Moderator"]}/>
             }
           >
             <Route path="/users" element={<UsersPage />} />

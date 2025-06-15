@@ -60,7 +60,7 @@ const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
             <tr
               key={row.id}
               onClick={() => props.handleClickRow(row.original.id)}
-              className="hover:bg-gray-50 cursor-pointer text-xs"
+              className="hover:bg-gray-50 text-xs"
             >
               {row.getVisibleCells().map((cell) => (
                 <td

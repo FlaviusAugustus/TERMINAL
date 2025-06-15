@@ -10,7 +10,6 @@ import {
   ListBulletIcon,
   UserIcon,
 } from "@heroicons/react/20/solid";
-import {Role} from "../../utils/roles.ts";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 
 /**
@@ -38,7 +37,9 @@ const TerminalSidebarContent = () => {
         >
           <SidebarItem text="Recipe" href="/new-recipe" />
           <SidebarItem text="Sample" href="/new-sample" />
-          <SidebarItem text="Project" href="/new-project" />
+          <VisibleForRoles roles={["Administrator", "Moderator"]}>
+            <SidebarItem text="Project" href="/new-project" />
+          </VisibleForRoles>
         </SidebarItemWithSubLinks>
       </SidebarLinkGroup>
       <SidebarLinkGroup text="Manage">
@@ -58,21 +59,22 @@ const TerminalSidebarContent = () => {
           icon={<LightBulbIcon className="h-5 w-5" />}
         />
       </SidebarLinkGroup>
-      <VisibleForRoles roles={[Role.ADMINISTRATOR]}>
+      <VisibleForRoles roles={["Administrator", "Moderator"]}>
           <SidebarLinkGroup text="Users">
             <SidebarItem
                 text="Browse"
                 href="/users"
                 icon={<UserIcon className="h-5 w-5" />}
             />
-            <SidebarItem
-                text="Invite"
-                href="/settings"
-                icon={<EnvelopeIcon className="h-5 w-5" />}
-            />
+            <VisibleForRoles roles={["Administrator"]}>
+              <SidebarItem
+                  text="Invite"
+                  href="/settings"
+                  icon={<EnvelopeIcon className="h-5 w-5" />}
+              />
+            </VisibleForRoles>
           </SidebarLinkGroup>
-        </VisibleForRoles>
-
+      </VisibleForRoles>
     </div>
   );
 };

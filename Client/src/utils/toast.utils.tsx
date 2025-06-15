@@ -51,18 +51,22 @@ export const toastNotify = {
   loading: toastLoading,
 };
 
-export const toastPromise = (
+export const toastPromise = async (
   promise: Promise<unknown>,
   messages: {
     success: string;
     error: string;
     loading: string;
   },
-) => {
-  return toast.promise(promise, messages, {
-    position: defaultOptions.position,
-    className: defaultOptions.className,
-  });
+): Promise<void> => {
+  try {
+    await toast.promise(promise, messages, {
+      position: defaultOptions.position,
+      className: defaultOptions.className,
+    });
+  } catch {
+    // Error is handled by toast.promise
+  }
 };
 
 export default toast;

@@ -1,7 +1,7 @@
 import { Label, Field, Checkbox, CheckboxProps } from "@headlessui/react";
 
 export type LabeledCheckboxProps = CheckboxProps & {
-  label: string;
+  label?: string;
 };
 
 /**
@@ -14,9 +14,11 @@ const LabeledCheckbox = ({ label, ...rest }: LabeledCheckboxProps) => {
   return (
     <Field>
       <div className="flex items-center gap-3">
-        <Label className="text-sm font-normal font-sans text-gray-700">
-          {label}:
-        </Label>
+        {label && (
+          <Label className="text-sm font-normal font-sans text-gray-700">
+            {label}
+          </Label>
+        )}
         <Checkbox
           {...rest}
           className="group block size-5 rounded border bg-white data-[checked]:bg-gray-100"
@@ -28,7 +30,7 @@ const LabeledCheckbox = ({ label, ...rest }: LabeledCheckboxProps) => {
           >
             <path
               d="M3 8L6 11L11 3.5"
-              strokeWidth={2}
+              strokeWidth={1}
               strokeLinecap="round"
               strokeLinejoin="round"
             />

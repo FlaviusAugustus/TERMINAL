@@ -1,5 +1,5 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {SamplesRequest, SamplesResponse} from "@hooks/samples/useGetSamples.ts";
+import {SamplesRequest} from "@hooks/samples/useGetSamples.ts";
 import apiClient from "@api/apiClient.ts";
 import {AxiosResponse} from "axios";
 
@@ -22,14 +22,7 @@ export function useDeleteSample(params: SamplesRequest) {
         mutationFn: (id: string) => deleteSample(id),
         onSuccess: (_data, variables) => {
             queryClient.setQueryData(['sampleDetails', variables], (() => null))
-            queryClient.setQueryData(['samples', params], ((samples: SamplesResponse): SamplesResponse =>
-                    (
-                        {
-                            ...samples,
-                            rows: samples.rows.filter((row) => row.id !== variables)
-                        }
-                    )
-            ))
+            queryClient.invalidateQueries({queryKey: ['samples', params]})
         }
     });
 }

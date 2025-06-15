@@ -2,7 +2,7 @@ import { Field, Label } from "@headlessui/react";
 import clsx from "clsx";
 
 export type InputLabelAndValidationProps = {
-  label: string;
+  label?: string;
   isValid?: boolean;
   validationInfo?: string;
 };
@@ -14,14 +14,18 @@ const InputLabelAndValidation = ({
   children,
 }: React.PropsWithChildren<InputLabelAndValidationProps>) => {
   return (
-    <Field>
-      <Label className="text-sm font-normal font-sans text-gray-700">
-        {label}:
-      </Label>
+    <Field className="h-fit">
+      {label && (
+        <Label className="text-sm font-normal font-sans text-gray-700">
+          {label}:
+        </Label>
+      )}
       {children}
-      <div className={clsx(isValid && "invisible")}>
-        <p className="text-xs pt-1 text-red-500">{validationInfo}</p>
-      </div>
+      {validationInfo && (
+        <div className={clsx(isValid && "invisible")}>
+          <p className="text-xs pt-1 text-red-500">{validationInfo}</p>
+        </div>
+      )}
     </Field>
   );
 };

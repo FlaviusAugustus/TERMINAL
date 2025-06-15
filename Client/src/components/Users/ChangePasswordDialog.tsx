@@ -32,19 +32,14 @@ const ChangePasswordDialog = ({isOpen, onClose, userId}: ChangePasswordDialogPro
             });
             return;
         }
-
-        try {
-            await toastPromise(
-                changePasswordMutation.mutateAsync({id: userId, newPassword: newPassword}),
-                {
-                    success: "Password changed successfully",
-                    error: "Failed to change password",
-                    loading: "Changing password...",
-                });
-            onClose();
-        } catch {
-            // Error is already handled by the toastPromise
-        }
+        await toastPromise(
+            changePasswordMutation.mutateAsync({id: userId, newPassword: newPassword}),
+            {
+                success: "Password changed successfully",
+                error: "Failed to change password",
+                loading: "Changing password...",
+            });
+        onClose();
     }
     
     return (

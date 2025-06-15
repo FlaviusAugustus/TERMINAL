@@ -43,16 +43,12 @@ const LoginForm = () => {
         password: password,
       };
 
-      try {
-        await toastPromise(mutation.mutateAsync(loginRequest), {
-          loading: "Logging in...",
-          success: "Login successful",
-          error: "Login failed",
-        });
-        navigate("/");
-      } catch {
-        // Error is handled by toastPromise
-      }
+      await toastPromise(mutation.mutateAsync(loginRequest), {
+        loading: "Logging in...",
+        success: "Login successful",
+        error: "Login failed",
+      });
+      navigate("/");
     },
     [mutation, email, password],
   );
