@@ -6,7 +6,6 @@ const colors = [
   "violet",
   "indigo",
   "blue",
-  "lightBlue",
   "cyan",
   "teal",
   "emerald",
