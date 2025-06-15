@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { ReactNode, ButtonHTMLAttributes } from "react";
 
 export type DialogProps = {
+  className?: string;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   handleClose?: () => void;
@@ -29,7 +30,12 @@ const DialogComp = (props: DialogProps) => {
       transition
       className="fixed inset-0 flex w-screen backdrop-blur-sm items-center justify-center bg-black/30 p-4 transition duration-100 ease-out data-[closed]:opacity-0"
     >
-      <DialogPanel className="rounded-md bg-white p-4 w-[25rem] border shadow-sm">
+      <DialogPanel
+        className={clsx(
+          "rounded-md bg-white p-4 w-[25rem] border shadow-sm",
+          props.className,
+        )}
+      >
         <DialogTitle>
           <div className="flex justify-between items-center w-full pb-5">
             <p className="font-medium text-lg">{props.title}</p>

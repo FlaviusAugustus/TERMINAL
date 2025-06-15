@@ -231,7 +231,7 @@ export type SampleDetailsDto = {
   createdAtUtc: Date;
   comment: string;
   projectId: string;
-  steps?: SampleStep[] | null;
+  steps?: SampleStepDto[] | null;
   tags?: TagDto[] | null;
 };
 

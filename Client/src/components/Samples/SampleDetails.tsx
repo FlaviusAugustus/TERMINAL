@@ -1,6 +1,8 @@
 import { SampleDetailsDto } from "@api/terminalSchemas.ts";
+import Step from "@components/Recipes/Step";
 import Chip from "@components/Shared/Chip";
 import { DialogComp } from "@components/Shared/DialogComp";
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/react";
 import { ReactNode } from "react";
 
 export interface SampleDetailsProps {
@@ -22,17 +24,18 @@ const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
   const date = new Date(sample?.createdAtUtc ?? "").toDateString();
 
   return (
-    <DialogComp isOpen={open} setIsOpen={openChange} title="Sample details">
-      <div className="space-y-3 font-light text-sm text-gray-600 w-full">
-        <div className="flex w-full justify-between">
-          <div className="flex flex-col items-start gap-2">
-            <Detail value={sample?.code} label="code" />
-            <Detail value={date} label="creation date" />
-          </div>
-          <div className="flex flex-col items-start gap-2">
-            <Detail value={sample?.steps?.length} label="step count" />
-            <Detail value={sample?.comment} label="comment" />
-          </div>
+    <DialogComp
+      isOpen={open}
+      setIsOpen={openChange}
+      title="Sample details"
+      className="w-full lg:w-[700px]"
+    >
+      <div className="space-y-3 font-light text-sm text-gray-600">
+        <div className="grid grid-cols-2 gap-3">
+          <Detail value={sample?.code} label="code" />
+          <Detail value={sample?.steps?.length ?? 0} label="step count" />
+          <Detail value={date} label="creation date" />
+          <Detail value={sample?.comment} label="comment" />
         </div>
         <div className="flex flex-col gap-1 items-start w-full justify-center">
           <p className="flex items-center pr-1 text-xs text-gray-500 uppercase">
@@ -44,24 +47,32 @@ const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
             ))}
           </div>
         </div>
+        <div className="w-full">
+          <p className="flex items-center text-xs text-gray-500 uppercase">
+            Steps
+          </p>
+          <TabGroup>
+            <TabList className="flex tabs py-2">
+              {sample?.steps?.map((_step, index) => (
+                <Tab
+                  key={index}
+                  className="p-1 text-sm rounded bg-gray-100 border data-selected:bg-gray-200 border-gray-200 flex-1 focus:outline-none"
+                >
+                  Step {index + 1}
+                </Tab>
+              ))}
+            </TabList>
+            <TabPanels className="border rounded-md">
+              {sample?.steps?.map((step, index) => (
+                <TabPanel key={index}>
+                  <Step step={step} />
+                </TabPanel>
+              ))}
+            </TabPanels>
+          </TabGroup>
+        </div>
       </div>
     </DialogComp>
-  );
-};
-
-type DetailProps = {
-  label: string;
-  value: ReactNode | undefined;
-};
-
-const Detail = ({ label, value }: DetailProps) => {
-  return (
-    <div className="flex flex-col gap-1 items-start">
-      <p className="flex items-center text-xs text-gray-500 uppercase">
-        {label}
-      </p>
-      <p className="text-base">{value}</p>
-    </div>
   );
 };
 
