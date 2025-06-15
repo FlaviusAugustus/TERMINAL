@@ -16,10 +16,10 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - dockerfile: ./Client/Dockerfile
-            image-name: client
-          - dockerfile: ./Server/src/Dockerfile
-            image-name: server
+          - image-name: client
+            context: ./Client
+          - image-name: server
+            context: ./Server/src
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -52,8 +52,7 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: .
-          file: ${{ matrix.dockerfile }}
+          context: ${{ matrix.context }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
