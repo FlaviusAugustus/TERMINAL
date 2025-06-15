@@ -18,7 +18,7 @@ jobs:
         include:
           - dockerfile: ./Client/Dockerfile
             image-name: client
-          - dockerfile: ./Server/Dockerfile
+          - dockerfile: ./Server/src/Dockerfile
             image-name: server
     steps:
       - name: Checkout code
