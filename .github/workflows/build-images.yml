@@ -16,9 +16,9 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - dockerfile: ./src/Client/Dockerfile
+          - dockerfile: ./Client/Dockerfile
             image-name: client
-          - dockerfile: ./src/Server/Dockerfile
+          - dockerfile: ./Server/Dockerfile
             image-name: server
     steps:
       - name: Checkout code
