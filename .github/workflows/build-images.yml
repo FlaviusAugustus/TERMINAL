@@ -9,6 +9,8 @@ on:
 env:
   REGISTRY_NAME: ghcr.io
 
+permissions: write-all
+
 jobs:
   build-and-push-images:
     runs-on: ubuntu-latest
