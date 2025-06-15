@@ -32,7 +32,7 @@ const DialogComp = (props: DialogProps) => {
     >
       <DialogPanel
         className={clsx(
-          "rounded-md bg-white p-4 w-[25rem] border shadow-sm",
+          "rounded-md bg-white p-4 w-[25rem] border shadow-sm h-full overflow-x-auto",
           props.className,
         )}
       >
