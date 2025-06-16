@@ -121,12 +121,6 @@ const Samples = (props: SamplesProps) => {
     manualPagination: true,
   });
 
-  const handleClickRow = (id: string | null) => {
-    if (!props.onChangeSampleDetails || !id) return;
-
-    props?.onChangeSampleDetails(id);
-  };
-
   const handleDeleteSelected = () => {
     table.getSelectedRowModel().rows.forEach((row) => {
       props.onDelete(row.original.id);
@@ -163,7 +157,7 @@ const Samples = (props: SamplesProps) => {
         </VisibleForRoles>
       </div>
       <TableCard className="!h-full">
-        <TableView<SampleDto> table={table} handleClickRow={handleClickRow} />
+        <TableView<SampleDto> table={table} />
         <TableManagement<SampleDto> table={table} />
       </TableCard>
     </>

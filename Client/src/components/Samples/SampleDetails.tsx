@@ -3,6 +3,7 @@ import Step from "@components/Recipes/Step";
 import Chip from "@components/Shared/Chip";
 import Detail from "@components/Shared/Detail";
 import { DialogComp } from "@components/Shared/DialogComp";
+import StepDetails from "@components/Shared/StepDetails";
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/react";
 
 export interface SampleDetailsProps {
@@ -51,25 +52,7 @@ const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
           <p className="flex items-center text-xs text-gray-500 uppercase">
             Steps
           </p>
-          <TabGroup>
-            <TabList className="flex tabs py-2">
-              {sample?.steps?.map((_step, index) => (
-                <Tab
-                  key={index}
-                  className="p-1 text-sm rounded bg-gray-100 border data-selected:bg-gray-200 border-gray-200 flex-1 focus:outline-none"
-                >
-                  Step {index + 1}
-                </Tab>
-              ))}
-            </TabList>
-            <TabPanels className="border rounded-md">
-              {sample?.steps?.map((step, index) => (
-                <TabPanel key={index}>
-                  <Step step={step} />
-                </TabPanel>
-              ))}
-            </TabPanels>
-          </TabGroup>
+          <StepDetails steps={sample?.steps ?? []} />
         </div>
       </div>
     </DialogComp>
