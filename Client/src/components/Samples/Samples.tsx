@@ -25,6 +25,7 @@ import TableManagement from "@components/Shared/Table/TableManagment";
 import TableView from "@components/Shared/Table/TableView";
 import { Link } from "react-router-dom";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
+import { toastPromise } from "utils/toast.utils";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
@@ -34,7 +35,7 @@ export interface SamplesProps {
   setSorting: OnChangeFn<SortingState>;
   setPagination: OnChangeFn<PaginationState>;
   onEdit: (sampleId: string) => void;
-  onDelete: (sampleId: string) => void;
+  onDelete: (sampleId: string) => Promise<void>;
 }
 
 const columnHelper = createColumnHelper<SampleDto>();
@@ -89,7 +90,7 @@ const Samples = (props: SamplesProps) => {
         cell: ({ row }) => (
           <SamplesRowActions
             onEdit={() => props.onEdit(row.original.id)}
-            onDelete={() => props.onDelete(row.original.id)}
+            onDelete={() => handleDelete(row.original.id)}
           />
         ),
       }),
@@ -121,15 +122,23 @@ const Samples = (props: SamplesProps) => {
     manualPagination: true,
   });
 
-  const handleClickRow = (id: string | null) => {
-    if (!props.onChangeSampleDetails || !id) return;
+  const handleDeleteSelected = () => {
+    const tasks = table.getSelectedRowModel().rows.map((row) => {
+      props.onDelete(row.original.id);
+    });
 
-    props?.onChangeSampleDetails(id);
+    toastPromise(Promise.all(tasks), {
+      success: "Samples deleted succesfully",
+      loading: "Removing samples...",
+      error: "Error deleting samples",
+    });
   };
 
-  const handleDeleteSelected = () => {
-    table.getSelectedRowModel().rows.forEach((row) => {
-      props.onDelete(row.original.id);
+  const handleDelete = async (id: string) => {
+    await toastPromise(props.onDelete(id), {
+      success: "Recipe deleted succesfully",
+      loading: "Removing recipe...",
+      error: "Error deleting recipe",
     });
   };
 
@@ -163,7 +172,7 @@ const Samples = (props: SamplesProps) => {
         </VisibleForRoles>
       </div>
       <TableCard className="!h-full">
-        <TableView<SampleDto> table={table} handleClickRow={handleClickRow} />
+        <TableView<SampleDto> table={table} />
         <TableManagement<SampleDto> table={table} />
       </TableCard>
     </>

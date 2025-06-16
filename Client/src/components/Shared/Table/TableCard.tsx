@@ -15,7 +15,7 @@ const TableCard = ({ children, className, ...props }: TableCardProps) => {
     <div
       {...props}
       className={clsx(
-        "h-[40rem] flex flex-col rounded-lg justify-between border border-gray-200 overflow-scroll bg-white shadow-sm",
+        "h-[40rem] flex flex-col rounded-lg justify-between border border-gray-200 overflow-auto bg-white shadow-sm",
         className,
       )}
     >

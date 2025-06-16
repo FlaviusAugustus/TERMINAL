@@ -9,7 +9,7 @@ interface TableElement {
 
 export interface TableViewProps<T extends TableElement> {
   table: Table<T>;
-  handleClickRow: (id: string) => void;
+  handleClickRow?: (id: string) => void;
 }
 
 /**
@@ -59,7 +59,9 @@ const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
           {props.table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
-              onClick={() => props.handleClickRow(row.original.id)}
+              onClick={() => {
+                if (props.handleClickRow) props.handleClickRow(row.original.id);
+              }}
               className="hover:bg-gray-50 text-xs"
             >
               {row.getVisibleCells().map((cell) => (

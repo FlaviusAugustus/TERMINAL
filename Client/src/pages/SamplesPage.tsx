@@ -5,7 +5,6 @@ import SampleDetails from "@components/Samples/SampleDetails.tsx";
 import { useSamples } from "@hooks/samples/useGetSamples.ts";
 import { useSampleDetails } from "@hooks/samples/useGetSampleDetails.ts";
 import { useDeleteSample } from "@hooks/samples/useDeleteSample.ts";
-import {toastPromise} from "utils/toast.utils";
 import TableLayout from "./layouts/TableLayout";
 import Loader from "@components/Shared/Loader";
 import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
@@ -42,14 +41,7 @@ const SamplesPage = () => {
 
   const handleDelete = async (id: string | null) => {
     if (!id) return;
-    await toastPromise(
-        deleteMutation.mutateAsync(id),
-        {
-          loading: 'Deleting sample...',
-          success: 'Sample deleted successfully',
-          error: 'Failed to delete sample'
-        }
-    );
+    await deleteMutation.mutateAsync(id);
   };
 
   return (

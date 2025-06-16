@@ -1,9 +1,8 @@
 import { SampleDetailsDto } from "@api/terminalSchemas.ts";
-import Step from "@components/Recipes/Step";
 import Chip from "@components/Shared/Chip";
 import Detail from "@components/Shared/Detail";
 import { DialogComp } from "@components/Shared/DialogComp";
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/react";
+import StepDetails from "@components/Shared/StepDetails";
 
 export interface SampleDetailsProps {
   sample: SampleDetailsDto | undefined;
@@ -32,44 +31,24 @@ const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
     >
       <div className="space-y-3 font-light text-sm text-gray-600">
         <div className="grid grid-cols-2 gap-3">
-          <Detail value={sample?.code} label="code" />
-          <Detail value={sample?.steps?.length ?? 0} label="step count" />
-          <Detail value={date} label="creation date" />
-          <Detail value={sample?.comment} label="comment" />
+          <Detail label="code">{sample?.code}</Detail>
+          <Detail label="step count">{sample?.steps?.length ?? 0}</Detail>
+          <Detail label="creation date">{date}</Detail>
+          <Detail label="comment">{sample?.comment}</Detail>
         </div>
         <div className="flex flex-col gap-1 items-start w-full justify-center">
-          <p className="flex items-center pr-1 text-xs text-gray-500 uppercase">
-            tags
-          </p>
-          <div className="flex gap-1">
-            {sample?.tags?.map((tag) => (
-              <Chip key={tag.id} value={tag.name ?? ""} className="text-xs" />
-            ))}
-          </div>
+          <Detail label="tags">
+            <div className="flex gap-1">
+              {sample?.tags?.map((tag) => (
+                <Chip key={tag.id} value={tag.name ?? ""} className="text-xs" />
+              ))}
+            </div>
+          </Detail>
         </div>
         <div className="w-full">
-          <p className="flex items-center text-xs text-gray-500 uppercase">
-            Steps
-          </p>
-          <TabGroup>
-            <TabList className="flex tabs py-2">
-              {sample?.steps?.map((_step, index) => (
-                <Tab
-                  key={index}
-                  className="p-1 text-sm rounded bg-gray-100 border data-selected:bg-gray-200 border-gray-200 flex-1 focus:outline-none"
-                >
-                  Step {index + 1}
-                </Tab>
-              ))}
-            </TabList>
-            <TabPanels className="border rounded-md">
-              {sample?.steps?.map((step, index) => (
-                <TabPanel key={index}>
-                  <Step step={step} />
-                </TabPanel>
-              ))}
-            </TabPanels>
-          </TabGroup>
+          <Detail label="steps">
+            <StepDetails steps={sample?.steps ?? []} />
+          </Detail>
         </div>
       </div>
     </DialogComp>
