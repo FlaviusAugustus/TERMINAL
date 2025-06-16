@@ -33,26 +33,24 @@ const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
     >
       <div className="space-y-3 font-light text-sm text-gray-600">
         <div className="grid grid-cols-2 gap-3">
-          <Detail value={sample?.code} label="code" />
-          <Detail value={sample?.steps?.length ?? 0} label="step count" />
-          <Detail value={date} label="creation date" />
-          <Detail value={sample?.comment} label="comment" />
+          <Detail label="code">{sample?.code}</Detail>
+          <Detail label="step count">{sample?.steps?.length ?? 0}</Detail>
+          <Detail label="creation date">{date}</Detail>
+          <Detail label="comment">{sample?.comment}</Detail>
         </div>
         <div className="flex flex-col gap-1 items-start w-full justify-center">
-          <p className="flex items-center pr-1 text-xs text-gray-500 uppercase">
-            tags
-          </p>
-          <div className="flex gap-1">
-            {sample?.tags?.map((tag) => (
-              <Chip key={tag.id} value={tag.name ?? ""} className="text-xs" />
-            ))}
-          </div>
+          <Detail label="tags">
+            <div className="flex gap-1">
+              {sample?.tags?.map((tag) => (
+                <Chip key={tag.id} value={tag.name ?? ""} className="text-xs" />
+              ))}
+            </div>
+          </Detail>
         </div>
         <div className="w-full">
-          <p className="flex items-center text-xs text-gray-500 uppercase">
-            Steps
-          </p>
-          <StepDetails steps={sample?.steps ?? []} />
+          <Detail label="steps">
+            <StepDetails steps={sample?.steps ?? []} />
+          </Detail>
         </div>
       </div>
     </DialogComp>

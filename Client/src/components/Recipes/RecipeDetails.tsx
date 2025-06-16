@@ -37,11 +37,10 @@ const RecipeDetails = ({ recipe, open, openChange }: RecipeDetailsProps) => {
       className="w-full lg:w-[700px]"
     >
       <div className="space-y-3 font-light text-sm text-gray-600">
-        <Detail value={recipe?.name} label="name" />
-        <p className="flex items-center text-xs text-gray-500 uppercase">
-          Steps
-        </p>
-        <StepDetails steps={recipe?.steps ?? []} />
+        <Detail label="name">{recipe?.name}</Detail>
+        <Detail label="steps">
+          <StepDetails steps={recipe?.steps ?? []} />
+        </Detail>
       </div>
     </DialogComp>
   );

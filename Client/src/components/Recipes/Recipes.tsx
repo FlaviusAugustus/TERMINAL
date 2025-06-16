@@ -15,6 +15,15 @@ import TableCard from "@components/Shared/Table/TableCard";
 import IndeterminateCheckbox from "@components/Shared/IndeterminateCheckbox";
 import RecipesRowActions from "./RecipesRowActions";
 import { useMemo, useState } from "react";
+import IconButton from "@components/Shared/IconButton";
+import InputField from "@components/Shared/InputField";
+import VisibleForRoles from "@components/Shared/VisibleForRoles";
+import {
+  MagnifyingGlassIcon,
+  XMarkIcon,
+  PlusIcon,
+} from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 export interface RecipesProps {
   recipe: RecipesResponse | undefined;
@@ -90,6 +99,11 @@ const Recipes = ({
   );
 
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+  const handleDeleteSelected = () => {
+    table.getSelectedRowModel().rows.forEach((row) => {
+      onDelete(row.original.id);
+    });
+  };
 
   const table = useReactTable({
     columns: columns,
@@ -114,10 +128,39 @@ const Recipes = ({
   });
 
   return (
-    <TableCard className="w-[1000px]">
-      <TableView table={table} />
-      <TableManagement table={table} />
-    </TableCard>
+    <>
+      <div className="flex justify-between gap-1 items-end pb-3 h-14">
+        <InputField
+          className="!text-sm !h-[40px]"
+          placeholder="Search"
+          icon={<MagnifyingGlassIcon className="h-4" />}
+        />
+        <VisibleForRoles roles={["Administrator", "Moderator"]}>
+          <div className="flex gap-1">
+            <IconButton
+              onClick={handleDeleteSelected}
+              disabled={
+                !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
+              }
+              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+            >
+              <XMarkIcon className="h-4 " />
+              <p className="text-xs">Delete Selected</p>
+            </IconButton>
+            <Link to="/new-sample">
+              <IconButton className="h-[40px] flex bg-white items-center gap-1">
+                <PlusIcon className="h-4" />
+                <p className="text-xs">Add new</p>
+              </IconButton>
+            </Link>
+          </div>
+        </VisibleForRoles>
+      </div>
+      <TableCard className="!h-full">
+        <TableView table={table} />
+        <TableManagement table={table} />
+      </TableCard>
+    </>
   );
 };
 
