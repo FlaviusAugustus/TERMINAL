@@ -1,10 +1,8 @@
 import { SampleDetailsDto } from "@api/terminalSchemas.ts";
-import Step from "@components/Recipes/Step";
 import Chip from "@components/Shared/Chip";
 import Detail from "@components/Shared/Detail";
 import { DialogComp } from "@components/Shared/DialogComp";
 import StepDetails from "@components/Shared/StepDetails";
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/react";
 
 export interface SampleDetailsProps {
   sample: SampleDetailsDto | undefined;

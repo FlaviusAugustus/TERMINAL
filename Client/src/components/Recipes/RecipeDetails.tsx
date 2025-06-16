@@ -1,14 +1,4 @@
 import { RecipeDetailsDto } from "@api/terminalSchemas.ts";
-import {
-  Button,
-  Tab,
-  TabGroup,
-  TabList,
-  TabPanel,
-  TabPanels,
-} from "@headlessui/react";
-import Step from "@components/Recipes/Step.tsx";
-import { IdentificationIcon } from "@heroicons/react/16/solid";
 import { DialogComp } from "@components/Shared/DialogComp.tsx";
 import Detail from "@components/Shared/Detail";
 import StepDetails from "@components/Shared/StepDetails";
