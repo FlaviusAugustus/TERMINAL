@@ -24,6 +24,7 @@ import {
   PlusIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { toastPromise } from "utils/toast.utils";
 
 export interface RecipesProps {
   recipe: RecipesResponse | undefined;
@@ -32,7 +33,7 @@ export interface RecipesProps {
   pagination: PaginationState;
   setPagination: OnChangeFn<PaginationState>;
   onEdit: (id: string) => void;
-  onDelete: (id: string) => void;
+  onDelete: (id: string) => Promise<void>;
   onDetails: (id: string) => void;
 }
 
@@ -90,7 +91,7 @@ const Recipes = ({
           <RecipesRowActions
             onEdit={() => onEdit(row.original.id)}
             onDetails={() => onDetails(row.original.id)}
-            onDelete={() => onDelete(row.original.id)}
+            onDelete={() => handleDelete(row.original.id)}
           />
         ),
       }),
@@ -99,9 +100,24 @@ const Recipes = ({
   );
 
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+
+  const handleDelete = async (id: string) => {
+    await toastPromise(onDelete(id), {
+      success: "Recipe deleted succesfully",
+      loading: "Removing recipe...",
+      error: "Error deleting recipe",
+    });
+  };
+
   const handleDeleteSelected = () => {
-    table.getSelectedRowModel().rows.forEach((row) => {
+    const tasks = table.getSelectedRowModel().rows.map((row) => {
       onDelete(row.original.id);
+    });
+
+    toastPromise(Promise.all(tasks), {
+      success: "Recipes deleted succesfully",
+      loading: "Removing recipes...",
+      error: "Error deleting recipes",
     });
   };
 
@@ -147,7 +163,7 @@ const Recipes = ({
               <XMarkIcon className="h-4 " />
               <p className="text-xs">Delete Selected</p>
             </IconButton>
-            <Link to="/new-sample">
+            <Link to="/new-recipe">
               <IconButton className="h-[40px] flex bg-white items-center gap-1">
                 <PlusIcon className="h-4" />
                 <p className="text-xs">Add new</p>

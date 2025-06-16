@@ -8,6 +8,7 @@ import { useDeleteRecipe } from "@hooks/recipes/useDeleteRecipe.ts";
 import TableLayout from "./layouts/TableLayout";
 import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
 import Loader from "@components/Shared/Loader";
+import { toastPromise } from "utils/toast.utils";
 
 const RecipesPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -38,6 +39,11 @@ const RecipesPage = () => {
     setRecipeDetailsId(id);
   };
 
+  const handleDelete = async (id: string | null) => {
+    if (!id) return;
+    await mutation.mutateAsync(id);
+  };
+
   return (
     <TableLayout>
       <ComponentOrLoader
@@ -52,7 +58,7 @@ const RecipesPage = () => {
           setPagination={setPagination}
           onEdit={() => {}}
           onDetails={(id: string) => changeRecipeDetails(id)}
-          onDelete={async (id: string) => await mutation.mutateAsync(id)}
+          onDelete={async (id: string) => await handleDelete(id)}
         />
       </ComponentOrLoader>
       <ComponentOrLoader
