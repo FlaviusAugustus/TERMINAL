@@ -9,19 +9,20 @@ import {
 } from "@tanstack/react-table";
 import {useMemo, useState} from "react";
 import IndeterminateCheckbox from "@components/Shared/IndeterminateCheckbox.tsx";
-import SamplesRowActions from "@components/Samples/SamplesRowActions.tsx";
 import TableCard from "@components/Shared/Table/TableCard.tsx";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import Chip from "@components/Shared/Chip.tsx";
+import ParametersRowActions from "@components/Parameters/ParametersRowActions.tsx";
 
 interface ParametersProps {
     parameters: Array<AllParameters>
+    onEdit: (parameterId: string) => void;
 }
 
 const columnHelper = createColumnHelper<AllParameters>();
 
-const Parameters = ({parameters}: ParametersProps) => {
+const Parameters = ({parameters, onEdit}: ParametersProps) => {
 
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
@@ -63,8 +64,8 @@ const Parameters = ({parameters}: ParametersProps) => {
                 header: "Actions",
                 size: 0,
                 cell: ({ row }) => (
-                    <SamplesRowActions
-                        onEdit={() => {console.log(row)}}
+                    <ParametersRowActions
+                        onEdit={() => onEdit(row.id)}
                         onDelete={() => {}}
                     />
                 ),
@@ -90,7 +91,6 @@ const Parameters = ({parameters}: ParametersProps) => {
         onPaginationChange: setPagination,
         // onRowSelectionChange: setRowSelection,
         enableMultiRowSelection: true,
-        // rowCount: 99,
     });
 
     return (
