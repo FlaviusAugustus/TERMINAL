@@ -8,6 +8,7 @@ export interface SampleDetailsProps {
   sample: SampleDetailsDto | undefined;
   open: boolean;
   openChange: (arg0: boolean) => void;
+  editable: boolean;
 }
 
 /**
@@ -19,7 +20,12 @@ export interface SampleDetailsProps {
  * @component
  * @param {SampleDetailsProps} - The properties for the component.
  */
-const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
+const SampleDetails = ({
+  sample,
+  open,
+  openChange,
+  editable,
+}: SampleDetailsProps) => {
   const date = new Date(sample?.createdAtUtc ?? "").toDateString();
 
   return (
@@ -47,7 +53,7 @@ const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
         </div>
         <div className="w-full">
           <Detail label="steps">
-            <StepDetails steps={sample?.steps ?? []} />
+            <StepDetails steps={sample?.steps ?? []} editable={editable} />
           </Detail>
         </div>
       </div>

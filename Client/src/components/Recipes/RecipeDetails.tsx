@@ -29,7 +29,7 @@ const RecipeDetails = ({ recipe, open, openChange }: RecipeDetailsProps) => {
       <div className="space-y-3 font-light text-sm text-gray-600">
         <Detail label="name">{recipe?.name}</Detail>
         <Detail label="steps">
-          <StepDetails steps={recipe?.steps ?? []} />
+          <StepDetails steps={recipe?.steps ?? []} editable={false} />
         </Detail>
       </div>
     </DialogComp>

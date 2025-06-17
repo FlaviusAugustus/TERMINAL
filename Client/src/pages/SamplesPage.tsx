@@ -8,6 +8,7 @@ import { useDeleteSample } from "@hooks/samples/useDeleteSample.ts";
 import TableLayout from "./layouts/TableLayout";
 import Loader from "@components/Shared/Loader";
 import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
+import EditSample from "@components/Samples/EditSample";
 
 const SamplesPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -32,10 +33,16 @@ const SamplesPage = () => {
 
   const [sampleDetailsId, setSampleDetailsId] = useState<string | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const dataQuerySampleDetails = useSampleDetails(sampleDetailsId);
 
   const changeSampleDetails = (id: string) => {
     setDetailsOpen(true);
+    setSampleDetailsId(id);
+  };
+
+  const editSampleDetails = (id: string) => {
+    setEditOpen(true);
     setSampleDetailsId(id);
   };
 
@@ -57,14 +64,22 @@ const SamplesPage = () => {
           setSorting={setSorting}
           setPagination={setPagination}
           onDelete={handleDelete}
-          onEdit={changeSampleDetails}
+          onDetails={changeSampleDetails}
+          onEdit={editSampleDetails}
         />
       </ComponentOrLoader>
       <ComponentOrLoader
         isLoading={dataQuerySampleDetails.isLoading}
         loader={<Loader />}
       >
+        <EditSample
+          editable={true}
+          sample={dataQuerySampleDetails.data}
+          open={editOpen}
+          openChange={setEditOpen}
+        />
         <SampleDetails
+          editable={false}
           sample={dataQuerySampleDetails.data}
           open={detailsOpen}
           openChange={setDetailsOpen}
