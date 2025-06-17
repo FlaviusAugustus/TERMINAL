@@ -41,10 +41,10 @@ export interface SampleDetailsProps {
 }
 
 /**
- * SampleDetails Component
+ * EditSample Component
  *
  * Displays details of a sample including code, creation date, tags, comment, and number of steps.
- * Provides a button to delete the sample.
+ * Allows for editing parameter values.
  *
  * @component
  * @param {SampleDetailsProps} - The properties for the component.
