@@ -98,15 +98,12 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
 
   const handleUpdate = async () => {
     if (!newSample) return;
-    console.log(newSample);
 
-    await toastPromise(mutation.mutateAsync(sampleToUpdateRequest(newSample)), {
+    await toastPromise(mutation.mutateAsync(newSample), {
       success: "Success updating sample",
       loading: "Updating sample...",
       error: "Error updating sample",
     });
-
-    if (mutation.isSuccess) openChange(false);
   };
 
   const handleReset = () => {
