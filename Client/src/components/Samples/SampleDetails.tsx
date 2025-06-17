@@ -5,28 +5,9 @@ import { DialogComp } from "@components/Shared/DialogComp";
 import StepsTableManagement from "@components/Shared/Table/StepsTableManagement";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
-import { AllParameters } from "@hooks/useGetParameters";
-import {
-  useReactTable,
-  getCoreRowModel,
-  ColumnDef,
-} from "@tanstack/react-table";
+import useParameterColumns from "@hooks/useParameterColumns";
+import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import { useState } from "react";
-
-const columns: ColumnDef<AllParameters>[] = [
-  {
-    id: "name",
-    accessorFn: (param) => param.name,
-  },
-  {
-    id: "value",
-    accessorFn: (param) => param.value,
-  },
-  {
-    id: "unit",
-    accessorFn: (param) => (param.$type !== "text" ? param.unit : "-"),
-  },
-];
 
 export interface SampleDetailsProps {
   sample: SampleDetailsDto | undefined;
@@ -45,6 +26,7 @@ export interface SampleDetailsProps {
  */
 const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
   const [index, setIndex] = useState(0);
+  const columns = useParameterColumns();
 
   const pageData =
     sample?.steps && sample?.steps?.length != 0

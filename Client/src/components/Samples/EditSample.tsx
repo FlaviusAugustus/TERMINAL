@@ -6,31 +6,10 @@ import StepsTableManagement from "@components/Shared/Table/StepsTableManagement"
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
 import useUpdateSample from "@hooks/samples/useUpdateSample";
-import { AllParameters } from "@hooks/useGetParameters";
-import {
-  useReactTable,
-  getCoreRowModel,
-  ColumnDef,
-} from "@tanstack/react-table";
+import useParameterColumns from "@hooks/useParameterColumns";
+import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
-import { editableColumn } from "utils/tableUtils";
 import { toastPromise } from "utils/toast.utils";
-
-const columns: ColumnDef<AllParameters>[] = [
-  {
-    id: "name",
-    accessorFn: (param) => param.name,
-  },
-  {
-    id: "value",
-    accessorFn: (param) => param.value,
-    ...editableColumn,
-  },
-  {
-    id: "unit",
-    accessorFn: (param) => (param.$type !== "text" ? param.unit : "-"),
-  },
-];
 
 export interface SampleDetailsProps {
   sample: SampleDetailsDto | undefined;
@@ -61,6 +40,7 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
   }, [sample]);
 
   const [index, setIndex] = useState(0);
+  const columns = useParameterColumns(true);
 
   const pageData = useMemo(() => {
     if (!newSample?.steps || newSample.steps.length === 0) return [];
