@@ -58,7 +58,6 @@ const ParamsTable = ({ params, editable }: ParamsTableProps) => {
         );
       },
     },
-    debugTable: true,
   });
 
   return (

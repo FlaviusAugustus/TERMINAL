@@ -1,4 +1,4 @@
-import { SampleDetailsDto, UpdateSampleRequest } from "@api/terminalSchemas.ts";
+import { SampleDetailsDto } from "@api/terminalSchemas.ts";
 import ChipSet from "@components/Shared/ChipSet";
 import Detail from "@components/Shared/Detail";
 import { DialogButton, DialogComp } from "@components/Shared/DialogComp";
@@ -53,11 +53,14 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
   const [newSample, setNewSample] = useState<SampleDetailsDto | undefined>(
     structuredClone(sample),
   );
+  if (sample != newSample) setNewSample(sample);
+
   const [index, setIndex] = useState(0);
 
   const pageData = useMemo(() => {
-    return newSample?.steps![index].parameters ?? [];
-  }, [newSample, index]);
+    if (!newSample?.steps || newSample.steps.length === 0) return [];
+    return newSample?.steps[index].parameters ?? [];
+  }, [newSample, index, sample]);
 
   const date = new Date(sample?.createdAtUtc ?? "").toDateString();
 
@@ -94,6 +97,8 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
       loading: "Updating sample...",
       error: "Error updating sample",
     });
+
+    if (mutation.isSuccess) openChange(false);
   };
 
   return (
@@ -116,18 +121,20 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
           </Detail>
         </div>
         <div className="w-full">
-          <Detail label="steps">
-            <div className="flex flex-col gap-2">
-              <StepsTableManagement
-                activeIndex={index}
-                activeIndexChange={setIndex}
-                steps={sample?.steps ?? []}
-              />
-              <TableCard className="!h-full !shadow-none">
-                <TableView table={table} />
-              </TableCard>
-            </div>
-          </Detail>
+          {newSample?.steps?.length !== 0 && (
+            <Detail label="steps">
+              <div className="flex flex-col gap-2">
+                <StepsTableManagement
+                  activeIndex={index}
+                  activeIndexChange={setIndex}
+                  steps={sample?.steps ?? []}
+                />
+                <TableCard className="!h-full !shadow-none">
+                  <TableView table={table} />
+                </TableCard>
+              </div>
+            </Detail>
+          )}
         </div>
         <div className="flex gap-2">
           <DialogButton
@@ -135,12 +142,6 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
             onClick={handleUpdate}
           >
             Save
-          </DialogButton>
-          <DialogButton
-            className="!w-fit hover:border-red-400"
-            onClick={() => setNewSample(sample)}
-          >
-            Reset
           </DialogButton>
         </div>
       </div>

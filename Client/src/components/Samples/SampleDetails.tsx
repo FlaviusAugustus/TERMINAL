@@ -52,9 +52,11 @@ const SampleDetails = ({
           </Detail>
         </div>
         <div className="w-full">
-          <Detail label="steps">
-            <StepDetails steps={sample?.steps ?? []} editable={editable} />
-          </Detail>
+          {sample?.steps?.length !== 0 && (
+            <Detail label="steps">
+              <StepDetails steps={sample?.steps ?? []} editable={editable} />
+            </Detail>
+          )}
         </div>
       </div>
     </DialogComp>
