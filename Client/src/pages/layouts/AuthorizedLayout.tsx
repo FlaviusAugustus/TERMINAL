@@ -4,7 +4,7 @@ import Sidebar from "@components/Navbar/Sidebar.tsx";
 import MobileNavbar from "@components/Navbar/MobileNavbar.tsx";
 import { useUserRoles } from "@hooks/useUserRoles.ts";
 import Loader from "@components/Shared/Loader.tsx";
-import {Role} from "@api/models/Role.ts";
+import { Role } from "@api/models/Role.ts";
 
 type AuthorizedNavbarLayoutProps = {
   pageName: string;
@@ -32,7 +32,7 @@ const AuthorizedNavbarLayout = ({
     <div className="w-screen flex flex-col sm:flex-row bg-gray-100">
       <div className="drawer md:drawer-open md:gap-2">
         <input id="drawer" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex flex-col sm:h-auto h-auto min-h-screen items-center justify-center relative">
+        <div className="drawer-content flex flex-col sm:h-auto h-auto min-h-screen items-center justify-start relative overflow-x-hidden overflow-y-auto">
           {/* Menu - only mobile  */}
           <MobileNavbar />
           {/* Page content */}
