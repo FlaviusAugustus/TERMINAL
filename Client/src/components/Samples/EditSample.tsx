@@ -1,19 +1,21 @@
-import { SampleDetailsDto } from "@api/terminalSchemas.ts";
-import Chip from "@components/Shared/Chip";
+import { SampleDetailsDto, UpdateSampleRequest } from "@api/terminalSchemas.ts";
+import ChipSet from "@components/Shared/ChipSet";
 import Detail from "@components/Shared/Detail";
 import { DialogButton, DialogComp } from "@components/Shared/DialogComp";
 import StepsTableManagement from "@components/Shared/Table/StepsTableManagement";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
+import useUpdateSample from "@hooks/samples/useUpdateSample";
 import { AllParameters } from "@hooks/useGetParameters";
 import {
   useReactTable,
   getCoreRowModel,
   ColumnDef,
 } from "@tanstack/react-table";
-import { clsx } from "clsx";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { sampleToUpdateRequest } from "utils/mapUtils";
 import { editableColumn } from "utils/tableUtils";
+import { toastPromise } from "utils/toast.utils";
 
 const columns: ColumnDef<AllParameters>[] = [
   {
@@ -53,8 +55,13 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
   );
   const [index, setIndex] = useState(0);
 
-  const pageData = newSample?.steps![index].parameters ?? [];
+  const pageData = useMemo(() => {
+    return newSample?.steps![index].parameters ?? [];
+  }, [newSample, index]);
+
   const date = new Date(sample?.createdAtUtc ?? "").toDateString();
+
+  const mutation = useUpdateSample();
 
   const table = useReactTable({
     columns: columns,
@@ -79,6 +86,16 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
     },
   });
 
+  const handleUpdate = async () => {
+    if (!newSample) return;
+
+    await toastPromise(mutation.mutateAsync(sampleToUpdateRequest(newSample)), {
+      success: "Success updating sample",
+      loading: "Updating sample...",
+      error: "Error updating sample",
+    });
+  };
+
   return (
     <DialogComp
       isOpen={open}
@@ -95,11 +112,7 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
         </div>
         <div className="flex flex-col gap-1 items-start w-full justify-center">
           <Detail label="tags">
-            <div className="flex gap-1">
-              {sample?.tags?.map((tag) => (
-                <Chip key={tag.id} value={tag.name ?? ""} className="text-xs" />
-              ))}
-            </div>
+            <ChipSet values={sample?.tags?.map((t) => t.name ?? "") ?? []} />
           </Detail>
         </div>
         <div className="w-full">
@@ -119,7 +132,7 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
         <div className="flex gap-2">
           <DialogButton
             className="!w-fit hover:border-green-400"
-            onClick={() => {}}
+            onClick={handleUpdate}
           >
             Save
           </DialogButton>
