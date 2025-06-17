@@ -35,4 +35,9 @@ export type TextParameter = Parameter &
     allowedValues: string[];
   };
 
+export type UpdateParameter = {
+  id: string;
+  value: number | string;
+};
+
 export type AllParameters = IntegerParameter | DecimalParameter | TextParameter;

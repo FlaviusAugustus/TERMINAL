@@ -36,6 +36,7 @@ export interface SamplesProps {
   setPagination: OnChangeFn<PaginationState>;
   onEdit: (sampleId: string) => void;
   onDelete: (sampleId: string) => Promise<void>;
+  onDetails: (sampleId: string) => void;
 }
 
 const columnHelper = createColumnHelper<SampleDto>();
@@ -89,6 +90,7 @@ const Samples = (props: SamplesProps) => {
         size: 0,
         cell: ({ row }) => (
           <SamplesRowActions
+            onDetails={() => props.onDetails(row.original.id)}
             onEdit={() => props.onEdit(row.original.id)}
             onDelete={() => handleDelete(row.original.id)}
           />
