@@ -30,7 +30,7 @@ const Step = (props: StepProps) => {
               <tr key={index} className="hover:bg-gray-50">
                 <td>{param?.name}</td>
                 <td>{param?.value}</td>
-                <td>{param?.unit}</td>
+                <td>{param.$type !== "text" ? param?.unit : "-"}</td>
               </tr>
             );
           })}
