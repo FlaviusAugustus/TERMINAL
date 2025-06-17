@@ -49,7 +49,7 @@ export default function App() {
           <Route element={<AuthorizedLayout pageName="Samples" />}>
             <Route path="/samples" element={<SamplesPage />} />
           </Route>
-          <Route element={<AuthorizedLayout pageName="Samples" />}>
+          <Route element={<AuthorizedLayout pageName="Parameters" />}>
             <Route path="/parameters" element={<ParametersPage />} />
           </Route>
           <Route

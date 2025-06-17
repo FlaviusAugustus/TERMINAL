@@ -1,5 +1,5 @@
 import { TabGroup, TabPanel, TabPanels } from "@headlessui/react";
-import useGetParameters from "@hooks/useGetParameters";
+import useGetParameters from "@hooks/parameters/useGetParameters.ts";
 import {
   horizontalListSortingStrategy,
   SortableContext,
