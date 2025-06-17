@@ -32,7 +32,6 @@ export interface SampleDetailsProps {
   sample: SampleDetailsDto | undefined;
   open: boolean;
   openChange: (arg0: boolean) => void;
-  editable: boolean;
 }
 
 /**

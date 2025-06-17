@@ -12,7 +12,7 @@ import {
   getCoreRowModel,
   ColumnDef,
 } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { sampleToUpdateRequest } from "utils/mapUtils";
 import { editableColumn } from "utils/tableUtils";
 import { toastPromise } from "utils/toast.utils";
@@ -37,7 +37,6 @@ export interface SampleDetailsProps {
   sample: SampleDetailsDto | undefined;
   open: boolean;
   openChange: (arg0: boolean) => void;
-  editable: boolean;
 }
 
 /**
@@ -50,10 +49,17 @@ export interface SampleDetailsProps {
  * @param {SampleDetailsProps} - The properties for the component.
  */
 const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
+  const [valueChanged, setValueChanged] = useState(false);
+  const [reset, setResetValue] = useState(structuredClone(sample));
   const [newSample, setNewSample] = useState<SampleDetailsDto | undefined>(
-    structuredClone(sample),
+    sample,
   );
-  if (sample != newSample) setNewSample(sample);
+
+  useEffect(() => {
+    setResetValue(structuredClone(sample));
+    setNewSample(sample);
+    setValueChanged(false);
+  }, [sample]);
 
   const [index, setIndex] = useState(0);
 
@@ -79,6 +85,7 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
           | string
           | number;
         setNewSample(nsample);
+        setValueChanged(true);
       },
     },
     state: {
@@ -91,6 +98,7 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
 
   const handleUpdate = async () => {
     if (!newSample) return;
+    console.log(newSample);
 
     await toastPromise(mutation.mutateAsync(sampleToUpdateRequest(newSample)), {
       success: "Success updating sample",
@@ -99,6 +107,11 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
     });
 
     if (mutation.isSuccess) openChange(false);
+  };
+
+  const handleReset = () => {
+    setNewSample(structuredClone(reset));
+    setValueChanged(false);
   };
 
   return (
@@ -138,10 +151,18 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
         </div>
         <div className="flex gap-2">
           <DialogButton
+            disabled={!valueChanged}
             className="!w-fit hover:border-green-400"
             onClick={handleUpdate}
           >
             Save
+          </DialogButton>
+          <DialogButton
+            disabled={!valueChanged}
+            className="!w-fit hover:border-red-400"
+            onClick={handleReset}
+          >
+            Reset
           </DialogButton>
         </div>
       </div>

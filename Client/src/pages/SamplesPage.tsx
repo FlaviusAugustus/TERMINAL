@@ -9,6 +9,7 @@ import TableLayout from "./layouts/TableLayout";
 import Loader from "@components/Shared/Loader";
 import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
 import EditSample from "@components/Samples/EditSample";
+import DialogLoader from "@components/Shared/DialogLoader";
 
 const SamplesPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -37,13 +38,13 @@ const SamplesPage = () => {
   const dataQuerySampleDetails = useSampleDetails(sampleDetailsId);
 
   const changeSampleDetails = (id: string) => {
-    setDetailsOpen(true);
     setSampleDetailsId(id);
+    setDetailsOpen(true);
   };
 
   const editSampleDetails = (id: string) => {
-    setEditOpen(true);
     setSampleDetailsId(id);
+    setEditOpen(true);
   };
 
   const handleDelete = async (id: string | null) => {
@@ -69,17 +70,17 @@ const SamplesPage = () => {
         />
       </ComponentOrLoader>
       <ComponentOrLoader
-        isLoading={dataQuerySampleDetails.isLoading}
-        loader={<Loader />}
+        isLoading={
+          dataQuerySampleDetails.isLoading || dataQuerySampleDetails.isFetching
+        }
+        loader={<DialogLoader />}
       >
         <EditSample
-          editable={true}
           sample={dataQuerySampleDetails.data}
           open={editOpen}
           openChange={setEditOpen}
         />
         <SampleDetails
-          editable={false}
           sample={dataQuerySampleDetails.data}
           open={detailsOpen}
           openChange={setDetailsOpen}
