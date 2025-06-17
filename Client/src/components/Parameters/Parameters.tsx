@@ -1,6 +1,13 @@
 import {AllParameters} from "@api/models/Parameters.ts";
-import {createColumnHelper, getCoreRowModel, PaginationState, Row, useReactTable} from "@tanstack/react-table";
-import {useMemo} from "react";
+import {
+    createColumnHelper,
+    getCoreRowModel, getPaginationRowModel,
+    getSortedRowModel,
+    PaginationState,
+    Row,
+    useReactTable
+} from "@tanstack/react-table";
+import {useMemo, useState} from "react";
 import IndeterminateCheckbox from "@components/Shared/IndeterminateCheckbox.tsx";
 import SamplesRowActions from "@components/Samples/SamplesRowActions.tsx";
 import TableCard from "@components/Shared/Table/TableCard.tsx";
@@ -10,12 +17,16 @@ import Chip from "@components/Shared/Chip.tsx";
 
 interface ParametersProps {
     parameters: Array<AllParameters>
-    pagination: PaginationState
 }
 
 const columnHelper = createColumnHelper<AllParameters>();
 
-const Parameters = ({parameters, pagination}: ParametersProps) => {
+const Parameters = ({parameters}: ParametersProps) => {
+
+    const [pagination, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 10,
+    });
 
     const columns = useMemo(
         () => [
@@ -40,10 +51,12 @@ const Parameters = ({parameters, pagination}: ParametersProps) => {
             columnHelper.accessor("name", {
                 header: "Name",
                 cell: (info) => info.getValue(),
+                sortingFn: 'alphanumeric'
             }),
             columnHelper.accessor("$type", {
                 header: "Type",
                 cell: (info) => <Chip value={info.getValue()}/>,
+                sortingFn: 'alphanumeric'
             }),
             columnHelper.display({
                 id: "actions",
@@ -64,22 +77,20 @@ const Parameters = ({parameters, pagination}: ParametersProps) => {
         columns: columns,
         data: parameters ?? [],
         getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
         defaultColumn: {
             size: "auto" as unknown as number,
         },
         state: {
-            // sorting: ,
-            // pagination: pagination,
+            pagination: pagination
             // rowSelection: rowSelection,
         },
         getRowId: (row) => row.id,
+        onPaginationChange: setPagination,
         // onRowSelectionChange: setRowSelection,
         enableMultiRowSelection: true,
-        rowCount: 99,
-        // onSortingChange: props.setSorting,
-        // onPaginationChange: props.setPagination,
-        // manualSorting: true,
-        // manualPagination: true,
+        // rowCount: 99,
     });
 
     return (
