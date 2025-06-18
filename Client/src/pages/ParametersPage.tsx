@@ -5,19 +5,19 @@ import useGetParameters from "@hooks/parameters/useGetParameters.ts";
 import Parameters from "@components/Parameters/Parameters.tsx";
 import ParameterDetails from "@components/Parameters/ParameterDetails.tsx";
 import {useState} from "react";
-import {useGetParameterDetails} from "@hooks/parameters/useGetParameterDetails.ts";
+import {AllParameters} from "@api/models/Parameters.ts";
 
 const ParametersPage = () => {
 
     const dataParameters = useGetParameters();
 
-    const [parameterDetailsId, setParameterDetailsId] = useState<string | null>(null);
+    const [parameterDetails, setParameterDetails] = useState<AllParameters | undefined>(undefined);
     const [detailsOpen, setDetailsOpen] = useState(false);
-    const dataParametersDetails = useGetParameterDetails(parameterDetailsId);
 
     const changeParameterDetails = (id: string) => {
         setDetailsOpen(true);
-        setParameterDetailsId(id);
+        const paramDetails = dataParameters.data?.parameters.find((param) => param.id === id);
+        setParameterDetails(paramDetails);
     };
 
   return (
@@ -36,7 +36,7 @@ const ParametersPage = () => {
         loader={<Loader />}
       >
         <ParameterDetails
-          parameter={dataParametersDetails.data}
+          parameter={parameterDetails}
           open={detailsOpen}
           openChange={setDetailsOpen}
         />
