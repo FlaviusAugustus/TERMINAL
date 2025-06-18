@@ -17,7 +17,6 @@ const ParametersPage = () => {
 
     const changeParameterDetails = (id: string) => {
         setDetailsOpen(true);
-        console.log(dataParametersDetails)
         setParameterDetailsId(id);
     };
 
