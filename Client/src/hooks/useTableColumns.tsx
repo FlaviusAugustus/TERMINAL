@@ -7,10 +7,10 @@ import {
     Row,
 } from "@tanstack/react-table";
 import {AllParameters} from "@api/models/Parameters.ts";
-import {SampleDto} from "@api/terminalSchemas.ts";
+import {ProjectDto, SampleDto} from "@api/terminalSchemas.ts";
 import RowActions from "@components/Shared/Table/RowActions.tsx";
 
-type ColumnTypes = AllParameters | SampleDto;
+type ColumnTypes = AllParameters | SampleDto | ProjectDto;
 
 type UseTableColumnsProps<T, TValue = any> = {
     columnsDef: ColumnDef<T, TValue>[];
@@ -52,15 +52,9 @@ export function useTableColumns<T extends ColumnTypes>(
               size: 0,
               cell: ({row}) => (
                 <RowActions
-                  onDetails={() => onDetails ? onDetails(row.original.id) : () => {
-                      console.log("Test")
-                  }}
-                  onEdit={() => onEdit ? onEdit(row.original.id) : () => {
-                      console.log("Test")
-                  }}
-                  onDelete={() => onDelete ? onDelete(row.original.id) : () => {
-                      console.log("Test")
-                  }}
+                  onDetails={onDetails ? () => onDetails(row.original.id) : undefined}
+                  onEdit={onEdit ? () => onEdit(row.original.id) : undefined}
+                  onDelete={onDelete ? () => onDelete(row.original.id) : undefined}
                 />
               ),
           }),
