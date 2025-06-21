@@ -1,13 +1,14 @@
 import { SampleStepDto } from "@api/terminalSchemas";
-import Step from "@components/Recipes/Step";
+import ParamsTable from "@components/Parameters/ParamsTable";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import clsx from "clsx";
 
 type StepDetailsProps = {
   steps: SampleStepDto[];
+  editable: boolean;
 };
 
-const StepDetails = ({ steps }: StepDetailsProps) => {
+const StepDetails = ({ steps, editable }: StepDetailsProps) => {
   return (
     <TabGroup>
       <TabList className="flex gap-1 tabs py-2">
@@ -25,10 +26,10 @@ const StepDetails = ({ steps }: StepDetailsProps) => {
           </Tab>
         ))}
       </TabList>
-      <TabPanels className="border rounded-md">
+      <TabPanels>
         {steps.map((step, index) => (
           <TabPanel key={index}>
-            <Step step={step} />
+            <ParamsTable params={step.parameters ?? []} editable={editable} />
           </TabPanel>
         ))}
       </TabPanels>
