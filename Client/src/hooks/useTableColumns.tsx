@@ -7,10 +7,10 @@ import {
     Row,
 } from "@tanstack/react-table";
 import {AllParameters} from "@api/models/Parameters.ts";
-import {ProjectDto, SampleDto} from "@api/terminalSchemas.ts";
+import {ProjectDto, RecipeDto, SampleDto} from "@api/terminalSchemas.ts";
 import RowActions from "@components/Shared/Table/RowActions.tsx";
 
-type ColumnTypes = AllParameters | SampleDto | ProjectDto;
+type ColumnTypes = AllParameters | SampleDto | ProjectDto | RecipeDto;
 
 type UseTableColumnsProps<T, TValue = any> = {
     columnsDef: ColumnDef<T, TValue>[];
