@@ -4,16 +4,14 @@ import {
     getCoreRowModel, getPaginationRowModel,
     getSortedRowModel,
     PaginationState,
-    Row,
     useReactTable
 } from "@tanstack/react-table";
-import {useMemo, useState} from "react";
-import IndeterminateCheckbox from "@components/Shared/IndeterminateCheckbox.tsx";
+import {useState} from "react";
 import TableCard from "@components/Shared/Table/TableCard.tsx";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import Chip from "@components/Shared/Chip.tsx";
-import ParametersRowActions from "@components/Parameters/ParametersRowActions.tsx";
+import {useTableColumns} from "@hooks/useTableColumns.tsx";
 
 interface ParametersProps {
     parameters: Array<AllParameters>
@@ -22,6 +20,19 @@ interface ParametersProps {
 
 const columnHelper = createColumnHelper<AllParameters>();
 
+const columnsDef = [
+    columnHelper.accessor("name", {
+        header: "Name",
+        cell: (info) => info.getValue(),
+        sortingFn: 'alphanumeric'
+    }),
+    columnHelper.accessor("$type", {
+        header: "Type",
+        cell: (info) => <Chip value={info.getValue()}/>,
+        sortingFn: 'alphanumeric'
+    })
+]
+
 const Parameters = ({parameters, onEdit}: ParametersProps) => {
 
     const [pagination, setPagination] = useState<PaginationState>({
@@ -29,50 +40,10 @@ const Parameters = ({parameters, onEdit}: ParametersProps) => {
         pageSize: 10,
     });
 
-    const columns = useMemo(
-        () => [
-            {
-                id: "select-col",
-                size: 0,
-                header: ({ table }) => (
-                    <IndeterminateCheckbox
-                        checked={table.getIsAllRowsSelected()}
-                        indeterminate={table.getIsSomeRowsSelected()}
-                        onChange={table.getToggleAllPageRowsSelectedHandler()}
-                    />
-                ),
-                cell: ({ row }: { row: Row<AllParameters> }) => (
-                    <IndeterminateCheckbox
-                        checked={row.getIsSelected()}
-                        disabled={!row.getCanSelect()}
-                        onChange={row.getToggleSelectedHandler()}
-                    />
-                ),
-            },
-            columnHelper.accessor("name", {
-                header: "Name",
-                cell: (info) => info.getValue(),
-                sortingFn: 'alphanumeric'
-            }),
-            columnHelper.accessor("$type", {
-                header: "Type",
-                cell: (info) => <Chip value={info.getValue()}/>,
-                sortingFn: 'alphanumeric'
-            }),
-            columnHelper.display({
-                id: "actions",
-                header: "Actions",
-                size: 0,
-                cell: ({ row }) => (
-                    <ParametersRowActions
-                        onEdit={() => onEdit(row.id)}
-                        onDelete={() => {}}
-                    />
-                ),
-            }),
-        ],
-        [],
-    );
+    const columns = useTableColumns<AllParameters>({
+        columnsDef: columnsDef,
+        onEdit: onEdit
+    })
 
     const table = useReactTable({
         columns: columns,
@@ -94,12 +65,12 @@ const Parameters = ({parameters, onEdit}: ParametersProps) => {
     });
 
     return (
-        <>
-            <TableCard className="!h-full">
-                <TableView<AllParameters> table={table} />
-                <TableManagement<AllParameters> table={table} />
-            </TableCard>
-        </>
+      <>
+          <TableCard className="!h-full">
+              <TableView<AllParameters> table={table}/>
+              <TableManagement<AllParameters> table={table}/>
+          </TableCard>
+      </>
     );
 };
 

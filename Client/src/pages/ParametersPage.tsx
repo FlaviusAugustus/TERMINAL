@@ -6,6 +6,7 @@ import Parameters from "@components/Parameters/Parameters.tsx";
 import ParameterDetails from "@components/Parameters/ParameterDetails.tsx";
 import {useState} from "react";
 import {AllParameters} from "@api/models/Parameters.ts";
+import DialogLoader from "@components/Shared/DialogLoader.tsx";
 
 const ParametersPage = () => {
 
@@ -33,7 +34,7 @@ const ParametersPage = () => {
       </ComponentOrLoader>
       <ComponentOrLoader
         isLoading={dataParameters.isLoading}
-        loader={<Loader />}
+        loader={<DialogLoader />}
       >
         <ParameterDetails
           parameter={parameterDetails}
