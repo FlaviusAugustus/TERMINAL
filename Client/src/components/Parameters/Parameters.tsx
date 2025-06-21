@@ -1,5 +1,6 @@
 import {AllParameters} from "@api/models/Parameters.ts";
 import {
+    ColumnDef,
     createColumnHelper,
     getCoreRowModel, getPaginationRowModel,
     getSortedRowModel,
@@ -31,7 +32,7 @@ const columnsDef = [
         cell: (info) => <Chip value={info.getValue()}/>,
         sortingFn: 'alphanumeric'
     })
-]
+] as Array<ColumnDef<AllParameters, unknown>>
 
 const Parameters = ({parameters, onDetails}: ParametersProps) => {
 

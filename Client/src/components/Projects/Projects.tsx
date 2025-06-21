@@ -1,4 +1,5 @@
 import {
+    ColumnDef,
     createColumnHelper,
     getCoreRowModel,
     OnChangeFn,
@@ -60,7 +61,7 @@ const columnsDef = [
           />
         ),
     }),
-]
+] as Array<ColumnDef<ProjectDto, unknown>>
 
 /**
  * Projects Component

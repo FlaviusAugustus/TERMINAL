@@ -12,8 +12,8 @@ import RowActions from "@components/Shared/Table/RowActions.tsx";
 
 type ColumnTypes = AllParameters | SampleDto | ProjectDto | RecipeDto;
 
-type UseTableColumnsProps<T, TValue = any> = {
-    columnsDef: ColumnDef<T, TValue>[];
+type UseTableColumnsProps<T> = {
+    columnsDef: ColumnDef<T>[];
     onDetails?: (id: string) => void;
     onEdit?: (id: string) => void;
     onDelete?: (id: string) => void;

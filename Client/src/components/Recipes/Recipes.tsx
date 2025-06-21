@@ -1,4 +1,5 @@
 import {
+    ColumnDef,
     createColumnHelper,
     getCoreRowModel,
     OnChangeFn,
@@ -42,7 +43,7 @@ const columnsDef = [
         header: "Name",
         cell: (info) => info.getValue(),
     }),
-]
+] as Array<ColumnDef<RecipeDto, unknown>>
 
 
 /**
