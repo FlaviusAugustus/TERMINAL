@@ -15,35 +15,35 @@ const ParametersPage = () => {
     const [parameterDetails, setParameterDetails] = useState<AllParameters | undefined>(undefined);
     const [detailsOpen, setDetailsOpen] = useState(false);
 
-    const changeParameterDetails = (id: string) => {
+    const handleParameterDetails = (id: string) => {
         setDetailsOpen(true);
         const paramDetails = dataParameters.data?.parameters.find((param) => param.id === id);
         setParameterDetails(paramDetails);
     };
 
-  return (
-    <TableLayout>
-      <ComponentOrLoader
-        isLoading={dataParameters.isLoading}
-        loader={<Loader />}
-      >
-        <Parameters
-          parameters={dataParameters?.data?.parameters || []}
-          onEdit={changeParameterDetails}
-        />
-      </ComponentOrLoader>
-      <ComponentOrLoader
-        isLoading={dataParameters.isLoading}
-        loader={<DialogLoader />}
-      >
-        <ParameterDetails
-          parameter={parameterDetails}
-          open={detailsOpen}
-          openChange={setDetailsOpen}
-        />
-      </ComponentOrLoader>
-    </TableLayout>
-  );
+    return (
+      <TableLayout>
+          <ComponentOrLoader
+            isLoading={dataParameters.isLoading}
+            loader={<Loader/>}
+          >
+              <Parameters
+                parameters={dataParameters?.data?.parameters || []}
+                onDetails={handleParameterDetails}
+              />
+          </ComponentOrLoader>
+          <ComponentOrLoader
+            isLoading={dataParameters.isLoading}
+            loader={<DialogLoader/>}
+          >
+              <ParameterDetails
+                parameter={parameterDetails}
+                open={detailsOpen}
+                openChange={setDetailsOpen}
+              />
+          </ComponentOrLoader>
+      </TableLayout>
+    );
 };
 
 export default ParametersPage;

@@ -12,8 +12,8 @@ import RowActions from "@components/Shared/Table/RowActions.tsx";
 
 type ColumnTypes = AllParameters | SampleDto;
 
-type UseTableColumnsProps<T> = {
-    columnsDef: ColumnDef<T, "decimal" | "text" | "integer">[];
+type UseTableColumnsProps<T, TValue = any> = {
+    columnsDef: ColumnDef<T, TValue>[];
     onDetails?: (id: string) => void;
     onEdit?: (id: string) => void;
     onDelete?: (id: string) => void;
@@ -37,7 +37,7 @@ export function useTableColumns<T extends ColumnTypes>(
                   onChange={table.getToggleAllPageRowsSelectedHandler()}
                 />
               ),
-              cell: ({row}: { row: Row<AllParameters> }) => (
+              cell: ({row}: { row: Row<T> }) => (
                 <IndeterminateCheckbox
                   checked={row.getIsSelected()}
                   disabled={!row.getCanSelect()}

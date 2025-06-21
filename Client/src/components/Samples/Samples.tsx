@@ -4,14 +4,12 @@ import {
     getCoreRowModel,
     useReactTable,
     createColumnHelper,
-    Row,
     SortingState,
     PaginationState,
 } from "@tanstack/react-table";
 import {SamplesResponse} from "@hooks/samples/useGetSamples.ts";
-import {useMemo, useState} from "react";
+import {useState} from "react";
 import Chip from "@components/Shared/Chip";
-import IndeterminateCheckbox from "@components/Shared/IndeterminateCheckbox";
 import {
     MagnifyingGlassIcon,
     PlusIcon,
@@ -25,7 +23,7 @@ import TableView from "@components/Shared/Table/TableView";
 import {Link} from "react-router-dom";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 import {toastPromise} from "utils/toast.utils";
-import RowActions from "@components/Shared/Table/RowActions.tsx";
+import {useTableColumns} from "@hooks/useTableColumns.tsx";
 
 export interface SamplesProps {
     onChangeSampleDetails?: (code: string) => void;
@@ -41,6 +39,21 @@ export interface SamplesProps {
 
 const columnHelper = createColumnHelper<SampleDto>();
 
+const columnsDef = [
+    columnHelper.accessor("code", {
+        header: "Code",
+        cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("project", {
+        header: "Project Name",
+        cell: (info) => <Chip value={info.getValue()}/>,
+    }),
+    columnHelper.accessor("createdAtUtc", {
+        header: "Created At",
+        cell: (info) => new Date(info.getValue()).toDateString(),
+    })
+]
+
 /**
  * Samples Component
  *
@@ -52,54 +65,21 @@ const columnHelper = createColumnHelper<SampleDto>();
  * @param {SamplesProps} props - The properties for the Samples component.
  */
 const Samples = (props: SamplesProps) => {
-    const columns = useMemo(
-      () => [
-          {
-              id: "select-col",
-              size: 0,
-              header: ({table}) => (
-                <IndeterminateCheckbox
-                  checked={table.getIsAllRowsSelected()}
-                  indeterminate={table.getIsSomeRowsSelected()}
-                  onChange={table.getToggleAllPageRowsSelectedHandler()}
-                />
-              ),
-              cell: ({row}: { row: Row<SampleDto> }) => (
-                <IndeterminateCheckbox
-                  checked={row.getIsSelected()}
-                  disabled={!row.getCanSelect()}
-                  onChange={row.getToggleSelectedHandler()}
-                />
-              ),
-          },
-          columnHelper.accessor("code", {
-              header: "Code",
-              cell: (info) => info.getValue(),
-          }),
-          columnHelper.accessor("project", {
-              header: "Project Name",
-              cell: (info) => <Chip value={info.getValue()}/>,
-          }),
-          columnHelper.accessor("createdAtUtc", {
-              header: "Created At",
-              cell: (info) => new Date(info.getValue()).toDateString(),
-          }),
-          columnHelper.display({
-              id: "actions",
-              header: "Actions",
-              size: 0,
-              cell: ({row}) => (
-                <RowActions
-                  onDetails={() => props.onDetails(row.original.id)}
-                  onEdit={() => props.onEdit(row.original.id)}
-                  onDelete={() => handleDelete(row.original.id)}
-                />
-              ),
-          }),
-      ],
-      [],
-    );
 
+    const handleDelete = async (id: string) => {
+        await toastPromise(props.onDelete(id), {
+            success: "Sample deleted successfully",
+            loading: "Removing sample...",
+            error: "Error deleting sample",
+        });
+    };
+
+    const columns = useTableColumns<SampleDto>({
+        columnsDef: columnsDef,
+        onDelete: handleDelete,
+        onEdit: props.onEdit,
+        onDetails: props.onDetails
+    })
     const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
 
     const table = useReactTable({
@@ -136,13 +116,6 @@ const Samples = (props: SamplesProps) => {
         });
     };
 
-    const handleDelete = async (id: string) => {
-        await toastPromise(props.onDelete(id), {
-            success: "Recipe deleted succesfully",
-            loading: "Removing recipe...",
-            error: "Error deleting recipe",
-        });
-    };
 
     return (
       <>

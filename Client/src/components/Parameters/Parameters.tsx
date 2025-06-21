@@ -15,7 +15,7 @@ import {useTableColumns} from "@hooks/useTableColumns.tsx";
 
 interface ParametersProps {
     parameters: Array<AllParameters>
-    onEdit: (parameterId: string) => void;
+    onDetails: (parameterId: string) => void;
 }
 
 const columnHelper = createColumnHelper<AllParameters>();
@@ -33,7 +33,7 @@ const columnsDef = [
     })
 ]
 
-const Parameters = ({parameters, onEdit}: ParametersProps) => {
+const Parameters = ({parameters, onDetails}: ParametersProps) => {
 
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
@@ -42,7 +42,7 @@ const Parameters = ({parameters, onEdit}: ParametersProps) => {
 
     const columns = useTableColumns<AllParameters>({
         columnsDef: columnsDef,
-        onEdit: onEdit
+        onDetails: onDetails
     })
 
     const table = useReactTable({
