@@ -6,6 +6,8 @@
 
 html {
   font-family: "Inter", sans-serif;
+  overscroll-behavior: none;
+  overflow-x: hidden;
 }
 
 html,
