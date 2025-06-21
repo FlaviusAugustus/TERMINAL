@@ -16,7 +16,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import { v4 as uuidv4, validate } from "uuid";
 import { useAddRecipeContext } from "./useAddRecipeContext";
 import { arrayMove } from "@dnd-kit/sortable";
-import { AllParameters } from "./useGetParameters";
+import { AllParameters } from "./parameters/useGetParameters.ts";
 import { ParameterSelect } from "@components/AddRecipe/ParameterSelect";
 
 type RecipeDragContextValue = {

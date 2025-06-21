@@ -9,7 +9,7 @@ import {
   DecimalParameter,
   IntegerParameter,
   TextParameter,
-} from "./useGetParameters";
+} from "./parameters/useGetParameters.ts";
 
 type AddRecipeContextValue = {
   recipe: Recipe;

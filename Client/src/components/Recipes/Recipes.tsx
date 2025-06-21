@@ -1,43 +1,50 @@
 import {
-  createColumnHelper,
-  getCoreRowModel,
-  OnChangeFn,
-  PaginationState,
-  Row,
-  SortingState,
-  useReactTable,
+    ColumnDef,
+    createColumnHelper,
+    getCoreRowModel,
+    OnChangeFn,
+    PaginationState,
+    SortingState,
+    useReactTable,
 } from "@tanstack/react-table";
-import { RecipesResponse } from "@hooks/recipes/useGetRecipes.ts";
-import { RecipeDto } from "@api/terminalSchemas.ts";
+import {RecipesResponse} from "@hooks/recipes/useGetRecipes.ts";
+import {RecipeDto} from "@api/terminalSchemas.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import TableCard from "@components/Shared/Table/TableCard";
-import IndeterminateCheckbox from "@components/Shared/IndeterminateCheckbox";
-import RecipesRowActions from "./RecipesRowActions";
-import { useMemo, useState } from "react";
+import {useState} from "react";
 import IconButton from "@components/Shared/IconButton";
 import InputField from "@components/Shared/InputField";
 import VisibleForRoles from "@components/Shared/VisibleForRoles";
 import {
-  MagnifyingGlassIcon,
-  XMarkIcon,
-  PlusIcon,
+    MagnifyingGlassIcon,
+    XMarkIcon,
+    PlusIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
-import { toastPromise } from "utils/toast.utils";
+import {Link} from "react-router-dom";
+import {toastPromise} from "utils/toast.utils";
+import {useTableColumns} from "@hooks/useTableColumns.tsx";
 
 export interface RecipesProps {
-  recipe: RecipesResponse | undefined;
-  sorting: SortingState;
-  setSorting: OnChangeFn<SortingState>;
-  pagination: PaginationState;
-  setPagination: OnChangeFn<PaginationState>;
-  onEdit: (id: string) => void;
-  onDelete: (id: string) => Promise<void>;
-  onDetails: (id: string) => void;
+    recipe: RecipesResponse | undefined;
+    sorting: SortingState;
+    setSorting: OnChangeFn<SortingState>;
+    pagination: PaginationState;
+    setPagination: OnChangeFn<PaginationState>;
+    onEdit: (id: string) => void;
+    onDelete: (id: string) => Promise<void>;
+    onDetails: (id: string) => void;
 }
 
 const columnHelper = createColumnHelper<RecipeDto>();
+
+const columnsDef = [
+    columnHelper.accessor("name", {
+        header: "Name",
+        cell: (info) => info.getValue(),
+    }),
+] as Array<ColumnDef<RecipeDto, unknown>>
+
 
 /**
  * Recipes Component
@@ -50,134 +57,103 @@ const columnHelper = createColumnHelper<RecipeDto>();
  * @param {RecipesProps} props - The properties for the Recipes component.
  */
 const Recipes = ({
-  recipe,
-  sorting,
-  setSorting,
-  pagination,
-  setPagination,
-  onEdit,
-  onDelete,
-  onDetails,
-}: RecipesProps) => {
-  const columns = useMemo(
-    () => [
-      {
-        id: "select-col",
-        size: 0,
-        header: ({ table }) => (
-          <IndeterminateCheckbox
-            checked={table.getIsAllRowsSelected()}
-            indeterminate={table.getIsSomeRowsSelected()}
-            onChange={table.getToggleAllPageRowsSelectedHandler()}
-          />
-        ),
-        cell: ({ row }: { row: Row<RecipeDto> }) => (
-          <IndeterminateCheckbox
-            checked={row.getIsSelected()}
-            disabled={!row.getCanSelect()}
-            onChange={row.getToggleSelectedHandler()}
-          />
-        ),
-      },
-      columnHelper.accessor("name", {
-        header: "Name",
-        cell: (info) => info.getValue(),
-      }),
-      columnHelper.display({
-        id: "actions",
-        header: "Actions",
-        size: 0,
-        cell: ({ row }) => (
-          <RecipesRowActions
-            onEdit={() => onEdit(row.original.id)}
-            onDetails={() => onDetails(row.original.id)}
-            onDelete={() => handleDelete(row.original.id)}
-          />
-        ),
-      }),
-    ],
-    [],
-  );
+                     recipe,
+                     sorting,
+                     setSorting,
+                     pagination,
+                     setPagination,
+                     onEdit,
+                     onDelete,
+                     onDetails,
+                 }: RecipesProps) => {
 
-  const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+    const handleDelete = async (id: string) => {
+        await toastPromise(onDelete(id), {
+            success: "Recipe deleted succesfully",
+            loading: "Removing recipe...",
+            error: "Error deleting recipe",
+        });
+    };
 
-  const handleDelete = async (id: string) => {
-    await toastPromise(onDelete(id), {
-      success: "Recipe deleted succesfully",
-      loading: "Removing recipe...",
-      error: "Error deleting recipe",
-    });
-  };
 
-  const handleDeleteSelected = () => {
-    const tasks = table.getSelectedRowModel().rows.map((row) => {
-      onDelete(row.original.id);
+    const columns = useTableColumns<RecipeDto>({
+        columnsDef: columnsDef,
+        onEdit: onEdit,
+        onDelete: handleDelete,
+        onDetails: onDetails
+    })
+
+    const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+
+    const handleDeleteSelected = () => {
+        const tasks = table.getSelectedRowModel().rows.map((row) => {
+            onDelete(row.original.id);
+        });
+
+        toastPromise(Promise.all(tasks), {
+            success: "Recipes deleted succesfully",
+            loading: "Removing recipes...",
+            error: "Error deleting recipes",
+        });
+    };
+
+    const table = useReactTable({
+        columns: columns,
+        data: recipe?.rows ?? [],
+        getCoreRowModel: getCoreRowModel(),
+        defaultColumn: {
+            size: "auto" as unknown as number,
+        },
+        state: {
+            sorting: sorting,
+            pagination: pagination,
+            rowSelection: rowSelection,
+        },
+        getRowId: (row) => row.id,
+        onRowSelectionChange: setRowSelection,
+        enableMultiRowSelection: true,
+        rowCount: recipe?.rowsAmount ?? 0,
+        onSortingChange: setSorting,
+        onPaginationChange: setPagination,
+        manualSorting: true,
+        manualPagination: true,
     });
 
-    toastPromise(Promise.all(tasks), {
-      success: "Recipes deleted succesfully",
-      loading: "Removing recipes...",
-      error: "Error deleting recipes",
-    });
-  };
-
-  const table = useReactTable({
-    columns: columns,
-    data: recipe?.rows ?? [],
-    getCoreRowModel: getCoreRowModel(),
-    defaultColumn: {
-      size: "auto" as unknown as number,
-    },
-    state: {
-      sorting: sorting,
-      pagination: pagination,
-      rowSelection: rowSelection,
-    },
-    getRowId: (row) => row.id,
-    onRowSelectionChange: setRowSelection,
-    enableMultiRowSelection: true,
-    rowCount: recipe?.rowsAmount ?? 0,
-    onSortingChange: setSorting,
-    onPaginationChange: setPagination,
-    manualSorting: true,
-    manualPagination: true,
-  });
-
-  return (
-    <>
-      <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <InputField
-          className="!text-sm !h-[40px]"
-          placeholder="Search"
-          icon={<MagnifyingGlassIcon className="h-4" />}
-        />
-        <VisibleForRoles roles={["Administrator", "Moderator"]}>
-          <div className="flex gap-1">
-            <IconButton
-              onClick={handleDeleteSelected}
-              disabled={
-                !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
-              }
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
-            >
-              <XMarkIcon className="h-4 " />
-              <p className="text-xs">Delete Selected</p>
-            </IconButton>
-            <Link to="/new-recipe">
-              <IconButton className="h-[40px] flex bg-white items-center gap-1">
-                <PlusIcon className="h-4" />
-                <p className="text-xs">Add new</p>
-              </IconButton>
-            </Link>
+    return (
+      <>
+          <div className="flex justify-between gap-1 items-end pb-3 h-14">
+              <InputField
+                className="!text-sm !h-[40px]"
+                placeholder="Search"
+                icon={<MagnifyingGlassIcon className="h-4"/>}
+              />
+              <VisibleForRoles roles={["Administrator", "Moderator"]}>
+                  <div className="flex gap-1">
+                      <IconButton
+                        onClick={handleDeleteSelected}
+                        disabled={
+                            !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
+                        }
+                        className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+                      >
+                          <XMarkIcon className="h-4 "/>
+                          <p className="text-xs">Delete Selected</p>
+                      </IconButton>
+                      <Link to="/new-recipe">
+                          <IconButton className="h-[40px] flex bg-white items-center gap-1">
+                              <PlusIcon className="h-4"/>
+                              <p className="text-xs">Add new</p>
+                          </IconButton>
+                      </Link>
+                  </div>
+              </VisibleForRoles>
           </div>
-        </VisibleForRoles>
-      </div>
-      <TableCard className="!h-full">
-        <TableView table={table} />
-        <TableManagement table={table} />
-      </TableCard>
-    </>
-  );
+          <TableCard className="!h-full">
+              <TableView table={table}/>
+              <TableManagement table={table}/>
+          </TableCard>
+      </>
+    );
 };
 
 export default Recipes;
