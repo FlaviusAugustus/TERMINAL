@@ -14,7 +14,7 @@ export function useEditableStepTable({
 }: UseEditableTableOptions) {
   const [index, setIndex] = useState(0);
 
-  const isEditable = updateData === undefined;
+  const isEditable = updateData !== undefined;
 
   const columns = useParameterColumns(isEditable);
 
