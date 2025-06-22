@@ -4,9 +4,7 @@ import Detail from "@components/Shared/Detail";
 import StepsTableManagement from "@components/Shared/Table/StepsTableManagement";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
-import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { useState } from "react";
-import useParameterColumns from "@hooks/useParameterColumns";
+import { useEditableStepTable } from "@hooks/useEditableStepsTable";
 
 export interface RecipeDetailsProps {
   recipe: RecipeDetailsDto | undefined;
@@ -24,25 +22,10 @@ export interface RecipeDetailsProps {
  * @param {RecipeDetailsProps} props - The properties for the component.
  */
 const RecipeDetails = ({ recipe, open, openChange }: RecipeDetailsProps) => {
-  const [index, setIndex] = useState(0);
-  const columns = useParameterColumns();
-
-  const pageData =
-    recipe?.steps && recipe?.steps?.length != 0
-      ? (recipe?.steps[index].parameters ?? [])
-      : [];
-
-  const table = useReactTable({
-    columns: columns,
-    data: pageData,
-    getCoreRowModel: getCoreRowModel(),
-    state: {
-      pagination: {
-        pageIndex: index,
-        pageSize: pageData.length,
-      },
-    },
+  const { index, setIndex, table } = useEditableStepTable({
+    steps: recipe?.steps ?? [],
   });
+
   return (
     <DialogComp
       isOpen={open}
@@ -67,7 +50,7 @@ const RecipeDetails = ({ recipe, open, openChange }: RecipeDetailsProps) => {
               </div>
             </Detail>
           )}
-        </div>{" "}
+        </div>
       </div>
     </DialogComp>
   );

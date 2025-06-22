@@ -238,8 +238,8 @@ export type SampleDetailsDto = {
   createdAtUtc: Date;
   comment: string;
   projectId: string;
-  steps?: SampleStepDto[] | null;
-  tags?: TagDto[] | null;
+  steps: SampleStepDto[];
+  tags: TagDto[];
 };
 
 export type ProjectDto = {
@@ -267,9 +267,9 @@ export type RecipeDetailsDto = {
 };
 
 export type SampleStepDto = {
-  id: string | null;
-  parameters?: AllParameters[] | null;
-  comment?: string | null;
+  id: string;
+  parameters: AllParameters[];
+  comment: string;
 };
 
 export type ParameterDto = {

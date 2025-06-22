@@ -8,6 +8,7 @@ import { useDeleteRecipe } from "@hooks/recipes/useDeleteRecipe.ts";
 import TableLayout from "./layouts/TableLayout";
 import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
 import Loader from "@components/Shared/Loader";
+import EditRecipe from "@components/Recipes/EditRecipe";
 
 const RecipesPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -32,9 +33,15 @@ const RecipesPage = () => {
 
   const dataQueryRecipeDetails = useRecipeDetails(recipeDetailsId);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
 
   const changeRecipeDetails = (id: string) => {
     setDetailsOpen(true);
+    setRecipeDetailsId(id);
+  };
+
+  const handleEditRecipe = (id: string) => {
+    setEditOpen(true);
     setRecipeDetailsId(id);
   };
 
@@ -55,7 +62,7 @@ const RecipesPage = () => {
           setSorting={setSorting}
           pagination={pagination}
           setPagination={setPagination}
-          onEdit={() => {}}
+          onEdit={(id: string) => handleEditRecipe(id)}
           onDetails={(id: string) => changeRecipeDetails(id)}
           onDelete={async (id: string) => await handleDelete(id)}
         />
@@ -68,6 +75,11 @@ const RecipesPage = () => {
           recipe={dataQueryRecipeDetails.data}
           open={detailsOpen}
           openChange={setDetailsOpen}
+        />
+        <EditRecipe
+          recipe={dataQueryRecipeDetails.data}
+          open={editOpen}
+          openChange={setEditOpen}
         />
       </ComponentOrLoader>
     </TableLayout>

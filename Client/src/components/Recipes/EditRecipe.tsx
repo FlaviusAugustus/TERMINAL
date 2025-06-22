@@ -1,54 +1,53 @@
-import { SampleDetailsDto } from "@api/terminalSchemas.ts";
-import ChipSet from "@components/Shared/ChipSet";
+import { RecipeDetailsDto } from "@api/terminalSchemas";
 import Detail from "@components/Shared/Detail";
 import { DialogButton, DialogComp } from "@components/Shared/DialogComp";
 import StepsTableManagement from "@components/Shared/Table/StepsTableManagement";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
-import useUpdateSample from "@hooks/samples/useUpdateSample";
+import useUpdateRecipe from "@hooks/recipes/useUpdateRecipe";
 import { useEditableStepTable } from "@hooks/useEditableStepsTable";
 import useEditableForm from "@hooks/useStepsForm";
 import { toastPromise } from "utils/toast.utils";
 
-export interface SampleDetailsProps {
-  sample: SampleDetailsDto | undefined;
+export interface RecipeDetailsProps {
+  recipe: RecipeDetailsDto | undefined;
   open: boolean;
   openChange: (arg0: boolean) => void;
 }
 
 /**
- * EditSample Component
+ * EditRecipe Component
  *
  * Displays details of a sample including code, creation date, tags, comment, and number of steps.
  * Allows for editing parameter values.
  *
  * @component
- * @param {SampleDetailsProps} - The properties for the component.
+ * @param {RecipeDetailsProps} - The properties for the component.
  */
-const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
+const EditRecipe = ({ recipe, open, openChange }: RecipeDetailsProps) => {
   const {
-    data: newSample,
-    setData: setNewSample,
+    data: newRecipe,
+    setData: setNewRecipe,
     hasChanges: valueChanged,
     resetForm,
-  } = useEditableForm<SampleDetailsDto>(sample);
+  } = useEditableForm<RecipeDetailsDto>(recipe);
 
   const { index, setIndex, table } = useEditableStepTable({
-    steps: newSample?.steps ?? [],
+    steps: newRecipe?.steps ?? [],
     updateData: (rowIndex: number, _: string, value: unknown) => {
-      const nsample = structuredClone(newSample) as SampleDetailsDto;
+      const nsample = structuredClone(newRecipe) as RecipeDetailsDto;
       nsample.steps![index].parameters![rowIndex].value = value as
         | string
         | number;
-      setNewSample(nsample);
+      setNewRecipe(nsample);
     },
   });
-  const mutation = useUpdateSample();
+  const mutation = useUpdateRecipe();
 
   const handleUpdate = async () => {
-    if (!newSample) return;
+    if (!newRecipe) return;
 
-    await toastPromise(mutation.mutateAsync(newSample), {
+    await toastPromise(mutation.mutateAsync(newRecipe), {
       success: "Success updating sample",
       loading: "Updating sample...",
       error: "Error updating sample",
@@ -59,31 +58,19 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
     <DialogComp
       isOpen={open}
       setIsOpen={openChange}
-      title="Edit Sample"
+      title="Recipe details"
       className="w-full lg:w-[700px]"
     >
       <div className="space-y-3 font-light text-sm text-gray-600">
-        <div className="grid grid-cols-2 gap-3">
-          <Detail label="code">{sample?.code}</Detail>
-          <Detail label="step count">{sample?.steps?.length ?? 0}</Detail>
-          <Detail label="creation date">
-            {new Date(sample?.createdAtUtc ?? "").toDateString()}
-          </Detail>
-          <Detail label="comment">{sample?.comment}</Detail>
-        </div>
-        <div className="flex flex-col gap-1 items-start w-full justify-center">
-          <Detail label="tags">
-            <ChipSet values={sample?.tags?.map((t) => t.name ?? "") ?? []} />
-          </Detail>
-        </div>
+        <Detail label="name">{newRecipe?.name}</Detail>
         <div className="w-full">
-          {newSample?.steps?.length !== 0 && (
+          {newRecipe?.steps?.length !== 0 && (
             <Detail label="steps">
               <div className="flex flex-col gap-2">
                 <StepsTableManagement
                   activeIndex={index}
                   activeIndexChange={setIndex}
-                  steps={sample?.steps ?? []}
+                  steps={newRecipe?.steps ?? []}
                 />
                 <TableCard className="!h-full !shadow-none">
                   <TableView table={table} />
@@ -113,4 +100,4 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
   );
 };
 
-export default EditSample;
+export default EditRecipe;
