@@ -67,7 +67,7 @@ const RecipeDetails = ({ recipe, open, openChange }: RecipeDetailsProps) => {
               </div>
             </Detail>
           )}
-        </div>{" "}
+        </div>
       </div>
     </DialogComp>
   );
