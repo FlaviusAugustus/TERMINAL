@@ -1,4 +1,4 @@
-import { RecipeDetailsDto } from "@api/terminalSchemas";
+import { RecipeDetailsDto } from "@api/models/Recipe";
 import Detail from "@components/Shared/Detail";
 import { DialogButton, DialogComp } from "@components/Shared/DialogComp";
 import StepsTableManagement from "@components/Shared/Table/StepsTableManagement";
@@ -9,7 +9,7 @@ import { useEditableStepTable } from "@hooks/useEditableStepsTable";
 import useEditableForm from "@hooks/useStepsForm";
 import { toastPromise } from "utils/toast.utils";
 
-export interface RecipeDetailsProps {
+export interface RecipeDetailsDtoProps {
   recipe: RecipeDetailsDto | undefined;
   open: boolean;
   openChange: (arg0: boolean) => void;
@@ -22,9 +22,9 @@ export interface RecipeDetailsProps {
  * Allows for editing parameter values.
  *
  * @component
- * @param {RecipeDetailsProps} - The properties for the component.
+ * @param {RecipeDetailsDtoProps} - The properties for the component.
  */
-const EditRecipe = ({ recipe, open, openChange }: RecipeDetailsProps) => {
+const EditRecipe = ({ recipe, open, openChange }: RecipeDetailsDtoProps) => {
   const {
     data: newRecipe,
     setData: setNewRecipe,

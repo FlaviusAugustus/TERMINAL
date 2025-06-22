@@ -1,10 +1,10 @@
-import { RecipeDetailsDto } from "@api/terminalSchemas.ts";
 import { DialogComp } from "@components/Shared/DialogComp.tsx";
 import Detail from "@components/Shared/Detail";
 import StepsTableManagement from "@components/Shared/Table/StepsTableManagement";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
 import { useEditableStepTable } from "@hooks/useEditableStepsTable";
+import { RecipeDetailsDto } from "@api/models/Recipe";
 
 export interface RecipeDetailsProps {
   recipe: RecipeDetailsDto | undefined;

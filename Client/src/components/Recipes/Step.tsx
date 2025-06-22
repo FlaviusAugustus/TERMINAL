@@ -1,7 +1,7 @@
-import { SampleStepDto } from "@api/terminalSchemas.ts";
+import { Step } from "@api/models/Step";
 
 interface StepProps {
-  step: SampleStepDto;
+  step: Step;
 }
 
 /**
@@ -12,7 +12,7 @@ interface StepProps {
  *
  * @component
  */
-const Step = (props: StepProps) => {
+const StepTable = (props: StepProps) => {
   return (
     <div className="overflow-x-auto">
       <table className="table">
@@ -40,4 +40,4 @@ const Step = (props: StepProps) => {
   );
 };
 
-export default Step;
+export default StepTable;
