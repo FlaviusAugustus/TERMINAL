@@ -70,7 +70,7 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
           <Detail label="code">{sample?.code}</Detail>
           <Detail label="step count">{sample?.steps?.length ?? 0}</Detail>
           <Detail label="creation date">
-            {sample?.createdAtUtc.toDateString()}
+            {new Date(sample?.createdAtUtc ?? "").toDateString()}
           </Detail>
           <Detail label="comment">{sample?.comment}</Detail>
         </div>

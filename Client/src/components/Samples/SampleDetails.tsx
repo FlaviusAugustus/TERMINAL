@@ -5,9 +5,8 @@ import { DialogComp } from "@components/Shared/DialogComp";
 import StepsTableManagement from "@components/Shared/Table/StepsTableManagement";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
+import { useEditableStepTable } from "@hooks/useEditableStepsTable";
 import useParameterColumns from "@hooks/useParameterColumns";
-import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
-import { useState } from "react";
 
 export interface SampleDetailsProps {
   sample: SampleDetailsDto | undefined;
@@ -25,27 +24,14 @@ export interface SampleDetailsProps {
  * @param {SampleDetailsProps} - The properties for the component.
  */
 const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
-  const [index, setIndex] = useState(0);
   const columns = useParameterColumns();
 
-  const pageData =
-    sample?.steps && sample?.steps?.length != 0
-      ? (sample?.steps[index].parameters ?? [])
-      : [];
+  const { index, setIndex, table } = useEditableStepTable({
+    steps: sample?.steps ?? [],
+    columns,
+  });
 
   const date = new Date(sample?.createdAtUtc ?? "").toDateString();
-
-  const table = useReactTable({
-    columns: columns,
-    data: pageData,
-    getCoreRowModel: getCoreRowModel(),
-    state: {
-      pagination: {
-        pageIndex: index,
-        pageSize: pageData.length,
-      },
-    },
-  });
 
   return (
     <DialogComp

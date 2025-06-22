@@ -4,7 +4,7 @@ import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 interface UseEditableTableOptions<TData extends { value?: unknown }> {
   steps: Array<{ parameters: TData[] }>;
   columns: any;
-  updateData: (rowIndex: number, columnId: string, value: unknown) => void;
+  updateData?: (rowIndex: number, columnId: string, value: unknown) => void;
 }
 
 export function useEditableStepTable<TData extends { value?: unknown }>({
@@ -15,7 +15,8 @@ export function useEditableStepTable<TData extends { value?: unknown }>({
   const [index, setIndex] = useState(0);
 
   const pageData = useMemo(() => {
-    return steps?.[index]?.parameters ?? [];
+    if (!steps || steps.length === 0) return [];
+    return steps?.[index]?.parameters;
   }, [steps, index]);
 
   const table = useReactTable({

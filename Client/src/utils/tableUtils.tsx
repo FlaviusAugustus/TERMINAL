@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface TableMeta<TData extends RowData> {
-    updateData: (rowIndex: number, columnId: string, value: unknown) => void;
+    updateData?: (rowIndex: number, columnId: string, value: unknown) => void;
   }
 }
 
@@ -24,7 +24,8 @@ const editableColumn: Partial<ColumnDef<AllParameters>> = {
 
     // When the input is blurred, we'll call our table meta's updateData function
     const onBlur = () => {
-      table.options.meta?.updateData(index, id, value);
+      if (table.options.meta?.updateData)
+        table.options.meta?.updateData(index, id, value);
     };
 
     // If the initialValue is changed external, sync it up with our state
