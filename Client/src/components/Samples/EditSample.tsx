@@ -7,7 +7,6 @@ import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
 import useUpdateSample from "@hooks/samples/useUpdateSample";
 import { useEditableStepTable } from "@hooks/useEditableStepsTable";
-import useParameterColumns from "@hooks/useParameterColumns";
 import useEditableForm from "@hooks/useStepsForm";
 import { toastPromise } from "utils/toast.utils";
 
@@ -27,7 +26,6 @@ export interface SampleDetailsProps {
  * @param {SampleDetailsProps} - The properties for the component.
  */
 const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
-  const columns = useParameterColumns(true);
   const {
     data: newSample,
     setData: setNewSample,
@@ -37,7 +35,6 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
 
   const { index, setIndex, table } = useEditableStepTable({
     steps: newSample?.steps ?? [],
-    columns,
     updateData: (rowIndex: number, _: string, value: unknown) => {
       const nsample = structuredClone(newSample) as SampleDetailsDto;
       nsample.steps![index].parameters![rowIndex].value = value as

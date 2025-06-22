@@ -6,7 +6,6 @@ import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
 import useUpdateRecipe from "@hooks/recipes/useUpdateRecipe";
 import { useEditableStepTable } from "@hooks/useEditableStepsTable";
-import useParameterColumns from "@hooks/useParameterColumns";
 import useEditableForm from "@hooks/useStepsForm";
 import { toastPromise } from "utils/toast.utils";
 
@@ -26,7 +25,6 @@ export interface RecipeDetailsProps {
  * @param {RecipeDetailsProps} - The properties for the component.
  */
 const EditRecipe = ({ recipe, open, openChange }: RecipeDetailsProps) => {
-  const columns = useParameterColumns(true);
   const {
     data: newRecipe,
     setData: setNewRecipe,
@@ -36,7 +34,6 @@ const EditRecipe = ({ recipe, open, openChange }: RecipeDetailsProps) => {
 
   const { index, setIndex, table } = useEditableStepTable({
     steps: newRecipe?.steps ?? [],
-    columns,
     updateData: (rowIndex: number, _: string, value: unknown) => {
       const nsample = structuredClone(newRecipe) as RecipeDetailsDto;
       nsample.steps![index].parameters![rowIndex].value = value as

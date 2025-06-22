@@ -1,18 +1,22 @@
 import { useMemo, useState } from "react";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
+import useParameterColumns from "./useParameterColumns";
+import { AllParameters } from "./useGetParameters";
 
-interface UseEditableTableOptions<TData extends { value?: unknown }> {
-  steps: Array<{ parameters: TData[] }>;
-  columns: any;
+interface UseEditableTableOptions {
+  steps: Array<{ parameters: AllParameters[] }>;
   updateData?: (rowIndex: number, columnId: string, value: unknown) => void;
 }
 
-export function useEditableStepTable<TData extends { value?: unknown }>({
+export function useEditableStepTable({
   steps,
-  columns,
   updateData,
-}: UseEditableTableOptions<TData>) {
+}: UseEditableTableOptions) {
   const [index, setIndex] = useState(0);
+
+  const isEditable = updateData === undefined;
+
+  const columns = useParameterColumns(isEditable);
 
   const pageData = useMemo(() => {
     if (!steps || steps.length === 0) return [];

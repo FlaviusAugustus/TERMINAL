@@ -4,7 +4,6 @@ import Detail from "@components/Shared/Detail";
 import StepsTableManagement from "@components/Shared/Table/StepsTableManagement";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
-import useParameterColumns from "@hooks/useParameterColumns";
 import { useEditableStepTable } from "@hooks/useEditableStepsTable";
 
 export interface RecipeDetailsProps {
@@ -23,11 +22,8 @@ export interface RecipeDetailsProps {
  * @param {RecipeDetailsProps} props - The properties for the component.
  */
 const RecipeDetails = ({ recipe, open, openChange }: RecipeDetailsProps) => {
-  const columns = useParameterColumns();
-
   const { index, setIndex, table } = useEditableStepTable({
     steps: recipe?.steps ?? [],
-    columns,
   });
 
   return (

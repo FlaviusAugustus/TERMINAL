@@ -6,7 +6,6 @@ import StepsTableManagement from "@components/Shared/Table/StepsTableManagement"
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
 import { useEditableStepTable } from "@hooks/useEditableStepsTable";
-import useParameterColumns from "@hooks/useParameterColumns";
 
 export interface SampleDetailsProps {
   sample: SampleDetailsDto | undefined;
@@ -24,11 +23,8 @@ export interface SampleDetailsProps {
  * @param {SampleDetailsProps} - The properties for the component.
  */
 const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
-  const columns = useParameterColumns();
-
   const { index, setIndex, table } = useEditableStepTable({
     steps: sample?.steps ?? [],
-    columns,
   });
 
   const date = new Date(sample?.createdAtUtc ?? "").toDateString();
