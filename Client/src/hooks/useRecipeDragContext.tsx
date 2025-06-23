@@ -183,7 +183,6 @@ const RecipeDragProvider = ({
                 step: 1,
                 $type: "integer",
                 value: 0,
-                defaultValue: 0,
                 order: 0,
                 parentId: "",
               }}

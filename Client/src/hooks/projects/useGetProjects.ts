@@ -1,27 +1,29 @@
-import {ProjectDto} from "@api/terminalSchemas.ts";
-import {keepPreviousData, useQuery} from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
+import { Project } from "@api/models/Project";
 
 export type ProjectsRequest = {
-    pageNumber: number;
-    pageSize: number;
-    desc?: boolean;
-}
+  pageNumber: number;
+  pageSize: number;
+  desc?: boolean;
+};
 
 export type ProjectsResponse = {
-    rows: ProjectDto[];
-    pageAmount: number;
-    rowsAmount: number;
-}
+  rows: Project[];
+  pageAmount: number;
+  rowsAmount: number;
+};
 
-async function fetchDataProject(params:ProjectsRequest): Promise<ProjectsResponse> {
-    const projects = await apiClient.get('/projects', {params});
-    const amountOfProjects = await apiClient.get('/projects/amount');
-    return{
-        rows: projects.data.projects,
-        pageAmount: Math.ceil(amountOfProjects.data / params.pageSize),
-        rowsAmount: amountOfProjects.data,
-    }
+async function fetchDataProject(
+  params: ProjectsRequest,
+): Promise<ProjectsResponse> {
+  const projects = await apiClient.get("/projects", { params });
+  const amountOfProjects = await apiClient.get("/projects/amount");
+  return {
+    rows: projects.data.projects,
+    pageAmount: Math.ceil(amountOfProjects.data / params.pageSize),
+    rowsAmount: amountOfProjects.data,
+  };
 }
 
 /**
@@ -33,12 +35,9 @@ async function fetchDataProject(params:ProjectsRequest): Promise<ProjectsRespons
  * @param {ProjectsRequest} params - The parameters for the project request.
  */
 export function useProjects(params: ProjectsRequest) {
-    return useQuery(
-        {
-            queryKey: ['projects', params],
-            queryFn: () => fetchDataProject(params),
-            placeholderData: keepPreviousData
-        }
-    )
+  return useQuery({
+    queryKey: ["projects", params],
+    queryFn: () => fetchDataProject(params),
+    placeholderData: keepPreviousData,
+  });
 }
-
