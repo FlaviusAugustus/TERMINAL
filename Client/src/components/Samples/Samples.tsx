@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-table";
 import { SamplesResponse } from "@hooks/samples/useGetSamples.ts";
 import SamplesRowActions from "./SamplesRowActions";
-import {useCallback, useMemo, useState, useEffect} from "react";
+import {useMemo, useState, useEffect} from "react";
 import Chip from "@components/Shared/Chip";
 import IndeterminateCheckbox from "@components/Shared/IndeterminateCheckbox";
 import {
@@ -57,11 +57,6 @@ const Samples = (props: SamplesProps) => {
 
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const [localSearchValue, setLocalSearchValue] = useState<string>(props.searchValue || "");
-  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    setLocalSearchValue(props.searchValue || "");
-  }, [props.searchValue]);
 
   const columns = useMemo(
       () => [
@@ -132,29 +127,9 @@ const Samples = (props: SamplesProps) => {
     manualPagination: true,
   });
 
-  const delaySearch = useCallback(
-      (searchPhrase: string) => {
-        if (searchTimeout) {
-          clearTimeout(searchTimeout);
-        }
-
-        const timeout = setTimeout(() => {
-          props.setPagination(prev => ({...prev, pageIndex: 0}));
-          props.onSearch(searchPhrase);
-        }, 500);
-
-        setSearchTimeout(timeout);
-      },
-      [props.onSearch, props.setPagination, searchTimeout]
-  )
-
-  const handleSearchChange = useCallback(
-      (value: string) => {
-        setLocalSearchValue(value);
-        delaySearch(value.trim());
-      },
-      [delaySearch]
-  );
+    useEffect(() => {
+        setLocalSearchValue(props.searchValue || "");
+    }, [props.searchValue]);
 
   const handleClickRow = (id: string | null) => {
     if (!props.onChangeSampleDetails || !id) return;
@@ -176,9 +151,14 @@ const Samples = (props: SamplesProps) => {
               placeholder="Search"
               icon={<MagnifyingGlassIcon className="h-4" />}
               value={localSearchValue}
-              onChange={((e) => {
-                handleSearchChange(e.target.value);
-              })}
+              onChange={(e) => setLocalSearchValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  props.onSearch(localSearchValue.trim());
+                }
+              }}
+
           />
           <VisibleForRoles roles={["Administrator", "Moderator"]}>
             <div className="flex gap-1">
