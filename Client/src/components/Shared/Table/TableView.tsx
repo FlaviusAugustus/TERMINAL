@@ -9,7 +9,7 @@ interface TableElement {
 
 export interface TableViewProps<T extends TableElement> {
   table: Table<T>;
-  handleClickRow: (id: string) => void;
+  handleClickRow?: (id: string) => void;
 }
 
 /**
@@ -21,7 +21,7 @@ export interface TableViewProps<T extends TableElement> {
  */
 const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
   return (
-    <div className="overflow-auto">
+    <div className="overflow-auto h-full">
       <table className="table">
         <thead>
           {props.table.getHeaderGroups().map((headerGroup) => (
@@ -59,7 +59,9 @@ const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
           {props.table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
-              onClick={() => props.handleClickRow(row.original.id)}
+              onClick={() => {
+                if (props.handleClickRow) props.handleClickRow(row.original.id);
+              }}
               className="hover:bg-gray-50 text-xs"
             >
               {row.getVisibleCells().map((cell) => (

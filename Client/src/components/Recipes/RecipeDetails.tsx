@@ -1,15 +1,15 @@
-import {RecipeDetailsDto} from "@api/terminalSchemas.ts";
-import {Button, Tab, TabGroup, TabList, TabPanel, TabPanels} from "@headlessui/react";
-import Step from "@components/Recipes/Step.tsx";
-import {IdentificationIcon,} from "@heroicons/react/16/solid";
-import {toastPromise} from "../../utils/toast.utils.tsx";
-import {AxiosResponse} from "axios";
-import {useIsInRole} from "@hooks/useIsInRole.ts";
+import { RecipeDetailsDto } from "@api/terminalSchemas.ts";
+import { DialogComp } from "@components/Shared/DialogComp.tsx";
+import Detail from "@components/Shared/Detail";
+import StepsTableManagement from "@components/Shared/Table/StepsTableManagement";
+import TableCard from "@components/Shared/Table/TableCard";
+import TableView from "@components/Shared/Table/TableView";
+import { useEditableStepTable } from "@hooks/useEditableStepsTable";
 
 export interface RecipeDetailsProps {
-    dataQuery: RecipeDetailsDto | undefined;
-    mutateAsync: (id: string) => Promise<AxiosResponse>;
-    isPending: boolean;
+  recipe: RecipeDetailsDto | undefined;
+  open: boolean;
+  openChange: (arg0: boolean) => void;
 }
 
 /**
@@ -21,60 +21,39 @@ export interface RecipeDetailsProps {
  * @component
  * @param {RecipeDetailsProps} props - The properties for the component.
  */
-const RecipeDetails = (props: RecipeDetailsProps) => {
-    const isAdmin = useIsInRole("Administrator");
+const RecipeDetails = ({ recipe, open, openChange }: RecipeDetailsProps) => {
+  const { index, setIndex, table } = useEditableStepTable({
+    steps: recipe?.steps ?? [],
+  });
 
-    const handleDeletion = async () => {
-        if (props.dataQuery?.id === undefined) return null;
-        await toastPromise(
-            props.mutateAsync(props.dataQuery.id),
-            {
-                loading: "Deleting recipe...",
-                success: 'Recipe deleted successfully',
-                error: 'Failed to delete recipe'
-            }
-        );
-    }
-
-    return (
-        <div className="border border-gray-200 rounded-lg bg-white overflow-scroll h-full">
-            <div className="text-lg font-medium border-b border-gray-200 h-[40.5px] p-2 flex">
-                Details
-            </div>
-            <div className="p-4 space-y-3 font-light text-sm text-gray-600">
-                <div className="flex items-center font-light text-sm text-gray-600">
-                    <IdentificationIcon className="w-6 h-6 pr-2"/>
-                    <div className="font-medium pr-1">Name:</div>
-                    <div>{props.dataQuery?.name}</div>
-                </div>
-                <TabGroup className="">
-                    <TabList className="flex tabs tabs-bordered">
-                        {props.dataQuery?.steps.map((_step, index) =>
-                            <Tab key={index} className="tab flex-1 focus:outline-none">Step {index + 1}</Tab>
-                        )}
-                    </TabList>
-                    <TabPanels>
-                        {props.dataQuery?.steps.map((step, index) =>
-                            <TabPanel key={index}>
-                                <Step step={step}/>
-                            </TabPanel>
-                        )}
-                    </TabPanels>
-                </TabGroup>
-                {isAdmin &&
-                    <div className="flex p-4 pb-16 mb">
-                        {props.dataQuery && (
-                            <Button className="btn btn-sm btn-error text-white rounded" onClick={handleDeletion}
-                                    disabled={props.isPending}>
-                                Delete
-                            </Button>
-                        )}
-                    </div>
-                }
-            </div>
+  return (
+    <DialogComp
+      isOpen={open}
+      setIsOpen={openChange}
+      title="Recipe details"
+      className="w-full lg:w-[700px]"
+    >
+      <div className="space-y-3 font-light text-sm text-gray-600">
+        <Detail label="name">{recipe?.name}</Detail>
+        <div className="w-full">
+          {recipe?.steps?.length !== 0 && (
+            <Detail label="steps">
+              <div className="flex flex-col gap-2">
+                <StepsTableManagement
+                  activeIndex={index}
+                  activeIndexChange={setIndex}
+                  steps={recipe?.steps ?? []}
+                />
+                <TableCard className="!h-full !shadow-none">
+                  <TableView table={table} />
+                </TableCard>
+              </div>
+            </Detail>
+          )}
         </div>
-
-    )
+      </div>
+    </DialogComp>
+  );
 };
 
 export default RecipeDetails;

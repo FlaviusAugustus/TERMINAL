@@ -15,6 +15,7 @@ import UsersPage from "@pages/UsersPage.tsx";
 import AddRecipeWithContexts from "@pages/AddRecipe.tsx";
 import DashboardPage from "@pages/DashboardPage.tsx";
 import LoginOrNotFound from "@pages/LoginOrNotFound.tsx";
+import ParametersPage from "@pages/ParametersPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,9 @@ export default function App() {
           </Route>
           <Route element={<AuthorizedLayout pageName="Samples" />}>
             <Route path="/samples" element={<SamplesPage />} />
+          </Route>
+          <Route element={<AuthorizedLayout pageName="Parameters" />}>
+            <Route path="/parameters" element={<ParametersPage />} />
           </Route>
           <Route
             element={

@@ -5,10 +5,11 @@ import SampleDetails from "@components/Samples/SampleDetails.tsx";
 import { useSamples } from "@hooks/samples/useGetSamples.ts";
 import { useSampleDetails } from "@hooks/samples/useGetSampleDetails.ts";
 import { useDeleteSample } from "@hooks/samples/useDeleteSample.ts";
-import {toastPromise} from "utils/toast.utils";
 import TableLayout from "./layouts/TableLayout";
 import Loader from "@components/Shared/Loader";
 import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
+import EditSample from "@components/Samples/EditSample";
+import DialogLoader from "@components/Shared/DialogLoader";
 import {useSearchSamples} from "@hooks/samples/useSearchSamples.ts";
 
 const SamplesPage = () => {
@@ -38,7 +39,7 @@ const SamplesPage = () => {
 
     const handleSearch = (query: string) => {
         setSearchPhrase(query);
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+        setPagination((prev) => ({...prev, pageIndex: 0}));
     };
 
     const deleteMutation = useDeleteSample({
@@ -50,6 +51,7 @@ const SamplesPage = () => {
 
     const [sampleDetailsId, setSampleDetailsId] = useState<string | null>(null);
     const [detailsOpen, setDetailsOpen] = useState(false);
+    const [editOpen, setEditOpen] = useState(false);
     const dataQuerySampleDetails = useSampleDetails(sampleDetailsId);
 
     const changeSampleDetails = (id: string) => {
@@ -57,23 +59,21 @@ const SamplesPage = () => {
         setSampleDetailsId(id);
     };
 
+    const editSampleDetails = (id: string) => {
+        setSampleDetailsId(id);
+        setEditOpen(true);
+    };
+
     const handleDelete = async (id: string | null) => {
         if (!id) return;
-        await toastPromise(
-            deleteMutation.mutateAsync(id),
-            {
-                loading: 'Deleting sample...',
-                success: 'Sample deleted successfully',
-                error: 'Failed to delete sample'
-            }
-        );
+        await deleteMutation.mutateAsync(id);
     };
 
     return (
         <TableLayout>
             <ComponentOrLoader
                 isLoading={isSearching ? dataQuerySearchSamples.isLoading : dataQuerySamples.isLoading}
-                loader={<Loader />}
+                loader={<Loader/>}
             >
                 <Samples
                     samples={samplesData}
@@ -82,16 +82,24 @@ const SamplesPage = () => {
                     setSorting={setSorting}
                     setPagination={setPagination}
                     onDelete={handleDelete}
-                    onEdit={changeSampleDetails}
+                    onDetails={changeSampleDetails}
+                    onEdit={editSampleDetails}
                     onSearch={handleSearch}
                     isSearching={isSearching}
                     searchValue={searchPhrase}
                 />
             </ComponentOrLoader>
             <ComponentOrLoader
-                isLoading={dataQuerySampleDetails.isLoading}
-                loader={<Loader />}
+                isLoading={
+                    dataQuerySampleDetails.isLoading || dataQuerySampleDetails.isFetching
+                }
+                loader={<DialogLoader />}
             >
+                <EditSample
+                    sample={dataQuerySampleDetails.data}
+                    open={editOpen}
+                    openChange={setEditOpen}
+                />
                 <SampleDetails
                     sample={dataQuerySampleDetails.data}
                     open={detailsOpen}

@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tailwindcss from "tailwindcss";
 import basicSsl from "@vitejs/plugin-basic-ssl";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 
@@ -17,9 +16,4 @@ export default defineConfig({
       projects: ["./tsconfig.json"],
     }),
   ],
-  css: {
-    postcss: {
-      plugins: [tailwindcss()],
-    },
-  },
 });

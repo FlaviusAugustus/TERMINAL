@@ -11,6 +11,7 @@ import {
   UserIcon,
 } from "@heroicons/react/20/solid";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
+import {CalculatorIcon} from "@heroicons/react/16/solid";
 
 /**
  * TerminalSidebarContent Component
@@ -44,6 +45,11 @@ const TerminalSidebarContent = () => {
       </SidebarLinkGroup>
       <SidebarLinkGroup text="Manage">
         <SidebarItem
+            text="Recipes"
+            href="/recipes"
+            icon={<LightBulbIcon className="h-5 w-5" />}
+        />
+        <SidebarItem
           text="Samples"
           href="/samples"
           icon={<EyeDropperIcon className="h-5 w-5" />}
@@ -54,9 +60,9 @@ const TerminalSidebarContent = () => {
           icon={<ListBulletIcon className="h-5 w-5" />}
         />
         <SidebarItem
-          text="Recipes"
-          href="/recipes"
-          icon={<LightBulbIcon className="h-5 w-5" />}
+            text="Parameters"
+            href="/parameters"
+            icon={<CalculatorIcon className="h-5 w-5" />}
         />
       </SidebarLinkGroup>
       <VisibleForRoles roles={["Administrator", "Moderator"]}>

@@ -1,11 +1,14 @@
 import { SampleDetailsDto } from "@api/terminalSchemas.ts";
 import ChipSet from "@components/Shared/ChipSet";
 import Detail from "@components/Shared/Detail";
-import { DialogComp } from "@components/Shared/DialogComp";
+import { DialogButton, DialogComp } from "@components/Shared/DialogComp";
 import StepsTableManagement from "@components/Shared/Table/StepsTableManagement";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
+import useUpdateSample from "@hooks/samples/useUpdateSample";
 import { useEditableStepTable } from "@hooks/useEditableStepsTable";
+import useEditableForm from "@hooks/useStepsForm";
+import { toastPromise } from "utils/toast.utils";
 
 export interface SampleDetailsProps {
   sample: SampleDetailsDto | undefined;
@@ -14,33 +17,58 @@ export interface SampleDetailsProps {
 }
 
 /**
- * SampleDetails Component
+ * EditSample Component
  *
  * Displays details of a sample including code, creation date, tags, comment, and number of steps.
- *
+ * Allows for editing parameter values.
  *
  * @component
  * @param {SampleDetailsProps} - The properties for the component.
  */
-const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
-  const { index, setIndex, table } = useEditableStepTable({
-    steps: sample?.steps ?? [],
-  });
+const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
+  const {
+    data: newSample,
+    setData: setNewSample,
+    hasChanges: valueChanged,
+    resetForm,
+  } = useEditableForm<SampleDetailsDto>(sample);
 
-  const date = new Date(sample?.createdAtUtc ?? "").toDateString();
+  const { index, setIndex, table } = useEditableStepTable({
+    steps: newSample?.steps ?? [],
+    updateData: (rowIndex: number, _: string, value: unknown) => {
+      const nsample = structuredClone(newSample) as SampleDetailsDto;
+      nsample.steps![index].parameters![rowIndex].value = value as
+        | string
+        | number;
+      setNewSample(nsample);
+    },
+  });
+  const mutation = useUpdateSample();
+
+  const handleUpdate = async () => {
+    if (!newSample) return;
+
+    await toastPromise(mutation.mutateAsync(newSample), {
+      success: "Success updating sample",
+      loading: "Updating sample...",
+      error: "Error updating sample",
+    });
+  };
 
   return (
     <DialogComp
       isOpen={open}
       setIsOpen={openChange}
-      title="Sample Details"
+      title="Edit Sample"
       className="w-full lg:w-[700px]"
     >
       <div className="space-y-3 font-light text-sm text-gray-600">
         <div className="grid grid-cols-2 gap-3">
           <Detail label="code">{sample?.code}</Detail>
           <Detail label="step count">{sample?.steps?.length ?? 0}</Detail>
-          <Detail label="creation date">{date}</Detail>
+          <Detail label="creation date">
+            {new Date(sample?.createdAtUtc ?? "").toDateString()}
+          </Detail>
           <Detail label="comment">{sample?.comment}</Detail>
         </div>
         <div className="flex flex-col gap-1 items-start w-full justify-center">
@@ -49,7 +77,7 @@ const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
           </Detail>
         </div>
         <div className="w-full">
-          {sample?.steps?.length !== 0 && (
+          {newSample?.steps?.length !== 0 && (
             <Detail label="steps">
               <div className="flex flex-col gap-2">
                 <StepsTableManagement
@@ -64,9 +92,25 @@ const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
             </Detail>
           )}
         </div>
+        <div className="flex gap-2">
+          <DialogButton
+            disabled={!valueChanged}
+            className="!w-fit hover:border-green-400"
+            onClick={handleUpdate}
+          >
+            Save
+          </DialogButton>
+          <DialogButton
+            disabled={!valueChanged}
+            className="!w-fit hover:border-red-400"
+            onClick={resetForm}
+          >
+            Reset
+          </DialogButton>
+        </div>
       </div>
     </DialogComp>
   );
 };
 
-export default SampleDetails;
+export default EditSample;
