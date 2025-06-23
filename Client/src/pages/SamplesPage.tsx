@@ -1,53 +1,31 @@
 import { useState } from "react";
-import { SortingState, PaginationState } from "@tanstack/react-table";
 import Samples from "@components/Samples/Samples.tsx";
 import SampleDetails from "@components/Samples/SampleDetails.tsx";
-import { useSamples } from "@hooks/samples/useGetSamples.ts";
 import { useSampleDetails } from "@hooks/samples/useGetSampleDetails.ts";
 import { useDeleteSample } from "@hooks/samples/useDeleteSample.ts";
+import { useSamplesWithSearch } from "@hooks/samples/useSamplesWithSearch.ts";
 import TableLayout from "./layouts/TableLayout";
 import Loader from "@components/Shared/Loader";
 import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
 import EditSample from "@components/Samples/EditSample";
 import DialogLoader from "@components/Shared/DialogLoader";
-import {useSearchSamples} from "@hooks/samples/useSearchSamples.ts";
 
 const SamplesPage = () => {
-    const [sorting, setSorting] = useState<SortingState>([]);
-    const [pagination, setPagination] = useState<PaginationState>({
-        pageIndex: 0,
-        pageSize: 10,
-    });
-
-    const [searchPhrase, setSearchPhrase] = useState<string>("");
-
-    const dataQuerySamples = useSamples({
-        pageNumber: pagination.pageIndex,
-        pageSize: pagination.pageSize,
-        orderBy: sorting[0]?.id ?? "",
-        desc: sorting[0]?.desc ?? true,
-    });
-
-    const dataQuerySearchSamples = useSearchSamples({
+    const {
+        samplesData,
+        isLoading,
         searchPhrase,
-        pageNumber: pagination.pageIndex,
-        pageSize: pagination.pageSize,
-    });
+        isSearching,
+        sorting,
+        setSorting,
+        pagination,
+        setPagination,
+        handleSearch,
+        clearSearch,
+        deleteMutationParams
+    } = useSamplesWithSearch();
 
-    const isSearching = !!searchPhrase;
-    const samplesData = isSearching ? dataQuerySearchSamples.data : dataQuerySamples.data;
-
-    const handleSearch = (query: string) => {
-        setSearchPhrase(query);
-        setPagination((prev) => ({...prev, pageIndex: 0}));
-    };
-
-    const deleteMutation = useDeleteSample({
-        pageNumber: pagination.pageIndex,
-        pageSize: pagination.pageSize,
-        orderBy: sorting[0]?.id ?? "",
-        desc: sorting[0]?.desc ?? true,
-    });
+    const deleteMutation = useDeleteSample(deleteMutationParams);
 
     const [sampleDetailsId, setSampleDetailsId] = useState<string | null>(null);
     const [detailsOpen, setDetailsOpen] = useState(false);
@@ -72,8 +50,8 @@ const SamplesPage = () => {
     return (
         <TableLayout>
             <ComponentOrLoader
-                isLoading={isSearching ? dataQuerySearchSamples.isLoading : dataQuerySamples.isLoading}
-                loader={<Loader/>}
+                isLoading={isLoading}
+                loader={<Loader />}
             >
                 <Samples
                     samples={samplesData}
@@ -85,6 +63,7 @@ const SamplesPage = () => {
                     onDetails={changeSampleDetails}
                     onEdit={editSampleDetails}
                     onSearch={handleSearch}
+                    onClearSearch={clearSearch}
                     isSearching={isSearching}
                     searchValue={searchPhrase}
                 />

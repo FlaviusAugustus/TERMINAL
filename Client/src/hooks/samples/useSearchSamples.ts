@@ -19,7 +19,7 @@ async function fetchSamples(params: SamplesSearchParams): Promise<SamplesSearchR
 
     return {
         rows: resultSamples.data.samples,
-        pageAmount: Math.ceil(resultSamples.data.totalAmount / params.pageNumber),
+        pageAmount: Math.ceil(resultSamples.data.totalAmount / params.pageSize),
         rowsAmount: resultSamples.data.totalAmount,
     };
 }
@@ -27,16 +27,15 @@ async function fetchSamples(params: SamplesSearchParams): Promise<SamplesSearchR
 /**
  * useSearchSamples Hook
  *
- * A custom hook that fetches samples data based on a search phrase.
- * It returns the samples data for the given search parameters.
+ * A custom hook that fetches sample data based on a search phrase.
+ * It returns the sample data for the given search parameters.
  *
  * @hook
- * @param {SamplesSearchParams} params - The parameters for the samples search request.
  */
 export function useSearchSamples(params: SamplesSearchParams) {
     return useQuery({
         queryKey: ["samplesSearch", params],
         queryFn: () => fetchSamples(params),
-        enabled: !!params.searchPhrase,
+        enabled: !!params.searchPhrase.trim(),
     });
 }

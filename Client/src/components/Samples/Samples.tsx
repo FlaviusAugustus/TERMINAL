@@ -36,6 +36,7 @@ export interface SamplesProps {
     onDelete: (sampleId: string) => Promise<void>;
     onDetails: (sampleId: string) => void;
     onSearch: (query: string) => void;
+    onClearSearch: () => void;
     isSearching: boolean;
     searchValue: string;
 }
@@ -68,7 +69,6 @@ const columnsDef = [
  * @param {SamplesProps} props - The properties for the Samples component.
  */
 const Samples = (props: SamplesProps) => {
-
     const [localSearchValue, setLocalSearchValue] = useState<string>(props.searchValue || "");
 
     const handleDelete = async (id: string) => {
@@ -119,56 +119,81 @@ const Samples = (props: SamplesProps) => {
         });
 
         toastPromise(Promise.all(tasks), {
-            success: "Samples deleted succesfully",
+            success: "Samples deleted successfully",
             loading: "Removing samples...",
             error: "Error deleting samples",
         });
     };
 
-  return (
-      <>
-        <div className="flex justify-between gap-1 items-end pb-3 h-14">
-          <InputField
-              className="!text-sm !h-[40px]"
-              placeholder="Search"
-              icon={<MagnifyingGlassIcon className="h-4" />}
-              value={localSearchValue}
-              onChange={(e) => setLocalSearchValue(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  props.onSearch(localSearchValue.trim());
-                }
-              }}
+    const handleSearchSubmit = () => {
+        const trimmedValue = localSearchValue.trim();
+        props.onSearch(trimmedValue);
 
-          />
-          <VisibleForRoles roles={["Administrator", "Moderator"]}>
-            <div className="flex gap-1">
-              <IconButton
-                  onClick={handleDeleteSelected}
-                  disabled={
-                    !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
-                  }
-                  className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
-              >
-                <XMarkIcon className="h-4 " />
-                <p className="text-xs">Delete Selected</p>
-              </IconButton>
-              <Link to="/new-sample">
-                <IconButton className="h-[40px] flex bg-white items-center gap-1">
-                  <PlusIcon className="h-4" />
-                  <p className="text-xs">Add new</p>
-                </IconButton>
-              </Link>
+        if (trimmedValue === "") {
+            props.onClearSearch();
+        }
+    };
+
+    const handleClearSearch = () => {
+        setLocalSearchValue("");
+        props.onClearSearch();
+    };
+
+    return (
+        <>
+            <div className="flex justify-between gap-1 items-end pb-3 h-14">
+                <div className="flex gap-2 items-center">
+                    <InputField
+                        className="!text-sm !h-[40px]"
+                        placeholder="Search"
+                        icon={<MagnifyingGlassIcon className="h-4" />}
+                        value={localSearchValue}
+                        onChange={(e) => setLocalSearchValue(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                handleSearchSubmit();
+                            }
+                        }}
+                    />
+                    {props.isSearching && (
+                        <IconButton
+                            onClick={handleClearSearch}
+                            className="h-[40px] flex bg-white items-center gap-1 !hover:border-gray-300"
+                            title="Clear search"
+                        >
+                            <XMarkIcon className="h-4" />
+                            <p className="text-xs">Clear</p>
+                        </IconButton>
+                    )}
+                </div>
+                <VisibleForRoles roles={["Administrator", "Moderator"]}>
+                    <div className="flex gap-1">
+                        <IconButton
+                            onClick={handleDeleteSelected}
+                            disabled={
+                                !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
+                            }
+                            className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+                        >
+                            <XMarkIcon className="h-4 " />
+                            <p className="text-xs">Delete Selected</p>
+                        </IconButton>
+                        <Link to="/new-sample">
+                            <IconButton className="h-[40px] flex bg-white items-center gap-1">
+                                <PlusIcon className="h-4" />
+                                <p className="text-xs">Add new</p>
+                            </IconButton>
+                        </Link>
+                    </div>
+                </VisibleForRoles>
             </div>
-          </VisibleForRoles>
-        </div>
-        <TableCard className="!h-full">
-          <TableView<SampleDto> table={table} />
-          <TableManagement<SampleDto> table={table} />
-        </TableCard>
-      </>
-  );
+            <TableCard className="!h-full">
+                <TableView<SampleDto> table={table} />
+                <TableManagement<SampleDto> table={table} />
+            </TableCard>
+        </>
+    );
 };
 
 export default Samples;
