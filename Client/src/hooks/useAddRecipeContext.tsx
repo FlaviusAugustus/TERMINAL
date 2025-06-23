@@ -1,31 +1,21 @@
-// context for managing the recipe
-
-import { Recipe } from "@api/models/Recipe";
+import { AllParameters } from "@api/models/Parameters";
+import { RecipeDetailsDto } from "@api/models/Recipe";
 import { Step } from "@api/models/Step";
 import { arraySwap } from "@dnd-kit/sortable";
 import { createContext, ReactNode, useContext, useState } from "react";
-import {
-  AllParameters,
-  DecimalParameter,
-  IntegerParameter,
-  TextParameter,
-} from "./parameters/useGetParameters.ts";
 
 type AddRecipeContextValue = {
-  recipe: Recipe;
+  recipe: RecipeDetailsDto;
   currentStep: number | null;
   setCurrentStep: (step: number | null) => void;
   addStep: () => void;
   removeStep: (index: number) => void;
   updateStep: (index: number, updatedStep: Step) => void;
-  updateRecipe: (updatedRecipe: Recipe) => void;
+  updateRecipe: (updatedRecipe: RecipeDetailsDto) => void;
   getCurrentStep: () => Step | null;
   findParameterIndex: (id: string | null) => number;
   removeParameter: (stepIndex: number | null, parameterId: string) => void;
-  updateParameter: (
-    stepIndex: number | null,
-    parameter: TextParameter | DecimalParameter | IntegerParameter,
-  ) => void;
+  updateParameter: (stepIndex: number | null, parameter: AllParameters) => void;
   moveParameterUp: (
     stepIndex: number | null,
     parameterId: string | null,
@@ -66,7 +56,7 @@ function useAddRecipeContext(): AddRecipeContextValue {
  */
 const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
   const [currentStep, setCurrentStep] = useState<number | null>(null);
-  const [recipe, setRecipe] = useState<Recipe>({
+  const [recipe, setRecipe] = useState<RecipeDetailsDto>({
     id: "",
     name: "",
     steps: [],
@@ -98,7 +88,7 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
     }));
   };
 
-  const updateRecipe = (updatedRecipe: Recipe) => {
+  const updateRecipe = (updatedRecipe: RecipeDetailsDto) => {
     setRecipe(updatedRecipe);
   };
 

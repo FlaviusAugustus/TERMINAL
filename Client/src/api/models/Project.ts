@@ -8,6 +8,6 @@ export type Project = {
   name: string;
 };
 
-export type ProjectDetails = Project & {
+export type ProjectDetailsDto = Project & {
   samplesIds: string[];
 };
