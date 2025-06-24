@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
 import { AxiosResponse } from "axios";
-import { RecipeDetailsDto, UpdateRecipeRequest } from "@api/terminalSchemas";
+import { RecipeDetailsDto, UpdateRecipeRequest } from "@api/models/Recipe";
 
 async function editRecipe(
   recipe: UpdateRecipeRequest,

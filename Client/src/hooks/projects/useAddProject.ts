@@ -1,5 +1,5 @@
 import apiClient from "@api/apiClient";
-import { CreateProjectRequest } from "@api/terminalSchemas";
+import { CreateProjectRequest } from "@api/models/Project";
 import { useMutation } from "@tanstack/react-query";
 
 async function addProject(project: CreateProjectRequest) {

@@ -1,4 +1,4 @@
-import { SampleDetailsDto } from "@api/terminalSchemas.ts";
+import { SampleDetailsDto } from "@api/models/Sample";
 import ChipSet from "@components/Shared/ChipSet";
 import Detail from "@components/Shared/Detail";
 import { DialogComp } from "@components/Shared/DialogComp";

@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
 import { AxiosResponse } from "axios";
-import { SampleDetailsDto, UpdateSampleRequest } from "@api/terminalSchemas";
 import { sampleToUpdateRequest } from "utils/mapUtils";
+import { SampleDetailsDto, UpdateSample } from "@api/models/Sample";
 
-async function editSample(sample: UpdateSampleRequest): Promise<AxiosResponse> {
+async function editSample(sample: UpdateSample): Promise<AxiosResponse> {
   return await apiClient.patch(`samples/${sample.id}`, { ...sample });
 }
 
