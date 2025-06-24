@@ -55,7 +55,7 @@ const columnsDef = [
         header: "Created At",
         cell: (info) => new Date(info.getValue()).toDateString(),
     })
-] as Array<ColumnDef<SampleDto, unknown>>
+] as Array<ColumnDef<SampleDto, unknown>>;
 
 /**
  * Samples Component
