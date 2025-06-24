@@ -1,15 +1,18 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
-import {ProjectDetailsDto} from "@api/terminalSchemas.ts";
-import {ProjectsRequest, ProjectsResponse} from "@hooks/projects/useGetProjects.ts";
+import {
+  ProjectsRequest,
+  ProjectsResponse,
+} from "@hooks/projects/useGetProjects.ts";
+import { ProjectDetailsDto } from "@api/models/Project";
 
 interface UpdateProjectNameDto {
-    id: string;
-    name: string;
+  id: string;
+  name: string;
 }
 
-async function updateProjectName({id, name} : UpdateProjectNameDto) {
-    return await apiClient.patch(`projects/${id}`, { name });
+async function updateProjectName({ id, name }: UpdateProjectNameDto) {
+  return await apiClient.patch(`projects/${id}`, { name });
 }
 
 /**
@@ -21,28 +24,34 @@ async function updateProjectName({id, name} : UpdateProjectNameDto) {
  * @param {UpdateProjectNameDto} params - The parameters for the users request.
  */
 export function useUpdateProjectName(params: ProjectsRequest) {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (data: UpdateProjectNameDto) => updateProjectName(data),
-        onSuccess: (_data, { id, name }) => {
-            queryClient.setQueryData<ProjectDetailsDto>(['projectDetails', id], (oldData) => {
-                if (!oldData) return undefined;
-                return {
-                    ...oldData,
-                    name: name,
-                };
-            });
+  return useMutation({
+    mutationFn: (data: UpdateProjectNameDto) => updateProjectName(data),
+    onSuccess: (_data, { id, name }) => {
+      queryClient.setQueryData<ProjectDetailsDto>(
+        ["projectDetails", id],
+        (oldData) => {
+          if (!oldData) return undefined;
+          return {
+            ...oldData,
+            name: name,
+          };
+        },
+      );
 
-            queryClient.setQueryData<ProjectsResponse>(['projects', 'all',  params], (oldData) => {
-                if (!oldData) return undefined;
-                return {
-                    ...oldData,
-                    rows: oldData.rows.map((project) =>
-                        project.id === id ? { ...project, name } : project
-                    ),
-                };
-            });
-        }
-    })
+      queryClient.setQueryData<ProjectsResponse>(
+        ["projects", "all", params],
+        (oldData) => {
+          if (!oldData) return undefined;
+          return {
+            ...oldData,
+            rows: oldData.rows.map((project) =>
+              project.id === id ? { ...project, name } : project,
+            ),
+          };
+        },
+      );
+    },
+  });
 }

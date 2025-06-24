@@ -1,5 +1,5 @@
-import { SampleDetailsDto } from "@api/terminalSchemas.ts";
 import apiClient from "@api/apiClient.ts";
+import { SampleDetailsDto } from "@api/models/Sample";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 async function fetchDataSampleDetails(

@@ -1,8 +1,8 @@
-import { SampleStepDto } from "@api/terminalSchemas";
+import { Step } from "@api/models/Step";
 import clsx from "clsx";
 
 type StepsTableManagementProps = {
-  steps: SampleStepDto[];
+  steps: Step[];
   activeIndex: number;
   activeIndexChange: (arg0: number) => void;
 };

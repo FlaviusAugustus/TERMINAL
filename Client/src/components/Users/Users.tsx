@@ -6,7 +6,6 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { UserDetailsDto } from "@api/terminalSchemas.ts";
 import { UsersResponse } from "@hooks/users/useGetUsers.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
@@ -19,6 +18,7 @@ import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 import IconButton from "@components/Shared/IconButton.tsx";
 import {Link} from "react-router-dom";
 import IndeterminateCheckbox from "@components/Shared/IndeterminateCheckbox.tsx";
+import { UserDetailsDto } from "@api/models/User";
 
 export type UsersProps = {
   onChangeUserDetails?: (userId: string) => void;

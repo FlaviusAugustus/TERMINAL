@@ -1,4 +1,4 @@
-import { SampleDto } from "@api/terminalSchemas";
+import { Sample } from "@api/models/Sample";
 import {
   EntityAmountCard,
   EntityAmountCardButton,
@@ -20,7 +20,7 @@ import {
 } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
 
-const columnHelper = createColumnHelper<SampleDto>();
+const columnHelper = createColumnHelper<Sample>();
 
 const recipeColumns = [
   columnHelper.accessor("code", {
@@ -128,17 +128,14 @@ const DashboardPage = () => {
         <div className="col-span-2">
           <p className="p-2 text-md">Recent Samples</p>
           <TableCard>
-            <TableView<SampleDto> table={table} handleClickRow={() => {}} />
+            <TableView<Sample> table={table} handleClickRow={() => {}} />
           </TableCard>
         </div>
 
         <div className="col-span-1">
           <p className="p-2 text-md">Pinned Recipes</p>
           <TableCard>
-            <TableView<SampleDto>
-              table={recipeTable}
-              handleClickRow={() => {}}
-            />
+            <TableView<Sample> table={recipeTable} handleClickRow={() => {}} />
           </TableCard>
         </div>
       </div>

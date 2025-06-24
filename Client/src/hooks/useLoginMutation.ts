@@ -1,13 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
 import apiClient from "../api/apiClient";
-import { LoginRequest } from "../api/terminalSchemas";
 
 export type LoginResponse = {
-    token: string;
+  token: string;
+};
+
+export type LoginRequest = {
+  email: string | null;
+  password: string | null;
 };
 
 async function loginUser(params: LoginRequest) {
-    return await apiClient.post<LoginResponse>(`/users/login`, params);
+  return await apiClient.post<LoginResponse>(`/users/login`, params);
 }
 
 /**
@@ -18,12 +22,12 @@ async function loginUser(params: LoginRequest) {
  * @hook
  */
 export function useLoginMutation() {
-    const result = useMutation({
-        mutationFn: (params: LoginRequest) => loginUser(params),
-        onSuccess: (data) => {
-            sessionStorage.setItem("token", data.data.token);
-        },
-    });
+  const result = useMutation({
+    mutationFn: (params: LoginRequest) => loginUser(params),
+    onSuccess: (data) => {
+      sessionStorage.setItem("token", data.data.token);
+    },
+  });
 
-    return result;
+  return result;
 }
