@@ -17,6 +17,7 @@ import {useTableColumns} from "@hooks/useTableColumns.tsx";
 interface ParametersProps {
     parameters: Array<AllParameters>
     onDetails: (parameterId: string) => void;
+    onDelete: (parameterId: string) => Promise<void>;
 }
 
 const columnHelper = createColumnHelper<AllParameters>();
@@ -34,7 +35,7 @@ const columnsDef = [
     })
 ] as Array<ColumnDef<AllParameters, unknown>>
 
-const Parameters = ({parameters, onDetails}: ParametersProps) => {
+const Parameters = ({parameters, onDetails, onDelete}: ParametersProps) => {
 
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
@@ -43,7 +44,8 @@ const Parameters = ({parameters, onDetails}: ParametersProps) => {
 
     const columns = useTableColumns<AllParameters>({
         columnsDef: columnsDef,
-        onDetails: onDetails
+        onDetails: onDetails,
+        onDelete: onDelete
     })
 
     const table = useReactTable({
