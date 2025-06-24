@@ -1,6 +1,6 @@
-import {keepPreviousData, useQuery} from "@tanstack/react-query";
-import { SampleDto} from "@api/terminalSchemas.ts";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
+import { Sample } from "@api/models/Sample";
 
 export type SamplesParams = {
     pageNumber: number;
@@ -10,10 +10,10 @@ export type SamplesParams = {
 }
 
 export type SamplesResponse = {
-    rows: SampleDto[];
-    pageAmount: number;
-    rowsAmount: number; // All rows (samples)
-}
+  rows: Sample[];
+  pageAmount: number;
+  rowsAmount: number; // All rows (samples)
+};
 
 function correctParams(params: SamplesParams) : SamplesParams{
     function capitalizeFirstLetter(val:string | undefined) {
@@ -35,11 +35,11 @@ async function fetchDataSamples(params: SamplesParams): Promise<SamplesResponse>
     const resultSamples = await apiClient.get(`/samples`, {params})
     const resultAmountOfSamples = await apiClient.get(`/samples/amount`);
 
-    return {
-        rows: resultSamples.data.samples,
-        pageAmount: Math.ceil(resultAmountOfSamples.data / params.pageSize),
-        rowsAmount: resultAmountOfSamples.data,
-    };
+  return {
+    rows: resultSamples.data.samples,
+    pageAmount: Math.ceil(resultAmountOfSamples.data / params.pageSize),
+    rowsAmount: resultAmountOfSamples.data,
+  };
 }
 
 /**

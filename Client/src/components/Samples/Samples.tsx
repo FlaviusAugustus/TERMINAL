@@ -1,11 +1,10 @@
-import {SampleDto} from "@api/terminalSchemas";
-import {ColumnDef, OnChangeFn} from "@tanstack/react-table";
+import { ColumnDef, OnChangeFn } from "@tanstack/react-table";
 import {
-    getCoreRowModel,
-    useReactTable,
-    createColumnHelper,
-    SortingState,
-    PaginationState,
+  getCoreRowModel,
+  useReactTable,
+  createColumnHelper,
+  SortingState,
+  PaginationState,
 } from "@tanstack/react-table";
 import { SamplesResponse } from "@hooks/samples/useGetSamples.ts";
 import {useState} from "react";
@@ -18,11 +17,12 @@ import IconButton from "@components/Shared/IconButton";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableManagement from "@components/Shared/Table/TableManagment";
 import TableView from "@components/Shared/Table/TableView";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 import {toastPromise} from "utils/toast.utils";
 import {useTableColumns} from "@hooks/useTableColumns.tsx";
 import SearchInput from "@components/Shared/SearchInput.tsx";
+import {Sample} from "@api/models/Sample.ts";
 
 export interface SamplesProps {
     onChangeSampleDetails?: (code: string) => void;
@@ -40,22 +40,22 @@ export interface SamplesProps {
     searchValue: string;
 }
 
-const columnHelper = createColumnHelper<SampleDto>();
+const columnHelper = createColumnHelper<Sample>();
 
 const columnsDef = [
-    columnHelper.accessor("code", {
-        header: "Code",
-        cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor("project", {
-        header: "Project Name",
-        cell: (info) => <Chip value={info.getValue()}/>,
-    }),
-    columnHelper.accessor("createdAtUtc", {
-        header: "Created At",
-        cell: (info) => new Date(info.getValue()).toDateString(),
-    })
-] as Array<ColumnDef<SampleDto, unknown>>;
+  columnHelper.accessor("code", {
+    header: "Code",
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("project", {
+    header: "Project Name",
+    cell: (info) => <Chip value={info.getValue()} />,
+  }),
+  columnHelper.accessor("createdAtUtc", {
+    header: "Created At",
+    cell: (info) => new Date(info.getValue()).toDateString(),
+  }),
+] as Array<ColumnDef<Sample, unknown>>;
 
 /**
  * Samples Component
@@ -68,44 +68,43 @@ const columnsDef = [
  * @param {SamplesProps} props - The properties for the Samples component.
  */
 const Samples = (props: SamplesProps) => {
-
-    const handleDelete = async (id: string) => {
-        await toastPromise(props.onDelete(id), {
-            success: "Sample deleted successfully",
-            loading: "Removing sample...",
-            error: "Error deleting sample",
-        });
-    };
-
-    const columns = useTableColumns<SampleDto>({
-        columnsDef: columnsDef,
-        onDelete: handleDelete,
-        onEdit: props.onEdit,
-        onDetails: props.onDetails
-    })
-    const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
-
-    const table = useReactTable({
-        columns: columns,
-        data: props.samples?.rows ?? [],
-        getCoreRowModel: getCoreRowModel(),
-        defaultColumn: {
-            size: "auto" as unknown as number,
-        },
-        state: {
-            sorting: props.sorting,
-            pagination: props.pagination,
-            rowSelection: rowSelection,
-        },
-        getRowId: (row) => row.id,
-        onRowSelectionChange: setRowSelection,
-        enableMultiRowSelection: true,
-        rowCount: props.samples?.rowsAmount ?? 0,
-        onSortingChange: props.setSorting,
-        onPaginationChange: props.setPagination,
-        manualSorting: true,
-        manualPagination: true,
+  const handleDelete = async (id: string) => {
+    await toastPromise(props.onDelete(id), {
+      success: "Sample deleted successfully",
+      loading: "Removing sample...",
+      error: "Error deleting sample",
     });
+  };
+
+  const columns = useTableColumns<Sample>({
+    columnsDef: columnsDef,
+    onDelete: handleDelete,
+    onEdit: props.onEdit,
+    onDetails: props.onDetails,
+  });
+  const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+
+  const table = useReactTable({
+    columns: columns,
+    data: props.samples?.rows ?? [],
+    getCoreRowModel: getCoreRowModel(),
+    defaultColumn: {
+      size: "auto" as unknown as number,
+    },
+    state: {
+      sorting: props.sorting,
+      pagination: props.pagination,
+      rowSelection: rowSelection,
+    },
+    getRowId: (row) => row.id,
+    onRowSelectionChange: setRowSelection,
+    enableMultiRowSelection: true,
+    rowCount: props.samples?.rowsAmount ?? 0,
+    onSortingChange: props.setSorting,
+    onPaginationChange: props.setPagination,
+    manualSorting: true,
+    manualPagination: true,
+  });
 
     const handleDeleteSelected = () => {
         const tasks = table.getSelectedRowModel().rows.map((row) => {
@@ -151,8 +150,8 @@ const Samples = (props: SamplesProps) => {
                 </VisibleForRoles>
             </div>
             <TableCard className="!h-full">
-                <TableView<SampleDto> table={table} />
-                <TableManagement<SampleDto> table={table} />
+                <TableView<Sample> table={table} />
+                <TableManagement<Sample> table={table} />
             </TableCard>
         </>
     );

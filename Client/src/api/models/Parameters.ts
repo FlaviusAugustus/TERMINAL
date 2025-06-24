@@ -2,7 +2,6 @@ export type ParameterType = "decimal" | "text" | "integer";
 
 export type ParameterValue<T> = {
   value: T;
-  defaultValue: number;
 };
 
 export type Parameter = {
@@ -39,5 +38,13 @@ export type UpdateParameter = {
   id: string;
   value: number | string;
 };
+
+export type StepParameterValueDto = {
+  $type: ParameterType;
+  id: string;
+  value: string | number;
+};
+
+export type ParameterResponse = { parameters: AllParameters[] };
 
 export type AllParameters = IntegerParameter | DecimalParameter | TextParameter;

@@ -1,10 +1,9 @@
-import {keepPreviousData, useQuery} from "@tanstack/react-query";
-import {UserDetailsDto} from "@api/terminalSchemas.ts";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
+import { UserDetailsDto } from "@api/models/User";
 
-
-async function fetchUserDetails(id: string|null):Promise<UserDetailsDto>{
-    return (await apiClient.get(`/users/${id}`)).data;
+async function fetchUserDetails(id: string | null): Promise<UserDetailsDto> {
+  return (await apiClient.get(`/users/${id}`)).data;
 }
 
 /**
@@ -16,11 +15,11 @@ async function fetchUserDetails(id: string|null):Promise<UserDetailsDto>{
  *
  * @hook
  */
-export function useUserDetails(id: string|null ){
-    return useQuery({
-        queryKey:['userDetails', id],
-        queryFn: () => fetchUserDetails(id),
-        placeholderData: keepPreviousData,
-        enabled: (id !== null)
-    })
+export function useUserDetails(id: string | null) {
+  return useQuery({
+    queryKey: ["userDetails", id],
+    queryFn: () => fetchUserDetails(id),
+    placeholderData: keepPreviousData,
+    enabled: id !== null,
+  });
 }

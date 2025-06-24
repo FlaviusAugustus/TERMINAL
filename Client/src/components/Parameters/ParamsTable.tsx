@@ -1,7 +1,7 @@
+import { AllParameters } from "@api/models/Parameters";
 import { DialogButton } from "@components/Shared/DialogComp";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
-import { AllParameters } from "@hooks/useGetParameters";
 import {
   ColumnDef,
   getCoreRowModel,

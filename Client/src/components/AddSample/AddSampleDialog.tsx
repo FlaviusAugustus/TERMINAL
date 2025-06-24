@@ -1,4 +1,4 @@
-import { ProjectDto } from "@api/terminalSchemas";
+import { Project } from "@api/models/Project";
 import {
   DialogButton,
   DialogComp,
@@ -14,7 +14,7 @@ function validateName(name: string) {
   return name.length >= 5;
 }
 
-function validateProject(project: ProjectDto | null) {
+function validateProject(project: Project | null) {
   return project !== null;
 }
 
@@ -28,9 +28,7 @@ const AddSampleDialog = ({
   ...rest
 }: AddSampleDialogProps) => {
   const [sampleName, setSampleName] = useState("");
-  const [selectedProject, setSelectedProject] = useState<ProjectDto | null>(
-    null,
-  );
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [saveAsRecipe, setSaveAsRecipe] = useState(false);
 
   const [isNameValid, setIsNameValid] = useState(true);
@@ -87,7 +85,7 @@ const AddSampleDialog = ({
           validationInfo="Choose a project from the list"
         >
           {data?.rows.map((project) => (
-            <SelectItem<ProjectDto>
+            <SelectItem<Project>
               key={project.id}
               value={project}
               displayValue={project.name}

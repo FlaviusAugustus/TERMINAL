@@ -1,9 +1,9 @@
 import apiClient from "@api/apiClient";
-import { SampleDto } from "@api/terminalSchemas";
+import { Sample } from "@api/models/Sample";
 import { useQuery } from "@tanstack/react-query";
 
 export type RecentSamplesResponse = {
-  recentSamples: SampleDto[];
+  recentSamples: Sample[];
 };
 
 async function fetchRecentSamples(length: number) {
