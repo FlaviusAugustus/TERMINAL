@@ -7,16 +7,17 @@ import {
     PaginationState,
     useReactTable
 } from "@tanstack/react-table";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import TableCard from "@components/Shared/Table/TableCard.tsx";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import Chip from "@components/Shared/Chip.tsx";
 import {useTableColumns} from "@hooks/useTableColumns.tsx";
-import {PlusIcon, XMarkIcon} from "@heroicons/react/24/outline";
+import {MagnifyingGlassIcon, PlusIcon, XMarkIcon} from "@heroicons/react/24/outline";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 import IconButton from "@components/Shared/IconButton.tsx";
 import {Link} from "react-router-dom";
+import InputField from "@components/Shared/InputField.tsx";
 
 interface ParametersProps {
     parameters: Array<AllParameters>
@@ -45,6 +46,13 @@ const Parameters = ({parameters, onDetails, onDelete}: ParametersProps) => {
         pageIndex: 0,
         pageSize: 10,
     });
+    const [searchValue, setSearchValue] = useState<string>("");
+    const [parametersFiltered, setParametersFitlered] = useState<Array<AllParameters>>([]);
+
+    useEffect(() => {
+        const filteredParams = parameters.filter((param) => param.name.includes(searchValue));
+        setParametersFitlered(filteredParams);
+    }, [parameters, searchValue])
 
     const columns = useTableColumns<AllParameters>({
         columnsDef: columnsDef,
@@ -54,7 +62,7 @@ const Parameters = ({parameters, onDetails, onDelete}: ParametersProps) => {
 
     const table = useReactTable({
         columns: columns,
-        data: parameters ?? [],
+        data: parametersFiltered ?? [],
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -80,6 +88,12 @@ const Parameters = ({parameters, onDetails, onDelete}: ParametersProps) => {
     return (
       <>
           <div className="flex justify-between gap-1 items-end pb-3 h-14">
+              <InputField
+                className="!text-sm !h-[40px]"
+                placeholder="Search"
+                icon={<MagnifyingGlassIcon className="h-4"/>}
+                onChange={(e) => setSearchValue((e.target.value))}
+              />
               <VisibleForRoles roles={["Administrator", "Moderator"]}>
                   <div className="flex gap-1">
                       <IconButton
