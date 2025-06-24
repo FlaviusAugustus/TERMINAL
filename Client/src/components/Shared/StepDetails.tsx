@@ -1,10 +1,10 @@
-import { SampleStepDto } from "@api/terminalSchemas";
+import { Step } from "@api/models/Step";
 import ParamsTable from "@components/Parameters/ParamsTable";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import clsx from "clsx";
 
 type StepDetailsProps = {
-  steps: SampleStepDto[];
+  steps: Step[];
   editable: boolean;
 };
 

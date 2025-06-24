@@ -1,6 +1,6 @@
-import { ProjectDto } from "@api/terminalSchemas.ts";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
+import { Project } from "@api/models/Project";
 
 export type ProjectsRequest = {
   pageNumber: number;
@@ -9,7 +9,7 @@ export type ProjectsRequest = {
 };
 
 export type ProjectsResponse = {
-  rows: ProjectDto[];
+  rows: Project[];
   pageAmount: number;
   rowsAmount: number;
 };

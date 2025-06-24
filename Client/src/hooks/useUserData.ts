@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { UserDataResponse } from "../api/terminalSchemas";
 import apiClient from "../api/apiClient";
+import { UserDetailsDto } from "@api/models/User";
 
-async function getUserData(): Promise<UserDataResponse> {
-  const response = await apiClient.get<UserDataResponse>("/users/me");
+async function getUserData(): Promise<UserDetailsDto> {
+  const response = await apiClient.get<UserDetailsDto>("/users/me");
 
   return response.data;
 }

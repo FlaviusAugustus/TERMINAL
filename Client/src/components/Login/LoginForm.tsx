@@ -2,8 +2,7 @@ import React, { useState, useCallback } from "react";
 import TerminalBanner from "@components/Shared/TerminalBanner.tsx";
 import InputField from "@components/Shared/InputField.tsx";
 import SubmitButton from "@components/Shared/SubmitButton.tsx";
-import { useLoginMutation } from "@hooks/useLoginMutation.ts";
-import { LoginRequest } from "@api/terminalSchemas";
+import { LoginRequest, useLoginMutation } from "@hooks/useLoginMutation.ts";
 import { useNavigate } from "react-router-dom";
 import { toastNotify, toastPromise } from "../../utils/toast.utils.tsx";
 

@@ -1,5 +1,5 @@
+import { AllParameters } from "@api/models/Parameters";
 import { ColumnDef } from "@tanstack/react-table";
-import { AllParameters } from "./useGetParameters";
 import { useMemo } from "react";
 import { editableColumn } from "utils/tableUtils";
 
