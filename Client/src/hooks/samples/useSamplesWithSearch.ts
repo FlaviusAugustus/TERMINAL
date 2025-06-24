@@ -1,11 +1,11 @@
 import { useSamples, SamplesParams } from "./useGetSamples";
 import { useSearchSamples, SamplesSearchParams } from "./useSearchSamples";
 import { useSearchableTable } from "../useSearchableTable";
-import { SampleDto } from "@api/terminalSchemas.ts";
+import { Sample } from "@api/models/Sample";
 import {PaginationState, SortingState} from "@tanstack/react-table";
 
 export function useSamplesWithSearch() {
-    return useSearchableTable<SampleDto, SamplesParams, SamplesSearchParams>(
+    return useSearchableTable<Sample, SamplesParams, SamplesSearchParams>(
         {
             useRegularQuery: useSamples,
             useSearchQuery: useSearchSamples,
