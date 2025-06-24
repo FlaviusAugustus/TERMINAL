@@ -44,7 +44,6 @@ const NewParameterAllowedValues = (
                   label={`Value ${index + 1} `}
                   value={value}
                   onChange={(e) => setAllowedValue(index, e.currentTarget.value)}
-                  validationInfo="Parameter unit must be between 1 and 50 characters long"
                 />
               ))}
           </div>

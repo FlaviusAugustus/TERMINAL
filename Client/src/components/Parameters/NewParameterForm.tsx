@@ -4,6 +4,8 @@ import {AllParametersRequest} from "@api/models/Parameters.ts";
 import {LabeledSelect, SelectItem} from "@components/Shared/LabeledSelect.tsx";
 import {useState} from "react";
 import NewParameterAllowedValues from "@components/Parameters/NewParameterAllowedValues.tsx";
+import {toastPromise} from "../../utils/toast.utils.tsx";
+import {useAddParameter} from "@hooks/parameters/useAddParameter.ts";
 
 const NewParameterForm = () => {
 
@@ -12,20 +14,17 @@ const NewParameterForm = () => {
         name: "",
         unit: ""
     });
-    const [isRequestValid] = useState(true);
 
     const addAllowedValue = () => {
         if (parameterRequest.$type == "text")
             setParameterRequest({...parameterRequest, allowedValues: [...parameterRequest.allowedValues, ""]})
     }
-
     const deleteAllowedValue = () => {
         if (parameterRequest.$type == "text") {
             const newValues = parameterRequest.allowedValues.slice(0, -1);
             setParameterRequest({...parameterRequest, allowedValues: newValues});
         }
     }
-
     const setAllowedValue = (index: number, value: string) => {
         if (parameterRequest.$type == "text") {
             const newValues = [...parameterRequest.allowedValues];
@@ -33,10 +32,19 @@ const NewParameterForm = () => {
             setParameterRequest({...parameterRequest, allowedValues: newValues});
         }
     }
-
-
-    const handleSubmit = () => {
-        console.log("Submit", parameterRequest);
+    const {mutateAsync} = useAddParameter();
+    
+    const handleSubmit = async () => {
+        await toastPromise(mutateAsync(parameterRequest), {
+            success: "Parameter added successfully",
+            loading: "Adding parameter...",
+            error: "Failed adding parameter",
+        });
+        setParameterRequest({
+            $type: "integer",
+            name: "",
+            unit: ""
+        });
     }
 
     return (
@@ -47,7 +55,6 @@ const NewParameterForm = () => {
                 value={parameterRequest.name}
                 onChange={(e) =>
                   setParameterRequest({...parameterRequest, name: e.currentTarget.value})}
-                isValid={isRequestValid}
                 validationInfo="Parameter name must be between 3 and 50 characters long"
               />
               <LabeledSelect
@@ -71,7 +78,6 @@ const NewParameterForm = () => {
                       value={parameterRequest.unit}
                       onChange={(e) =>
                         setParameterRequest({...parameterRequest, unit: e.currentTarget.value})}
-                      isValid={isRequestValid}
                       validationInfo="Parameter unit must be between 1 and 50 characters long"
                   />
               }
