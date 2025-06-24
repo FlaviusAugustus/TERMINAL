@@ -3,16 +3,16 @@ import Samples from "@components/Samples/Samples.tsx";
 import SampleDetails from "@components/Samples/SampleDetails.tsx";
 import { useSampleDetails } from "@hooks/samples/useGetSampleDetails.ts";
 import { useDeleteSample } from "@hooks/samples/useDeleteSample.ts";
-import { useSamplesWithSearch } from "@hooks/samples/useSamplesWithSearch.ts";
 import TableLayout from "./layouts/TableLayout";
 import Loader from "@components/Shared/Loader";
 import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
 import EditSample from "@components/Samples/EditSample";
 import DialogLoader from "@components/Shared/DialogLoader";
+import { useSamplesWithSearch } from "@hooks/samples/useSamplesWithSearch.ts";
 
 const SamplesPage = () => {
     const {
-        samplesData,
+        data: samplesData,
         isLoading,
         searchPhrase,
         isSearching,

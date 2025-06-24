@@ -8,15 +8,13 @@ import {
     PaginationState,
 } from "@tanstack/react-table";
 import { SamplesResponse } from "@hooks/samples/useGetSamples.ts";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Chip from "@components/Shared/Chip";
 import {
-    MagnifyingGlassIcon,
     PlusIcon,
     XMarkIcon,
 } from "@heroicons/react/24/outline";
 import IconButton from "@components/Shared/IconButton";
-import InputField from "@components/Shared/InputField";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableManagement from "@components/Shared/Table/TableManagment";
 import TableView from "@components/Shared/Table/TableView";
@@ -24,6 +22,7 @@ import {Link} from "react-router-dom";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 import {toastPromise} from "utils/toast.utils";
 import {useTableColumns} from "@hooks/useTableColumns.tsx";
+import SearchInput from "@components/Shared/SearchInput.tsx";
 
 export interface SamplesProps {
     onChangeSampleDetails?: (code: string) => void;
@@ -69,7 +68,6 @@ const columnsDef = [
  * @param {SamplesProps} props - The properties for the Samples component.
  */
 const Samples = (props: SamplesProps) => {
-    const [localSearchValue, setLocalSearchValue] = useState<string>(props.searchValue || "");
 
     const handleDelete = async (id: string) => {
         await toastPromise(props.onDelete(id), {
@@ -86,10 +84,6 @@ const Samples = (props: SamplesProps) => {
         onDetails: props.onDetails
     })
     const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
-
-    useEffect(() => {
-        setLocalSearchValue(props.searchValue || "");
-    }, [props.searchValue]);
 
     const table = useReactTable({
         columns: columns,
@@ -125,48 +119,16 @@ const Samples = (props: SamplesProps) => {
         });
     };
 
-    const handleSearchSubmit = () => {
-        const trimmedValue = localSearchValue.trim();
-        props.onSearch(trimmedValue);
-
-        if (trimmedValue === "") {
-            props.onClearSearch();
-        }
-    };
-
-    const handleClearSearch = () => {
-        setLocalSearchValue("");
-        props.onClearSearch();
-    };
-
     return (
         <>
             <div className="flex justify-between gap-1 items-end pb-3 h-14">
-                <div className="flex gap-2 items-center">
-                    <InputField
-                        className="!text-sm !h-[40px]"
-                        placeholder="Search"
-                        icon={<MagnifyingGlassIcon className="h-4" />}
-                        value={localSearchValue}
-                        onChange={(e) => setLocalSearchValue(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                                e.preventDefault();
-                                handleSearchSubmit();
-                            }
-                        }}
-                    />
-                    {props.isSearching && (
-                        <IconButton
-                            onClick={handleClearSearch}
-                            className="h-[40px] flex bg-white items-center gap-1 !hover:border-gray-300"
-                            title="Clear search"
-                        >
-                            <XMarkIcon className="h-4" />
-                            <p className="text-xs">Clear</p>
-                        </IconButton>
-                    )}
-                </div>
+                <SearchInput
+                    onSearch={props.onSearch}
+                    onClearSearch={props.onClearSearch}
+                    isSearching={props.isSearching}
+                    searchValue={props.searchValue}
+                    placeholder="Search samples"
+                />
                 <VisibleForRoles roles={["Administrator", "Moderator"]}>
                     <div className="flex gap-1">
                         <IconButton

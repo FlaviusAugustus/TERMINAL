@@ -2,7 +2,7 @@ import {keepPreviousData, useQuery} from "@tanstack/react-query";
 import { SampleDto} from "@api/terminalSchemas.ts";
 import apiClient from "@api/apiClient.ts";
 
-export type SamplesRequest = {
+export type SamplesParams = {
     pageNumber: number;
     pageSize: number;
     orderBy?: string;
@@ -15,7 +15,7 @@ export type SamplesResponse = {
     rowsAmount: number; // All rows (samples)
 }
 
-function correctParams(params: SamplesRequest) : SamplesRequest{
+function correctParams(params: SamplesParams) : SamplesParams{
     function capitalizeFirstLetter(val:string | undefined) {
         return String(val).charAt(0).toUpperCase() + String(val).slice(1);
     }
@@ -30,7 +30,7 @@ function correctParams(params: SamplesRequest) : SamplesRequest{
     }
 }
 
-async function fetchDataSamples(params: SamplesRequest): Promise<SamplesResponse> {
+async function fetchDataSamples(params: SamplesParams): Promise<SamplesResponse> {
     params = correctParams(params);
     const resultSamples = await apiClient.get(`/samples`, {params})
     const resultAmountOfSamples = await apiClient.get(`/samples/amount`);
@@ -49,9 +49,9 @@ async function fetchDataSamples(params: SamplesRequest): Promise<SamplesResponse
  * It returns the samples data for the given parameters, or keeps previous data while loading new data.
  *
  * @hook
- * @param {SamplesRequest} params - The parameters for the samples request.
+ * @param {SamplesParams} params - The parameters for the samples request.
  */
-export function useSamples(params: SamplesRequest) {
+export function useSamples(params: SamplesParams) {
     return useQuery({
         queryKey: ["samples", params],
         queryFn: () => fetchDataSamples(params),
