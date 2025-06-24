@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import useParameterColumns from "./useParameterColumns";
-import { AllParameters } from "./useGetParameters";
+import { AllParameters } from "@api/models/Parameters";
 
 interface UseEditableTableOptions {
   steps: Array<{ parameters: AllParameters[] }>;
@@ -14,7 +14,7 @@ export function useEditableStepTable({
 }: UseEditableTableOptions) {
   const [index, setIndex] = useState(0);
 
-  const isEditable = updateData === undefined;
+  const isEditable = updateData !== undefined;
 
   const columns = useParameterColumns(isEditable);
 

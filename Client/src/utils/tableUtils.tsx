@@ -1,4 +1,5 @@
-import useGetParameters, { AllParameters } from "@hooks/useGetParameters";
+import { AllParameters } from "@api/models/Parameters";
+import useGetParameters from "@hooks/useGetParameters";
 import { RowData, ColumnDef } from "@tanstack/react-table";
 import { useState, useEffect } from "react";
 

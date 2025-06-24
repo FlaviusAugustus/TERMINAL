@@ -6,7 +6,6 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { UserDetailsDto } from "@api/terminalSchemas.ts";
 import { UsersResponse } from "@hooks/users/useGetUsers.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
@@ -14,6 +13,7 @@ import TableCard from "@components/Shared/Table/TableCard.tsx";
 import { useMemo } from "react";
 import UsersRowActions from "./UsersRowActions";
 import Chip from "@components/Shared/Chip";
+import { UserDetailsDto } from "@api/models/User";
 
 /**
  * Props for the Users component.

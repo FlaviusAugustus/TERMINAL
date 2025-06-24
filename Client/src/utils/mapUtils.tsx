@@ -1,11 +1,8 @@
-import {
-  SampleDetailsDto,
-  StepParameterValueDto,
-  UpdateSampleRequest,
-  UpdateSampleStepDto,
-} from "@api/terminalSchemas";
+import { StepParameterValueDto } from "@api/models/Parameters";
+import { SampleDetailsDto, UpdateSample } from "@api/models/Sample";
+import { UpdateStep } from "@api/models/Step";
 
-function sampleToUpdateRequest(sample: SampleDetailsDto): UpdateSampleRequest {
+function sampleToUpdateRequest(sample: SampleDetailsDto): UpdateSample {
   return {
     id: sample.id,
     projectId: sample.projectId,
@@ -23,7 +20,7 @@ function sampleToUpdateRequest(sample: SampleDetailsDto): UpdateSampleRequest {
             id: p.id,
           } satisfies StepParameterValueDto;
         }),
-      } as UpdateSampleStepDto;
+      } as UpdateStep;
     }),
   };
 }
