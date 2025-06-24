@@ -1,4 +1,4 @@
-import {SampleDto} from "@api/terminalSchemas.ts";
+import {Sample} from "@api/models/Sample";
 import apiClient from "@api/apiClient.ts";
 import {useQuery} from "@tanstack/react-query";
 
@@ -9,7 +9,7 @@ export type SamplesSearchParams = {
 }
 
 export type SamplesSearchResponse = {
-    rows: SampleDto[];
+    rows: Sample[];
     pageAmount: number;
     rowsAmount: number;
 }
