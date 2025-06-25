@@ -4,7 +4,7 @@ import Loader from "@components/Shared/Loader.tsx";
 import useGetParameters from "@hooks/parameters/useGetParameters.ts";
 import Parameters from "@components/Parameters/Parameters.tsx";
 import ParameterDetails from "@components/Parameters/ParameterDetails.tsx";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {AllParameters} from "@api/models/Parameters.ts";
 import DialogLoader from "@components/Shared/DialogLoader.tsx";
 
@@ -12,20 +12,12 @@ const ParametersPage = () => {
 
     const dataParameters = useGetParameters();
 
-    useEffect(() => {
-        console.log(dataParameters.data?.parameters)
-    }, [dataParameters.data])
-
     const [parameterDetails, setParameterDetails] = useState<AllParameters | undefined>(undefined);
     const [detailsOpen, setDetailsOpen] = useState(false);
 
     const handleParameterDetails = (id: string) => {
         setDetailsOpen(true);
         const paramDetails = dataParameters.data?.parameters.find((param) => param.id === id);
-        console.log("id")
-        console.log(id)
-        console.log(dataParameters.data?.parameters)
-        console.log(paramDetails);
         setParameterDetails(paramDetails);
     };
 

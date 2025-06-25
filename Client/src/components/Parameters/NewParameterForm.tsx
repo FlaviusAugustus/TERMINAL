@@ -14,6 +14,7 @@ const NewParameterForm = () => {
         name: "",
         unit: ""
     });
+    const [isParameterNameValid, setIsParameterNameValid] = useState(true);
 
     const addAllowedValue = () => {
         if (parameterRequest.$type == "text")
@@ -33,8 +34,12 @@ const NewParameterForm = () => {
         }
     }
     const {mutateAsync} = useAddParameter();
-    
+
     const handleSubmit = async () => {
+        const parameterNameIsValid = checkIfNameIsValid(parameterRequest.name);
+        setIsParameterNameValid(parameterNameIsValid);
+
+        if (!parameterNameIsValid) return;
         await toastPromise(mutateAsync(parameterRequest), {
             success: "Parameter added successfully",
             loading: "Adding parameter...",
@@ -47,12 +52,17 @@ const NewParameterForm = () => {
         });
     }
 
+    const checkIfNameIsValid = (name: string) => {
+        return name.length >= 3 && name.length <= 50;
+    };
+
     return (
       <div className="flex flex-col">
-          <div className="gap-3">
+          <div className="gap-3 pb-2">
               <InputField
                 label="Name"
                 value={parameterRequest.name}
+                isValid={isParameterNameValid}
                 onChange={(e) =>
                   setParameterRequest({...parameterRequest, name: e.currentTarget.value})}
                 validationInfo="Parameter name must be between 3 and 50 characters long"
@@ -78,7 +88,6 @@ const NewParameterForm = () => {
                       value={parameterRequest.unit}
                       onChange={(e) =>
                         setParameterRequest({...parameterRequest, unit: e.currentTarget.value})}
-                      validationInfo="Parameter unit must be between 1 and 50 characters long"
                   />
               }
               {parameterRequest.$type === "text" &&

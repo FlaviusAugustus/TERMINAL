@@ -32,7 +32,6 @@ const NewParameterAllowedValues = (
               </div>
               <IconButton onClick={increaseAllowedValues}
                           className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
-
               >
                   <PlusIcon className="h-4"/>
               </IconButton>
