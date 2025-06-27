@@ -3,6 +3,7 @@ import { useState } from "react";
 import { DialogButton } from "../Shared/DialogComp";
 import useAddProject from "@hooks/projects/useAddProject";
 import { toastPromise } from "utils/toast.utils";
+import Form from "@components/Shared/Form";
 
 /**
  * NewProjectForm Component
@@ -32,14 +33,7 @@ const NewProjectForm = () => {
           <p className="font-medium text-lg">Add new project</p>
         </div>
         <div className="flex flex-col gap-3">
-          <form
-            noValidate
-            onSubmit={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleSubmit();
-            }}
-          >
+          <Form handleSubmit={handleSubmit}>
             <InputField
               name="name"
               label="Name"
@@ -48,14 +42,10 @@ const NewProjectForm = () => {
               value={projectName}
               onChange={(e) => setProjectName(e.currentTarget.value)}
             />
-            <DialogButton
-              type="submit"
-              className="hover:border-green-400"
-              onClick={handleSubmit}
-            >
+            <DialogButton type="submit" className="hover:border-green-400 mt-2">
               Add Project
             </DialogButton>
-          </form>
+          </Form>
         </div>
       </div>
     </div>

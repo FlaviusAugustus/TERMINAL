@@ -1,6 +1,6 @@
 import { Field, Label } from "@headlessui/react";
 import clsx from "clsx";
-import { RefObject } from "react";
+import { RefObject, useState } from "react";
 
 export type InputLabelAndValidationProps = {
   label?: string;
@@ -37,8 +37,14 @@ const InputLabelAndValidation = ({
   children,
   inputRef,
 }: React.PropsWithChildren<InputLabelAndValidationProps>) => {
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleBlur = () => {
+    setErrorMessage(getErrorMessage(inputRef.current));
+  };
+
   return (
-    <Field className="h-fit">
+    <Field className="h-fit" onBlur={handleBlur}>
       {label && (
         <Label className="text-sm font-normal font-sans text-gray-700">
           {label}:
@@ -50,8 +56,8 @@ const InputLabelAndValidation = ({
           inputRef.current && inputRef.current.validity.valid && "invisible",
         )}
       >
-        <p role="alert" className="text-xs pt-1 text-red-500">
-          {getErrorMessage(inputRef.current)}
+        <p role="alert" className="text-xs h-4 py-1 text-red-500">
+          {errorMessage}
         </p>
       </div>
     </Field>
