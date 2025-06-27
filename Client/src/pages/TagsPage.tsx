@@ -7,6 +7,8 @@ import {PaginationState, SortingState} from "@tanstack/react-table";
 import {useGetAllTags} from "@hooks/tags/useGetAllTags.ts";
 import {useGetTagDetails} from "@hooks/tags/useGetTagDetails.ts";
 import TagDetails from "@components/Tags/TagDetails.tsx";
+import {useDeleteTag} from "@hooks/tags/useDeleteTag.ts";
+import {toastPromise} from "../utils/toast.utils.tsx";
 
 
 const TagsPage = () => {
@@ -22,6 +24,21 @@ const TagsPage = () => {
         pageSize: pagination.pageSize,
         desc: sorting[0]?.desc ?? true
     })
+
+    const deleteMutation = useDeleteTag({
+        pageNumber: pagination.pageIndex,
+        pageSize: pagination.pageSize,
+        desc: sorting[0]?.desc ?? true,
+    });
+
+    const handleDelete = async (id: string | null) => {
+        if (!id) return;
+        await toastPromise(deleteMutation.mutateAsync(id), {
+            loading: "Deleting tag...",
+            success: "Deletion successful",
+            error: "Deletion failed",
+        });
+    };
 
     const [tagDetailsId, setTagDetailsId] = useState<string | null>(null);
     const [detailsOpen, setDetailsOpen] = useState(false);
@@ -46,7 +63,7 @@ const TagsPage = () => {
                 pagination={pagination}
                 setPagination={setPagination}
                 onDetails={changeTagDetails}
-                // onDelete={handleDelete}
+                onDelete={handleDelete}
               />
           </ComponentOrLoader>
           <ComponentOrLoader

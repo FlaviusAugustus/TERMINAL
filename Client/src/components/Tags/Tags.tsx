@@ -27,7 +27,7 @@ export interface TagProps {
     setSorting: OnChangeFn<SortingState>;
     setPagination: OnChangeFn<PaginationState>;
     onDetails: (tagId: string) => void;
-    // onDelete: (tagId: string) => void;
+    onDelete: (tagId: string) => void;
 }
 
 const columnHelper = createColumnHelper<Tag>();
@@ -54,6 +54,7 @@ const Tags = (props: TagProps) => {
     const columns = useTableColumns<Tag>({
         columnsDef: columnsDef,
         onDetails: props.onDetails,
+        onDelete: props.onDelete
     });
 
     const table = useReactTable({
@@ -78,6 +79,12 @@ const Tags = (props: TagProps) => {
         manualPagination: true,
     });
 
+    const handleDeleteSelected = () => {
+        table.getSelectedRowModel().rows.forEach((row) => {
+            props.onDelete(row.original.id);
+        });
+    };
+
     return (
       <>
           <div className="flex justify-between gap-1 items-end pb-3 h-14">
@@ -89,6 +96,7 @@ const Tags = (props: TagProps) => {
               <VisibleForRoles roles={["Administrator", "Moderator"]}>
                   <div className="flex gap-1">
                       <IconButton
+                        onClick={handleDeleteSelected}
                         disabled={
                             !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
                         }

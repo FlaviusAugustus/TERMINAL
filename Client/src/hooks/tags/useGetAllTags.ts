@@ -36,7 +36,7 @@ async function fetchDataProject(
  */
 export function useGetAllTags(params: TagsRequest) {
     return useQuery({
-        queryKey: ["tags", params],
+        queryKey: ["tags", "all", params],
         queryFn: () => fetchDataProject(params),
         placeholderData: keepPreviousData,
     });
