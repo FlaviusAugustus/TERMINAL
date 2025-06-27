@@ -25,16 +25,13 @@ const TagsPage = () => {
 
     const [tagDetailsId, setTagDetailsId] = useState<string | null>(null);
     const [detailsOpen, setDetailsOpen] = useState(false);
-    // const [editOpen, setEditOpen] = useState(false);
     const dataTagDetails = useGetTagDetails(tagDetailsId);
 
     const changeTagDetails = (id: string) => {
         setTagDetailsId(id);
         setDetailsOpen(true);
     };
-    // useEffect(() => {
-    //     console.log(queryTags)
-    // }, [queryTags]);
+
 
     return (
       <TableLayout>

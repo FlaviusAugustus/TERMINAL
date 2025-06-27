@@ -17,6 +17,7 @@ import DashboardPage from "@pages/DashboardPage.tsx";
 import LoginOrNotFound from "@pages/LoginOrNotFound.tsx";
 import ParametersPage from "@pages/ParametersPage.tsx";
 import TagsPage from "@pages/TagsPage.tsx";
+import AddTag from "@components/AddTag/AddTag.tsx";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,9 @@ export default function App() {
                   </Route>
                   <Route element={<AuthorizedLayout pageName="Add new sample"/>}>
                       <Route path="/new-sample" element={<AddRecipeWithContexts/>}/>
+                  </Route>
+                  <Route element={<AuthorizedLayout pageName="Add new tag"/>}>
+                      <Route path="/new-tag" element={<AddTag/>}/>
                   </Route>
                   <Route element={<AuthorizedLayout pageName="Dashboard"/>}>
                       <Route path="/" element={<DashboardPage/>}/>

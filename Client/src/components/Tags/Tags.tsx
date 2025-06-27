@@ -9,7 +9,7 @@ import {
 import {Tag} from "@api/models/Tag.ts";
 import {useState} from "react";
 import {useTableColumns} from "@hooks/useTableColumns.tsx";
-import {PlusIcon, XMarkIcon} from "@heroicons/react/24/outline";
+import {MagnifyingGlassIcon, PlusIcon, XMarkIcon} from "@heroicons/react/24/outline";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 import IconButton from "@components/Shared/IconButton.tsx";
 import TableCard from "@components/Shared/Table/TableCard.tsx";
@@ -17,6 +17,7 @@ import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import {TagsResponse} from "@hooks/tags/useGetAllTags.ts";
 import {Link} from "react-router-dom";
+import InputField from "@components/Shared/InputField.tsx";
 
 
 export interface TagProps {
@@ -80,6 +81,11 @@ const Tags = (props: TagProps) => {
     return (
       <>
           <div className="flex justify-between gap-1 items-end pb-3 h-14">
+              <InputField
+                className="!text-sm !h-[40px]"
+                placeholder="Search"
+                icon={<MagnifyingGlassIcon className="h-4"/>}
+              />
               <VisibleForRoles roles={["Administrator", "Moderator"]}>
                   <div className="flex gap-1">
                       <IconButton
