@@ -99,7 +99,7 @@ const NewParameterForm = () => {
           }}
         >
           <SelectItem value="integer" displayValue="Integer" />
-          <SelectItem value="decimal" displayValue="Deciaml" />
+          <SelectItem value="decimal" displayValue="Decimal" />
           <SelectItem value="text" displayValue="Text" />
         </LabeledSelect>
         {parameterRequest.$type !== "text" && (
