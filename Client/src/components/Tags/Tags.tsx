@@ -28,6 +28,7 @@ export interface TagProps {
     setPagination: OnChangeFn<PaginationState>;
     onDetails: (tagId: string) => void;
     onDelete: (tagId: string) => void;
+    onEdit: (tagId: string) => void;
 }
 
 const columnHelper = createColumnHelper<Tag>();
@@ -54,7 +55,8 @@ const Tags = (props: TagProps) => {
     const columns = useTableColumns<Tag>({
         columnsDef: columnsDef,
         onDetails: props.onDetails,
-        onDelete: props.onDelete
+        onDelete: props.onDelete,
+        onEdit: props.onEdit
     });
 
     const table = useReactTable({
@@ -97,9 +99,7 @@ const Tags = (props: TagProps) => {
                   <div className="flex gap-1">
                       <IconButton
                         onClick={handleDeleteSelected}
-                        disabled={
-                            !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
-                        }
+                        disabled={!(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())}
                         className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
                       >
                           <XMarkIcon className="h-4 "/>
