@@ -24,13 +24,19 @@ const InputField = ({
   label,
   icon,
   isValid = true,
+  validate = true,
   className,
   ...rest
 }: InputFieldProps) => {
   const ref = useRef<HTMLInputElement>(null);
 
   return (
-    <InputLabelAndValidation label={label} isValid={isValid} inputRef={ref}>
+    <InputLabelAndValidation
+      label={label}
+      isValid={isValid}
+      inputRef={ref}
+      validate={validate}
+    >
       <div className="relative">
         <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
           {icon}

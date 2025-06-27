@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { RefObject, useState } from "react";
 
 export type InputLabelAndValidationProps = {
+  validate?: boolean;
   label?: string;
   isValid?: boolean;
   inputRef: RefObject<HTMLInputElement>;
@@ -34,6 +35,7 @@ function getErrorMessage(input: HTMLInputElement | null): string {
 const InputLabelAndValidation = ({
   label,
   children,
+  validate,
   inputRef,
 }: React.PropsWithChildren<InputLabelAndValidationProps>) => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -50,15 +52,17 @@ const InputLabelAndValidation = ({
         </Label>
       )}
       {children}
-      <div
-        className={clsx(
-          inputRef.current && inputRef.current.validity.valid && "invisible",
-        )}
-      >
-        <p role="alert" className="text-xs h-4 py-1 text-red-500">
-          {errorMessage}
-        </p>
-      </div>
+      {validate && (
+        <div
+          className={clsx(
+            inputRef.current && inputRef.current.validity.valid && "invisible",
+          )}
+        >
+          <p role="alert" className="text-xs h-4 py-1 text-red-500">
+            {errorMessage}
+          </p>
+        </div>
+      )}
     </Field>
   );
 };
