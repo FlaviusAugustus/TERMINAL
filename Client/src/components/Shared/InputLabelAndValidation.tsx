@@ -18,8 +18,7 @@ function getErrorMessage(input: HTMLInputElement | null): string {
   if (validityState.tooLong)
     return `${input.name} must be at most ${input.maxLength} characters long`;
   if (validityState.valueMissing) return `${input.name} is required`;
-  if (validityState.typeMismatch)
-    return `${input.name} is not a valid ${input.type}`;
+  if (validityState.typeMismatch) return `please enter a valid ${input.type}`;
   if (validityState.patternMismatch)
     return `${input.name} does not match the required pattern`;
   if (validityState.rangeUnderflow)
