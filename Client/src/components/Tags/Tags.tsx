@@ -9,23 +9,23 @@ import {
 import {Tag} from "@api/models/Tag.ts";
 import {useState} from "react";
 import {useTableColumns} from "@hooks/useTableColumns.tsx";
-import {XMarkIcon} from "@heroicons/react/24/outline";
+import {PlusIcon, XMarkIcon} from "@heroicons/react/24/outline";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 import IconButton from "@components/Shared/IconButton.tsx";
 import TableCard from "@components/Shared/Table/TableCard.tsx";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import {TagsResponse} from "@hooks/tags/useGetAllTags.ts";
+import {Link} from "react-router-dom";
 
 
 export interface TagProps {
-    // onChangeTagDetails: (id: string) => void;
     tags: TagsResponse | undefined;
     sorting: SortingState;
     pagination: PaginationState;
     setSorting: OnChangeFn<SortingState>;
     setPagination: OnChangeFn<PaginationState>;
-    // onDetails: (tagId: string) => void;
+    onDetails: (tagId: string) => void;
     // onDelete: (tagId: string) => void;
 }
 
@@ -52,8 +52,7 @@ const Tags = (props: TagProps) => {
 
     const columns = useTableColumns<Tag>({
         columnsDef: columnsDef,
-        // onDetails: props.onDetails,
-        // onDelete: props.onDelete,
+        onDetails: props.onDetails,
     });
 
     const table = useReactTable({
@@ -78,27 +77,12 @@ const Tags = (props: TagProps) => {
         manualPagination: true,
     });
 
-    // const handleClick = (id: string | null | undefined) => {
-    //     props.onChangeTagDetails?.(id?.toString() ?? "");
-    // };
-    //
-    // const handleDeleteSelected = () => {
-    //     table.getSelectedRowModel().rows.forEach((row) => {
-    //         props.onDelete(row.original.id);
-    //     });
-    // };
     return (
       <>
           <div className="flex justify-between gap-1 items-end pb-3 h-14">
-              {/*<InputField*/}
-              {/*  className="!text-sm !h-[40px]"*/}
-              {/*  placeholder="Search"*/}
-              {/*  icon={<MagnifyingGlassIcon className="h-4"/>}*/}
-              {/*/>*/}
               <VisibleForRoles roles={["Administrator", "Moderator"]}>
                   <div className="flex gap-1">
                       <IconButton
-                        // onClick={handleDeleteSelected}
                         disabled={
                             !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
                         }
@@ -107,12 +91,12 @@ const Tags = (props: TagProps) => {
                           <XMarkIcon className="h-4 "/>
                           <p className="text-xs">Delete Selected</p>
                       </IconButton>
-                      {/*<Link to="/new-project">*/}
-                      {/*    <IconButton className="h-[40px] flex bg-white items-center gap-1">*/}
-                      {/*        <PlusIcon className="h-4" />*/}
-                      {/*        <p className="text-xs">Add new</p>*/}
-                      {/*    </IconButton>*/}
-                      {/*</Link>*/}
+                      <Link to="/new-Tag">
+                          <IconButton className="h-[40px] flex bg-white items-center gap-1">
+                              <PlusIcon className="h-4"/>
+                              <p className="text-xs">Add new</p>
+                          </IconButton>
+                      </Link>
                   </div>
               </VisibleForRoles>
           </div>

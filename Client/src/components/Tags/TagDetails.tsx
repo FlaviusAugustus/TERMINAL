@@ -1,29 +1,41 @@
 import {DialogComp} from "@components/Shared/DialogComp.tsx";
+import {TagDetailsDto} from "@api/models/Tag.ts";
+import Detail from "@components/Shared/Detail.tsx";
+import {Color} from "../../utils/colorUtils.tsx";
+import Chip from "@components/Shared/Chip.tsx";
 
 
 export interface TagDetailsProps {
-    // parameter: AllParameters | undefined;
+    tag: TagDetailsDto | undefined;
     open: boolean;
     openChange: (arg0: boolean) => void;
 }
 
-const TagDetails = ({open, openChange}: TagDetailsProps) => {
+function getChipColors(isActive: boolean): Color {
+    return isActive ? "green" : "red";
+}
+
+function getChipValue(isActive: boolean): string {
+    return isActive ? "Active" : "Not Active";
+}
+
+const TagDetails = ({tag, open, openChange}: TagDetailsProps) => {
     return (
       <DialogComp
         isOpen={open}
         setIsOpen={openChange}
-        title="Parameter details"
+        title="Tag details"
         className="w-full lg:w-[700px]"
       >
           <div className="space-y-3 font-light text-sm text-gray-600">
-              <div className="grid grid-cols-3 gap-3">
-                  {/*<Detail label="name">{parameter?.name}</Detail>*/}
-                  {/*{(parameter?.$type === "decimal" || parameter?.$type === "integer") && (*/}
-                  {/*  <>*/}
-                  {/*      <Detail label="step">{parameter?.step}</Detail>*/}
-                  {/*      <Detail label="unit">{parameter?.unit}</Detail>*/}
-                  {/*  </>*/}
-                  {/*)}*/}
+              <div className="grid grid-cols-2 gap-3">
+                  <Detail label="name">{tag?.name}</Detail>
+                  <Detail label="name">
+                      <Chip
+                        value={getChipValue(tag?.isActive || false)}
+                        getColorValue={() => getChipColors(tag?.isActive || false)}
+                      />
+                  </Detail>
               </div>
           </div>
       </DialogComp>
