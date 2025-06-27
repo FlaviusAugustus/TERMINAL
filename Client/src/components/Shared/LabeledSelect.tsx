@@ -18,7 +18,7 @@ type LabeledSelectProps<T> = Omit<InputLabelAndValidationProps, "inputRef"> &
   ComboboxProps<T, false> & {
     displayValue?: (arg0: T) => string;
     children: ReactNode;
-    validationInfo: string;
+    validationInfo?: string;
   };
 
 /**
