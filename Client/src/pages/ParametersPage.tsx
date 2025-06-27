@@ -7,10 +7,13 @@ import ParameterDetails from "@components/Parameters/ParameterDetails.tsx";
 import {useState} from "react";
 import {AllParameters} from "@api/models/Parameters.ts";
 import DialogLoader from "@components/Shared/DialogLoader.tsx";
+import {useDeactivateParameter} from "@hooks/parameters/useDeactivateParameter.ts";
+import {toastPromise} from "../utils/toast.utils.tsx";
 
 const ParametersPage = () => {
 
     const dataParameters = useGetParameters();
+    const {mutateAsync} = useDeactivateParameter();
 
     const [parameterDetails, setParameterDetails] = useState<AllParameters | undefined>(undefined);
     const [detailsOpen, setDetailsOpen] = useState(false);
@@ -21,6 +24,16 @@ const ParametersPage = () => {
         setParameterDetails(paramDetails);
     };
 
+    const handleDelete = async (id: string) => {
+        if (!id) return;
+        await toastPromise(mutateAsync(id), {
+            loading: "Deleting parameter...",
+            success: "Deletion successful",
+            error: "Deletion failed",
+        });
+    };
+
+
     return (
       <TableLayout>
           <ComponentOrLoader
@@ -30,6 +43,7 @@ const ParametersPage = () => {
               <Parameters
                 parameters={dataParameters?.data?.parameters || []}
                 onDetails={handleParameterDetails}
+                onDelete={handleDelete}
               />
           </ComponentOrLoader>
           <ComponentOrLoader

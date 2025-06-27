@@ -34,7 +34,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@playwright/test": "^1.53.1",
     "@tanstack/eslint-plugin-query": "^5.66.0",
+    "@types/node": "^24.0.3",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-basic-ssl": "^1.2.0",

@@ -8,7 +8,7 @@ import TableLayout from "./layouts/TableLayout";
 import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
 import Loader from "@components/Shared/Loader";
 import {useProjectDetails} from "@hooks/projects/useGetProjectDetails.ts";
-import ProjectDetails from "@components/Projects/ProjectDetails.tsx";
+import ProjectEdit from "@components/Projects/ProjectEdit.tsx";
 import {useUpdateProjectName} from "@hooks/projects/useUpdateProjectName.ts";
 import {useUpdateProjectStatus} from "@hooks/projects/useUpdateProjectStatus.ts";
 
@@ -18,7 +18,7 @@ const ProjectsPage = () => {
         pageIndex: 0,
         pageSize: 10,
     });
-    const [detailsOpen, setDetailsOpen] = useState(false);
+    const [editOpen, setEditOpen] = useState(false);
     const [projectDetailsId, setProjectDetailsId] = useState<string | null>(null);
 
     const queryProjects = useAllProjects({
@@ -56,9 +56,9 @@ const ProjectsPage = () => {
         });
     };
 
-    const handleDetails = async (id: string | null) => {
+    const handleEdit = async (id: string | null) => {
         setProjectDetailsId(id)
-        setDetailsOpen(true)
+        setEditOpen(true)
     };
 
     const handleSubmit = async (id: string, name: string, isActive: boolean) => {
@@ -93,7 +93,7 @@ const ProjectsPage = () => {
                 setPagination={setPagination}
                 onChangeProjectDetails={() => {
                 }}
-                onDetails={handleDetails}
+                onEdit={handleEdit}
                 onDelete={handleDelete}
               />
           </ComponentOrLoader>
@@ -101,11 +101,11 @@ const ProjectsPage = () => {
             isLoading={queryProjectDetails.isLoading}
             loader={<Loader/>}
           >
-              <ProjectDetails
+              <ProjectEdit
                 project={queryProjectDetails.data!}
                 onSubmit={handleSubmit}
-                open={detailsOpen}
-                setOpen={setDetailsOpen}
+                open={editOpen}
+                setOpen={setEditOpen}
               />
           </ComponentOrLoader>
       </TableLayout>
