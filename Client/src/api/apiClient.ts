@@ -26,8 +26,14 @@ apiClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response.status !== 401 || originalRequest._retry)
+    if (
+      error.response.status !== 401 ||
+      originalRequest._retry ||
+      originalRequest.url.includes("/users/refresh") ||
+      sessionStorage.getItem("token") === null
+    ) {
       return Promise.reject(error);
+    }
 
     originalRequest._retry = true;
 

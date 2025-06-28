@@ -58,6 +58,7 @@ const LoginForm = () => {
                 name="email"
                 type="email"
                 label="Email"
+                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -65,6 +66,7 @@ const LoginForm = () => {
                 name="password"
                 type="password"
                 label="Password"
+                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
