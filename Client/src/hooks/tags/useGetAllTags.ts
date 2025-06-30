@@ -14,7 +14,7 @@ export type TagsResponse = {
     rowsAmount: number;
 };
 
-async function fetchDataProject(
+async function fetchDataTag(
   params: TagsRequest,
 ): Promise<TagsResponse> {
     const tags = await apiClient.get("/tags/all", {params});
@@ -37,7 +37,7 @@ async function fetchDataProject(
 export function useGetAllTags(params: TagsRequest) {
     return useQuery({
         queryKey: ["tags", "all", params],
-        queryFn: () => fetchDataProject(params),
+        queryFn: () => fetchDataTag(params),
         placeholderData: keepPreviousData,
     });
 }
