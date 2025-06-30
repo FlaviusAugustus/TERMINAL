@@ -1,15 +1,10 @@
-import InputField from "@components/Shared/InputField.tsx";
 import {DialogButton} from "@components/Shared/DialogComp.tsx";
 import {AllParametersRequest, ParameterType} from "@api/models/Parameters.ts";
-import {
-    LabeledSelect,
-    SelectItem,
-} from "@components/Shared/LabeledSelect.tsx";
 import {useState} from "react";
-import NewParameterAllowedValues from "@components/Parameters/NewParameterAllowedValues.tsx";
 import {toastPromise} from "../../utils/toast.utils.tsx";
 import {useAddParameter} from "@hooks/parameters/useAddParameter.ts";
 import Form from "@components/Shared/Form.tsx";
+import NewParameterInputs from "@components/AddParameter/NewParameterInputs.tsx";
 
 const NewParameterForm = () => {
     const [parameterRequest, setParameterRequest] =
@@ -82,43 +77,14 @@ const NewParameterForm = () => {
     return (
       <div className="flex flex-col">
           <Form handleSubmit={handleSubmit}>
-              <div className="gap-3 pb-2">
-                  <InputField
-                    required
-                    label="Name"
-                    value={parameterRequest.name}
-                    minLength={3}
-                    maxLength={50}
-                    onChange={(e) => handleChangeValue("name", e.target.value)}
-                  />
-                  <LabeledSelect
-                    label="Type"
-                    value={parameterRequest.$type}
-                    onChange={handleChangeType}
-                  >
-                      <SelectItem value="integer" displayValue="Integer"/>
-                      <SelectItem value="decimal" displayValue="Decimal"/>
-                      <SelectItem value="text" displayValue="Text"/>
-                  </LabeledSelect>
-                  {parameterRequest.$type !== "text" && (
-                    <InputField
-                      required
-                      label="Unit"
-                      minLength={3}
-                      maxLength={50}
-                      value={parameterRequest.unit}
-                      onChange={(e) => handleChangeValue("unit", e.currentTarget.value)}
-                    />
-                  )}
-                  {parameterRequest.$type === "text" && (
-                    <NewParameterAllowedValues
-                      parameterRequest={parameterRequest}
-                      addAllowedValue={addAllowedValue}
-                      removeAllowedValue={deleteAllowedValue}
-                      setAllowedValue={setAllowedValue}
-                    />
-                  )}
-              </div>
+              <NewParameterInputs
+                parameterRequest={parameterRequest}
+                addAllowedValue={addAllowedValue}
+                deleteAllowedValue={deleteAllowedValue}
+                setAllowedValue={setAllowedValue}
+                handleChangeValue={handleChangeValue}
+                handleChangeType={handleChangeType}
+              />
               <DialogButton className="hover:border-green-400" type="submit">
                   Add Parameter
               </DialogButton>
