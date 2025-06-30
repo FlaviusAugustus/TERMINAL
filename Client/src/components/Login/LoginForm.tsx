@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import TerminalBanner from "@components/Shared/TerminalBanner.tsx";
 import InputField from "@components/Shared/InputField.tsx";
 import SubmitButton from "@components/Shared/SubmitButton.tsx";
 import { LoginRequest, useLoginMutation } from "@hooks/useLoginMutation.ts";
 import { useNavigate } from "react-router-dom";
-import { toastNotify, toastPromise } from "../../utils/toast.utils.tsx";
+import { toastPromise } from "../../utils/toast.utils.tsx";
+import Form from "@components/Shared/Form.tsx";
 
 /**
  * LoginForm Component
@@ -18,39 +19,20 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isEmailValid, setIsEmailValid] = useState(true);
 
-  const validateEmail = (email: string) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  };
+  const handleSubmit = useCallback(async () => {
+    const loginRequest: LoginRequest = {
+      email: email,
+      password: password,
+    };
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-
-      const emailValid = validateEmail(email);
-      setIsEmailValid(emailValid);
-
-      if (!emailValid) {
-        toastNotify.error("Please enter a valid email address");
-        return;
-      }
-
-      const loginRequest: LoginRequest = {
-        email: email,
-        password: password,
-      };
-
-      await toastPromise(mutation.mutateAsync(loginRequest), {
-        loading: "Logging in...",
-        success: "Login successful",
-        error: "Login failed",
-      });
-      navigate("/");
-    },
-    [mutation, email, password],
-  );
+    await toastPromise(mutation.mutateAsync(loginRequest), {
+      loading: "Logging in...",
+      success: "Login successful",
+      error: "Login failed",
+    });
+    navigate("/");
+  }, [mutation, email, password]);
 
   return (
     <div className="bg-white px-4 py-5 rounded-lg border-[1px] border-black/15 max-w-3xl w-full">
@@ -67,23 +49,24 @@ const LoginForm = () => {
               Sign in to your account
             </p>
           </div>
-          <form
-            onSubmit={handleSubmit}
+          <Form
+            handleSubmit={handleSubmit}
             className="w-full h-full flex flex-col gap-3"
           >
             <div className="flex flex-col">
               <InputField
                 name="email"
-                type="text"
+                type="email"
                 label="Email"
+                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                isValid={isEmailValid}
               />
               <InputField
                 name="password"
                 type="password"
                 label="Password"
+                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -94,7 +77,7 @@ const LoginForm = () => {
                 Don&apos;t have an account? Ask for an invitation
               </p>
             </div>
-          </form>
+          </Form>
         </div>
       </div>
     </div>
