@@ -40,6 +40,7 @@ export default function App() {
                   </Route>
                   <Route element={<AuthorizedLayout pageName="Add new parameter"/>}>
                       <Route path="/new-parameter" element={<AddParameter/>}/>
+                  </Route>
                   <Route element={<AuthorizedLayout pageName="Add new tag"/>}>
                       <Route path="/new-tag" element={<AddTag/>}/>
                   </Route>
