@@ -47,7 +47,7 @@ const InputField = ({
           formNoValidate
           autoComplete="disabled"
           className={clsx(
-            "w-full px-3 py-2 border rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 focus:ring-offset-2",
+            "w-full px-3 py-2 border rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 focus:ring-offset-2 invalid:border-red-500",
             {
               "border-red-500": !isValid,
             },
