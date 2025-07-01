@@ -25,6 +25,7 @@ const NewParameterInputs = ({
           <InputField
             required
             label="Name"
+            name="Name"
             value={parameterRequest.name}
             minLength={3}
             maxLength={50}
@@ -32,6 +33,7 @@ const NewParameterInputs = ({
           />
           <LabeledSelect
             label="Type"
+            name="Type"
             value={parameterRequest.$type}
             onChange={handleChangeType}
           >
@@ -43,6 +45,7 @@ const NewParameterInputs = ({
             <InputField
               required
               label="Unit"
+              name="Unit"
               minLength={3}
               maxLength={50}
               value={parameterRequest.unit}

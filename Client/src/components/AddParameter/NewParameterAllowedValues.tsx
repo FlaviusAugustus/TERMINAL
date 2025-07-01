@@ -32,6 +32,7 @@ const NewParameterAllowedValues = ({
                     <div className="w-full">
                         <InputField
                           width="100%"
+                          name={`Value - ${index}`}
                           className="flex-grow"
                           value={value}
                           onChange={(e) => setAllowedValue(index, e.currentTarget.value)}
