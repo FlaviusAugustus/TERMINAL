@@ -37,12 +37,7 @@ const LabeledSelect = <T,>({
   const ref = useRef<HTMLInputElement>(null);
 
   return (
-    <InputLabelAndValidation
-      label={label}
-      isValid={isValid}
-      inputRef={ref}
-      validate
-    >
+    <InputLabelAndValidation label={label} isValid={isValid} inputRef={ref}>
       <Combobox {...rest}>
         <div className="relative">
           <ComboboxInput

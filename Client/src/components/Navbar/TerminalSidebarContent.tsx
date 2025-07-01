@@ -42,9 +42,6 @@ const TerminalSidebarContent = () => {
                   <VisibleForRoles roles={["Administrator", "Moderator"]}>
                       <SidebarItem text="Project" href="/new-project"/>
                   </VisibleForRoles>
-                  <VisibleForRoles roles={["Administrator", "Moderator"]}>
-                      <SidebarItem text="Parameter" href="/new-parameter"/>
-                  </VisibleForRoles>
                   <SidebarItem text="Tag" href="/new-tag"/>
               </SidebarItemWithSubLinks>
           </SidebarLinkGroup>

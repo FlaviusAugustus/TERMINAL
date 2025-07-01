@@ -119,7 +119,6 @@ const Samples = (props: SamplesProps) => {
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
         <InputField
-          validate={false}
           className="!text-sm !h-[40px]"
           placeholder="Search"
           icon={<MagnifyingGlassIcon className="h-4" />}
