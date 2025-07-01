@@ -7,34 +7,37 @@ import {
   PaginationState,
 } from "@tanstack/react-table";
 import { SamplesResponse } from "@hooks/samples/useGetSamples.ts";
-import { useState } from "react";
+import {useState} from "react";
 import Chip from "@components/Shared/Chip";
 import {
-  MagnifyingGlassIcon,
-  PlusIcon,
-  XMarkIcon,
+    PlusIcon,
+    XMarkIcon,
 } from "@heroicons/react/24/outline";
 import IconButton from "@components/Shared/IconButton";
-import InputField from "@components/Shared/InputField";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableManagement from "@components/Shared/Table/TableManagment";
 import TableView from "@components/Shared/Table/TableView";
 import { Link } from "react-router-dom";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
-import { toastPromise } from "utils/toast.utils";
-import { useTableColumns } from "@hooks/useTableColumns.tsx";
-import { Sample } from "@api/models/Sample";
+import {toastPromise} from "utils/toast.utils";
+import {useTableColumns} from "@hooks/useTableColumns.tsx";
+import SearchInput from "@components/Shared/SearchInput.tsx";
+import {Sample} from "@api/models/Sample.ts";
 
 export interface SamplesProps {
-  onChangeSampleDetails?: (code: string) => void;
-  samples: SamplesResponse | undefined;
-  sorting: SortingState;
-  pagination: PaginationState;
-  setSorting: OnChangeFn<SortingState>;
-  setPagination: OnChangeFn<PaginationState>;
-  onEdit: (sampleId: string) => void;
-  onDelete: (sampleId: string) => Promise<void>;
-  onDetails: (sampleId: string) => void;
+    onChangeSampleDetails?: (code: string) => void;
+    samples: SamplesResponse | undefined;
+    sorting: SortingState;
+    pagination: PaginationState;
+    setSorting: OnChangeFn<SortingState>;
+    setPagination: OnChangeFn<PaginationState>;
+    onEdit: (sampleId: string) => void;
+    onDelete: (sampleId: string) => Promise<void>;
+    onDetails: (sampleId: string) => void;
+    onSearch: (query: string) => void;
+    onClearSearch: () => void;
+    isSearching: boolean;
+    searchValue: string;
 }
 
 const columnHelper = createColumnHelper<Sample>();
@@ -103,53 +106,55 @@ const Samples = (props: SamplesProps) => {
     manualPagination: true,
   });
 
-  const handleDeleteSelected = () => {
-    const tasks = table.getSelectedRowModel().rows.map((row) => {
-      props.onDelete(row.original.id);
-    });
+    const handleDeleteSelected = () => {
+        const tasks = table.getSelectedRowModel().rows.map((row) => {
+            props.onDelete(row.original.id);
+        });
 
-    toastPromise(Promise.all(tasks), {
-      success: "Samples deleted succesfully",
-      loading: "Removing samples...",
-      error: "Error deleting samples",
-    });
-  };
+        toastPromise(Promise.all(tasks), {
+            success: "Samples deleted successfully",
+            loading: "Removing samples...",
+            error: "Error deleting samples",
+        });
+    };
 
-  return (
-    <>
-      <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <InputField
-          className="!text-sm !h-[40px]"
-          placeholder="Search"
-          icon={<MagnifyingGlassIcon className="h-4" />}
-        />
-        <VisibleForRoles roles={["Administrator", "Moderator"]}>
-          <div className="flex gap-1">
-            <IconButton
-              onClick={handleDeleteSelected}
-              disabled={
-                !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
-              }
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
-            >
-              <XMarkIcon className="h-4 " />
-              <p className="text-xs">Delete Selected</p>
-            </IconButton>
-            <Link to="/new-sample">
-              <IconButton className="h-[40px] flex bg-white items-center gap-1">
-                <PlusIcon className="h-4" />
-                <p className="text-xs">Add new</p>
-              </IconButton>
-            </Link>
-          </div>
-        </VisibleForRoles>
-      </div>
-      <TableCard className="!h-full">
-        <TableView<Sample> table={table} />
-        <TableManagement<Sample> table={table} />
-      </TableCard>
-    </>
-  );
+    return (
+        <>
+            <div className="flex justify-between gap-1 items-end pb-3 h-14">
+                <SearchInput
+                    onSearch={props.onSearch}
+                    onClearSearch={props.onClearSearch}
+                    isSearching={props.isSearching}
+                    searchValue={props.searchValue}
+                    placeholder="Search samples"
+                />
+                <VisibleForRoles roles={["Administrator", "Moderator"]}>
+                    <div className="flex gap-1">
+                        <IconButton
+                            onClick={handleDeleteSelected}
+                            disabled={
+                                !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
+                            }
+                            className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+                        >
+                            <XMarkIcon className="h-4 " />
+                            <p className="text-xs">Delete Selected</p>
+                        </IconButton>
+                        <Link to="/new-sample">
+                            <IconButton className="h-[40px] flex bg-white items-center gap-1">
+                                <PlusIcon className="h-4" />
+                                <p className="text-xs">Add new</p>
+                            </IconButton>
+                        </Link>
+                    </div>
+                </VisibleForRoles>
+            </div>
+            <TableCard className="!h-full">
+                <TableView<Sample> table={table} />
+                <TableManagement<Sample> table={table} />
+            </TableCard>
+        </>
+    );
 };
 
 export default Samples;
