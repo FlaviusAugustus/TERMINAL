@@ -1,4 +1,4 @@
-name: CI for client
+name: CI - Client
 
 on:
   pull_request:
@@ -8,80 +8,9 @@ on:
     branches:
       - main
 
-env:
-  NODE_VERSION: "23"
-  CLIENT_DIR: Client
-  DOCS_DIR: Client/docs
-
-defaults:
-  run:
-    working-directory: Client
-
 jobs:
-  build-validation:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Lint code
-        run: npm run lint
-
-      - name: Format code
-        run: npm run format
-
-      - name: Build client
-        run: npm run build --if-present
-
-      - name: Test client
-        run: npm test --if-present
-
-  test:
-    needs: build-validation
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Install dependencies
-        run: npm ci
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: npx playwright test
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
-
-  make-docs:
-    if: ${{ github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
-    needs: [build-validation]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Generate documentation
-        run: npx typedoc
-
-      - name: Upload TypeDoc artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: typedoc
-          path: ${{ env.DOCS_DIR }}
+  client-ci:
+    uses: ./.github/actions/terminal-client-ci.yml
+    with:
+      working_dir: Client
+      node_version: 23
