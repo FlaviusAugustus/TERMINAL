@@ -74,9 +74,7 @@ jobs:
 
       - name: Generate documentation
         run: npx typedoc
-
-      - name: Upload TypeDoc artifact
         uses: actions/upload-artifact@v4
         with:
           name: typedoc
-          path: ${{ inputs.node_version }}/docs
+          path: ${{ inputs.working_dir }}/docs
