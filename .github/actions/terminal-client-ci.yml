@@ -29,7 +29,7 @@ jobs:
         run: npm run lint
 
       - name: Format code
-        run: npm run format
+        run: npm run format:pipeline
 
       - name: Build client
         run: npm run build --if-present
