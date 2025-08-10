@@ -1,0 +1,30 @@
+on:
+  workflow_call:
+    inputs:
+      working_dir:
+        required: true
+        type: string
+        default: Server
+      dotnet_version:
+        required: true
+        type: string
+        default: 9.0.x
+
+defaults:
+  run:
+    working-directory: ${{ inputs.working_dir }}
+
+jobs:
+  build-validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ inputs.dotnet_version }}
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
