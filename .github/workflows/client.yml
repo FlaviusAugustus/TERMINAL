@@ -8,7 +8,12 @@ on:
 
 jobs:
   client-ci:
-    uses: ./.github/actions/terminal-client-ci.yml
-    with:
-      working_dir: Client
-      node_version: 23
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@v4
+      - name: "Client build validation"
+        uses: ./.github/actions/terminal-client-ci.yml
+        with:
+          working_dir: Client
+          node_version: 23

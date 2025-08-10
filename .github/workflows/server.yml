@@ -8,7 +8,12 @@ on:
 
 jobs:
   server-ci:
-    uses: ./.github/actions/terminal-server-ci.yml
-    with:
-      working_dir: Server
-      dotnet_version: 9.0.x
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@v4
+      - name: "Server build validation"
+        uses: ./.github/actions/terminal-server-ci.yml
+        with:
+          working_dir: Server
+          dotnet_version: 9.0.x
