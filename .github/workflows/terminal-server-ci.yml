@@ -4,9 +4,11 @@ on:
       working_dir:
         required: true
         type: string
+        default: Server
       dotnet_version:
         required: true
         type: string
+        default: 9.0.x
 
 defaults:
   run:

@@ -8,7 +8,4 @@ on:
 
 jobs:
   server-ci:
-    uses: ./.github/actions/terminal-server-ci.yml
-    with:
-      working_dir: Server
-      dotnet_version: 9.0.x
+    uses: ./.github/workflows/terminal-server-ci.yml

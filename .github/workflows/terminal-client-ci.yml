@@ -1,12 +1,14 @@
 on:
   workflow_call:
     inputs:
-      node_version:
-        required: true
-        type: string
       working_dir:
         required: true
         type: string
+        default: Client
+      node_version:
+        required: true
+        type: string
+        default: 23
 
 defaults:
   run:
@@ -74,7 +76,7 @@ jobs:
 
       - name: Generate documentation
         run: npx typedoc
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: typedoc
           path: ${{ inputs.working_dir }}/docs

@@ -8,7 +8,4 @@ on:
 
 jobs:
   client-ci:
-    uses: ./.github/actions/terminal-client-ci.yml
-    with:
-      working_dir: Client
-      node_version: 23
+    uses: ./.github/workflows/terminal-client-ci.yml
