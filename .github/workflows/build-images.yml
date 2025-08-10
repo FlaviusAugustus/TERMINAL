@@ -12,8 +12,19 @@ env:
 permissions: write-all
 
 jobs:
+  client-build-validation:
+    uses: ./.github/actions/terminal-client-ci.yml
+    with:
+      working_dir: Client
+      node_version: 23
+  server-build-validation:
+    uses: ./,github/actions/terminal-server-ci.yml
+    with:
+      working_dir: Server
+      dotnet_version: 9.0.x
   build-and-push-images:
     runs-on: ubuntu-latest
+    needs: [client-build-validation, server-build-validation]
     strategy:
       fail-fast: true
       matrix:
