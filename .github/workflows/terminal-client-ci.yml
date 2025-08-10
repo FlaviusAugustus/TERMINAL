@@ -2,7 +2,7 @@ on:
   workflow_call:
     inputs:
       node_version:
-        required: true
+        required: false
         type: string
         default: 23
 
@@ -75,4 +75,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: typedoc
-          path: ${{ inputs.working_dir }}/docs
+          path: Client/docs
