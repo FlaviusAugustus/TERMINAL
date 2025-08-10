@@ -8,7 +8,6 @@ type DragHandleProps = {
   listeners: SyntheticListenerMap | undefined;
 };
 
-
 /**
  * DragHandle Component
  *

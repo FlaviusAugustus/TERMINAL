@@ -3,7 +3,6 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import { useAddRecipeContext } from "@hooks/useAddRecipeContext";
 import StepTab from "./StepTab";
 
-
 /**
  * StepTabList Component
  *

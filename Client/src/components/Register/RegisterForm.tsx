@@ -70,7 +70,7 @@ const RegisterForm = () => {
         console.log(secondPassword);
       }, 2000);
     },
-    [firstPassword, secondPassword],
+    [firstPassword, secondPassword]
   );
 
   return (

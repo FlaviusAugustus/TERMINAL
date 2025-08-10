@@ -6,7 +6,6 @@ type StepTabProps = {
   index: number;
 };
 
-
 /**
  * StepTab Component
  *

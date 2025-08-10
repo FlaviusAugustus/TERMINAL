@@ -3,7 +3,7 @@ import apiClient from "@api/apiClient.ts";
 import { ProjectDetailsDto } from "@api/models/Project";
 
 async function fetchProjectDetails(
-  id: string | null,
+  id: string | null
 ): Promise<ProjectDetailsDto> {
   return (await apiClient.get(`/projects/${id}`)).data;
 }

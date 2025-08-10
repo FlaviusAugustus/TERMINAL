@@ -1,8 +1,10 @@
 import {
   createColumnHelper,
-  getCoreRowModel, HeaderContext,
+  getCoreRowModel,
+  HeaderContext,
   OnChangeFn,
-  PaginationState, Row,
+  PaginationState,
+  Row,
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
@@ -10,13 +12,13 @@ import { UsersResponse } from "@hooks/users/useGetUsers.ts";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import TableCard from "@components/Shared/Table/TableCard.tsx";
-import {useMemo, useState} from "react";
+import { useMemo, useState } from "react";
 import UsersRowActions from "./UsersRowActions";
 import Chip from "@components/Shared/Chip";
-import {PlusIcon, XMarkIcon} from "@heroicons/react/24/outline";
+import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 import IconButton from "@components/Shared/IconButton.tsx";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import IndeterminateCheckbox from "@components/Shared/IndeterminateCheckbox.tsx";
 import { UserDetailsDto } from "@api/models/User";
 
@@ -51,19 +53,19 @@ const Users = (props: UsersProps) => {
       {
         id: "select-col",
         size: 0,
-        header: ({table}: HeaderContext<UserDetailsDto, string>) => (
-            <IndeterminateCheckbox
-                checked={table.getIsAllRowsSelected()}
-                indeterminate={table.getIsSomeRowsSelected()}
-                onChange={table.getToggleAllPageRowsSelectedHandler()}
-            />
+        header: ({ table }: HeaderContext<UserDetailsDto, string>) => (
+          <IndeterminateCheckbox
+            checked={table.getIsAllRowsSelected()}
+            indeterminate={table.getIsSomeRowsSelected()}
+            onChange={table.getToggleAllPageRowsSelectedHandler()}
+          />
         ),
-        cell: ({row}: { row: Row<UserDetailsDto> }) => (
-            <IndeterminateCheckbox
-                checked={row.getIsSelected()}
-                disabled={!row.getCanSelect()}
-                onChange={row.getToggleSelectedHandler()}
-            />
+        cell: ({ row }: { row: Row<UserDetailsDto> }) => (
+          <IndeterminateCheckbox
+            checked={row.getIsSelected()}
+            disabled={!row.getCanSelect()}
+            onChange={row.getToggleSelectedHandler()}
+          />
         ),
       },
       columnHelper.accessor("email", {
@@ -87,7 +89,7 @@ const Users = (props: UsersProps) => {
         ),
       }),
     ],
-    [],
+    []
   );
 
   const table = useReactTable({
@@ -123,34 +125,34 @@ const Users = (props: UsersProps) => {
   };
 
   return (
-      <>
-        <div className="flex justify-end gap-1 items-end pb-3 h-14">
-          <VisibleForRoles roles={["Administrator", "Moderator"]}>
-            <div className="flex gap-1">
-              <IconButton
-                  onClick={handleDeleteSelected}
-                  disabled={
-                    !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
-                  }
-                  className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
-              >
-                <XMarkIcon className="h-4 "/>
-                <p className="text-xs">Delete Selected</p>
+    <>
+      <div className="flex justify-end gap-1 items-end pb-3 h-14">
+        <VisibleForRoles roles={["Administrator", "Moderator"]}>
+          <div className="flex gap-1">
+            <IconButton
+              onClick={handleDeleteSelected}
+              disabled={
+                !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
+              }
+              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+            >
+              <XMarkIcon className="h-4 " />
+              <p className="text-xs">Delete Selected</p>
+            </IconButton>
+            <Link to="/settings">
+              <IconButton className="h-[40px] flex bg-white items-center gap-1">
+                <PlusIcon className="h-4" />
+                <p className="text-xs">Add new</p>
               </IconButton>
-              <Link to="/settings">
-                <IconButton className="h-[40px] flex bg-white items-center gap-1">
-                  <PlusIcon className="h-4"/>
-                  <p className="text-xs">Add new</p>
-                </IconButton>
-              </Link>
-            </div>
-          </VisibleForRoles>
-        </div>
-        <TableCard className="!h-full">
-          <TableView<UserDetailsDto> table={table} handleClickRow={handleClick} />
-          <TableManagement<UserDetailsDto> table={table} />
-        </TableCard>
-      </>
+            </Link>
+          </div>
+        </VisibleForRoles>
+      </div>
+      <TableCard className="!h-full">
+        <TableView<UserDetailsDto> table={table} handleClickRow={handleClick} />
+        <TableManagement<UserDetailsDto> table={table} />
+      </TableCard>
+    </>
   );
 };
 

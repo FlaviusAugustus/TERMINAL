@@ -1,10 +1,10 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
-import {AxiosResponse} from "axios";
-import {TagsRequest} from "@hooks/tags/useGetAllTags.ts";
+import { AxiosResponse } from "axios";
+import { TagsRequest } from "@hooks/tags/useGetAllTags.ts";
 
 async function deleteTag(id: string | undefined): Promise<AxiosResponse> {
-    return await apiClient.delete(`tags/${id}`);
+  return await apiClient.delete(`tags/${id}`);
 }
 
 /**
@@ -16,13 +16,13 @@ async function deleteTag(id: string | undefined): Promise<AxiosResponse> {
  * @param {TagsRequest} params - The parameters for the projects request.
  */
 export function useDeleteTag(params: TagsRequest) {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (id: string) => deleteTag(id),
-        onSuccess: (_data, variables) => {
-            queryClient.setQueryData(['tagDetails', variables], (() => null))
-            queryClient.invalidateQueries({queryKey: ['tags', 'all', params]})
-        }
-    });
+  return useMutation({
+    mutationFn: (id: string) => deleteTag(id),
+    onSuccess: (_data, variables) => {
+      queryClient.setQueryData(["tagDetails", variables], () => null);
+      queryClient.invalidateQueries({ queryKey: ["tags", "all", params] });
+    },
+  });
 }

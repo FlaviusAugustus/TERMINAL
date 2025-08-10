@@ -50,19 +50,20 @@ export type ParameterResponse = { parameters: AllParameters[] };
 export type AllParameters = IntegerParameter | DecimalParameter | TextParameter;
 
 export type ParameterRequest = {
-    $type: ParameterType;
-    name: string;
+  $type: ParameterType;
+  name: string;
 };
 
 export type NumericParameterRequest = ParameterRequest & {
-    $type: "decimal" | "integer";
-    unit: string;
+  $type: "decimal" | "integer";
+  unit: string;
 };
 
 export type TextParameterRequest = ParameterRequest & {
-    $type: "text";
-    allowedValues: string[];
+  $type: "text";
+  allowedValues: string[];
 };
 
-export type AllParametersRequest = NumericParameterRequest | TextParameterRequest;
-
+export type AllParametersRequest =
+  | NumericParameterRequest
+  | TextParameterRequest;

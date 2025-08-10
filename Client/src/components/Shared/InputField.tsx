@@ -52,7 +52,7 @@ const InputField = ({
               "border-red-500": !isValid,
             },
             icon ? "pl-9" : "pl-3",
-            className,
+            className
           )}
         />
       </div>

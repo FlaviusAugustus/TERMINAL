@@ -58,7 +58,7 @@ const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
 
   useEffect(() => {
     const filteredParams = parameters.filter((param) =>
-      param.name.includes(searchValue),
+      param.name.includes(searchValue)
     );
     setParametersFitlered(filteredParams);
   }, [parameters, searchValue]);

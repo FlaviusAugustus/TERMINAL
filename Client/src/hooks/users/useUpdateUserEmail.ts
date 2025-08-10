@@ -3,18 +3,18 @@ import apiClient from "@api/apiClient.ts";
 import { UsersRequest, UsersResponse } from "@hooks/users/useGetUsers.ts";
 
 interface UpdateUserEmailDto {
-    id: string;
-    email: string;
+  id: string;
+  email: string;
 }
 
 interface UserDetails {
-    id: string;
-    email: string;
-    role: string;
+  id: string;
+  email: string;
+  role: string;
 }
 
-async function updateUserEmail({id, email} : UpdateUserEmailDto) {
-    return await apiClient.patch(`users/${id}/email`, { email });
+async function updateUserEmail({ id, email }: UpdateUserEmailDto) {
+  return await apiClient.patch(`users/${id}/email`, { email });
 }
 
 /**
@@ -26,28 +26,28 @@ async function updateUserEmail({id, email} : UpdateUserEmailDto) {
  * @param {UsersRequest} params - The parameters for the users request.
  */
 export function useUpdateUserEmail(params: UsersRequest) {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (data: UpdateUserEmailDto) => updateUserEmail(data),
-        onSuccess: (_data, { id, email }) => {
-            queryClient.setQueryData<UserDetails>(['userDetails', id], (oldData) => {
-                if (!oldData) return undefined;
-                return {
-                    ...oldData,
-                    email: email,
-                };
-            });
+  return useMutation({
+    mutationFn: (data: UpdateUserEmailDto) => updateUserEmail(data),
+    onSuccess: (_data, { id, email }) => {
+      queryClient.setQueryData<UserDetails>(["userDetails", id], (oldData) => {
+        if (!oldData) return undefined;
+        return {
+          ...oldData,
+          email: email,
+        };
+      });
 
-            queryClient.setQueryData<UsersResponse>(['users', params], (oldData) => {
-                if (!oldData) return undefined;
-                return {
-                    ...oldData,
-                    rows: oldData.rows.map((user) =>
-                        user.id === id ? { ...user, email } : user
-                    ),
-                };
-            });
-        }
-    })
+      queryClient.setQueryData<UsersResponse>(["users", params], (oldData) => {
+        if (!oldData) return undefined;
+        return {
+          ...oldData,
+          rows: oldData.rows.map((user) =>
+            user.id === id ? { ...user, email } : user
+          ),
+        };
+      });
+    },
+  });
 }

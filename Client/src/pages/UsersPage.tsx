@@ -48,14 +48,11 @@ const UsersPage = () => {
   });
 
   const handleDeletion = async (id: string) => {
-    await toastPromise(
-        deleteMutation.mutateAsync(id),
-        {
-          loading: 'Deleting user...',
-          success: 'User deleted successfully',
-          error: 'Failed to delete user'
-        }
-    );
+    await toastPromise(deleteMutation.mutateAsync(id), {
+      loading: "Deleting user...",
+      success: "User deleted successfully",
+      error: "Failed to delete user",
+    });
   };
 
   const handleSubmit = async (id: string, email: string, role: string) => {

@@ -32,7 +32,7 @@ function correctParams(params: SamplesRequest): SamplesRequest {
 }
 
 async function fetchDataSamples(
-  params: SamplesRequest,
+  params: SamplesRequest
 ): Promise<SamplesResponse> {
   params = correctParams(params);
   const resultSamples = await apiClient.get(`/samples`, { params });
