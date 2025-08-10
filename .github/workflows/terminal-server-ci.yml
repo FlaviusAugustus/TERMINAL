@@ -1,10 +1,6 @@
 on:
   workflow_call:
     inputs:
-      working_dir:
-        required: true
-        type: string
-        default: Server
       dotnet_version:
         required: true
         type: string
@@ -12,7 +8,7 @@ on:
 
 defaults:
   run:
-    working-directory: ${{ inputs.working_dir }}
+    working-directory: ./Server
 
 jobs:
   build-validation:
