@@ -57,7 +57,7 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
       }}
       className={clsx(
         "rounded-md border border-gray-200 bg-white shadow-sm !tanslate-x-0",
-        isDragging && "z-50",
+        isDragging && "z-50"
       )}
     >
       <div className="border-b border-gray-200 rounded-t-md bg-gray-100 flex justify-between">

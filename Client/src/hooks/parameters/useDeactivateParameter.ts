@@ -1,9 +1,9 @@
-import {AxiosResponse} from "axios";
+import { AxiosResponse } from "axios";
 import apiClient from "@api/apiClient.ts";
-import {useMutation, useQueryClient} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 async function deactivateParameter(id: string): Promise<AxiosResponse> {
-    return await apiClient.post(`parameters/${id}/deactivate`);
+  return await apiClient.post(`parameters/${id}/deactivate`);
 }
 
 /**
@@ -14,10 +14,11 @@ async function deactivateParameter(id: string): Promise<AxiosResponse> {
  * @hook
  */
 export function useDeactivateParameter() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (id: string) => deactivateParameter(id),
-        onSuccess: (() => queryClient.invalidateQueries({queryKey: ['parameters']}))
-    });
+  return useMutation({
+    mutationFn: (id: string) => deactivateParameter(id),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["parameters"] }),
+  });
 }

@@ -18,7 +18,7 @@ const StepDetails = ({ steps, editable }: StepDetailsProps) => {
             className={({ selected }) =>
               clsx(
                 "p-1 text-sm rounded bg-gray-100 border border-gray-200 flex-1 focus:outline-none",
-                selected && "bg-gray-200 border-gray-300",
+                selected && "bg-gray-200 border-gray-300"
               )
             }
           >

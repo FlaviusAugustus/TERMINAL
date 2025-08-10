@@ -52,7 +52,7 @@ const LabeledSelect = <T,>({
               "w-full px-3 py-2 border-[1px] border-black/15 rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 focus:ring-offset-2",
               {
                 "border-red-500": !isValid,
-              },
+              }
             )}
           />
           <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">

@@ -1,15 +1,15 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
-import {TagsRequest, TagsResponse} from "@hooks/tags/useGetAllTags.ts";
-import {TagDetailsDto} from "@api/models/Tag.ts";
+import { TagsRequest, TagsResponse } from "@hooks/tags/useGetAllTags.ts";
+import { TagDetailsDto } from "@api/models/Tag.ts";
 
 interface UpdateTagNameDto {
-    id: string;
-    name: string;
+  id: string;
+  name: string;
 }
 
-async function updateTagName({id, name}: UpdateTagNameDto) {
-    return await apiClient.patch(`tags/${id}`, {name});
+async function updateTagName({ id, name }: UpdateTagNameDto) {
+  return await apiClient.patch(`tags/${id}`, { name });
 }
 
 /**
@@ -21,34 +21,31 @@ async function updateTagName({id, name}: UpdateTagNameDto) {
  * @param {UpdateTagNameDto} params - The parameters for the users request.
  */
 export function useUpdateTagName(params: TagsRequest) {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (data: UpdateTagNameDto) => updateTagName(data),
-        onSuccess: (_data, {id, name}) => {
-            queryClient.setQueryData<TagDetailsDto>(
-              ["tagDetails", id],
-              (oldData) => {
-                  if (!oldData) return undefined;
-                  return {
-                      ...oldData,
-                      name: name,
-                  };
-              },
-            );
+  return useMutation({
+    mutationFn: (data: UpdateTagNameDto) => updateTagName(data),
+    onSuccess: (_data, { id, name }) => {
+      queryClient.setQueryData<TagDetailsDto>(["tagDetails", id], (oldData) => {
+        if (!oldData) return undefined;
+        return {
+          ...oldData,
+          name: name,
+        };
+      });
 
-            queryClient.setQueryData<TagsResponse>(
-              ["tags", "all", params],
-              (oldData) => {
-                  if (!oldData) return undefined;
-                  return {
-                      ...oldData,
-                      rows: oldData.rows.map((tag) =>
-                        tag.id === id ? {...tag, name} : tag,
-                      ),
-                  };
-              },
-            );
-        },
-    });
+      queryClient.setQueryData<TagsResponse>(
+        ["tags", "all", params],
+        (oldData) => {
+          if (!oldData) return undefined;
+          return {
+            ...oldData,
+            rows: oldData.rows.map((tag) =>
+              tag.id === id ? { ...tag, name } : tag
+            ),
+          };
+        }
+      );
+    },
+  });
 }

@@ -18,7 +18,7 @@ apiClient.interceptors.request.use(
     }
     return request;
   },
-  (error) => Promise.reject(error),
+  (error) => Promise.reject(error)
 );
 
 apiClient.interceptors.response.use(
@@ -45,7 +45,7 @@ apiClient.interceptors.response.use(
     } catch {
       return Promise.reject(error);
     }
-  },
+  }
 );
 
 export default apiClient;

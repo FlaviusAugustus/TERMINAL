@@ -15,7 +15,7 @@ export type ProjectsResponse = {
 };
 
 async function fetchDataProject(
-  params: ProjectsRequest,
+  params: ProjectsRequest
 ): Promise<ProjectsResponse> {
   const projects = await apiClient.get("/projects/all", { params });
   const amountOfProjects = await apiClient.get("/projects/amount/all");

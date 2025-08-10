@@ -18,11 +18,11 @@ type AddRecipeContextValue = {
   updateParameter: (stepIndex: number | null, parameter: AllParameters) => void;
   moveParameterUp: (
     stepIndex: number | null,
-    parameterId: string | null,
+    parameterId: string | null
   ) => void;
   moveParameterDown: (
     stepIndex: number | null,
-    parameterId: string | null,
+    parameterId: string | null
   ) => void;
   copyStepAsNext: (index: number) => void;
 };
@@ -40,7 +40,7 @@ function useAddRecipeContext(): AddRecipeContextValue {
   const context = useContext(AddRecipeContext);
   if (!context) {
     throw new Error(
-      "useAddRecipeContext must be used within a AddRecipeProvider",
+      "useAddRecipeContext must be used within a AddRecipeProvider"
     );
   }
   return context;
@@ -83,7 +83,7 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
     setRecipe((prevRecipe) => ({
       ...prevRecipe,
       steps: prevRecipe.steps.map((step, i) =>
-        i === index ? updatedStep : step,
+        i === index ? updatedStep : step
       ),
     }));
   };
@@ -107,17 +107,17 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
           ? {
               ...step,
               parameters: step.parameters.filter(
-                (param) => param.id !== parameterId,
+                (param) => param.id !== parameterId
               ),
             }
-          : step,
+          : step
       ),
     }));
   };
 
   const updateParameter = (
     stepIndex: number | null,
-    parameter: AllParameters,
+    parameter: AllParameters
   ) => {
     if (stepIndex === null) return;
     setRecipe((prevRecipe) => ({
@@ -127,17 +127,17 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
           ? {
               ...step,
               parameters: step.parameters.map((param) =>
-                param.id === parameter.id ? parameter : param,
+                param.id === parameter.id ? parameter : param
               ),
             }
-          : step,
+          : step
       ),
     }));
   };
 
   const moveParameterUp = (
     stepIndex: number | null,
-    parameterId: string | null,
+    parameterId: string | null
   ) => {
     if (stepIndex === null || currentStep === null) return;
 
@@ -148,7 +148,7 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
     newStep.parameters = arraySwap(
       newStep.parameters,
       parameterIndex,
-      parameterIndex - 1,
+      parameterIndex - 1
     );
 
     updateStep(currentStep, newStep);
@@ -156,7 +156,7 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
 
   const moveParameterDown = (
     stepIndex: number | null,
-    parameterId: string | null,
+    parameterId: string | null
   ) => {
     if (stepIndex === null || currentStep === null) return;
     const newStep = { ...recipe.steps[currentStep] };
@@ -171,7 +171,7 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
     newStep.parameters = arraySwap(
       newStep.parameters,
       parameterIndex,
-      parameterIndex + 1,
+      parameterIndex + 1
     );
 
     updateStep(currentStep, newStep);

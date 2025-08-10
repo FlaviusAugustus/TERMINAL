@@ -33,7 +33,7 @@ const ParamsTable = ({ params, editable }: ParamsTableProps) => {
         accessorFn: (param) => (param.$type !== "text" ? param.unit : "-"),
       },
     ],
-    [],
+    []
   );
 
   const table = useReactTable({
@@ -54,7 +54,7 @@ const ParamsTable = ({ params, editable }: ParamsTableProps) => {
               };
             }
             return row;
-          }),
+          })
         );
       },
     },

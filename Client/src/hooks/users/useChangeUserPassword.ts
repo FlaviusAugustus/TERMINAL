@@ -2,12 +2,12 @@ import { useMutation } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
 
 interface ChangeUserPasswordDto {
-    id: string;
-    newPassword: string;
+  id: string;
+  newPassword: string;
 }
 
-async function changeUserPassword({id, newPassword} : ChangeUserPasswordDto) {
-    return await apiClient.patch(`users/${id}/password`, { newPassword });
+async function changeUserPassword({ id, newPassword }: ChangeUserPasswordDto) {
+  return await apiClient.patch(`users/${id}/password`, { newPassword });
 }
 
 /**
@@ -18,8 +18,7 @@ async function changeUserPassword({id, newPassword} : ChangeUserPasswordDto) {
  * @hook
  */
 export function useChangeUserPassword() {
-
-    return useMutation({
-        mutationFn: (data: ChangeUserPasswordDto) => changeUserPassword(data),
-    });
+  return useMutation({
+    mutationFn: (data: ChangeUserPasswordDto) => changeUserPassword(data),
+  });
 }
