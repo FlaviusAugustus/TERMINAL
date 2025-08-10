@@ -18,20 +18,14 @@ jobs:
       - name: "Checkout repo"
         uses: actions/checkout@v4
       - name: "Client build validation"
-        uses: ./.github/actions/terminal-client-ci.yml
-        with:
-          working_dir: Client
-          node_version: 23
+        uses: ./.github/workflows/terminal-client-ci.yml
   server-build-validation:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v4
       - name: "Server build validation"
-        uses: ./.github/actions/terminal-server-ci.yml
-        with:
-          working_dir: Server
-          dotnet_version: 9.0.x
+        uses: ./.github/workflows/terminal-server-ci.yml
   build-and-push-images:
     runs-on: ubuntu-latest
     needs: [client-build-validation, server-build-validation]
