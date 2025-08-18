@@ -21,3 +21,5 @@ jobs:
       registry-username: ${{ github.actor }}
     secrets:
       registry-token: ${{ secrets.GITHUB_TOKEN }}
+  deploy:
+    uses: ./.github/workflows/terminal-ansible.yml
