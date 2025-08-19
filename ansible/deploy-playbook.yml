@@ -10,6 +10,7 @@
       template:
         src: templates/compose.j2
         dest: ~/terminal/compose.yaml
+
     - name: Docker compose pull
       shell: docker compose pull
       args:
