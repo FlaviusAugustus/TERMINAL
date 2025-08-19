@@ -1,0 +1,39 @@
+name: "Make Inventory"
+description: "Creates ansible inventory based on a comma separated list of hosts"
+inputs:
+  host-list: # id of input
+    description: "Comma separated list in format host1:port1,host2:port2"
+    required: true
+  group-name:
+    description: "Ansible inventory group name"
+    required: false
+    default: "web"
+outputs:
+  ansible-inventory:
+    description: "Ansible inventory"
+    value: ${{ steps.generate-inventory.outputs.ansible-inventory }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate ansible hosts
+      id: generate-hosts
+      run: |
+        IFS=',' read -ra hosts <<< $(echo $HOST_LIST | sed "s/ //g")
+        hosts_str=""
+        for host_port in "${hosts[@]}"; do
+         IFS=':' read -r ip port <<< "$host_port"
+         hosts_str+="${ip} ansible_port=${port}"$'\n'
+        done
+
+        echo -e "hosts=$hosts_str" >> $GITHUB_OUTPUT
+      shell: bash
+      env:
+        HOST_LIST: ${{ inputs.host-list }}
+    - name: Generate inventory file
+      id: generate-inventory
+      shell: bash
+      run: |
+        cat << EOF > ansible/inventory.ini
+        [${{ inputs.group-name }}]
+        ${{ steps.generate-hosts.outputs.hosts }}

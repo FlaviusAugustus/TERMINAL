@@ -2,10 +2,6 @@
   hosts: all
 
   pre_tasks:
-    - name: Install Ansible Galaxy
-      ansible.builtin.package:
-        name: ansible-galaxy
-        state: present
     - name: Install requirements
       delegate_to: localhost
       ansible.builtin.command: ansible-galaxy install -r requirements.yml
