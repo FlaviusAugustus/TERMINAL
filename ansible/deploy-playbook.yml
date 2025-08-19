@@ -7,7 +7,6 @@
       ansible.builtin.file:
         path: ~/terminal
         state: directory
-        mode: "0644"
     - name: Deploy Compose file
       template:
         src: templates/compose.j2
