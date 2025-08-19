@@ -2,7 +2,7 @@ name: "Make Inventory"
 description: "Creates ansible inventory based on a comma separated list of hosts"
 inputs:
   host-list: # id of input
-    description: "Comma separated list in format host1:port1,host2:port2"
+    description: "Comma separated list in format name1:ip1:port1,name2:ip2:port2"
     required: true
   group-name:
     description: "Ansible inventory group name"
@@ -22,8 +22,8 @@ runs:
         IFS=',' read -ra hosts <<< $(echo $HOST_LIST | sed "s/ //g")
         hosts_str=""
         for host_port in "${hosts[@]}"; do
-         IFS=':' read -r ip port <<< "$host_port"
-         hosts_str+="${ip} ansible_port=${port}"$'\n'
+         IFS=':' read -r name ip port <<< "$host_port"
+         hosts_str+="${name} ansible_host=${ip} ansible_port=${port}"$'\n'
         done
 
         echo -e "hosts=$hosts_str" >> $GITHUB_OUTPUT
