@@ -39,6 +39,5 @@ jobs:
           ANSIBLE_USER: ${{ secrets.ansible-user }}
           ANSIBLE_HOST_KEY_CHECKING: false
         run: |
-          cat inventory.ini
-          ${{ steps.make-inventory.outputs.ansible-inventory }}
+          ansible-galaxy install -r ansible/requirements.yml
           ansible-playbook -i inventory.ini ansible/deploy-playbook.yml --private-key private_key.pem -u ${{ secrets.ansible-user }} --check
