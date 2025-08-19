@@ -40,4 +40,4 @@ jobs:
           ANSIBLE_HOST_KEY_CHECKING: false
         run: |
           ansible-galaxy install -r ansible/requirements.yml
-          ansible-playbook -i inventory.ini ansible/deploy-playbook.yml --private-key private_key.pem -u ${{ secrets.ansible-user }} --check
+          ansible-playbook -i inventory.ini ansible/deploy-playbook.yml --private-key private_key.pem -u ${{ secrets.ansible-user }}
