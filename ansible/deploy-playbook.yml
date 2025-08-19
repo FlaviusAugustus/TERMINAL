@@ -1,7 +1,6 @@
 - name: Deploy
   hosts: all
-  roles:
-    - geerlingguy.docker
+
   tasks:
     - name: Create project directory
       ansible.builtin.file:
