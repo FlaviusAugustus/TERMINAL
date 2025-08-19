@@ -39,5 +39,5 @@ jobs:
           ANSIBLE_USER: ${{ secrets.ansible-user }}
           ANSIBLE_HOST_KEY_CHECKING: false
         run: |
-          ${{ steps.make-inventory.outputs. }}
+          ${{ steps.make-inventory.outputs.ansible-inventory }}
           ansible-playbook -i inventory.ini ansible/deploy-playbook.yml --private-key private_key.pem -u ${{ secrets.ansible-user }} --check
