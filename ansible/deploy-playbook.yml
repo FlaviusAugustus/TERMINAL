@@ -1,10 +1,21 @@
 - name: Deploy
   hosts: all
-
-  pre_tasks:
-    - name: Install requirements
-      delegate_to: localhost
-      ansible.builtin.command: ansible-galaxy install -r requirements.yml
-
   roles:
     - geerlingguy.docker
+  tasks:
+    - name: Create project directory
+      ansible.builtin.file:
+        path: ~/terminal
+        state: directory
+        mode: "0644"
+    - name: Deploy Compose file
+      template:
+        src: templates/compose.j2
+        dest: ~/terminal/compose.yaml
+    - name: Docker compose pull
+      shell: docker compose pull
+      args:
+        chdir: ~/terminal
+    - name: Create and start services
+      community.docker.docker_compose_v2:
+        project_src: ~/terminal
