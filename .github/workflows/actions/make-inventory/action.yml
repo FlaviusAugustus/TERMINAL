@@ -34,6 +34,7 @@ runs:
       id: generate-inventory
       shell: bash
       run: |
-        cat << EOF > ansible/inventory.ini
+        cat << EOF > inventory.ini
         [${{ inputs.group-name }}]
         ${{ steps.generate-hosts.outputs.hosts }}
+        cat inventory.ini
