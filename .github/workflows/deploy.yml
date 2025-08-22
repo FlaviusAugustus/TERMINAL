@@ -1,26 +1,29 @@
 name: Build docker images
 
 on:
-  push:
-    branches: [feature/deploy]
+  release:
+    types: [published]
 
   workflow_dispatch:
 
 permissions: write-all
 
 jobs:
-  # client-build-validation:
-  #   uses: ./.github/workflows/terminal-client-ci.yml
-  # server-build-validation:
-  #   uses: ./.github/workflows/terminal-server-ci.yml
-  # build-and-push-images:
-  #   uses: ./.github/workflows/terminal-docker.yml
-  #   needs: [client-build-validation, server-build-validation]
-  #   with:
-  #     registry-url: ghcr.io
-  #     registry-username: ${{ github.actor }}
-  #   secrets:
-  #     registry-token: ${{ secrets.GITHUB_TOKEN }}
+  client-build-validation:
+    if: github.event_name == 'release' && github.event.action == 'published'
+    uses: ./.github/workflows/terminal-client-ci.yml
+  server-build-validation:
+    if: github.event_name == 'release' && github.event.action == 'published'
+    uses: ./.github/workflows/terminal-server-ci.yml
+  build-and-push-images:
+    if: github.event_name == 'release' && github.event.action == 'published'
+    uses: ./.github/workflows/terminal-docker.yml
+    needs: [client-build-validation, server-build-validation]
+    with:
+      registry-url: ghcr.io
+      registry-username: ${{ github.actor }}
+    secrets:
+      registry-token: ${{ secrets.GITHUB_TOKEN }}
   deploy:
     uses: ./.github/workflows/terminal-ansible.yml
     secrets:
