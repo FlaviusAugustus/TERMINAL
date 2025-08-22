@@ -10,14 +10,24 @@ permissions: write-all
 
 jobs:
   client-build-validation:
+    if: github.event_name == 'release' && github.event.action == 'published'
     uses: ./.github/workflows/terminal-client-ci.yml
   server-build-validation:
+    if: github.event_name == 'release' && github.event.action == 'published'
     uses: ./.github/workflows/terminal-server-ci.yml
   build-and-push-images:
-    uses: ./.github/workflows/terminal-docker.yml
+    if: github.event_name == 'release' && github.event.action == 'published'
     needs: [client-build-validation, server-build-validation]
+    uses: ./.github/workflows/terminal-docker.yml
     with:
       registry-url: ghcr.io
       registry-username: ${{ github.actor }}
     secrets:
       registry-token: ${{ secrets.GITHUB_TOKEN }}
+  deploy:
+    needs: [build-and-push-images]
+    uses: ./.github/workflows/terminal-ansible.yml
+    secrets:
+      ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      ansible-user: ${{ secrets.ANSIBLE_USER }}
+      deployment-targets: ${{ secrets.DEPLOYMENT_TARGETS }}

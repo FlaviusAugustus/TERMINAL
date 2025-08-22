@@ -1,0 +1,43 @@
+on:
+  workflow_call:
+    secrets:
+      ssh-private-key:
+        required: true
+      ansible-user:
+        required: true
+      deployment-targets:
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy Ansible Playbook
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up SSH
+        run: |
+          echo "${{ secrets.ssh-private-key }}" > private_key.pem
+          chmod 600 private_key.pem
+
+      - name: Create Ansible inventory
+        id: make-inventory
+        uses: ./.github/workflows/actions/make-inventory
+        with:
+          host-list: ${{ secrets.deployment-targets }}
+          group-name: web
+
+      - name: Install Ansible
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+
+      - name: Run Ansible Playbook
+        env:
+          ANSIBLE_USER: ${{ secrets.ansible-user }}
+          ANSIBLE_HOST_KEY_CHECKING: false
+        run: |
+          ansible-galaxy install -r ansible/requirements.yml
+          ansible-playbook -i inventory.ini ansible/deploy-playbook.yml --private-key private_key.pem -u ${{ secrets.ansible-user }}
