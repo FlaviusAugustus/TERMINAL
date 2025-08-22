@@ -46,7 +46,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY_NAME }}/${{ env.REPO_LC }}/${{ matrix.image-name }}
+          images: ${{ inputs.registry-url }}/${{ env.REPO_LC }}/${{ matrix.image-name }}
           tags: |
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}

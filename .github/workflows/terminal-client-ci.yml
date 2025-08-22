@@ -36,6 +36,7 @@ jobs:
         run: npm test --if-present
 
   test:
+    if: env.DISABLE_PLAYWRIGHT == ''
     needs: build-validation
     timeout-minutes: 60
     runs-on: ubuntu-latest
