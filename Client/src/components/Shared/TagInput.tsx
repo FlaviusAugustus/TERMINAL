@@ -12,6 +12,9 @@ const TagInput = () => {
     setTags([...tags, newTag]);
   };
 
+  const removeTag = (tagId: string) =>
+    setTags(tags.filter((tag) => tag.id !== tagId));
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value);
   };
@@ -21,7 +24,7 @@ const TagInput = () => {
       e.preventDefault();
 
       if (userInput.trim() !== "" && userInput.length <= 12) {
-        addTag({ name: userInput, id: "123" });
+        addTag({ name: userInput, id: userInput });
         setUserInput("");
       }
     }
@@ -29,7 +32,7 @@ const TagInput = () => {
 
   return (
     <div className="flex flex-col w-96 gap-2">
-      <TagValues tags={tags} />
+      <TagValues tags={tags} handleRemove={(tagId) => removeTag(tagId)} />
       <InputField
         validate={false}
         className="flex-grow-1"
