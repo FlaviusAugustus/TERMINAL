@@ -24,6 +24,7 @@ const colorStyles: Record<Color, string> = {
   yellow: "bg-yellow-200 border-yellow-400 text-yellow-600",
   amber: "bg-amber-200 border-amber-400 text-amber-600",
   orange: "bg-orange-200 border-orange-400 text-orange-600",
+  gray: "bg-gray-200 border-gray-400 text-gray-600",
 };
 
 const Chip = ({ value, getColorValue, className, ...rest }: ChipProps) => {
