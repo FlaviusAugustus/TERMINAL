@@ -9,7 +9,7 @@ type TagValuesProp = {
 
 const TagValues = ({ tags, handleRemove }: TagValuesProp) => {
   return (
-    <div className="flex flex-row flex-wrap gap-3 p-4 bg-gray-50 rounded-[10px] align-middle">
+    <div className="flex flex-row flex-wrap gap-3 p-4 rounded-[10px] align-middle">
       {tags.map((tag: Tag) => (
         <TagValue key={tag.id} tag={tag} onRemove={handleRemove} />
       ))}
@@ -24,14 +24,14 @@ type TagValueProp = {
 const TagValue = ({ tag, onRemove }: TagValueProp) => {
   return (
     <div className={"flex items-center mt-1"}>
-      <button
-        className="mr-0.25 items-center text-gray-700 hover:text-red-500"
-        title={`Remove ${tag}`}
-        onClick={() => onRemove(tag.id)}
-      >
-        <XMarkIcon className="h-4 rounded-md" />
-      </button>
-      <Chip value={tag.name} getColorValue={() => "gray"} />
+      <Chip value={tag.name} getColorValue={() => "gray"}>
+        <button
+          className="items-center text-gray-900 hover:text-gray-400 pl-1"
+          onClick={() => onRemove(tag.id)}
+        >
+          <XMarkIcon className="h-4 rounded-lg bg-white p-0.5" />
+        </button>
+      </Chip>
     </div>
   );
 };
