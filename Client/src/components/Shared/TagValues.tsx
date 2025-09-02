@@ -4,7 +4,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 
 type TagValuesProp = {
   tags: Tag[];
-  handleRemove: (tagId: string) => void;
+  handleRemove: (tag: Tag) => void;
 };
 
 const TagValues = ({ tags, handleRemove }: TagValuesProp) => {
@@ -19,7 +19,7 @@ const TagValues = ({ tags, handleRemove }: TagValuesProp) => {
 
 type TagValueProp = {
   tag: Tag;
-  onRemove: (tagId: string) => void;
+  onRemove: (tag: Tag) => void;
 };
 const TagValue = ({ tag, onRemove }: TagValueProp) => {
   return (
@@ -27,7 +27,7 @@ const TagValue = ({ tag, onRemove }: TagValueProp) => {
       <Chip value={tag.name} getColorValue={() => "gray"}>
         <button
           className="items-center text-gray-900 hover:text-gray-400 pl-1"
-          onClick={() => onRemove(tag.id)}
+          onClick={() => onRemove(tag)}
         >
           <XMarkIcon className="h-4 rounded-lg bg-white p-0.5" />
         </button>
