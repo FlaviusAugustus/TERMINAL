@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Tag } from "@api/models/Tag.ts";
 import {
   LabeledSelect,
@@ -6,8 +6,12 @@ import {
 } from "@components/Shared/LabeledSelect.tsx";
 import { useGetTags } from "@hooks/tags/useGetTags.ts";
 
-const TagInput = () => {
-  const [tags, setTags] = useState<Tag[]>([]);
+type TagInputProps = {
+  tags: Tag[];
+  setTags: (newTags: Tag[]) => void;
+};
+
+const TagInput = ({ tags, setTags }: TagInputProps) => {
   const allTags = useGetTags({
     pageNumber: 0,
     pageSize: 99,
