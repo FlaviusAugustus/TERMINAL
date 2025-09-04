@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import TagValues from "@components/Shared/TagValues.tsx";
+import { useMemo, useState } from "react";
 import { Tag } from "@api/models/Tag.ts";
 import {
   LabeledSelect,
@@ -9,41 +8,37 @@ import { useGetTags } from "@hooks/tags/useGetTags.ts";
 
 const TagInput = () => {
   const [tags, setTags] = useState<Tag[]>([]);
-  const [availableTags, setAvailableTags] = useState<Tag[]>([]);
-  const tagsToChoose = useGetTags({
+  const allTags = useGetTags({
     pageNumber: 0,
     pageSize: 99,
     desc: true,
   });
+  const availableTags: Tag[] | undefined = useMemo(() => {
+    return allTags.data?.rows?.filter((tag) => !tags.includes(tag));
+  }, [allTags.data, tags]);
 
-  useEffect(() => {
-    if (tagsToChoose.data?.rows) {
-      setAvailableTags(tagsToChoose.data.rows);
-    }
-  }, [tagsToChoose.data]);
-
-  const handleAddTag = (newTag: Tag) => {
-    if (newTag != null) {
-      setTags([...tags, newTag]);
-      setAvailableTags((prev) => prev.filter((tag) => tag.id !== newTag.id));
+  const handleAddTag = (newTags: Tag[]) => {
+    console.log(newTags);
+    if (newTags != null) {
+      setTags(newTags);
     }
   };
 
   const handleRemoveTag = (removedTag: Tag) => {
     setTags(tags.filter((tag) => tag.id !== removedTag.id));
-    if (removedTag) {
-      setAvailableTags((prev) => [...prev, removedTag]);
-    }
   };
 
   return (
     <div className="flex flex-col w-96 gap-2">
-      <TagValues
-        tags={tags}
-        handleRemove={(tag: Tag) => handleRemoveTag(tag)}
-      />
-      <LabeledSelect label="Add Tag" name="AddTag" onChange={handleAddTag}>
-        {availableTags.map((tag: Tag) => (
+      <LabeledSelect<Tag, true>
+        multiple
+        label="Add Tags"
+        name="AddTag"
+        onChange={handleAddTag}
+        value={tags}
+        handleRemoveValue={(tag: Tag) => handleRemoveTag(tag)}
+      >
+        {availableTags?.map((tag: Tag) => (
           <SelectItem key={tag.id} value={tag} displayValue={tag.name} />
         ))}
       </LabeledSelect>

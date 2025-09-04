@@ -44,7 +44,7 @@ const Chip = ({
     <span
       {...rest}
       className={clsx(
-        "flex items-center border rounded-full py-1 px-2",
+        "inline-flex items-center border rounded-full py-1 px-2",
         colorClasses,
         className
       )}
