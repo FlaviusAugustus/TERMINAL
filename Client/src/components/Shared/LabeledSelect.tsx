@@ -14,7 +14,6 @@ import InputLabelAndValidation, {
   InputLabelAndValidationProps,
 } from "./InputLabelAndValidation";
 import SelectedValues from "@components/Shared/SelectedValues.tsx";
-import { Tag } from "@api/models/Tag.ts";
 
 type LabeledSelectProps<T, Multiple extends boolean> = Omit<
   InputLabelAndValidationProps,
@@ -24,7 +23,7 @@ type LabeledSelectProps<T, Multiple extends boolean> = Omit<
     displayValue?: (arg0: T) => string;
     children: ReactNode;
     validationInfo?: string;
-    handleRemoveValue?: (removedValue: Tag) => void;
+    handleRemoveValue?: (removedValue: T) => void;
   };
 
 /**
@@ -62,7 +61,7 @@ const LabeledSelect = <T, Multiple extends boolean>({
           )}
         >
           {multiple && Array.isArray(value) && value.length > 0 && (
-            <SelectedValues tags={value} handleRemove={handleRemoveValue} />
+            <SelectedValues values={value} handleRemove={handleRemoveValue} />
           )}
           <ComboboxInput
             ref={ref}
@@ -92,7 +91,7 @@ type SelectItemProps<T> = ComboboxOptionProps<"div", T> & {
 const SelectItem = <T,>({ displayValue, ...rest }: SelectItemProps<T>) => {
   return (
     <ComboboxOption
-      className="w-full p-2 text-sm hover:bg-gray-100 rounded-md"
+      className="w-full p-2 text-sm hover:bg-gray-100 hover:cursor-pointer rounded-md"
       {...rest}
     >
       {displayValue}
