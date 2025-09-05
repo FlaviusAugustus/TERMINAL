@@ -57,6 +57,7 @@ const UserDetails = (props: UserDetailsProps) => {
       <LabeledSelect
         label="Role"
         value={role}
+        multiple={false}
         onChange={(value) => {
           if (!value) return;
           setRole(value);
