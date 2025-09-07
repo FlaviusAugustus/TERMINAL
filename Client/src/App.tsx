@@ -16,6 +16,9 @@ import AddRecipeWithContexts from "@pages/AddRecipe.tsx";
 import DashboardPage from "@pages/DashboardPage.tsx";
 import LoginOrNotFound from "@pages/LoginOrNotFound.tsx";
 import ParametersPage from "@pages/ParametersPage.tsx";
+import AddParameter from "@pages/AddParameter.tsx";
+import TagsPage from "@pages/TagsPage.tsx";
+import AddTag from "@components/AddTag/AddTag.tsx";
 
 const queryClient = new QueryClient();
 
@@ -34,11 +37,20 @@ export default function App() {
           <Route element={<AuthorizedLayout pageName="Add new sample" />}>
             <Route path="/new-sample" element={<AddRecipeWithContexts />} />
           </Route>
+          <Route element={<AuthorizedLayout pageName="Add new parameter" />}>
+            <Route path="/new-parameter" element={<AddParameter />} />
+          </Route>
+          <Route element={<AuthorizedLayout pageName="Add new tag" />}>
+            <Route path="/new-tag" element={<AddTag />} />
+          </Route>
           <Route element={<AuthorizedLayout pageName="Dashboard" />}>
             <Route path="/" element={<DashboardPage />} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Projects" />}>
             <Route path="/projects" element={<ProjectsPage />} />
+          </Route>
+          <Route element={<AuthorizedLayout pageName="Tags" />}>
+            <Route path="/tags" element={<TagsPage />} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Recipes" />}>
             <Route path="/recipes" element={<RecipesPage />} />
@@ -54,7 +66,10 @@ export default function App() {
           </Route>
           <Route
             element={
-              <AuthorizedLayout pageName="Users" roles={["Administrator", "Moderator"]}/>
+              <AuthorizedLayout
+                pageName="Users"
+                roles={["Administrator", "Moderator"]}
+              />
             }
           >
             <Route path="/users" element={<UsersPage />} />

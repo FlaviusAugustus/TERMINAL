@@ -13,14 +13,14 @@ export interface ProjectDetailsProps {
 }
 
 /**
- * ProjectDetails Component
+ * ProjectEdit Component
  *
  * Displays details of a project including name, samples and activity.
  * Provides functionality to reset changes, submit changes, change activity and name.
  *
  * @component
  */
-const ProjectDetails = (props: ProjectDetailsProps) => {
+const ProjectEdit = (props: ProjectDetailsProps) => {
   const [isChanged, setIsChanged] = useState(false);
   const [name, setName] = useState(props.project?.name);
   const [isActive, setActive] = useState(props.project?.isActive);
@@ -82,4 +82,4 @@ const ProjectDetails = (props: ProjectDetailsProps) => {
   );
 };
 
-export default ProjectDetails;
+export default ProjectEdit;

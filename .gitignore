@@ -1,3 +1,6 @@
+# ansible inventory
+inventory.ini
+
 # Certs
 *.crt
 *.key

@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useRef } from "react";
 import { Input } from "@headlessui/react";
 import clsx from "clsx";
 import InputLabelAndValidation, {
@@ -8,9 +8,10 @@ import InputLabelAndValidation, {
 /**
  * Props type for InputField component
  */
-export type InputFieldProps = InputLabelAndValidationProps &
+export type InputFieldProps = Omit<InputLabelAndValidationProps, "inputRef"> &
   React.InputHTMLAttributes<HTMLInputElement> & {
     icon?: ReactNode;
+    validationInfo?: string;
   };
 
 /**
@@ -23,15 +24,18 @@ const InputField = ({
   label,
   icon,
   isValid = true,
+  validate = true,
   className,
-  validationInfo,
   ...rest
 }: InputFieldProps) => {
+  const ref = useRef<HTMLInputElement>(null);
+
   return (
     <InputLabelAndValidation
       label={label}
       isValid={isValid}
-      validationInfo={validationInfo}
+      inputRef={ref}
+      validate={validate}
     >
       <div className="relative">
         <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -39,14 +43,16 @@ const InputField = ({
         </div>
         <Input
           {...rest}
+          ref={ref}
+          formNoValidate
           autoComplete="disabled"
           className={clsx(
-            "w-full px-3 py-2 border rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 focus:ring-offset-2",
+            "w-full px-3 py-2 border rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 focus:ring-offset-2 invalid:border-red-500",
             {
               "border-red-500": !isValid,
             },
             icon ? "pl-9" : "pl-3",
-            className,
+            className
           )}
         />
       </div>

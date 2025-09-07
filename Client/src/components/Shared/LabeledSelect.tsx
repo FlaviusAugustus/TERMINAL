@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useRef } from "react";
 import {
   Combobox,
   ComboboxInput,
@@ -14,10 +14,11 @@ import InputLabelAndValidation, {
   InputLabelAndValidationProps,
 } from "./InputLabelAndValidation";
 
-type LabeledSelectProps<T> = InputLabelAndValidationProps &
+type LabeledSelectProps<T> = Omit<InputLabelAndValidationProps, "inputRef"> &
   ComboboxProps<T, false> & {
     displayValue?: (arg0: T) => string;
     children: ReactNode;
+    validationInfo?: string;
   };
 
 /**
@@ -29,26 +30,29 @@ type LabeledSelectProps<T> = InputLabelAndValidationProps &
 const LabeledSelect = <T,>({
   label,
   isValid = true,
-  validationInfo,
   children,
   displayValue,
   ...rest
 }: LabeledSelectProps<T>) => {
+  const ref = useRef<HTMLInputElement>(null);
+
   return (
     <InputLabelAndValidation
       label={label}
       isValid={isValid}
-      validationInfo={validationInfo}
+      inputRef={ref}
+      validate
     >
       <Combobox {...rest}>
         <div className="relative">
           <ComboboxInput
+            ref={ref}
             displayValue={displayValue}
             className={clsx(
               "w-full px-3 py-2 border-[1px] border-black/15 rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 focus:ring-offset-2",
               {
                 "border-red-500": !isValid,
-              },
+              }
             )}
           />
           <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">

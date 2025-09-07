@@ -9,7 +9,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
  */
 function useStickyState<T>(
   defaultValue: T,
-  key: string,
+  key: string
 ): [T, Dispatch<SetStateAction<T>>] {
   const [value, setValue] = useState<T>(() => {
     const stickyValue = window.sessionStorage.getItem(key);

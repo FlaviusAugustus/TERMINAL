@@ -10,7 +10,7 @@ const FullScreenLoader = ({ visible }: FullScreenLoaderProps) => {
     <div
       className={clsx(
         "absolute top-0 left-0 z-50 h-screen w-screen flex items-center justify-center animate-fadeIn transition-opacity duration-1000 opacity-0 bg-white pointer-events-none",
-        visible && "opacity-100",
+        visible && "opacity-100"
       )}
     >
       <div className="flex flex-col gap-2">

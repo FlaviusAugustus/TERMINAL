@@ -33,7 +33,7 @@ export interface ProjectsProps {
   pagination: PaginationState;
   setSorting: OnChangeFn<SortingState>;
   setPagination: OnChangeFn<PaginationState>;
-  onDetails: (projectId: string) => void;
+  onEdit: (projectId: string) => void;
   onDelete: (projectId: string) => void;
 }
 
@@ -77,7 +77,7 @@ const Projects = (props: ProjectsProps) => {
 
   const columns = useTableColumns<Project>({
     columnsDef: columnsDef,
-    onDetails: props.onDetails,
+    onEdit: props.onEdit,
     onDelete: props.onDelete,
   });
 
@@ -117,6 +117,7 @@ const Projects = (props: ProjectsProps) => {
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
         <InputField
+          validate={false}
           className="!text-sm !h-[40px]"
           placeholder="Search"
           icon={<MagnifyingGlassIcon className="h-4" />}

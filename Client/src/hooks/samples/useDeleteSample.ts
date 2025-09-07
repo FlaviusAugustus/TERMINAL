@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { SamplesParams } from "@hooks/samples/useGetSamples";
-import apiClient from "@api/apiClient";
+import { SamplesParams } from "@hooks/samples/useGetSamples.ts";
+import apiClient from "@api/apiClient.ts";
 import { AxiosResponse } from "axios";
 
 async function deleteSample(id: string | undefined): Promise<AxiosResponse> {
-    return await apiClient.delete(`samples/${id}`);
+  return await apiClient.delete(`samples/${id}`);
 }
 
 /**

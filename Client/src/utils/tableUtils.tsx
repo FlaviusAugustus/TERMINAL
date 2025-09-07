@@ -17,7 +17,7 @@ const editableColumn: Partial<ColumnDef<AllParameters>> = {
     const parameters = useGetParameters();
 
     const parameterOrigin = parameters.data?.parameters.find(
-      (p) => p.name === original.name,
+      (p) => p.name === original.name
     );
 
     // We need to keep and update the state of the cell normally

@@ -38,7 +38,7 @@ export function useUpdateProjectStatus(params: ProjectsRequest) {
             ...oldData,
             isActive: isActive,
           };
-        },
+        }
       );
 
       queryClient.setQueryData<ProjectsResponse>(
@@ -48,10 +48,10 @@ export function useUpdateProjectStatus(params: ProjectsRequest) {
           return {
             ...oldData,
             rows: oldData.rows.map((project) =>
-              project.id === id ? { ...project, isActive } : project,
+              project.id === id ? { ...project, isActive } : project
             ),
           };
-        },
+        }
       );
     },
   });

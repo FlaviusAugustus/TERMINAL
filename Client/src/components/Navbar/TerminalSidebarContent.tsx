@@ -9,9 +9,10 @@ import {
   LightBulbIcon,
   ListBulletIcon,
   UserIcon,
+  TagIcon,
 } from "@heroicons/react/20/solid";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
-import {CalculatorIcon} from "@heroicons/react/16/solid";
+import { CalculatorIcon } from "@heroicons/react/16/solid";
 
 /**
  * TerminalSidebarContent Component
@@ -23,7 +24,6 @@ import {CalculatorIcon} from "@heroicons/react/16/solid";
  * @component
  */
 const TerminalSidebarContent = () => {
-
   return (
     <div className="flex flex-col p-4 gap-5 bg-white">
       <SidebarLinkGroup text="General">
@@ -41,13 +41,17 @@ const TerminalSidebarContent = () => {
           <VisibleForRoles roles={["Administrator", "Moderator"]}>
             <SidebarItem text="Project" href="/new-project" />
           </VisibleForRoles>
+          <VisibleForRoles roles={["Administrator", "Moderator"]}>
+            <SidebarItem text="Parameter" href="/new-parameter" />
+          </VisibleForRoles>
+          <SidebarItem text="Tag" href="/new-tag" />
         </SidebarItemWithSubLinks>
       </SidebarLinkGroup>
       <SidebarLinkGroup text="Manage">
         <SidebarItem
-            text="Recipes"
-            href="/recipes"
-            icon={<LightBulbIcon className="h-5 w-5" />}
+          text="Recipes"
+          href="/recipes"
+          icon={<LightBulbIcon className="h-5 w-5" />}
         />
         <SidebarItem
           text="Samples"
@@ -60,26 +64,31 @@ const TerminalSidebarContent = () => {
           icon={<ListBulletIcon className="h-5 w-5" />}
         />
         <SidebarItem
-            text="Parameters"
-            href="/parameters"
-            icon={<CalculatorIcon className="h-5 w-5" />}
+          text="Parameters"
+          href="/parameters"
+          icon={<CalculatorIcon className="h-5 w-5" />}
+        />
+        <SidebarItem
+          text="Tags"
+          href="/tags"
+          icon={<TagIcon className="h-5 w-5" />}
         />
       </SidebarLinkGroup>
       <VisibleForRoles roles={["Administrator", "Moderator"]}>
-          <SidebarLinkGroup text="Users">
+        <SidebarLinkGroup text="Users">
+          <SidebarItem
+            text="Browse"
+            href="/users"
+            icon={<UserIcon className="h-5 w-5" />}
+          />
+          <VisibleForRoles roles={["Administrator"]}>
             <SidebarItem
-                text="Browse"
-                href="/users"
-                icon={<UserIcon className="h-5 w-5" />}
+              text="Invite"
+              href="/settings"
+              icon={<EnvelopeIcon className="h-5 w-5" />}
             />
-            <VisibleForRoles roles={["Administrator"]}>
-              <SidebarItem
-                  text="Invite"
-                  href="/settings"
-                  icon={<EnvelopeIcon className="h-5 w-5" />}
-              />
-            </VisibleForRoles>
-          </SidebarLinkGroup>
+          </VisibleForRoles>
+        </SidebarLinkGroup>
       </VisibleForRoles>
     </div>
   );
