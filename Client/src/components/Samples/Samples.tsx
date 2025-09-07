@@ -19,10 +19,10 @@ import TableManagement from "@components/Shared/Table/TableManagment";
 import TableView from "@components/Shared/Table/TableView";
 import { Link } from "react-router-dom";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
-import {toastPromise} from "utils/toast.utils";
-import {useTableColumns} from "@hooks/useTableColumns.tsx";
-import SearchInput from "@components/Shared/SearchInput.tsx";
-import {Sample} from "@api/models/Sample.ts";
+import { toastPromise } from "utils/toast.utils";
+import { useTableColumns } from "@hooks/useTableColumns";
+import SearchInput from "@components/Shared/SearchInput";
+import { Sample } from "@api/models/Sample";
 
 export interface SamplesProps {
     onChangeSampleDetails?: (code: string) => void;
