@@ -96,8 +96,8 @@ const DashboardPage = () => {
             onClick={() => navigate("/projects")}
           />
           <EntityAmountCardButton
-              title="Add New"
-              onClick={() => navigate("/new-project")}
+            title="Add New"
+            onClick={() => navigate("/new-project")}
           />
         </EntityAmountCard>
 
@@ -110,8 +110,8 @@ const DashboardPage = () => {
             onClick={() => navigate("/samples")}
           />
           <EntityAmountCardButton
-              title="Add New"
-              onClick={() => navigate("/new-sample")}
+            title="Add New"
+            onClick={() => navigate("/new-sample")}
           />
         </EntityAmountCard>
 
@@ -124,8 +124,8 @@ const DashboardPage = () => {
             onClick={() => navigate("/recipes")}
           />
           <EntityAmountCardButton
-              title="Add New"
-              onClick={() => navigate("/new-recipe")}
+            title="Add New"
+            onClick={() => navigate("/new-recipe")}
           />
         </EntityAmountCard>
 
