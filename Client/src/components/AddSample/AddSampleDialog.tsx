@@ -80,8 +80,7 @@ const AddSampleDialog = ({
           label="Project"
           value={selectedProject}
           displayValue={(project) => project?.name ?? ""}
-          multiple={false}
-          onChange={setSelectedProject}
+          onChange={(project: Project) => setSelectedProject(project)}
           isValid={isProjectValid}
           validationInfo="Choose a project from the list"
         >

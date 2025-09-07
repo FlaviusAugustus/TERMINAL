@@ -37,7 +37,6 @@ const NewParameterInputs = ({
       <LabeledSelect
         label="Type"
         name="Type"
-        multiple={false}
         value={parameterRequest.$type}
         onChange={handleChangeType}
       >

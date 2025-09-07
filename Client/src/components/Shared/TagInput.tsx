@@ -22,7 +22,6 @@ const TagInput = ({ tags, setTags }: TagInputProps) => {
   }, [allTags.data, tags]);
 
   const handleAddTag = (newTags: Tag[]) => {
-    console.log(newTags);
     if (newTags != null) {
       setTags(newTags);
     }
