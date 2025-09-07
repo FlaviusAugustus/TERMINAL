@@ -95,7 +95,10 @@ const DashboardPage = () => {
             title="Browse All"
             onClick={() => navigate("/projects")}
           />
-          <EntityAmountCardButton title="Add New" />
+          <EntityAmountCardButton
+            title="Add New"
+            onClick={() => navigate("/new-project")}
+          />
         </EntityAmountCard>
 
         <EntityAmountCard
@@ -106,7 +109,10 @@ const DashboardPage = () => {
             title="Browse All"
             onClick={() => navigate("/samples")}
           />
-          <EntityAmountCardButton title="Add New" />
+          <EntityAmountCardButton
+            title="Add New"
+            onClick={() => navigate("/new-sample")}
+          />
         </EntityAmountCard>
 
         <EntityAmountCard
@@ -117,7 +123,10 @@ const DashboardPage = () => {
             title="Browse All"
             onClick={() => navigate("/recipes")}
           />
-          <EntityAmountCardButton title="Add New" />
+          <EntityAmountCardButton
+            title="Add New"
+            onClick={() => navigate("/new-recipe")}
+          />
         </EntityAmountCard>
 
         <EntityAmountCard title="Total users" amount={userAmount?.data ?? 0}>
