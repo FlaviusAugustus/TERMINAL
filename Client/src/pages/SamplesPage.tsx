@@ -22,7 +22,7 @@ const SamplesPage = () => {
         setPagination,
         handleSearch,
         clearSearch,
-        deleteMutationParams
+        deleteMutationParams,
     } = useSamplesWithSearch();
 
     const deleteMutation = useDeleteSample(deleteMutationParams);
@@ -49,10 +49,7 @@ const SamplesPage = () => {
 
     return (
         <TableLayout>
-            <ComponentOrLoader
-                isLoading={isLoading}
-                loader={<Loader />}
-            >
+            <ComponentOrLoader isLoading={isLoading} loader={<Loader />}>
                 <Samples
                     samples={samplesData}
                     sorting={sorting}

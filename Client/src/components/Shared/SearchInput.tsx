@@ -12,7 +12,9 @@ export interface SearchInputProps {
 }
 
 const SearchInput = (params: SearchInputProps) => {
-    const [localSearchValue, setLocalSearchValue] = useState<string>(params.searchValue || "");
+    const [localSearchValue, setLocalSearchValue] = useState<string>(
+        params.searchValue || ""
+    );
 
     useEffect(() => {
         setLocalSearchValue(params.searchValue || "");

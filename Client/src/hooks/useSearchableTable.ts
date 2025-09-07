@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { SortingState, PaginationState } from "@tanstack/react-table";
-import { UseQueryResult} from "@tanstack/react-query";
+import { UseQueryResult } from "@tanstack/react-query";
 
 export interface SearchableTableParams {
     pageNumber: number;
@@ -21,17 +21,31 @@ export interface SearchableTableResponse<T> {
     rowsAmount: number;
 }
 
-export interface SearchableTableHooks<T, TParams extends SearchableTableParams, TSearchParams extends SearchParams> {
-    useRegularQuery: (params: TParams) => UseQueryResult<SearchableTableResponse<T>>;
-    useSearchQuery: (params: TSearchParams) => UseQueryResult<SearchableTableResponse<T>>;
+export interface SearchableTableHooks<
+    T,
+    TParams extends SearchableTableParams,
+    TSearchParams extends SearchParams
+> {
+    useRegularQuery: (
+        params: TParams
+    ) => UseQueryResult<SearchableTableResponse<T>>;
+    useSearchQuery: (
+        params: TSearchParams
+    ) => UseQueryResult<SearchableTableResponse<T>>;
 }
 
-export function useSearchableTable<T, TParams extends SearchableTableParams, TSearchParams extends SearchParams>(
+export function useSearchableTable<
+    T,
+    TParams extends SearchableTableParams,
+    TSearchParams extends SearchParams
+>(
     hooks: SearchableTableHooks<T, TParams, TSearchParams>,
     createParams: (pagination: PaginationState, sorting: SortingState) => TParams,
-    createSearchParams: (searchPhrase: string, pagination: PaginationState) => TSearchParams
-){
-
+    createSearchParams: (
+        searchPhrase: string,
+        pagination: PaginationState
+    ) => TSearchParams
+) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
@@ -48,7 +62,7 @@ export function useSearchableTable<T, TParams extends SearchableTableParams, TSe
 
     useEffect(() => {
         if (searchPhrase.trim() !== "") {
-            setPagination(prev => ({ ...prev, pageIndex: 0 }));
+            setPagination((prev) => ({ ...prev, pageIndex: 0 }));
         }
     }, [searchPhrase]);
 
@@ -60,14 +74,14 @@ export function useSearchableTable<T, TParams extends SearchableTableParams, TSe
             setIsSearching(false);
         } else {
             setIsSearching(true);
-            setPagination(prev => ({ ...prev, pageIndex: 0 }));
+            setPagination((prev) => ({ ...prev, pageIndex: 0 }));
         }
     };
 
     const clearSearch = () => {
         setSearchPhrase("");
         setIsSearching(false);
-        setPagination(prev => ({ ...prev, pageIndex: 0 }));
+        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
     };
 
     const activeQuery = isSearching ? searchQuery : regularQuery;
