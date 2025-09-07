@@ -20,7 +20,7 @@ function useParameterColumns(editable: boolean = false) {
         accessorFn: (param) => (param.$type !== "text" ? param.unit : "-"),
       },
     ],
-    [],
+    []
   );
 
   return columns;

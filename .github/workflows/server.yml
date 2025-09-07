@@ -1,29 +1,9 @@
 name: CI for server
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
 
-env:
-  DOTNET_VERSION: 9.0.x
-
-defaults:
-  run:
-    working-directory: Server
-
 jobs:
-  build-validation:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-      - name: Restore dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build --no-restore
+  server-ci:
+    uses: ./.github/workflows/terminal-server-ci.yml

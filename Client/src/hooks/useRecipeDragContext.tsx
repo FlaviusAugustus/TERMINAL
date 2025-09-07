@@ -38,7 +38,7 @@ function useRecipeDragContext(): RecipeDragContextValue {
   const context = useContext(RecipeDragContext);
   if (!context) {
     throw new Error(
-      "useAddRecipeContext must be used within a AddRecipeProvider",
+      "useAddRecipeContext must be used within a AddRecipeProvider"
     );
   }
   return context;

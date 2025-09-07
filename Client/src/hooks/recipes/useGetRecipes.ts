@@ -15,7 +15,7 @@ export type RecipesResponse = {
 };
 
 async function fetchDataProject(
-  params: RecipesRequest,
+  params: RecipesRequest
 ): Promise<RecipesResponse> {
   const recipes = await apiClient.get("/recipes", { params });
   const amountOfProjects = await apiClient.get("/recipes/amount");

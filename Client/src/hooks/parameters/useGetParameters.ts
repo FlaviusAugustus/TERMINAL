@@ -1,7 +1,11 @@
 import apiClient from "@api/apiClient.ts";
-import { AllParameters, DecimalParameter, IntegerParameter,TextParameter } from "@api/models/Parameters";
+import {
+  AllParameters,
+  DecimalParameter,
+  IntegerParameter,
+  TextParameter,
+} from "@api/models/Parameters";
 import { useQuery } from "@tanstack/react-query";
-
 
 type ParameterResponse = { parameters: AllParameters[] };
 

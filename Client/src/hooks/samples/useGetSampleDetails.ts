@@ -3,7 +3,7 @@ import { SampleDetailsDto } from "@api/models/Sample";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 async function fetchDataSampleDetails(
-  id: string | null,
+  id: string | null
 ): Promise<SampleDetailsDto> {
   return (await apiClient.get(`/samples/${id}`)).data;
 }

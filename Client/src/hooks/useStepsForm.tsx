@@ -9,7 +9,7 @@ type UseEditableFormReturn<T> = {
 };
 
 function useEditableForm<T>(
-  initialValue: T | undefined,
+  initialValue: T | undefined
 ): UseEditableFormReturn<T> {
   const [initial, setInitial] = useState<T | undefined>(initialValue);
   const [data, setData] = useState<T | undefined>(initialValue);

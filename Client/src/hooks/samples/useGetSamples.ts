@@ -30,7 +30,9 @@ function correctParams(params: SamplesParams) : SamplesParams{
     }
 }
 
-async function fetchDataSamples(params: SamplesParams): Promise<SamplesResponse> {
+async function fetchDataSamples(
+    params: SamplesParams
+): Promise<SamplesResponse> {
     params = correctParams(params);
     const resultSamples = await apiClient.get(`/samples`, {params})
     const resultAmountOfSamples = await apiClient.get(`/samples/amount`);

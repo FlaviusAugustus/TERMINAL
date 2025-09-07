@@ -37,7 +37,7 @@ export function useUpdateProjectName(params: ProjectsRequest) {
             ...oldData,
             name: name,
           };
-        },
+        }
       );
 
       queryClient.setQueryData<ProjectsResponse>(
@@ -47,10 +47,10 @@ export function useUpdateProjectName(params: ProjectsRequest) {
           return {
             ...oldData,
             rows: oldData.rows.map((project) =>
-              project.id === id ? { ...project, name } : project,
+              project.id === id ? { ...project, name } : project
             ),
           };
-        },
+        }
       );
     },
   });

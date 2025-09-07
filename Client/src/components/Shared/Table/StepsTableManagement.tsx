@@ -18,7 +18,7 @@ const StepsTableManagement = ({
         <button
           className={clsx(
             "p-1 text-sm flex items-center justify-center rounded bg-gray-100 border border-gray-200 flex-1 focus:outline-none",
-            activeIndex == i && "bg-gray-200 border-gray-300",
+            activeIndex == i && "bg-gray-200 border-gray-300"
           )}
           onClick={() => activeIndexChange(i)}
           key={i}

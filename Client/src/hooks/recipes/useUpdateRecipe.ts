@@ -5,7 +5,7 @@ import { RecipeDetailsDto, UpdateRecipeRequest } from "@api/models/Recipe";
 
 async function editRecipe(
   recipe: UpdateRecipeRequest,
-  id: string,
+  id: string
 ): Promise<AxiosResponse> {
   return await apiClient.patch(`recipes/${id}`, { ...recipe });
 }

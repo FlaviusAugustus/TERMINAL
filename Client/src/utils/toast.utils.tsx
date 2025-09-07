@@ -57,7 +57,7 @@ export const toastPromise = async (
     success: string;
     error: string;
     loading: string;
-  },
+  }
 ): Promise<void> => {
   try {
     await toast.promise(promise, messages, {

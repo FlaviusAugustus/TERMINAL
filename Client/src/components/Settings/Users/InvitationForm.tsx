@@ -61,7 +61,7 @@ const InvitationForm = () => {
         });
       }, 2000);
     },
-    [userData],
+    [userData]
   );
 
   return (

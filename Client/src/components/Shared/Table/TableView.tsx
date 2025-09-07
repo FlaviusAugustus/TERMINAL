@@ -36,12 +36,12 @@ const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
                     className={clsx(
                       header.column.getCanSort() &&
                         "cursor-pointer select-none",
-                      "flex gap-2 items-center",
+                      "flex gap-2 items-center"
                     )}
                   >
                     {flexRender(
                       header.column.columnDef.header,
-                      header.getContext(),
+                      header.getContext()
                     )}
                     {{
                       asc: <ChevronUpIcon className="h-3" />,

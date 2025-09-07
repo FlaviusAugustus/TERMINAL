@@ -1,0 +1,19 @@
+- name: Deploy
+  hosts: all
+
+  tasks:
+    - name: Create project directory
+      ansible.builtin.file:
+        path: ~/terminal
+        state: directory
+    - name: Deploy Compose file
+      template:
+        src: templates/compose.j2
+        dest: ~/terminal/compose.yaml
+    - name: Docker compose pull
+      shell: docker compose pull
+      args:
+        chdir: ~/terminal
+    - name: Create and start services
+      community.docker.docker_compose_v2:
+        project_src: ~/terminal
