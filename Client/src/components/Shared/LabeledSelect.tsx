@@ -13,12 +13,17 @@ import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import InputLabelAndValidation, {
   InputLabelAndValidationProps,
 } from "./InputLabelAndValidation";
+import SelectedValues from "@components/Shared/SelectedValues.tsx";
 
-type LabeledSelectProps<T> = Omit<InputLabelAndValidationProps, "inputRef"> &
-  ComboboxProps<T, false> & {
+type LabeledSelectProps<T, Multiple extends boolean> = Omit<
+  InputLabelAndValidationProps,
+  "inputRef"
+> &
+  ComboboxProps<T, Multiple> & {
     displayValue?: (arg0: T) => string;
     children: ReactNode;
     validationInfo?: string;
+    handleRemoveValue?: (removedValue: T) => void;
   };
 
 /**
@@ -27,14 +32,17 @@ type LabeledSelectProps<T> = Omit<InputLabelAndValidationProps, "inputRef"> &
  * @component
  * @param {InputFieldProps} props - The props for the InputField component
  */
-const LabeledSelect = <T,>({
+const LabeledSelect = <T, Multiple extends boolean>({
   label,
   isValid = true,
   children,
   displayValue,
+  handleRemoveValue,
   ...rest
-}: LabeledSelectProps<T>) => {
+}: LabeledSelectProps<T, Multiple>) => {
   const ref = useRef<HTMLInputElement>(null);
+  const value = rest.value;
+  const multiple = rest.multiple;
 
   return (
     <InputLabelAndValidation
@@ -43,18 +51,24 @@ const LabeledSelect = <T,>({
       inputRef={ref}
       validate
     >
-      <Combobox {...rest}>
-        <div className="relative">
+      <Combobox immediate {...rest}>
+        <div
+          className={clsx(
+            "relative w-full bg-white px-3 py-2 border-[1px] border-black/15 rounded-md",
+            {
+              "border-red-500": !isValid,
+            }
+          )}
+        >
+          {multiple && Array.isArray(value) && value.length > 0 && (
+            <SelectedValues values={value} handleRemove={handleRemoveValue} />
+          )}
           <ComboboxInput
             ref={ref}
             displayValue={displayValue}
-            className={clsx(
-              "w-full px-3 py-2 border-[1px] border-black/15 rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 focus:ring-offset-2",
-              {
-                "border-red-500": !isValid,
-              }
-            )}
+            className={"w-full h-full focus:outline-none"}
           />
+
           <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
             <ChevronDownIcon className="h-5" />
           </ComboboxButton>
@@ -77,7 +91,7 @@ type SelectItemProps<T> = ComboboxOptionProps<"div", T> & {
 const SelectItem = <T,>({ displayValue, ...rest }: SelectItemProps<T>) => {
   return (
     <ComboboxOption
-      className="w-full p-2 text-sm hover:bg-gray-100 rounded-md"
+      className="w-full p-2 text-sm hover:bg-gray-100 hover:cursor-pointer rounded-md"
       {...rest}
     >
       {displayValue}
