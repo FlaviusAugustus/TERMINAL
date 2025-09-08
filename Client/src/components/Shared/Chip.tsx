@@ -24,9 +24,16 @@ const colorStyles: Record<Color, string> = {
   yellow: "bg-yellow-200 border-yellow-400 text-yellow-600",
   amber: "bg-amber-200 border-amber-400 text-amber-600",
   orange: "bg-orange-200 border-orange-400 text-orange-600",
+  gray: "bg-gray-200 border-gray-400 text-gray-600",
 };
 
-const Chip = ({ value, getColorValue, className, ...rest }: ChipProps) => {
+const Chip = ({
+  value,
+  getColorValue,
+  className,
+  children,
+  ...rest
+}: ChipProps) => {
   const colorClasses = useMemo(() => {
     return getColorValue
       ? colorStyles[getColorValue()]
@@ -36,9 +43,14 @@ const Chip = ({ value, getColorValue, className, ...rest }: ChipProps) => {
   return (
     <span
       {...rest}
-      className={clsx("border rounded-full py-1 px-2", colorClasses, className)}
+      className={clsx(
+        "inline-flex items-center border rounded-full py-1 px-2",
+        colorClasses,
+        className
+      )}
     >
       {value}
+      {children}
     </span>
   );
 };
