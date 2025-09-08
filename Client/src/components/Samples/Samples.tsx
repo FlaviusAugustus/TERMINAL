@@ -87,7 +87,7 @@ const Samples = (props: SamplesProps) => {
   });
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const [localSearch, setLocalSearch] = useState(
-    props.searchProps?.searchValue || "",
+    props.searchProps?.searchValue || ""
   );
 
   useEffect(() => {

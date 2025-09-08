@@ -15,7 +15,7 @@ export type SampleSearchResult = {
 };
 
 async function fetchSamples(
-  params: SamplesSearchParams,
+  params: SamplesSearchParams
 ): Promise<SampleSearchResult> {
   const response = await apiClient.get("/samples/search", { params });
   return {
