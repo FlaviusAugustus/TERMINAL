@@ -1,13 +1,14 @@
-import { ColumnDef, OnChangeFn } from "@tanstack/react-table";
 import {
-  getCoreRowModel,
-  useReactTable,
+  ColumnDef,
   createColumnHelper,
-  SortingState,
+  getCoreRowModel,
+  OnChangeFn,
   PaginationState,
+  SortingState,
+  useReactTable,
 } from "@tanstack/react-table";
 import { SamplesResponse } from "@hooks/samples/useGetSamples.ts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Chip from "@components/Shared/Chip";
 import {
   MagnifyingGlassIcon,
@@ -35,6 +36,11 @@ export interface SamplesProps {
   onEdit: (sampleId: string) => void;
   onDelete: (sampleId: string) => Promise<void>;
   onDetails: (sampleId: string) => void;
+  searchProps?: {
+    onSearch?: (phrase: string) => void;
+    searchValue?: string;
+    onClearSearch?: () => void;
+  };
 }
 
 const columnHelper = createColumnHelper<Sample>();
@@ -80,6 +86,13 @@ const Samples = (props: SamplesProps) => {
     onDetails: props.onDetails,
   });
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+  const [localSearch, setLocalSearch] = useState(
+    props.searchProps?.searchValue || ""
+  );
+
+  useEffect(() => {
+    setLocalSearch(props.searchProps?.searchValue || "");
+  }, [props.searchProps?.searchValue]);
 
   const table = useReactTable({
     columns: columns,
@@ -118,12 +131,34 @@ const Samples = (props: SamplesProps) => {
   return (
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <InputField
-          validate={false}
-          className="!text-sm !h-[40px]"
-          placeholder="Search"
-          icon={<MagnifyingGlassIcon className="h-4" />}
-        />
+        <div className="flex items-center gap-1">
+          <InputField
+            validate={false}
+            className="!text-sm !h-[40px]"
+            placeholder="Search"
+            icon={<MagnifyingGlassIcon className="h-4" />}
+            value={localSearch}
+            onChange={(e) => setLocalSearch(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                props.searchProps?.onSearch?.(localSearch);
+              }
+            }}
+          />
+          {localSearch && (
+            <IconButton
+              onClick={() => {
+                setLocalSearch(""); // czyszczenie inputa
+                props.searchProps?.onClearSearch?.(); // wywołanie funkcji clear
+              }}
+              className="h-[40px] flex bg-white items-center gap-1 !hover:border-gray-300"
+              title="Clear search"
+            >
+              <XMarkIcon className="h-4" />
+              <p className="text-xs">Clear</p>
+            </IconButton>
+          )}
+        </div>
         <VisibleForRoles roles={["Administrator", "Moderator"]}>
           <div className="flex gap-1">
             <IconButton
