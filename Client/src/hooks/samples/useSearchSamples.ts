@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
-import { SampleDto } from "@api/models/SampleDto.ts";
+import { Sample } from "@api/models/Sample";
 
 export type SamplesSearchParams = {
   searchPhrase: string;
@@ -9,7 +9,7 @@ export type SamplesSearchParams = {
 };
 
 export type SampleSearchResult = {
-  rows: SampleDto[];
+  rows: Sample[];
   pageAmount: number;
   rowsAmount: number;
 };
