@@ -76,7 +76,7 @@ test('should redirect to Projects page on clicking Browse All', async ({ page })
 test('should redirect to Add new project page on clicking Add New', async ({ page }) => {
   await page.getByRole('button', { name: 'Add New' }).first().click();
   await expect(page).toHaveURL(/\/new-project$/);
-  await expect(page.getByText('Add new project').first()).toBeVisible();
+  await expect(page.getByText('Add new project').nth(1)).toBeVisible();
 });
 
 test('should redirect to Samples page on clicking Browse All under Samples', async ({ page }) => {
