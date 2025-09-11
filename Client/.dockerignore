@@ -7,5 +7,9 @@ config
 build
 node_modules
 docker-compose.yaml
+dist
+playwright-report
+eslint_report.json
+test-results
 Dockerfile
 README.md
