@@ -14,7 +14,7 @@ import StepTab from "./StepTab";
 const StepTabList = () => {
   const { addStep, recipe } = useAddRecipeContext();
   return (
-    <TabList className="flex gap-1 w-full p-2 overflow-x-auto">
+    <TabList className="flex gap-1 w-full p-2 overflow-x-auto hover:cursor-pointer">
       <div className="overflow-x-auto flex gap-1 w-full">
         {recipe.steps.map((_, index) => (
           <StepTab key={index} index={index} />
