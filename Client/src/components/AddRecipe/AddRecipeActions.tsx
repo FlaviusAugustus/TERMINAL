@@ -18,7 +18,7 @@ const AddRecipeActions = () => {
   const { mutateAsync } = useAddRecipe();
   return (
     <>
-      <div className="flex border gap-2 border-gray-200 rounded-md bg-gray-50  p-2 justify-center shadow-sm">
+      <div className="flex border gap-2 border-gray-200 rounded-md bg-gray-100  p-2 justify-center shadow-sm">
         <button
           className="flex items-center justify-center p-2 border bg-white border-gray-200 rounded hover:bg-gray-50 hover:border-red-300 transition-colors duration-100"
           onClick={() => updateRecipe({ id: "", name: "", steps: [] })}

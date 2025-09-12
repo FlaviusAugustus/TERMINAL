@@ -15,11 +15,11 @@ type ParameterSelectListProps = {
  */
 const ParameterSelectList = ({ parameters }: ParameterSelectListProps) => {
   return (
-    <div className="flex flex-col flex-grow border border-gray-200 rounded-md bg-gray-50 shadow-sm overflow-auto">
+    <div className="flex flex-col flex-grow border border-gray-200 rounded-md bg-gray-100 shadow-sm overflow-hidden">
       <div className="p-4 border-b border-gray-200 rounded-t-md bg-white">
         <p>Parameters</p>
       </div>
-      <div className="flex flex-col gap-2 py-2">
+      <div className="flex flex-col gap-2 py-2 overflow-auto border-0">
         {parameters.map((parameter) => (
           <ParameterSelect key={parameter.id} parameter={parameter} />
         ))}
