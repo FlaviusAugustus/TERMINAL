@@ -11,6 +11,7 @@ import { useProjectDetails } from "@hooks/projects/useGetProjectDetails.ts";
 import ProjectEdit from "@components/Projects/ProjectEdit.tsx";
 import { useUpdateProjectName } from "@hooks/projects/useUpdateProjectName.ts";
 import { useUpdateProjectStatus } from "@hooks/projects/useUpdateProjectStatus.ts";
+import { useSearchProjects } from "@hooks/projects/useSearchProjects.cs.ts";
 
 const ProjectsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -18,6 +19,7 @@ const ProjectsPage = () => {
     pageIndex: 0,
     pageSize: 10,
   });
+  const [searchPhrase, setSearchPhrase] = useState("");
   const [editOpen, setEditOpen] = useState(false);
   const [projectDetailsId, setProjectDetailsId] = useState<string | null>(null);
 
@@ -26,6 +28,14 @@ const ProjectsPage = () => {
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
   });
+
+  const searchProjectsQuery = useSearchProjects({
+    searchPhrase,
+    pageNumber: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+  });
+
+  const dataQueryProjects = searchPhrase ? searchProjectsQuery : queryProjects;
 
   const queryProjectDetails = useProjectDetails(projectDetailsId);
 
@@ -82,11 +92,11 @@ const ProjectsPage = () => {
   return (
     <TableLayout>
       <ComponentOrLoader
-        isLoading={queryProjects.isLoading}
+        isLoading={dataQueryProjects.isLoading}
         loader={<Loader />}
       >
         <Projects
-          projects={queryProjects.data}
+          projects={dataQueryProjects.data}
           sorting={sorting}
           setSorting={setSorting}
           pagination={pagination}
@@ -94,6 +104,11 @@ const ProjectsPage = () => {
           onChangeProjectDetails={() => {}}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          searchProps={{
+            onSearch: setSearchPhrase,
+            searchValue: searchPhrase,
+            onClearSearch: () => setSearchPhrase(""),
+          }}
         />
       </ComponentOrLoader>
       <ComponentOrLoader
