@@ -13,8 +13,7 @@ import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import TableCard from "@components/Shared/Table/TableCard";
 import { Color } from "utils/colorUtils";
 import Chip from "@components/Shared/Chip";
-import { useState } from "react";
-import InputField from "@components/Shared/InputField.tsx";
+import { useEffect, useState } from "react";
 import {
   MagnifyingGlassIcon,
   PlusIcon,
@@ -25,6 +24,7 @@ import IconButton from "@components/Shared/IconButton.tsx";
 import { Link } from "react-router-dom";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Project } from "@api/models/Project";
+import InputField from "@components/Shared/InputField.tsx";
 
 export interface ProjectsProps {
   onChangeProjectDetails: (id: string) => void;
@@ -35,6 +35,11 @@ export interface ProjectsProps {
   setPagination: OnChangeFn<PaginationState>;
   onEdit: (projectId: string) => void;
   onDelete: (projectId: string) => void;
+  searchProps?: {
+    onSearch?: (phrase: string) => void;
+    searchValue?: string;
+    onClearSearch?: () => void;
+  };
 }
 
 function getChipColors(isActive: boolean): Color {
@@ -74,6 +79,13 @@ const columnsDef = [
  */
 const Projects = (props: ProjectsProps) => {
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+  const [localSearch, setLocalSearch] = useState(
+    props.searchProps?.searchValue || ""
+  );
+
+  useEffect(() => {
+    setLocalSearch(props.searchProps?.searchValue || "");
+  }, [props.searchProps?.searchValue]);
 
   const columns = useTableColumns<Project>({
     columnsDef: columnsDef,
@@ -116,12 +128,34 @@ const Projects = (props: ProjectsProps) => {
   return (
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <InputField
-          validate={false}
-          className="!text-sm !h-[40px]"
-          placeholder="Search"
-          icon={<MagnifyingGlassIcon className="h-4" />}
-        />
+        <div className="flex items-center gap-1">
+          <InputField
+            validate={false}
+            className="!text-sm !h-[40px]"
+            placeholder="Search"
+            icon={<MagnifyingGlassIcon className="h-4" />}
+            value={localSearch}
+            onChange={(e) => setLocalSearch(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                props.searchProps?.onSearch?.(localSearch);
+              }
+            }}
+          />
+          {localSearch && (
+            <IconButton
+              onClick={() => {
+                setLocalSearch(""); // czyszczenie inputa
+                props.searchProps?.onClearSearch?.(); // wywołanie funkcji clear
+              }}
+              className="h-[40px] flex bg-white items-center gap-1 !hover:border-gray-300"
+              title="Clear search"
+            >
+              <XMarkIcon className="h-4" />
+              <p className="text-xs">Clear</p>
+            </IconButton>
+          )}
+        </div>
         <VisibleForRoles roles={["Administrator", "Moderator"]}>
           <div className="flex gap-1">
             <IconButton
