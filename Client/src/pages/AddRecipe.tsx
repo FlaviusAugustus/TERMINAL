@@ -29,7 +29,7 @@ const AddRecipe = () => {
   if (parameters === undefined) return <div>No parameters found</div>;
 
   return (
-    <div className="p-2 flex gap-2 h-full">
+    <div className="p-2 flex gap-2 h-full overflow-auto">
       <div className="flex flex-col gap-2 w-80">
         <ParameterSelectList parameters={parameters.parameters} />
         <AddRecipeActions />

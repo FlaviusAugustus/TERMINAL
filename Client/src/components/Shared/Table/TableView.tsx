@@ -21,7 +21,7 @@ export interface TableViewProps<T extends TableElement> {
  */
 const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
   return (
-    <div className="overflow-auto h-full">
+    <div className="overflow-auto h-full bg-gray-50">
       <table className="table">
         <thead>
           {props.table.getHeaderGroups().map((headerGroup) => (
