@@ -16,7 +16,7 @@ const Steps = () => {
       <div className="p-4 border-b border-gray-200 rounded-t-md">
         <p>Steps</p>
       </div>
-      <div className="bg-gray-100 h-full">
+      <div className="bg-gray-50 h-full">
         <TabGroup
           className="flex flex-col h-full overflow-y-hidden overflow-x-auto"
           selectedIndex={currentStep == null ? undefined : currentStep}
