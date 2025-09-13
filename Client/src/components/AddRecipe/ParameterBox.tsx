@@ -8,6 +8,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { useAddRecipeContext } from "@hooks/useAddRecipeContext";
 import clsx from "clsx";
+import {
+  LabeledSelect,
+  SelectItem,
+} from "@components/Shared/LabeledSelect.tsx";
 
 type ParameterBoxProps = {
   parameter: AllParameters;
@@ -80,21 +84,44 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
             <p className="text-xs border-e border-gray-200 p-2 bg-white text-gray-700 rounded-l-md">
               value
             </p>
-            <input
-              className="rounded-md w-full text-sm ms-2 focus:outline-none bg-gray-50"
-              type="text"
-              value={parameter.value ?? (parameter.$type === "text" ? "" : 0)}
-              onChange={(val) => {
-                const newParameter =
-                  parameter.$type === "text"
-                    ? { ...parameter, value: val.currentTarget.value }
-                    : {
-                        ...parameter,
-                        value: parseInt(val.currentTarget.value),
-                      };
-                updateParameter(currentStep, newParameter);
-              }}
-            />
+            {parameter.$type === "text" ? (
+              <div className="rounded-md w-full h-full text-sm ms-2 focus:outline-none bg-gray-50">
+                <LabeledSelect
+                  compact
+                  value={parameter.value ?? ""}
+                  onChange={(val: string) => {
+                    const newParameter = {
+                      ...parameter,
+                      value: val,
+                    };
+                    updateParameter(currentStep, newParameter);
+                  }}
+                >
+                  {parameter.allowedValues.map(
+                    (value: string, index: number) => (
+                      <SelectItem
+                        key={index}
+                        value={value}
+                        displayValue={value}
+                      />
+                    )
+                  )}
+                </LabeledSelect>
+              </div>
+            ) : (
+              <input
+                className="rounded-md w-full text-sm ms-2 focus:outline-none bg-gray-50"
+                type="text"
+                value={parameter.value ?? 0}
+                onChange={(val) => {
+                  const newParameter = {
+                    ...parameter,
+                    value: parseInt(val.currentTarget.value),
+                  };
+                  updateParameter(currentStep, newParameter);
+                }}
+              />
+            )}
             <DragHandle attributes={attributes} listeners={listeners} />
           </div>
           {(parameter.$type === "integer" || parameter.$type === "decimal") && (

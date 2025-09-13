@@ -35,13 +35,14 @@ const AddRecipeActions = () => {
       <AddRecipeDialog
         isOpen={dialogOpen}
         setIsOpen={setDialogOpen}
-        onSubmit={(name) =>
+        onSubmit={(name) => {
+          updateRecipe({ id: "", name: "", steps: [] });
           toastPromise(mutateAsync({ ...recipe, name: name }), {
             loading: "loading",
             success: "Recipe added successfully",
             error: "Error while adding a recipe",
-          })
-        }
+          });
+        }}
       />
     </>
   );
