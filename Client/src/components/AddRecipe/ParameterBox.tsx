@@ -60,7 +60,7 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
         transition,
       }}
       className={clsx(
-        "rounded-md border border-gray-200 bg-gray1-100 shadow-sm !tanslate-x-0",
+        "rounded-md border border-gray-200 bg-gray-100 shadow-sm",
         isDragging && "z-50"
       )}
     >
