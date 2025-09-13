@@ -1,9 +1,8 @@
-import { AllParameters } from "@api/models/Parameters";
 import { ParameterSelect } from "./ParameterSelect";
-
-type ParameterSelectListProps = {
-  parameters: AllParameters[];
-};
+import useGetParameters from "@hooks/useGetParameters.ts";
+import { useMemo } from "react";
+import { AllParameters } from "@api/models/Parameters.ts";
+import { useAddRecipeContext } from "@hooks/useAddRecipeContext.tsx";
 
 /**
  * ParameterSelectList Component
@@ -13,14 +12,46 @@ type ParameterSelectListProps = {
  *
  * @component
  */
-const ParameterSelectList = ({ parameters }: ParameterSelectListProps) => {
+const ParameterSelectList = () => {
+  const { data: parameters, isLoading, isError } = useGetParameters();
+  const { recipe, currentStep } = useAddRecipeContext();
+
+  const filterParameters = (
+    allParameters: AllParameters[],
+    selectedParameters: AllParameters[]
+  ): AllParameters[] => {
+    return allParameters?.filter(
+      (param) => !selectedParameters.some((p) => p.id === param.id)
+    );
+  };
+
+  const availableParameters: AllParameters[] | undefined = useMemo(() => {
+    if (parameters?.parameters == undefined) return [];
+    else if (
+      currentStep == null ||
+      recipe == null ||
+      recipe.steps.length <= currentStep
+    ) {
+      return parameters?.parameters;
+    } else {
+      return filterParameters(
+        parameters?.parameters,
+        recipe.steps[currentStep].parameters
+      );
+    }
+  }, [parameters, currentStep, recipe]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error...</div>;
+  if (parameters === undefined) return <div>No parameters found</div>;
+
   return (
     <div className="flex flex-col flex-grow border border-gray-200 rounded-md bg-gray-100 shadow-sm overflow-hidden">
       <div className="p-4 border-b border-gray-200 rounded-t-md bg-white">
         <p>Parameters</p>
       </div>
       <div className="flex flex-col gap-2 py-2 overflow-auto border-0">
-        {parameters.map((parameter) => (
+        {availableParameters?.map((parameter) => (
           <ParameterSelect key={parameter.id} parameter={parameter} />
         ))}
       </div>
