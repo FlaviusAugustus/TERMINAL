@@ -26,13 +26,8 @@ type ParameterBoxProps = {
  * @component
  */
 const ParameterBox = ({ parameter }: ParameterBoxProps) => {
-  const {
-    removeParameter,
-    moveParameterUp,
-    moveParameterDown,
-    currentStep,
-    updateParameter,
-  } = useAddRecipeContext();
+  const { removeParameter, moveParameterUp, moveParameterDown, currentStep } =
+    useAddRecipeContext();
   const {
     listeners,
     attributes,
@@ -84,50 +79,7 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
             <p className="text-xs border-e border-gray-200 p-2 bg-white text-gray-700 rounded-l-md">
               value
             </p>
-            {parameter.$type === "text" ? (
-              <div className="rounded-md w-full h-full text-sm ms-2 focus:outline-none bg-gray-50">
-                <LabeledSelect
-                  compact
-                  value={parameter.value ?? ""}
-                  onChange={(val: string) => {
-                    const newParameter = {
-                      ...parameter,
-                      value: val,
-                    };
-                    updateParameter(currentStep, newParameter);
-                  }}
-                >
-                  {parameter.allowedValues.map(
-                    (value: string, index: number) => (
-                      <SelectItem
-                        key={index}
-                        value={value}
-                        displayValue={value}
-                      />
-                    )
-                  )}
-                </LabeledSelect>
-              </div>
-            ) : (
-              <input
-                className="rounded-md w-full text-sm ms-2 focus:outline-none bg-gray-50"
-                type="text"
-                value={parameter.value ?? 0}
-                onChange={(val) => {
-                  let parsedValue: number;
-                  if (parameter.$type === "decimal") {
-                    parsedValue = parseFloat(val.currentTarget.value);
-                  } else {
-                    parsedValue = parseInt(val.currentTarget.value, 10);
-                  }
-                  const newParameter = {
-                    ...parameter,
-                    value: parsedValue,
-                  };
-                  updateParameter(currentStep, newParameter);
-                }}
-              />
-            )}
+            <ParameterInput parameter={parameter} />
             <DragHandle attributes={attributes} listeners={listeners} />
           </div>
           {(parameter.$type === "integer" || parameter.$type === "decimal") && (
@@ -141,6 +93,57 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
         </div>
       </div>
     </div>
+  );
+};
+
+type ParameterInputProps = {
+  parameter: AllParameters;
+};
+
+const ParameterInput = ({ parameter }: ParameterInputProps) => {
+  const { updateParameter, currentStep } = useAddRecipeContext();
+  return (
+    <>
+      {" "}
+      {parameter.$type === "text" ? (
+        <div className="rounded-md w-full h-full text-sm ms-2 focus:outline-none bg-gray-50">
+          <LabeledSelect
+            compact
+            value={parameter.value ?? ""}
+            onChange={(val: string) => {
+              const newParameter = {
+                ...parameter,
+                value: val,
+              };
+              updateParameter(currentStep, newParameter);
+            }}
+          >
+            {parameter.allowedValues.map((value: string, index: number) => (
+              <SelectItem key={index} value={value} displayValue={value} />
+            ))}
+          </LabeledSelect>
+        </div>
+      ) : (
+        <input
+          className="rounded-md w-full text-sm ms-2 focus:outline-none bg-gray-50"
+          type="text"
+          value={parameter.value ?? 0}
+          onChange={(val) => {
+            let parsedValue: number;
+            if (parameter.$type === "decimal") {
+              parsedValue = parseFloat(val.currentTarget.value);
+            } else {
+              parsedValue = parseInt(val.currentTarget.value, 10);
+            }
+            const newParameter = {
+              ...parameter,
+              value: parsedValue,
+            };
+            updateParameter(currentStep, newParameter);
+          }}
+        />
+      )}
+    </>
   );
 };
 
