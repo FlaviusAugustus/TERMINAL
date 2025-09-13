@@ -56,11 +56,11 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
         transition,
       }}
       className={clsx(
-        "rounded-md border border-gray-200 bg-white shadow-sm !tanslate-x-0",
+        "rounded-md border border-gray-200 bg-gray1-100 shadow-sm !tanslate-x-0",
         isDragging && "z-50"
       )}
     >
-      <div className="border-b border-gray-200 rounded-t-md bg-gray-100 flex justify-between">
+      <div className="border-b border-gray-200 rounded-t-md bg-white flex justify-between">
         <p className="p-2 text-sm">{parameter.name}</p>
         <div className="flex gap-2 px-2 items-center justify-center">
           <button onClick={() => moveParameterUp(currentStep, parameter.id)}>
@@ -76,12 +76,12 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
       </div>
       <div className="p-2">
         <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-start rounded-md border border-gray-200">
-            <p className="text-xs border-e border-gray-200 p-2 bg-gray-100 text-gray-700">
-              default
+          <div className="flex items-center justify-start rounded-md border border-gray-200 bg-gray-50">
+            <p className="text-xs border-e border-gray-200 p-2 bg-white text-gray-700 rounded-l-md">
+              value
             </p>
             <input
-              className="rounded-md w-full text-sm ms-2 focus:outline-none"
+              className="rounded-md w-full text-sm ms-2 focus:outline-none bg-gray-50"
               type="text"
               value={parameter.value ?? (parameter.$type === "text" ? "" : 0)}
               onChange={(val) => {
@@ -98,11 +98,11 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
             <DragHandle attributes={attributes} listeners={listeners} />
           </div>
           {(parameter.$type === "integer" || parameter.$type === "decimal") && (
-            <div className="flex items-center justify-start rounded-md border border-gray-200">
-              <p className="text-xs border-e border-gray-200 p-2 bg-gray-100 text-gray-700">
+            <div className="flex items-center justify-start rounded-md border border-gray-200 bg-gray-50">
+              <p className="text-xs border-e border-gray-200 p-2 bg-white text-gray-700 rounded-l-md">
                 unit
               </p>
-              <p className="text-xs px-2">{parameter.unit}</p>
+              <p className="text-xs px-2 bg-gray-50">{parameter.unit}</p>
             </div>
           )}
         </div>

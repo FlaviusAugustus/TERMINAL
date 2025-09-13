@@ -28,7 +28,7 @@ const Steps = () => {
               {recipe.steps.map((step, index) => (
                 <TabPanel
                   key={index}
-                  className="rounded-md h-full bg-white border border-gray-200 shadow-sm w-full p-2 grid grid-cols-10 gap-2"
+                  className="rounded-md h-full  border-0 border-gray-200  w-full p-0 grid grid-cols-10 gap-2"
                 >
                   <div className="flex flex-col gap-1 w-full col-span-6 overflow-y-auto">
                     <ParameterDroppable>
@@ -47,11 +47,14 @@ const Steps = () => {
                   </div>
                   <div className="flex flex-col gap-1 w-full col-span-4">
                     <div className="rounded-md border border-gray-200 shadow-sm">
-                      <div className="border-b border-gray-200 rounded-t-md bg-gray-100">
+                      <div className="border-b border-gray-200 rounded-t-md bg-white">
                         <p className="p-2 text-sm">Comment</p>
                       </div>
-                      <div className="p-2">
-                        <textarea className="h-auto w-full" rows={20} />
+                      <div className="p-2 bg-gray-50">
+                        <textarea
+                          className="h-auto w-full focus:outline-none bg-gray-50"
+                          rows={20}
+                        />
                       </div>
                     </div>
                   </div>
