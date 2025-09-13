@@ -114,9 +114,15 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
                 type="text"
                 value={parameter.value ?? 0}
                 onChange={(val) => {
+                  let parsedValue: number;
+                  if (parameter.$type === "decimal") {
+                    parsedValue = parseFloat(val.currentTarget.value);
+                  } else {
+                    parsedValue = parseInt(val.currentTarget.value, 10);
+                  }
                   const newParameter = {
                     ...parameter,
-                    value: parseInt(val.currentTarget.value),
+                    value: parsedValue,
                   };
                   updateParameter(currentStep, newParameter);
                 }}
