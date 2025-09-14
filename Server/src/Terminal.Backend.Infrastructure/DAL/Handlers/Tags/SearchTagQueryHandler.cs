@@ -6,7 +6,7 @@ using Terminal.Backend.Core.Entities;
 
 namespace Terminal.Backend.Infrastructure.DAL.Handlers.Tags;
 
-internal sealed class SearchTagQueryHandler : IRequestHandler<SearchTagQuery, GetTagsDto>
+internal sealed class SearchTagQueryHandler : IRequestHandler<SearchTagQuery, GetSearchedTagsDto>
 {
     private readonly DbSet<Tag> _tags;
 
@@ -15,10 +15,18 @@ internal sealed class SearchTagQueryHandler : IRequestHandler<SearchTagQuery, Ge
         _tags = dbContext.Tags;
     }
 
-    public async Task<GetTagsDto> Handle(SearchTagQuery request, CancellationToken ct)
-        => (await _tags
-            .AsNoTracking()
-            .Where(t => EF.Functions.ILike(t.Name, $"%{request.SearchPhrase}%"))
-            .Select(t => t)
-            .ToListAsync(ct)).AsGetTagsDto();
+    public async Task<GetSearchedTagsDto> Handle(SearchTagQuery request, CancellationToken cancellationToken)
+    {
+        var query = _tags
+                    .AsNoTracking()
+                    .Where(p => EF.Functions.ILike(p.Name, $"%{request.SearchPhrase}%"));
+
+        var amount = await query.CountAsync(cancellationToken);
+
+        var tags = await query
+            .Select(p => new GetSearchedTagsDto.TagDto(p.Id, p.Name, p.IsActive))
+            .ToListAsync(cancellationToken);
+
+        return new GetSearchedTagsDto(tags, amount);
+    }
 }
