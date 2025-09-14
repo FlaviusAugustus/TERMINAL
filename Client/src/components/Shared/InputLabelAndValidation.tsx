@@ -55,7 +55,8 @@ const InputLabelAndValidation = ({
       {validate && (
         <div
           className={clsx(
-            inputRef.current && inputRef.current.validity.valid && "invisible"
+            inputRef.current && inputRef.current.validity.valid && "invisible",
+            errorMessage == "" && "hidden"
           )}
         >
           <p role="alert" className="text-xs h-4 py-1 text-red-500">

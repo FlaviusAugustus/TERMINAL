@@ -24,6 +24,7 @@ type LabeledSelectProps<T, Multiple extends boolean> = Omit<
     children: ReactNode;
     validationInfo?: string;
     handleRemoveValue?: (removedValue: T) => void;
+    className?: string;
   };
 
 /**
@@ -38,6 +39,7 @@ const LabeledSelect = <T, Multiple extends boolean>({
   children,
   displayValue,
   handleRemoveValue,
+  className = "",
   ...rest
 }: LabeledSelectProps<T, Multiple>) => {
   const ref = useRef<HTMLInputElement>(null);
@@ -54,7 +56,8 @@ const LabeledSelect = <T, Multiple extends boolean>({
       <Combobox immediate {...rest}>
         <div
           className={clsx(
-            "relative w-full bg-white px-3 py-2 border-[1px] border-black/15 rounded-md",
+            "relative w-full bg-white px-3 border-[1px] border-black/15 rounded-md py-2",
+            className,
             {
               "border-red-500": !isValid,
             }
@@ -74,7 +77,10 @@ const LabeledSelect = <T, Multiple extends boolean>({
           </ComboboxButton>
         </div>
         <ComboboxOptions
-          className="w-[--input-width] mt-2 p-1 flex flex-col gap-1 bg-white border rounded-md shadow-sm"
+          className={clsx(
+            "w-[--input-width] flex flex-col gap-1 bg-white border rounded-md shadow-sm mt-2 py-1",
+            className
+          )}
           anchor="bottom"
         >
           {children}
