@@ -102,6 +102,31 @@ type ParameterInputProps = {
 
 const ParameterInput = ({ parameter }: ParameterInputProps) => {
   const { updateParameter, currentStep } = useAddRecipeContext();
+
+  const onChangeValue = (
+    parameter: AllParameters,
+    newValue: string
+  ): AllParameters => {
+    if (parameter.$type === "text") {
+      return {
+        ...parameter,
+        value: newValue,
+      };
+    } else if (parameter.$type === "integer") {
+      const parsedValue = parseInt(newValue, 10);
+      return {
+        ...parameter,
+        value: parsedValue,
+      };
+    } else {
+      const parsedValue = parseFloat(newValue);
+      return {
+        ...parameter,
+        value: parsedValue,
+      };
+    }
+  };
+
   return (
     <>
       {" "}
@@ -111,11 +136,8 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
             compact
             value={parameter.value ?? ""}
             onChange={(val: string) => {
-              const newParameter = {
-                ...parameter,
-                value: val,
-              };
-              updateParameter(currentStep, newParameter);
+              const updatedParameter = onChangeValue(parameter, val);
+              updateParameter(currentStep, updatedParameter);
             }}
           >
             {parameter.allowedValues.map((value: string, index: number) => (
@@ -129,17 +151,8 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
           type="text"
           value={parameter.value ?? 0}
           onChange={(val) => {
-            let parsedValue: number;
-            if (parameter.$type === "decimal") {
-              parsedValue = parseFloat(val.currentTarget.value);
-            } else {
-              parsedValue = parseInt(val.currentTarget.value, 10);
-            }
-            const newParameter = {
-              ...parameter,
-              value: parsedValue,
-            };
-            updateParameter(currentStep, newParameter);
+            const updatedParameter = onChangeValue(parameter, val.target.value);
+            updateParameter(currentStep, updatedParameter);
           }}
         />
       )}

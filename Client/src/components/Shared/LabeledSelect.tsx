@@ -59,6 +59,7 @@ const LabeledSelect = <T, Multiple extends boolean>({
             "relative w-full bg-white px-3 border-[1px] border-black/15 rounded-md",
             {
               "border-red-500": !isValid,
+              "py-2": !compact,
             }
           )}
         >

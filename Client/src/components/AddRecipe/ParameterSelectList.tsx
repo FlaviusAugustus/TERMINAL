@@ -27,18 +27,17 @@ const ParameterSelectList = () => {
 
   const availableParameters: AllParameters[] | undefined = useMemo(() => {
     if (parameters?.parameters == undefined) return [];
-    else if (
+    if (
       currentStep == null ||
       recipe == null ||
       recipe.steps.length <= currentStep
     ) {
       return parameters?.parameters;
-    } else {
-      return filterParameters(
-        parameters?.parameters,
-        recipe.steps[currentStep].parameters
-      );
     }
+    return filterParameters(
+      parameters?.parameters,
+      recipe.steps[currentStep].parameters
+    );
   }, [parameters, currentStep, recipe]);
 
   if (isLoading) return <div>Loading...</div>;
