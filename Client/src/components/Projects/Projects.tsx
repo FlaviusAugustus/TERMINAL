@@ -145,8 +145,8 @@ const Projects = (props: ProjectsProps) => {
           {localSearch && (
             <IconButton
               onClick={() => {
-                setLocalSearch(""); // czyszczenie inputa
-                props.searchProps?.onClearSearch?.(); // wywołanie funkcji clear
+                setLocalSearch("");
+                props.searchProps?.onClearSearch?.();
               }}
               className="h-[40px] flex bg-white items-center gap-1 !hover:border-gray-300"
               title="Clear search"
