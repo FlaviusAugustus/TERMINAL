@@ -11,7 +11,7 @@ import { useProjectDetails } from "@hooks/projects/useGetProjectDetails.ts";
 import ProjectEdit from "@components/Projects/ProjectEdit.tsx";
 import { useUpdateProjectName } from "@hooks/projects/useUpdateProjectName.ts";
 import { useUpdateProjectStatus } from "@hooks/projects/useUpdateProjectStatus.ts";
-import { useSearchProjects } from "@hooks/projects/useSearchProjects.cs.ts";
+import { useSearchProjects } from "@hooks/projects/useSearchProjects.ts";
 
 const ProjectsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
