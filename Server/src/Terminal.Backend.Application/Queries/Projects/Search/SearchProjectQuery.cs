@@ -4,7 +4,7 @@ using Terminal.Backend.Application.Queries.QueryParameters;
 
 namespace Terminal.Backend.Application.Queries.Projects.Search;
 
-public class SearchProjectQuery : IRequest<GetProjectsDto>
+public class SearchProjectQuery : IRequest<GetSearchedProjectsDto>
 {
     public string SearchPhrase { get; set; }
     public PagingParameters Parameters { get; set; }
