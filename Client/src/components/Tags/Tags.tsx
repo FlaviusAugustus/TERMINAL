@@ -8,7 +8,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Tag } from "@api/models/Tag.ts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import {
   MagnifyingGlassIcon,
@@ -33,6 +33,11 @@ export interface TagProps {
   onDetails: (tagId: string) => void;
   onDelete: (tagId: string) => void;
   onEdit: (tagId: string) => void;
+  searchProps?: {
+    onSearch?: (phrase: string) => void;
+    searchValue?: string;
+    onClearSearch?: () => void;
+  };
 }
 
 const columnHelper = createColumnHelper<Tag>();
@@ -54,6 +59,13 @@ const columnsDef = [
  */
 const Tags = (props: TagProps) => {
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+  const [localSearch, setLocalSearch] = useState(
+    props.searchProps?.searchValue || ""
+  );
+
+  useEffect(() => {
+    setLocalSearch(props.searchProps?.searchValue || "");
+  }, [props.searchProps?.searchValue]);
 
   const columns = useTableColumns<Tag>({
     columnsDef: columnsDef,
@@ -93,11 +105,34 @@ const Tags = (props: TagProps) => {
   return (
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <InputField
-          className="!text-sm !h-[40px]"
-          placeholder="Search"
-          icon={<MagnifyingGlassIcon className="h-4" />}
-        />
+        <div className="flex items-center gap-1">
+          <InputField
+            validate={false}
+            className="!text-sm !h-[40px]"
+            placeholder="Search"
+            icon={<MagnifyingGlassIcon className="h-4" />}
+            value={localSearch}
+            onChange={(e) => setLocalSearch(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                props.searchProps?.onSearch?.(localSearch);
+              }
+            }}
+          />
+          {localSearch && (
+            <IconButton
+              onClick={() => {
+                setLocalSearch("");
+                props.searchProps?.onClearSearch?.();
+              }}
+              className="h-[40px] flex bg-white items-center gap-1 !hover:border-gray-300"
+              title="Clear search"
+            >
+              <XMarkIcon className="h-4" />
+              <p className="text-xs">Clear</p>
+            </IconButton>
+          )}
+        </div>
         <VisibleForRoles roles={["Administrator", "Moderator"]}>
           <div className="flex gap-1">
             <IconButton
