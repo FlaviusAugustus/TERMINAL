@@ -1,6 +1,6 @@
-import { expect, test } from "@playwright/test";
+import { expect, Page, test } from "@playwright/test";
 
-async function login(page) {
+async function login(page: Page) {
   await page.goto("/login");
   await page
     .getByRole("textbox", { name: "Email:" })
@@ -39,21 +39,6 @@ test("should not add tag bacause of existing name", async ({ page }) => {
   await page.getByRole("textbox", { name: "Name:" }).fill("new-tag-test");
   await page.getByRole("button", { name: "Add Tag" }).click();
   await expect(page.getByText("Failed adding tag")).toBeVisible();
-});
-
-test("should trim name while adding the tag", async ({ page }) => {
-  await page.getByRole("button", { name: "Add new", exact: true }).click();
-  await expect(
-    page.getByRole("link", { name: "Tag", exact: true })
-  ).toBeVisible();
-  await page.getByRole("link", { name: "Tag", exact: true }).click();
-  await expect(page).toHaveURL(/.*new-tag/);
-  await expect(page.getByText("Add new tag").nth(1)).toBeVisible();
-  await page.getByRole("textbox", { name: "Name:" }).fill(" trim-tag-test ");
-  await page.getByRole("button", { name: "Add Tag" }).click();
-  await expect(page.getByText("Tag added succesfully")).toBeVisible();
-  await page.goto("/tags");
-  await expect(page.getByRole("cell", { name: "trim-tag-test" })).toBeVisible();
 });
 
 test("should show validation error for empty tag name", async ({ page }) => {

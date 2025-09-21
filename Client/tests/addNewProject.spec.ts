@@ -1,6 +1,6 @@
-import { expect, test } from "@playwright/test";
+import { expect, Page, test } from "@playwright/test";
 
-async function login(page) {
+async function login(page: Page) {
   await page.goto("/login");
   await page
     .getByRole("textbox", { name: "Email:" })
