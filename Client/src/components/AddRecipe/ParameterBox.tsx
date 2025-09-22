@@ -133,7 +133,7 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
       {parameter.$type === "text" ? (
         <div className="rounded-md w-full h-full text-sm ms-2 focus:outline-none bg-gray-50">
           <LabeledSelect
-            className={"py-0 mt-0"}
+            className={"!py-0 !mt-0"}
             value={parameter.value ?? ""}
             onChange={(val: string) => {
               const updatedParameter = onChangeValue(parameter, val);
