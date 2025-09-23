@@ -18,13 +18,13 @@ const Steps = () => {
       </div>
       <div className="bg-gray-100 h-full">
         <TabGroup
-          className="flex flex-col h-full overflow-y-hidden overflow-x-auto"
+          className="flex flex-col h-full overflow-x-auto"
           selectedIndex={currentStep == null ? undefined : currentStep}
           onChange={setCurrentStep}
         >
           <StepTabList />
-          <div className="h-full relative">
-            <TabPanels className="h-full overflow-hidden rounded-md p-2">
+          <div className="flex-1 overflow-y-auto pb-20">
+            <TabPanels className="h-full rounded-md p-2">
               {recipe.steps.map((step, index) => (
                 <TabPanel
                   key={index}
