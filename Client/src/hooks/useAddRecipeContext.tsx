@@ -77,6 +77,7 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
       ...prevRecipe,
       steps: prevRecipe.steps.filter((_, i) => i !== index),
     }));
+    if (index > 0) setCurrentStep(index - 1);
   };
 
   const updateStep = (index: number, updatedStep: Step) => {

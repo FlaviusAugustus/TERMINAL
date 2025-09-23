@@ -83,7 +83,7 @@ const DashboardPage = () => {
 
   return (
     <>
-      <div className="md:grid md:grid-cols-4 flex flex-col gap-3 p-3">
+      <div className="md:grid md:grid-cols-4 flex flex-col gap-3 p-3 overflow-auto">
         <div className="col-span-4">
           <p className="px-2 text-md">Stats</p>
         </div>
@@ -141,7 +141,7 @@ const DashboardPage = () => {
           </TableCard>
         </div>
 
-        <div className="col-span-1">
+        <div className="col-span-1 flex-1">
           <p className="p-2 text-md">Pinned Recipes</p>
           <TableCard>
             <TableView<Sample> table={recipeTable} handleClickRow={() => {}} />
