@@ -53,7 +53,7 @@ const Steps = () => {
                       <div className="p-2 bg-gray-50">
                         <textarea
                           className="h-auto w-full focus:outline-none bg-gray-50"
-                          rows={20}
+                          rows={10}
                         />
                       </div>
                     </div>

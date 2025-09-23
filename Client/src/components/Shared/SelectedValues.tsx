@@ -40,7 +40,7 @@ const SelectedValue = <T,>({
   handleRemove,
 }: SelectedValueProp<T>) => {
   return (
-    <div className={"flex items-center text-sm mt-1"}>
+    <div className={"flex items-center text-xs mt-1"}>
       <Chip value={displayValue} getColorValue={() => "gray"}>
         {handleRemove && (
           <button

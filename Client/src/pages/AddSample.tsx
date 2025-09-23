@@ -7,6 +7,7 @@ import useGetParameters from "@hooks/parameters/useGetParameters.ts";
 import ParameterSelectList from "@components/AddRecipe/ParameterSelectList.tsx";
 import AddRecipeActions from "@components/AddRecipe/AddRecipeActions.tsx";
 import Steps from "@components/AddRecipe/Steps.tsx";
+import SelectRecipe from "@components/AddSample/SelectRecipe.tsx";
 
 const AddSampleWithContexts = () => {
   const { data: parameters, isLoading, isError } = useGetParameters();
@@ -29,8 +30,10 @@ const AddSample = () => {
   return (
     <div className="flex flex-col h-full overflow-auto bg-gray-50">
       <div className="flex h-1/4 px-2 py-1 pt-2 gap-x-2 ">
-        <div className="flex flex-1 gap-2">
-          <TagInput tags={tags} setTags={setTags} />
+        <div className="flex flex-col gap-2 w-80 overflow-hidden">
+          <SelectRecipe />
+        </div>
+        <div className="flex flex-col rounded-md bg-white w-full overflow-hidden">
           <TagInput tags={tags} setTags={setTags} />
         </div>
       </div>

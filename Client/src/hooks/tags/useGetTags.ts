@@ -33,6 +33,7 @@ async function fetchDataTag(params: TagsRequest): Promise<TagsResponse> {
  * @param {TagsRequest} params - The parameters for the tags request.
  */
 export function useGetTags(params: TagsRequest) {
+  console.log(params);
   return useQuery({
     queryKey: ["tags", "all", params],
     queryFn: () => fetchDataTag(params),
