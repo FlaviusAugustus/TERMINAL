@@ -13,10 +13,10 @@ type TagInputProps = {
 };
 
 const TagInput = ({ tags, setTags }: TagInputProps) => {
-  const { data } = useGetTagAmount();
+  const { data: tagsAmount } = useGetTagAmount();
   const allTags = useGetTags({
     pageNumber: 0,
-    pageSize: data ?? 0,
+    pageSize: tagsAmount ?? 0,
     desc: true,
   });
   const availableTags: Tag[] | undefined = useMemo(() => {

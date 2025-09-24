@@ -1,36 +1,59 @@
-import { useMemo } from "react";
 import {
   LabeledSelect,
   SelectItem,
 } from "@components/Shared/LabeledSelect.tsx";
-import { Tag } from "@api/models/Tag.ts";
-import { useGetTags } from "@hooks/tags/useGetTags.ts";
-import tags from "@components/Tags/Tags.tsx";
+import { useGetRecipeAmount } from "@hooks/recipes/useGetRecipeAmount.ts";
+import { useRecipes } from "@hooks/recipes/useGetRecipes.ts";
+import { Recipe } from "@api/models/Recipe.ts";
+import { useAddRecipeContext } from "@hooks/useAddRecipeContext.tsx";
+import { useEffect } from "react";
+import { useRecipeDetails } from "@hooks/recipes/useGetRecipeDetails.ts";
 
-const SelectRecipe = () => {
-  const allTags = useGetTags({
+type SelectRecipeProps = {
+  selectedRecipe: Recipe;
+  setSelectedRecipe: (recipe: Recipe) => void;
+};
+
+const SelectRecipe = ({
+  selectedRecipe,
+  setSelectedRecipe,
+}: SelectRecipeProps) => {
+  const { setRecipe } = useAddRecipeContext();
+
+  const { data: recipesAmount } = useGetRecipeAmount();
+  const { data: allRecipes } = useRecipes({
     pageNumber: 0,
-    pageSize: 99,
+    pageSize: recipesAmount?.data ?? 0,
     desc: true,
   });
-  const availableTags: Tag[] | undefined = useMemo(() => {
-    return allTags.data?.rows;
-  }, [allTags.data, tags]);
+
+  const dataQueryRecipeDetails = useRecipeDetails(selectedRecipe.id);
+  useEffect(() => {
+    if (dataQueryRecipeDetails.data) {
+      setRecipe(dataQueryRecipeDetails.data);
+    }
+  }, [dataQueryRecipeDetails.data]);
 
   return (
     <div className="flex flex-col flex-grow border border-gray-200 rounded-md bg-gray-100 shadow-sm ">
       <div className="p-4 border-b border-gray-200 rounded-t-md bg-white ">
-        <p>Select recipe*</p>
+        <p>Select Recipe*</p>
       </div>
       <div className="flex flex-col h-full justify-center mx-auto overflow-auto p-4">
-        <LabeledSelect<Tag, true>
-          name="AddTag"
-          onChange={() => {}}
-          value={[]}
-          handleRemoveValue={() => {}}
+        <LabeledSelect
+          name="SelectRecipe"
+          value={selectedRecipe}
+          displayValue={(selectedRecipe) => selectedRecipe.name}
+          onChange={(recipe: Recipe) => {
+            setSelectedRecipe(recipe);
+          }}
         >
-          {availableTags?.map((tag: Tag) => (
-            <SelectItem key={tag.id} value={tag} displayValue={tag.name} />
+          {allRecipes?.rows?.map((recipe: Recipe) => (
+            <SelectItem
+              key={recipe.id}
+              value={recipe}
+              displayValue={recipe.name}
+            />
           ))}
         </LabeledSelect>
       </div>

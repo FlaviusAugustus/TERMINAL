@@ -6,6 +6,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 
 type AddRecipeContextValue = {
   recipe: RecipeDetailsDto;
+  setRecipe: (recipe: RecipeDetailsDto) => void;
   currentStep: number | null;
   setCurrentStep: (step: number | null) => void;
   addStep: () => void;
@@ -206,6 +207,7 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
     <AddRecipeContext.Provider
       value={{
         recipe,
+        setRecipe,
         currentStep,
         setCurrentStep,
         addStep,

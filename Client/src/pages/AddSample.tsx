@@ -5,9 +5,10 @@ import { Tag } from "@api/models/Tag.ts";
 import { RecipeDragProvider } from "@hooks/useRecipeDragContext.tsx";
 import useGetParameters from "@hooks/parameters/useGetParameters.ts";
 import ParameterSelectList from "@components/AddRecipe/ParameterSelectList.tsx";
-import AddRecipeActions from "@components/AddRecipe/AddRecipeActions.tsx";
 import Steps from "@components/AddRecipe/Steps.tsx";
 import SelectRecipe from "@components/AddSample/SelectRecipe.tsx";
+import AddSampleActions from "@components/AddParameter/AddSampleActions.tsx";
+import { Recipe } from "@api/models/Recipe.ts";
 
 const AddSampleWithContexts = () => {
   const { data: parameters, isLoading, isError } = useGetParameters();
@@ -27,11 +28,18 @@ const AddSampleWithContexts = () => {
 
 const AddSample = () => {
   const [tags, setTags] = useState<Tag[]>([]);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe>({
+    id: "",
+    name: "",
+  });
   return (
     <div className="flex flex-col h-full overflow-auto bg-gray-50">
       <div className="flex h-1/4 px-2 py-1 pt-2 gap-x-2 ">
         <div className="flex flex-col gap-2 w-80 overflow-hidden">
-          <SelectRecipe />
+          <SelectRecipe
+            selectedRecipe={selectedRecipe}
+            setSelectedRecipe={setSelectedRecipe}
+          />
         </div>
         <div className="flex flex-col rounded-md bg-white w-full overflow-hidden">
           <TagInput tags={tags} setTags={setTags} />
@@ -40,7 +48,10 @@ const AddSample = () => {
       <div className="flex h-3/4 overflow-auto px-2 py-1 pb-1 gap-2 ">
         <div className="flex flex-col gap-2 w-80">
           <ParameterSelectList />
-          <AddRecipeActions />
+          <AddSampleActions
+            setSelectedRecipe={setSelectedRecipe}
+            setTags={setTags}
+          />
         </div>
         <div className="flex flex-col border border-gray-200 rounded-md bg-white w-full overflow-hidden">
           <Steps />
