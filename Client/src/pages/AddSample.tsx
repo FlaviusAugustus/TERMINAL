@@ -50,6 +50,7 @@ const AddSample = () => {
           <ParameterSelectList />
           <AddSampleActions
             setSelectedRecipe={setSelectedRecipe}
+            tags={tags}
             setTags={setTags}
           />
         </div>

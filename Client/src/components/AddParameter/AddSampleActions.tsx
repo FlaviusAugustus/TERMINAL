@@ -1,14 +1,15 @@
 import { ArrowPathIcon, CheckIcon } from "@heroicons/react/24/outline";
-import useAddRecipe from "@hooks/recipes/useAddRecipe";
 import { useAddRecipeContext } from "@hooks/useAddRecipeContext";
 import { useState } from "react";
 import { toastPromise } from "utils/toast.utils";
 import AddSampleDialog from "@components/AddSample/AddSampleDialog.tsx";
 import { Recipe } from "@api/models/Recipe.ts";
 import { Tag } from "@api/models/Tag.ts";
+import useAddSample from "@hooks/samples/useAddSample.ts";
 
 type AddSampleActionsProps = {
   setSelectedRecipe: (recipe: Recipe) => void;
+  tags: Tag[];
   setTags: (newTags: Tag[]) => void;
 };
 
@@ -21,11 +22,12 @@ type AddSampleActionsProps = {
  */
 const AddSampleActions = ({
   setSelectedRecipe,
+  tags,
   setTags,
 }: AddSampleActionsProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { updateRecipe, recipe } = useAddRecipeContext();
-  const { mutateAsync } = useAddRecipe();
+  const { mutateAsync } = useAddSample();
   return (
     <>
       <div className="flex border gap-2 border-gray-200 rounded-md bg-gray-100  p-2 justify-center shadow-sm">
@@ -49,13 +51,24 @@ const AddSampleActions = ({
       <AddSampleDialog
         isOpen={dialogOpen}
         setIsOpen={setDialogOpen}
-        onSubmit={(name) => {
+        onSubmit={({ recipeName, saveAsRecipe, comment, projectId }) => {
           updateRecipe({ id: "", name: "", steps: [] });
-          toastPromise(mutateAsync({ ...recipe, name: name }), {
-            loading: "loading",
-            success: "Recipe added successfully",
-            error: "Error while adding a recipe",
-          });
+          toastPromise(
+            mutateAsync({
+              projectId: projectId,
+              recipeId: recipe.id,
+              steps: recipe.steps,
+              tagIds: tags.map((tag) => tag.id),
+              comment: comment,
+              saveAsRecipe: saveAsRecipe,
+              recipeName: recipeName ?? "",
+            }),
+            {
+              loading: "loading",
+              success: "Sample added successfully",
+              error: "Error while adding a sample",
+            }
+          );
         }}
       />
     </>
