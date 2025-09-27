@@ -6,6 +6,7 @@ import AddSampleDialog from "@components/AddSample/AddSampleDialog.tsx";
 import { Recipe } from "@api/models/Recipe.ts";
 import { Tag } from "@api/models/Tag.ts";
 import useAddSample from "@hooks/samples/useAddSample.ts";
+import { CreateSample } from "@api/models/Sample.ts";
 
 type AddSampleActionsProps = {
   setSelectedRecipe: (recipe: Recipe) => void;
@@ -28,6 +29,32 @@ const AddSampleActions = ({
   const [dialogOpen, setDialogOpen] = useState(false);
   const { updateRecipe, recipe } = useAddRecipeContext();
   const { mutateAsync } = useAddSample();
+
+  const handleSubmit = (args: {
+    recipeName: string;
+    saveAsRecipe: boolean;
+    comment: string;
+    projectId: string;
+  }) => {
+    updateRecipe({ id: "", name: "", steps: [] });
+    const payload: CreateSample = {
+      projectId: args.projectId,
+      steps: recipe.steps,
+      tagIds: tags.map((tag) => tag.id),
+      comment: args.comment,
+      saveAsRecipe: args.saveAsRecipe,
+    };
+    if (args.saveAsRecipe) {
+      payload.recipeId = recipe.id;
+      payload.recipeName = args.recipeName;
+    }
+    toastPromise(mutateAsync(payload), {
+      loading: "loading",
+      success: "Sample added successfully",
+      error: "Error while adding a sample",
+    });
+  };
+
   return (
     <>
       <div className="flex border gap-2 border-gray-200 rounded-md bg-gray-100  p-2 justify-center shadow-sm">
@@ -51,25 +78,7 @@ const AddSampleActions = ({
       <AddSampleDialog
         isOpen={dialogOpen}
         setIsOpen={setDialogOpen}
-        onSubmit={({ recipeName, saveAsRecipe, comment, projectId }) => {
-          updateRecipe({ id: "", name: "", steps: [] });
-          toastPromise(
-            mutateAsync({
-              projectId: projectId,
-              recipeId: recipe.id,
-              steps: recipe.steps,
-              tagIds: tags.map((tag) => tag.id),
-              comment: comment,
-              saveAsRecipe: saveAsRecipe,
-              recipeName: recipeName ?? "",
-            }),
-            {
-              loading: "loading",
-              success: "Sample added successfully",
-              error: "Error while adding a sample",
-            }
-          );
-        }}
+        onSubmit={handleSubmit}
       />
     </>
   );
