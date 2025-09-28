@@ -64,6 +64,7 @@ const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
             </Detail>
           )}
         </div>
+        <Detail label="Comment">{sample?.steps[index]?.comment}</Detail>
       </div>
     </DialogComp>
   );
