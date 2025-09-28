@@ -112,16 +112,21 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
         ...parameter,
         value: newValue,
       };
+    } else if (parameter.$type === "integer") {
+      let parsedValue = 0;
+      if (newValue !== "") parsedValue = parseInt(newValue, 10);
+      return {
+        ...parameter,
+        value: parsedValue,
+      };
+    } else {
+      let parsedValue = 0;
+      if (newValue !== "") parsedValue = parseFloat(newValue);
+      return {
+        ...parameter,
+        value: parsedValue,
+      };
     }
-    let parsedValue = 0;
-    if (parameter.$type === "integer" && newValue !== "")
-      parsedValue = parseInt(newValue, 10);
-    if (parameter.$type === "decimal" && newValue !== "")
-      parsedValue = parseFloat(newValue);
-    return {
-      ...parameter,
-      value: parsedValue,
-    };
   };
 
   return (

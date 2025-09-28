@@ -11,6 +11,7 @@ import { useProjects } from "@hooks/projects/useGetProjects";
 import { useState } from "react";
 
 function validateRecipeName(name: string) {
+  console.log(name);
   return name.length >= 5;
 }
 
@@ -54,7 +55,7 @@ const AddSampleDialog = ({
       return;
     }
 
-    if (validateRecipeName(recipeName)) {
+    if (saveAsRecipe && !validateRecipeName(recipeName)) {
       setIsRecipeNameValid(false);
       return;
     }
