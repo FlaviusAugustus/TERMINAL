@@ -1,10 +1,11 @@
 import { Field, Label, Textarea } from "@headlessui/react";
 
 type LabeledTextAreaProps = {
+  value: string;
   setValue: (newValue: string) => void;
 };
 
-const LabeledTextArea = ({ setValue }: LabeledTextAreaProps) => {
+const LabeledTextArea = ({ value, setValue }: LabeledTextAreaProps) => {
   return (
     <Field className="rounded-md border border-gray-200 shadow-sm">
       <div className="border-b border-gray-200 rounded-t-md bg-white p-1">
@@ -14,6 +15,7 @@ const LabeledTextArea = ({ setValue }: LabeledTextAreaProps) => {
         <Textarea
           className="h-auto w-full focus:outline-none bg-gray-50"
           name="description"
+          value={value}
           onChange={(e) => setValue(e.target.value)}
         ></Textarea>
       </div>

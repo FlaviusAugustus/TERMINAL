@@ -13,6 +13,7 @@ type AddRecipeContextValue = {
   removeStep: (index: number) => void;
   updateStep: (index: number, updatedStep: Step) => void;
   updateRecipe: (updatedRecipe: RecipeDetailsDto) => void;
+  updateComment: (stepIndex: number | null, comment: string) => void;
   getCurrentStep: () => Step | null;
   findParameterIndex: (id: string | null) => number;
   removeParameter: (stepIndex: number | null, parameterId: string) => void;
@@ -137,6 +138,20 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
     }));
   };
 
+  const updateComment = (stepIndex: number | null, comment: string) => {
+    setRecipe((prevRecipe) => ({
+      ...prevRecipe,
+      steps: prevRecipe.steps.map((step, i) =>
+        i === stepIndex
+          ? {
+              ...step,
+              comment: comment,
+            }
+          : step
+      ),
+    }));
+  };
+
   const moveParameterUp = (
     stepIndex: number | null,
     parameterId: string | null
@@ -214,6 +229,7 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
         removeStep,
         updateStep,
         updateRecipe,
+        updateComment,
         findParameterIndex,
         getCurrentStep,
         removeParameter,
