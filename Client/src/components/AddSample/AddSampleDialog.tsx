@@ -9,6 +9,7 @@ import LabeledCheckbox from "@components/Shared/LabeledCheckbox";
 import { SelectItem, LabeledSelect } from "@components/Shared/LabeledSelect";
 import { useProjects } from "@hooks/projects/useGetProjects";
 import { useState } from "react";
+import LabeledTextArea from "@components/Shared/LabeledTextArea.tsx";
 
 function validateRecipeName(name: string) {
   console.log(name);
@@ -36,6 +37,7 @@ const AddSampleDialog = ({
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [saveAsRecipe, setSaveAsRecipe] = useState(false);
   const [recipeName, setRecipeName] = useState("");
+  const [comment, setComment] = useState("");
 
   const [isRecipeNameValid, setIsRecipeNameValid] = useState(true);
   const [isProjectValid, setIsProjectValid] = useState(true);
@@ -64,7 +66,7 @@ const AddSampleDialog = ({
       recipeName: recipeName,
       saveAsRecipe: saveAsRecipe,
       projectId: selectedProject.id,
-      comment: "",
+      comment: comment,
     });
 
     handleClose();
@@ -109,17 +111,7 @@ const AddSampleDialog = ({
             validationInfo="Recipe Name name must be at least 5 characters long"
           />
         )}
-        <div className="rounded-md border border-gray-200 shadow-sm">
-          <div className="border-b border-gray-200 rounded-t-md bg-white">
-            <p className="p-2 text-sm">Comment</p>
-          </div>
-          <div className="p-2 bg-gray-50">
-            <textarea
-              className="h-auto w-full focus:outline-none bg-gray-50"
-              rows={3}
-            />
-          </div>
-        </div>
+        <LabeledTextArea setValue={setComment} />
       </div>
       <DialogButton className="hover:border-green-400" onClick={handleSubmit}>
         Add sample
