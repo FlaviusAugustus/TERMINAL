@@ -18,7 +18,7 @@ const SelectRecipe = ({
   selectedRecipe,
   setSelectedRecipe,
 }: SelectRecipeProps) => {
-  const { setRecipe } = useAddRecipeContext();
+  const { setRecipe, setCurrentStep } = useAddRecipeContext();
 
   const { data: recipesAmount } = useGetRecipeAmount();
   const { data: allRecipes } = useRecipes({
@@ -31,6 +31,7 @@ const SelectRecipe = ({
   useEffect(() => {
     if (dataQueryRecipeDetails.data) {
       setRecipe(dataQueryRecipeDetails.data);
+      setCurrentStep(0);
     }
   }, [dataQueryRecipeDetails.data]);
 
