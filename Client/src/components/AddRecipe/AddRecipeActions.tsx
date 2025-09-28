@@ -16,6 +16,16 @@ const AddRecipeActions = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { updateRecipe, recipe } = useAddRecipeContext();
   const { mutateAsync } = useAddRecipe();
+
+  const handleSubmit = (name: string) => {
+    updateRecipe({ id: "", name: "", steps: [] });
+    toastPromise(mutateAsync({ ...recipe, name: name }), {
+      loading: "loading",
+      success: "Recipe added successfully",
+      error: "Error while adding a recipe",
+    });
+  };
+
   return (
     <>
       <div className="flex border gap-2 border-gray-200 rounded-md bg-gray-100  p-2 justify-center shadow-sm">
@@ -35,14 +45,7 @@ const AddRecipeActions = () => {
       <AddRecipeDialog
         isOpen={dialogOpen}
         setIsOpen={setDialogOpen}
-        onSubmit={(name) => {
-          updateRecipe({ id: "", name: "", steps: [] });
-          toastPromise(mutateAsync({ ...recipe, name: name }), {
-            loading: "loading",
-            success: "Recipe added successfully",
-            error: "Error while adding a recipe",
-          });
-        }}
+        onSubmit={handleSubmit}
       />
     </>
   );
