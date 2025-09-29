@@ -34,24 +34,20 @@ const LabeledTagInput = ({ tags, setTags }: TagInputProps) => {
   };
 
   return (
-    <div className="flex flex-col flex-grow border rounded-md bg-gray-100 shadow-sm ">
-      <div className="p-4  rounded-t-md bg-white ">
-        <p>Add Tags</p>
-      </div>
-      <div className="flex flex-col w-full h-full justify-center mx-auto overflow-auto p-4">
-        <LabeledSelect<Tag, true>
-          multiple
-          name="AddTag"
-          onChange={handleAddTag}
-          value={tags}
-          handleRemoveValue={(tag: Tag) => handleRemoveTag(tag)}
-        >
-          {availableTags?.map((tag: Tag) => (
-            <SelectItem key={tag.id} value={tag} displayValue={tag.name} />
-          ))}
-        </LabeledSelect>
-      </div>
-    </div>
+    <>
+      <LabeledSelect<Tag, true>
+        multiple
+        label="Tags"
+        name="AddTag"
+        onChange={handleAddTag}
+        value={tags}
+        handleRemoveValue={(tag: Tag) => handleRemoveTag(tag)}
+      >
+        {availableTags?.map((tag: Tag) => (
+          <SelectItem key={tag.id} value={tag} displayValue={tag.name} />
+        ))}
+      </LabeledSelect>
+    </>
   );
 };
 

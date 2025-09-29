@@ -38,7 +38,7 @@ const SelectRecipe = ({
   return (
     <div className="flex flex-col flex-grow border border-gray-200 rounded-md bg-gray-100 shadow-sm ">
       <div className="p-4 border-b border-gray-200 rounded-t-md bg-white ">
-        <p>Select Recipe*</p>
+        <p>Select Recipe</p>
       </div>
       <div className="flex flex-col h-full justify-center mx-auto overflow-auto p-4">
         <LabeledSelect
