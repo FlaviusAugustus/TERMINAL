@@ -10,9 +10,10 @@ import { SelectItem, LabeledSelect } from "@components/Shared/LabeledSelect";
 import { useProjects } from "@hooks/projects/useGetProjects";
 import { useState } from "react";
 import LabeledTextArea from "@components/Shared/LabeledTextArea.tsx";
+import LabeledTagInput from "@components/Shared/LabeledTagInput.tsx";
+import { Tag } from "@api/models/Tag.ts";
 
 function validateRecipeName(name: string) {
-  console.log(name);
   return name.length >= 5;
 }
 
@@ -26,6 +27,7 @@ type AddSampleDialogProps = Omit<DialogProps, "title"> & {
     projectId: string;
     saveAsRecipe: boolean;
     comment: string;
+    tagIds: string[];
   }) => void;
 };
 
@@ -38,9 +40,9 @@ const AddSampleDialog = ({
   const [saveAsRecipe, setSaveAsRecipe] = useState(false);
   const [recipeName, setRecipeName] = useState("");
   const [comment, setComment] = useState("");
-
   const [isRecipeNameValid, setIsRecipeNameValid] = useState(true);
   const [isProjectValid, setIsProjectValid] = useState(true);
+  const [tags, setTags] = useState<Tag[]>([]);
 
   const { data, isLoading } = useProjects({ pageSize: 999, pageNumber: 0 });
 
@@ -67,6 +69,7 @@ const AddSampleDialog = ({
       saveAsRecipe: saveAsRecipe,
       projectId: selectedProject.id,
       comment: comment,
+      tagIds: tags.map((tag) => tag.id),
     });
 
     handleClose();
@@ -111,7 +114,8 @@ const AddSampleDialog = ({
             validationInfo="Recipe Name name must be at least 5 characters long"
           />
         )}
-        <LabeledTextArea setValue={setComment} />
+        <LabeledTagInput tags={tags} setTags={setTags} />
+        <LabeledTextArea value={comment} setValue={setComment} />
       </div>
       <DialogButton className="hover:border-green-400" onClick={handleSubmit}>
         Add sample

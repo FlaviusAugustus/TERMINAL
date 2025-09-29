@@ -12,7 +12,7 @@ type TagInputProps = {
   setTags: (newTags: Tag[]) => void;
 };
 
-const TagInput = ({ tags, setTags }: TagInputProps) => {
+const LabeledTagInput = ({ tags, setTags }: TagInputProps) => {
   const { data: tagsAmount } = useGetTagAmount();
   const allTags = useGetTags({
     pageNumber: 0,
@@ -55,4 +55,4 @@ const TagInput = ({ tags, setTags }: TagInputProps) => {
   );
 };
 
-export default TagInput;
+export default LabeledTagInput;

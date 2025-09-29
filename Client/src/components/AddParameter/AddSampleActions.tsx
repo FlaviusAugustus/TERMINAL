@@ -4,14 +4,11 @@ import { useState } from "react";
 import { toastPromise } from "utils/toast.utils";
 import AddSampleDialog from "@components/AddSample/AddSampleDialog.tsx";
 import { Recipe } from "@api/models/Recipe.ts";
-import { Tag } from "@api/models/Tag.ts";
 import useAddSample from "@hooks/samples/useAddSample.ts";
 import { CreateSample } from "@api/models/Sample.ts";
 
 type AddSampleActionsProps = {
   setSelectedRecipe: (recipe: Recipe) => void;
-  tags: Tag[];
-  setTags: (newTags: Tag[]) => void;
 };
 
 /**
@@ -21,11 +18,7 @@ type AddSampleActionsProps = {
  *
  * @component
  */
-const AddSampleActions = ({
-  setSelectedRecipe,
-  tags,
-  setTags,
-}: AddSampleActionsProps) => {
+const AddSampleActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { updateRecipe, recipe } = useAddRecipeContext();
   const { mutateAsync } = useAddSample();
@@ -35,12 +28,13 @@ const AddSampleActions = ({
     saveAsRecipe: boolean;
     comment: string;
     projectId: string;
+    tagIds: string[];
   }) => {
     updateRecipe({ id: "", name: "", steps: [] });
     const payload: CreateSample = {
       projectId: args.projectId,
       steps: recipe.steps,
-      tagIds: tags.map((tag) => tag.id),
+      tagIds: args.tagIds,
       comment: args.comment,
       saveAsRecipe: args.saveAsRecipe,
     };
@@ -62,7 +56,6 @@ const AddSampleActions = ({
           className="flex items-center justify-center p-2 border bg-white border-gray-200 rounded hover:bg-gray-50 hover:border-red-300 transition-colors duration-100"
           onClick={() => {
             setSelectedRecipe({ id: "", name: "" });
-            setTags([]);
             updateRecipe({ id: "", name: "", steps: [] });
           }}
         >
