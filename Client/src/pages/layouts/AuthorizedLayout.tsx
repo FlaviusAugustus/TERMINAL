@@ -37,7 +37,7 @@ const AuthorizedNavbarLayout = ({
             {/* Menu - only mobile  */}
             <MobileNavbar />
             {/* Page content */}
-            <div className="sm:p-2 sm:ps-0 w-full h-full flex flex-col">
+            <div className="sm:p-2 sm:ps-0 w-full h-screen flex flex-col">
               <div className="sm:hidden h-full">
                 <Outlet />
               </div>
