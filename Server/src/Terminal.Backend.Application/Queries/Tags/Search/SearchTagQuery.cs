@@ -3,7 +3,7 @@ using Terminal.Backend.Application.DTO.Tags;
 
 namespace Terminal.Backend.Application.Queries.Tags.Search;
 
-public class SearchTagQuery : IRequest<GetTagsDto>
+public class SearchTagQuery : IRequest<GetSearchedTagsDto>
 {
     public string SearchPhrase { get; set; }
 
