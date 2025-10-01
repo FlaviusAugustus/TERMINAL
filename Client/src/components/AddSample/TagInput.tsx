@@ -3,7 +3,7 @@ import { Tag } from "@api/models/Tag.ts";
 import {
   LabeledSelect,
   SelectItem,
-} from "@components/Shared/LabeledSelect.tsx";
+} from "@components/Shared/Form/LabeledSelect.tsx";
 import { useGetTags } from "@hooks/tags/useGetTags.ts";
 
 type TagInputProps = {

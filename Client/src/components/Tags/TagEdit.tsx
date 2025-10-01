@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { TagDetailsDto } from "@api/models/Tag.ts";
 import { DialogButton, DialogComp } from "@components/Shared/DialogComp.tsx";
-import InputField from "@components/Shared/InputField.tsx";
-import LabeledSwitch from "@components/Shared/LabeledSwitch.tsx";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
+import LabeledSwitch from "@components/Shared/Form/LabeledSwitch.tsx";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 export interface TagDetailsProps {
@@ -35,7 +35,7 @@ const TagEdit = (props: TagDetailsProps) => {
       setIsOpen={props.setOpen}
       title={"Edit tag"}
     >
-      <InputField
+      <LabeledInput
         label="Name"
         id="name"
         type="email"

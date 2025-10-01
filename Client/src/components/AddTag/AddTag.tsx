@@ -1,9 +1,9 @@
-import InputField from "@components/Shared/InputField.tsx";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
 import { DialogButton } from "@components/Shared/DialogComp.tsx";
 import { useState } from "react";
-import { toastPromise } from "../../utils/toast.utils.tsx";
+import { toastPromise } from "@utils/toast.utils.tsx";
 import useAddTag from "@hooks/tags/useAddTag.ts";
-import Form from "@components/Shared/Form.tsx";
+import Form from "@components/Shared/Form/Form.tsx";
 
 const AddTag = () => {
   const { mutateAsync } = useAddTag();
@@ -27,7 +27,7 @@ const AddTag = () => {
         </div>
         <Form handleSubmit={handleSubmit}>
           <div className="flex flex-col gap-3">
-            <InputField
+            <LabeledInput
               label="Name"
               required
               value={tagName}

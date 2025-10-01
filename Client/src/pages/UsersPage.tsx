@@ -4,7 +4,7 @@ import { useUsers } from "@hooks/users/useGetUsers.ts";
 import UserDetails from "@components/Users/UserDetails.tsx";
 import { useUserDetails } from "@hooks/users/useGetUserDetails.ts";
 import { useDeleteUser } from "@hooks/users/useDeleteUser.ts";
-import { toastPromise } from "../utils/toast.utils.tsx";
+import { toastPromise } from "@utils/toast.utils.tsx";
 import { useUpdateUserEmail } from "@hooks/users/useUpdateUserEmail.ts";
 import { useUpdateUserRole } from "@hooks/users/useUpdateUserRole.ts";
 import { useState } from "react";

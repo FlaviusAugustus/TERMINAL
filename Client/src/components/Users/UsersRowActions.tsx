@@ -1,4 +1,4 @@
-import IconButton from "@components/Shared/IconButton";
+import IconButton from "@components/Shared/IconButton.tsx";
 import {
   PencilIcon,
   EllipsisHorizontalIcon,

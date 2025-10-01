@@ -22,7 +22,7 @@ import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import { TagsResponse } from "@hooks/tags/useGetAllTags.ts";
 import { Link } from "react-router-dom";
-import InputField from "@components/Shared/InputField.tsx";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
 
 export interface TagProps {
   tags: TagsResponse | undefined;
@@ -93,7 +93,7 @@ const Tags = (props: TagProps) => {
   return (
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <InputField
+        <LabeledInput
           className="!text-sm !h-[40px]"
           placeholder="Search"
           icon={<MagnifyingGlassIcon className="h-4" />}

@@ -1,5 +1,5 @@
 import { AddRecipeProvider } from "@hooks/useAddRecipeContext";
-import TagInput from "@components/Shared/TagInput.tsx";
+import TagInput from "@components/AddSample/TagInput.tsx";
 import { useState } from "react";
 import { Tag } from "@api/models/Tag.ts";
 

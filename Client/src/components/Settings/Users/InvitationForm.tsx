@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import TerminalBanner from "@components/Shared/ui/TerminalBanner.tsx";
-import InputField from "@components/Shared/InputField.tsx";
-import SubmitButton from "@components/Shared/SubmitButton.tsx";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
+import SubmitButton from "@components/Shared/Form/SubmitButton.tsx";
 import SelectField from "./SelectField.tsx";
 import InvitationLink from "./InvitationLink.tsx";
 
@@ -68,7 +68,7 @@ const InvitationForm = () => {
     <div>
       <TerminalBanner />
       <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
-        <InputField
+        <LabeledInput
           name="email"
           type="text"
           label="Email"

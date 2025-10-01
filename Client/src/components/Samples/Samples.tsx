@@ -15,8 +15,8 @@ import {
   PlusIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import IconButton from "@components/Shared/IconButton";
-import InputField from "@components/Shared/InputField";
+import IconButton from "@components/Shared/IconButton.tsx";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableManagement from "@components/Shared/Table/TableManagment";
 import TableView from "@components/Shared/Table/TableView";
@@ -132,7 +132,7 @@ const Samples = (props: SamplesProps) => {
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
         <div className="flex items-center gap-1">
-          <InputField
+          <LabeledInput
             validate={false}
             className="!text-sm !h-[40px]"
             placeholder="Search"
@@ -148,8 +148,8 @@ const Samples = (props: SamplesProps) => {
           {localSearch && (
             <IconButton
               onClick={() => {
-                setLocalSearch(""); // czyszczenie inputa
-                props.searchProps?.onClearSearch?.(); // wywołanie funkcji clear
+                setLocalSearch("");
+                props.searchProps?.onClearSearch?.();
               }}
               className="h-[40px] flex bg-white items-center gap-1 !hover:border-gray-300"
               title="Clear search"

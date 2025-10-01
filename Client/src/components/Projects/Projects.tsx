@@ -14,7 +14,7 @@ import TableCard from "@components/Shared/Table/TableCard";
 import { Color } from "utils/colorUtils";
 import Chip from "@components/Shared/ui/Chip.tsx";
 import { useState } from "react";
-import InputField from "@components/Shared/InputField.tsx";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
 import {
   MagnifyingGlassIcon,
   PlusIcon,
@@ -116,7 +116,7 @@ const Projects = (props: ProjectsProps) => {
   return (
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <InputField
+        <LabeledInput
           validate={false}
           className="!text-sm !h-[40px]"
           placeholder="Search"

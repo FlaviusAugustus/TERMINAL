@@ -22,7 +22,7 @@ import {
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 import IconButton from "@components/Shared/IconButton.tsx";
 import { Link } from "react-router-dom";
-import InputField from "@components/Shared/InputField.tsx";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
 
 interface ParametersProps {
   parameters: Array<AllParameters>;
@@ -97,7 +97,7 @@ const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
   return (
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <InputField
+        <LabeledInput
           validate={false}
           className="!text-sm !h-[40px]"
           placeholder="Search"

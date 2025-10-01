@@ -1,7 +1,7 @@
 import IconButton from "@components/Shared/IconButton.tsx";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { TextParameterRequest } from "@api/models/Parameters.ts";
-import InputField from "@components/Shared/InputField.tsx";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
 
 type NewParameterAllowedValuesProps = {
   parameterRequest: TextParameterRequest;
@@ -30,7 +30,7 @@ const NewParameterAllowedValues = ({
         {parameterRequest.allowedValues.map((value, index) => (
           <div key={index} className="flex gap-2">
             <div className="w-full">
-              <InputField
+              <LabeledInput
                 width="100%"
                 name={`Value - ${index}`}
                 className="flex-grow"

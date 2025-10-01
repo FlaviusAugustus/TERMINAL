@@ -2,7 +2,7 @@ import Projects from "@components/Projects/Projects.tsx";
 import { useState } from "react";
 import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useAllProjects } from "@hooks/projects/useGetAllProjects.ts";
-import { toastPromise } from "../utils/toast.utils.tsx";
+import { toastPromise } from "@utils/toast.utils.tsx";
 import { useDeleteProject } from "@hooks/projects/useDeleteProject.ts";
 import TableLayout from "./layouts/TableLayout";
 import ComponentOrLoader from "@components/Shared/ui/ComponentOrLoader.tsx";

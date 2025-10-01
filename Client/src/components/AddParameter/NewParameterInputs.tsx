@@ -1,8 +1,8 @@
-import InputField from "@components/Shared/InputField.tsx";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
 import {
   LabeledSelect,
   SelectItem,
-} from "@components/Shared/LabeledSelect.tsx";
+} from "@components/Shared/Form/LabeledSelect.tsx";
 import NewParameterAllowedValues from "@components/AddParameter/NewParameterAllowedValues.tsx";
 import { AllParametersRequest, ParameterType } from "@api/models/Parameters.ts";
 
@@ -25,7 +25,7 @@ const NewParameterInputs = ({
 }: NewParameterInputsProps) => {
   return (
     <div className="gap-3 pb-2">
-      <InputField
+      <LabeledInput
         required
         label="Name"
         name="Name"
@@ -45,7 +45,7 @@ const NewParameterInputs = ({
         <SelectItem value="text" displayValue="Text" />
       </LabeledSelect>
       {parameterRequest.$type !== "text" && (
-        <InputField
+        <LabeledInput
           required
           label="Unit"
           name="Unit"

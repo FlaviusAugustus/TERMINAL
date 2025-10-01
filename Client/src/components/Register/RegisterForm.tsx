@@ -1,7 +1,7 @@
 import TerminalBanner from "../Shared/ui/TerminalBanner.tsx";
-import InputField from "../Shared/InputField.tsx";
+import LabeledInput from "../Shared/Form/LabeledInput.tsx";
 import React, { useCallback, useState } from "react";
-import SubmitButton from "../Shared/SubmitButton.tsx";
+import SubmitButton from "../Shared/Form/SubmitButton.tsx";
 
 /**
  * RegisterForm Component
@@ -77,7 +77,7 @@ const RegisterForm = () => {
     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <TerminalBanner />
       <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
-        <InputField
+        <LabeledInput
           name="firstPassword"
           type="password"
           label="Password"
@@ -90,7 +90,7 @@ const RegisterForm = () => {
               : ""
           }
         />
-        <InputField
+        <LabeledInput
           name="secondPassword"
           type="password"
           label="Reapet Password"

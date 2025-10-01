@@ -32,7 +32,7 @@ function getErrorMessage(input: HTMLInputElement | null): string {
   return "";
 }
 
-const InputLabelAndValidation = ({
+const FieldWithLabelAndValidation = ({
   label,
   children,
   validate,
@@ -68,4 +68,4 @@ const InputLabelAndValidation = ({
   );
 };
 
-export default InputLabelAndValidation;
+export default FieldWithLabelAndValidation;

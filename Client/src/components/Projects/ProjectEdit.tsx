@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { DialogButton, DialogComp } from "@components/Shared/DialogComp";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import InputField from "@components/Shared/InputField.tsx";
-import LabeledSwitch from "@components/Shared/LabeledSwitch.tsx";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
+import LabeledSwitch from "@components/Shared/Form/LabeledSwitch.tsx";
 import { ProjectDetailsDto } from "@api/models/Project";
 
 export interface ProjectDetailsProps {
@@ -43,7 +43,7 @@ const ProjectEdit = (props: ProjectDetailsProps) => {
       setIsOpen={props.setOpen}
       title={"Edit project"}
     >
-      <InputField
+      <LabeledInput
         label="Name"
         id="name"
         type="email"

@@ -1,11 +1,11 @@
 import { useState, useCallback } from "react";
 import TerminalBanner from "@components/Shared/ui/TerminalBanner.tsx";
-import InputField from "@components/Shared/InputField.tsx";
-import SubmitButton from "@components/Shared/SubmitButton.tsx";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
+import SubmitButton from "@components/Shared/Form/SubmitButton.tsx";
 import { LoginRequest, useLoginMutation } from "@hooks/useLoginMutation.ts";
 import { useNavigate } from "react-router-dom";
-import { toastPromise } from "../../utils/toast.utils.tsx";
-import Form from "@components/Shared/Form.tsx";
+import { toastPromise } from "@utils/toast.utils.tsx";
+import Form from "@components/Shared/Form/Form.tsx";
 
 /**
  * LoginForm Component
@@ -54,7 +54,7 @@ const LoginForm = () => {
             className="w-full h-full flex flex-col gap-3"
           >
             <div className="flex flex-col">
-              <InputField
+              <LabeledInput
                 name="email"
                 type="email"
                 label="Email"
@@ -62,7 +62,7 @@ const LoginForm = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <InputField
+              <LabeledInput
                 name="password"
                 type="password"
                 label="Password"

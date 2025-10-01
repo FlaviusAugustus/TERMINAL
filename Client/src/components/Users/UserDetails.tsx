@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
-import InputField from "@components/Shared/InputField";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
 import { DialogButton, DialogComp } from "@components/Shared/DialogComp";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { LabeledSelect, SelectItem } from "@components/Shared/LabeledSelect";
+import {
+  LabeledSelect,
+  SelectItem,
+} from "@components/Shared/Form/LabeledSelect.tsx";
 import roles from "@api/models/Role";
 import { UserDetailsDto } from "@api/models/User";
 
@@ -44,7 +47,7 @@ const UserDetails = (props: UserDetailsProps) => {
       setIsOpen={props.setOpen}
       title={"Edit user"}
     >
-      <InputField
+      <LabeledInput
         label="Email"
         id="email"
         type="email"

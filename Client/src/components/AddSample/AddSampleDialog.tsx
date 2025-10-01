@@ -4,9 +4,12 @@ import {
   DialogComp,
   DialogProps,
 } from "@components/Shared/DialogComp";
-import InputField from "@components/Shared/InputField";
-import LabeledCheckbox from "@components/Shared/LabeledCheckbox";
-import { SelectItem, LabeledSelect } from "@components/Shared/LabeledSelect";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
+import LabeledCheckbox from "@components/Shared/Form/LabeledCheckbox.tsx";
+import {
+  SelectItem,
+  LabeledSelect,
+} from "@components/Shared/Form/LabeledSelect.tsx";
 import { useProjects } from "@hooks/projects/useGetProjects";
 import { useState } from "react";
 
@@ -69,7 +72,7 @@ const AddSampleDialog = ({
       handleClose={handleClose}
     >
       <div className="flex flex-col">
-        <InputField
+        <LabeledInput
           label="Name"
           value={sampleName}
           onChange={(e) => setSampleName(e.currentTarget.value)}

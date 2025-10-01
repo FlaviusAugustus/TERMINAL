@@ -10,10 +10,10 @@ import {
 } from "@headlessui/react";
 import clsx from "clsx";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import InputLabelAndValidation, {
+import FieldWithLabelAndValidation, {
   InputLabelAndValidationProps,
-} from "./InputLabelAndValidation";
-import SelectedValues from "@components/Shared/SelectedValues.tsx";
+} from "./FieldWithLabelAndValidation.tsx";
+import SelectedValues from "@components/Shared/Form/SelectedValues.tsx";
 
 type LabeledSelectProps<T, Multiple extends boolean> = Omit<
   InputLabelAndValidationProps,
@@ -32,7 +32,7 @@ type LabeledSelectProps<T, Multiple extends boolean> = Omit<
  * Reusable input field component with validation support.
  *
  * @component
- * @param {InputFieldProps} props - The props for the InputField component
+ * @param {InputFieldProps} props - The props for the LabeledInput component
  */
 const LabeledSelect = <T, Multiple extends boolean>({
   label,
@@ -49,7 +49,7 @@ const LabeledSelect = <T, Multiple extends boolean>({
   const multiple = rest.multiple;
 
   return (
-    <InputLabelAndValidation
+    <FieldWithLabelAndValidation
       label={label}
       isValid={isValid}
       inputRef={ref}
@@ -88,7 +88,7 @@ const LabeledSelect = <T, Multiple extends boolean>({
           {children}
         </ComboboxOptions>
       </Combobox>
-    </InputLabelAndValidation>
+    </FieldWithLabelAndValidation>
   );
 };
 

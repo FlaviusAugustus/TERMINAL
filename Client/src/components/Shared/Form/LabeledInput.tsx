@@ -1,12 +1,12 @@
 import React, { ReactNode, useRef } from "react";
 import { Input } from "@headlessui/react";
 import clsx from "clsx";
-import InputLabelAndValidation, {
+import FieldWithLabelAndValidation, {
   InputLabelAndValidationProps,
-} from "./InputLabelAndValidation";
+} from "./FieldWithLabelAndValidation.tsx";
 
 /**
- * Props type for InputField component
+ * Props type for LabeledInput component
  */
 export type InputFieldProps = Omit<InputLabelAndValidationProps, "inputRef"> &
   React.InputHTMLAttributes<HTMLInputElement> & {
@@ -18,9 +18,9 @@ export type InputFieldProps = Omit<InputLabelAndValidationProps, "inputRef"> &
  * Reusable input field component with validation support.
  *
  * @component
- * @param {InputFieldProps} props - The props for the InputField component
+ * @param {InputFieldProps} props - The props for the LabeledInput component
  */
-const InputField = ({
+const LabeledInput = ({
   label,
   icon,
   isValid = true,
@@ -31,7 +31,7 @@ const InputField = ({
   const ref = useRef<HTMLInputElement>(null);
 
   return (
-    <InputLabelAndValidation
+    <FieldWithLabelAndValidation
       label={label}
       isValid={isValid}
       inputRef={ref}
@@ -56,8 +56,8 @@ const InputField = ({
           )}
         />
       </div>
-    </InputLabelAndValidation>
+    </FieldWithLabelAndValidation>
   );
 };
 
-export default InputField;
+export default LabeledInput;

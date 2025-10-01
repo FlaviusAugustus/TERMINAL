@@ -1,9 +1,9 @@
-import InputField from "../Shared/InputField";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
 import { useState } from "react";
-import { DialogButton } from "../Shared/DialogComp";
+import { DialogButton } from "@components/Shared/DialogComp";
 import useAddProject from "@hooks/projects/useAddProject";
 import { toastPromise } from "utils/toast.utils";
-import Form from "@components/Shared/Form";
+import Form from "@components/Shared/Form/Form.tsx";
 
 /**
  * NewProjectForm Component
@@ -34,7 +34,7 @@ const NewProjectForm = () => {
         </div>
         <div className="flex flex-col gap-3">
           <Form handleSubmit={handleSubmit}>
-            <InputField
+            <LabeledInput
               name="name"
               label="Name"
               minLength={3}

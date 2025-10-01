@@ -11,7 +11,7 @@ import clsx from "clsx";
 import {
   LabeledSelect,
   SelectItem,
-} from "@components/Shared/LabeledSelect.tsx";
+} from "@components/Shared/Form/LabeledSelect.tsx";
 
 type ParameterBoxProps = {
   parameter: AllParameters;

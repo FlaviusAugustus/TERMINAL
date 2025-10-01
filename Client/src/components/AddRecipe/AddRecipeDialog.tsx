@@ -3,7 +3,7 @@ import {
   DialogComp,
   DialogProps,
 } from "@components/Shared/DialogComp";
-import InputField from "@components/Shared/InputField";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
 import { useState } from "react";
 
 function isRecipeNameValid(name: string) {
@@ -51,7 +51,7 @@ const AddRecipeDialog = ({ onSubmit, setIsOpen, ...rest }: AddRecipeDialog) => {
       handleClose={handleClose}
     >
       <div className="flex flex-col">
-        <InputField
+        <LabeledInput
           label="Name"
           value={recipeName}
           onChange={(e) => setRecipeName(e.currentTarget.value)}

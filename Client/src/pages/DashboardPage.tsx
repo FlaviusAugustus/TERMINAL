@@ -4,7 +4,7 @@ import {
   EntityAmountCardButton,
 } from "@components/Dashboard/EntityAmountCard";
 import Chip from "@components/Shared/ui/Chip.tsx";
-import IconButton from "@components/Shared/IconButton";
+import IconButton from "@components/Shared/IconButton.tsx";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";
 import { TagIcon } from "@heroicons/react/24/outline";

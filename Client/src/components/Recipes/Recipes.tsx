@@ -12,8 +12,8 @@ import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import TableCard from "@components/Shared/Table/TableCard";
 import { useState } from "react";
-import IconButton from "@components/Shared/IconButton";
-import InputField from "@components/Shared/InputField";
+import IconButton from "@components/Shared/IconButton.tsx";
+import LabeledInput from "@components/Shared/Form/LabeledInput.tsx";
 import VisibleForRoles from "@components/Shared/VisibleForRoles";
 import {
   MagnifyingGlassIcon,
@@ -119,7 +119,7 @@ const Recipes = ({
   return (
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <InputField
+        <LabeledInput
           validate={false}
           className="!text-sm !h-[40px]"
           placeholder="Search"

@@ -8,7 +8,7 @@ import { useGetAllTags } from "@hooks/tags/useGetAllTags.ts";
 import { useGetTagDetails } from "@hooks/tags/useGetTagDetails.ts";
 import TagDetails from "@components/Tags/TagDetails.tsx";
 import { useDeleteTag } from "@hooks/tags/useDeleteTag.ts";
-import { toastPromise } from "../utils/toast.utils.tsx";
+import { toastPromise } from "@utils/toast.utils.tsx";
 import TagEdit from "@components/Tags/TagEdit.tsx";
 import { useUpdateTagName } from "@hooks/tags/useUpdateTagName.ts";
 import { useUpdateTagStatus } from "@hooks/tags/useUpdateTagStatus.ts";
