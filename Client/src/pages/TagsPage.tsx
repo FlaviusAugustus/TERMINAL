@@ -1,6 +1,6 @@
 import TableLayout from "@pages/layouts/TableLayout.tsx";
-import Loader from "@components/Shared/Loader.tsx";
-import ComponentOrLoader from "@components/Shared/ComponentOrLoader.tsx";
+import Loader from "@components/Shared/ui/Loader.tsx";
+import ComponentOrLoader from "@components/Shared/ui/ComponentOrLoader.tsx";
 import Tags from "@components/Tags/Tags.tsx";
 import { useState } from "react";
 import { PaginationState, SortingState } from "@tanstack/react-table";

@@ -14,7 +14,7 @@ import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import TableCard from "@components/Shared/Table/TableCard.tsx";
 import { useMemo, useState } from "react";
 import UsersRowActions from "./UsersRowActions";
-import Chip from "@components/Shared/Chip";
+import Chip from "@components/Shared/ui/Chip.tsx";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import VisibleForRoles from "@components/Shared/VisibleForRoles.tsx";
 import IconButton from "@components/Shared/IconButton.tsx";

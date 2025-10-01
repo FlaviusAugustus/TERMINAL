@@ -7,8 +7,8 @@ import { useSampleDetails } from "@hooks/samples/useGetSampleDetails.ts";
 import { useDeleteSample } from "@hooks/samples/useDeleteSample.ts";
 import { useSearchSamples } from "@hooks/samples/useSearchSamples.ts";
 import TableLayout from "./layouts/TableLayout";
-import Loader from "@components/Shared/Loader";
-import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
+import Loader from "@components/Shared/ui/Loader.tsx";
+import ComponentOrLoader from "@components/Shared/ui/ComponentOrLoader.tsx";
 import EditSample from "@components/Samples/EditSample";
 import DialogLoader from "@components/Shared/DialogLoader";
 

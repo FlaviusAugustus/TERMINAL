@@ -1,6 +1,6 @@
 import { DialogComp } from "@components/Shared/DialogComp.tsx";
-import Detail from "@components/Shared/Detail.tsx";
-import Chip from "@components/Shared/Chip.tsx";
+import Detail from "@components/Shared/ui/Detail.tsx";
+import Chip from "@components/Shared/ui/Chip.tsx";
 import { Color } from "../../utils/colorUtils.tsx";
 import { AllParameters } from "@api/models/Parameters.ts";
 

@@ -1,4 +1,4 @@
-import TerminalBanner from "../Shared/TerminalBanner.tsx";
+import TerminalBanner from "../Shared/ui/TerminalBanner.tsx";
 import InputField from "../Shared/InputField.tsx";
 import React, { useCallback, useState } from "react";
 import SubmitButton from "../Shared/SubmitButton.tsx";

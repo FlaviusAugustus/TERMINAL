@@ -9,8 +9,8 @@ import { useUpdateUserEmail } from "@hooks/users/useUpdateUserEmail.ts";
 import { useUpdateUserRole } from "@hooks/users/useUpdateUserRole.ts";
 import { useState } from "react";
 import TableLayout from "./layouts/TableLayout.tsx";
-import ComponentOrLoader from "@components/Shared/ComponentOrLoader.tsx";
-import Loader from "@components/Shared/Loader.tsx";
+import ComponentOrLoader from "@components/Shared/ui/ComponentOrLoader.tsx";
+import Loader from "@components/Shared/ui/Loader.tsx";
 
 const UsersPage = () => {
   const [userDetailsId, setUserDetailsId] = useState<string | null>(null);

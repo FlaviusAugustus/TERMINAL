@@ -12,7 +12,7 @@ import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
 import TableCard from "@components/Shared/Table/TableCard";
 import { Color } from "utils/colorUtils";
-import Chip from "@components/Shared/Chip";
+import Chip from "@components/Shared/ui/Chip.tsx";
 import { useState } from "react";
 import InputField from "@components/Shared/InputField.tsx";
 import {

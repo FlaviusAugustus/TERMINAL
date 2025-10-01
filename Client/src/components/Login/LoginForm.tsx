@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import TerminalBanner from "@components/Shared/TerminalBanner.tsx";
+import TerminalBanner from "@components/Shared/ui/TerminalBanner.tsx";
 import InputField from "@components/Shared/InputField.tsx";
 import SubmitButton from "@components/Shared/SubmitButton.tsx";
 import { LoginRequest, useLoginMutation } from "@hooks/useLoginMutation.ts";

@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-table";
 import { SamplesResponse } from "@hooks/samples/useGetSamples.ts";
 import { useEffect, useState } from "react";
-import Chip from "@components/Shared/Chip";
+import Chip from "@components/Shared/ui/Chip.tsx";
 import {
   MagnifyingGlassIcon,
   PlusIcon,

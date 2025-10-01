@@ -1,5 +1,5 @@
 import { DialogComp } from "@components/Shared/DialogComp.tsx";
-import Detail from "@components/Shared/Detail";
+import Detail from "@components/Shared/ui/Detail.tsx";
 import StepsTableManagement from "@components/Shared/Table/StepsTableManagement";
 import TableCard from "@components/Shared/Table/TableCard";
 import TableView from "@components/Shared/Table/TableView";

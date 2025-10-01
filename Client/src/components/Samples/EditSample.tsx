@@ -1,6 +1,6 @@
 import { SampleDetailsDto } from "@api/models/Sample";
-import ChipSet from "@components/Shared/ChipSet";
-import Detail from "@components/Shared/Detail";
+import ChipSet from "@components/Shared/ui/ChipSet.tsx";
+import Detail from "@components/Shared/ui/Detail.tsx";
 import { DialogButton, DialogComp } from "@components/Shared/DialogComp";
 import StepsTableManagement from "@components/Shared/Table/StepsTableManagement";
 import TableCard from "@components/Shared/Table/TableCard";

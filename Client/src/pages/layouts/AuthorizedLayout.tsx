@@ -4,7 +4,7 @@ import Sidebar from "@components/Navbar/Sidebar.tsx";
 import MobileNavbar from "@components/Navbar/MobileNavbar.tsx";
 import { useUserRoles } from "@hooks/useUserRoles.ts";
 import { Role } from "@api/models/Role.ts";
-import FullScreenLoader from "@components/Shared/FullScreenLoader";
+import FullScreenLoader from "@components/Shared/ui/FullScreenLoader.tsx";
 
 type AuthorizedNavbarLayoutProps = {
   pageName: string;

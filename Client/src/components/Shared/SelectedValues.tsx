@@ -1,4 +1,4 @@
-import Chip from "@components/Shared/Chip.tsx";
+import Chip from "@components/Shared/ui/Chip.tsx";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 interface SelectedValue {

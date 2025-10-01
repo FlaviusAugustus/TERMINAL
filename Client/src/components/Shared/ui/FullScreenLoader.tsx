@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import TerminalBanner from "./TerminalBanner";
+import TerminalBanner from "./TerminalBanner.tsx";
 
 type FullScreenLoaderProps = {
   visible: boolean;

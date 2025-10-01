@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import TableCard from "@components/Shared/Table/TableCard.tsx";
 import TableView from "@components/Shared/Table/TableView.tsx";
 import TableManagement from "@components/Shared/Table/TableManagment.tsx";
-import Chip from "@components/Shared/Chip.tsx";
+import Chip from "@components/Shared/ui/Chip.tsx";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import {
   MagnifyingGlassIcon,
