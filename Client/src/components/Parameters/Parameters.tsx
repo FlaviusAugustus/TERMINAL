@@ -52,15 +52,15 @@ const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
     pageSize: 10,
   });
   const [searchValue, setSearchValue] = useState<string>("");
-  const [parametersFiltered, setParametersFitlered] = useState<
+  const [parametersFiltered, setParametersFiltered] = useState<
     Array<AllParameters>
   >([]);
 
   useEffect(() => {
     const filteredParams = parameters.filter((param) =>
-      param.name.includes(searchValue)
+      param.name.toLowerCase().includes(searchValue.toLowerCase())
     );
-    setParametersFitlered(filteredParams);
+    setParametersFiltered(filteredParams);
   }, [parameters, searchValue]);
 
   const columns = useTableColumns<AllParameters>({
