@@ -33,11 +33,11 @@ const AuthorizedNavbarLayout = ({
       <div className="w-screen flex flex-col sm:flex-row bg-gray-100">
         <div className="drawer md:drawer-open md:gap-2">
           <input id="drawer" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content flex flex-col sm:h-auto h-auto min-h-screen items-center justify-start relative overflow-x-hidden overflow-y-auto">
+          <div className="drawer-content flex flex-col sm:h-auto h-auto min-h-screen items-center justify-start relative">
             {/* Menu - only mobile  */}
             <MobileNavbar />
             {/* Page content */}
-            <div className="sm:p-2 sm:ps-0 w-full h-screen flex flex-col">
+            <div className="flex flex-col w-full h-auto sm:h-screen sm:p-2 sm:ps-0">
               <div className="sm:hidden h-full">
                 <Outlet />
               </div>

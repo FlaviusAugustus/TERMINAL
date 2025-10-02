@@ -51,6 +51,7 @@ const RecipeDetails = ({ recipe, open, openChange }: RecipeDetailsProps) => {
             </Detail>
           )}
         </div>
+        <Detail label="Comment">{recipe?.steps[index]?.comment}</Detail>
       </div>
     </DialogComp>
   );

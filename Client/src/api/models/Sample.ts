@@ -16,6 +16,16 @@ export type SampleDetailsDto = Omit<Sample, "project"> & {
   tags: Tag[];
 };
 
+export type CreateSample = {
+  projectId: string;
+  recipeId?: string;
+  steps: Step[];
+  tagIds: string[];
+  comment: string;
+  saveAsRecipe: boolean;
+  recipeName?: string;
+};
+
 export type UpdateSample = {
   projectId: string;
   id: string;

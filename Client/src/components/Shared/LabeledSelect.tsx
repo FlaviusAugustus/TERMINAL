@@ -85,7 +85,7 @@ const LabeledSelect = <T, Multiple extends boolean>({
           )}
           anchor="bottom"
         >
-          {children}
+          <div className="max-h-[25vh]">{children}</div>
         </ComboboxOptions>
       </Combobox>
     </InputLabelAndValidation>

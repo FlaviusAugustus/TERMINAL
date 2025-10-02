@@ -5,16 +5,18 @@ import {
   SelectItem,
 } from "@components/Shared/LabeledSelect.tsx";
 import { useGetTags } from "@hooks/tags/useGetTags.ts";
+import { useGetTagAmount } from "@hooks/tags/useGetTagAmount.ts";
 
 type TagInputProps = {
   tags: Tag[];
   setTags: (newTags: Tag[]) => void;
 };
 
-const TagInput = ({ tags, setTags }: TagInputProps) => {
+const LabeledTagInput = ({ tags, setTags }: TagInputProps) => {
+  const { data: tagsAmount } = useGetTagAmount();
   const allTags = useGetTags({
     pageNumber: 0,
-    pageSize: 99,
+    pageSize: tagsAmount ?? 0,
     desc: true,
   });
   const availableTags: Tag[] | undefined = useMemo(() => {
@@ -32,10 +34,10 @@ const TagInput = ({ tags, setTags }: TagInputProps) => {
   };
 
   return (
-    <div className="flex flex-col w-96 gap-2">
+    <>
       <LabeledSelect<Tag, true>
         multiple
-        label="Add Tags"
+        label="Tags"
         name="AddTag"
         onChange={handleAddTag}
         value={tags}
@@ -45,8 +47,8 @@ const TagInput = ({ tags, setTags }: TagInputProps) => {
           <SelectItem key={tag.id} value={tag} displayValue={tag.name} />
         ))}
       </LabeledSelect>
-    </div>
+    </>
   );
 };
 
-export default TagInput;
+export default LabeledTagInput;
