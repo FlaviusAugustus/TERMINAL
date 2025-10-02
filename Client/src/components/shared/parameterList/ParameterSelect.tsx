@@ -1,4 +1,4 @@
-import DragHandle from "@components/shared/DragHandle";
+import DragHandle from "@components/shared/DragHandle.tsx";
 import { useDraggable } from "@dnd-kit/core";
 import { AllParameters } from "@hooks/parameters/useGetParameters.ts";
 

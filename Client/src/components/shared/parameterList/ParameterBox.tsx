@@ -1,12 +1,12 @@
-import { AllParameters } from "@api/models/Parameters";
-import DragHandle from "@components/shared/DragHandle";
+import { AllParameters } from "@api/models/Parameters.ts";
+import DragHandle from "@components/shared/DragHandle.tsx";
 import { defaultAnimateLayoutChanges, useSortable } from "@dnd-kit/sortable";
 import {
   ChevronUpIcon,
   ChevronDownIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useAddRecipeContext } from "@hooks/useAddRecipeContext";
+import { useAddRecipeContext } from "@hooks/useAddRecipeContext.tsx";
 import clsx from "clsx";
 import {
   LabeledSelect,

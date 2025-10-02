@@ -1,4 +1,4 @@
-import { ParameterSelect } from "./ParameterSelect";
+import { ParameterSelect } from "./ParameterSelect.tsx";
 import useGetParameters from "@hooks/useGetParameters.ts";
 import { useMemo } from "react";
 import { AllParameters } from "@api/models/Parameters.ts";

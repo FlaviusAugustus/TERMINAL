@@ -2,8 +2,8 @@ import useGetParameters from "@hooks/parameters/useGetParameters.ts";
 import { RecipeDragProvider } from "@hooks/useRecipeDragContext";
 import { AddRecipeProvider } from "@hooks/useAddRecipeContext";
 import AddRecipeActions from "@components/addRecipe/AddRecipeActions";
-import ParameterSelectList from "@components/addRecipe/ParameterSelectList";
-import Steps from "@components/addRecipe/Steps.tsx";
+import ParameterSelectList from "@components/shared/parameterList/ParameterSelectList.tsx";
+import Steps from "@components/shared/steps/Steps.tsx";
 
 const AddRecipeWithContexts = () => {
   const { data: parameters, isLoading, isError } = useGetParameters();

@@ -1,11 +1,11 @@
 import { TabGroup, TabPanel, TabPanels } from "@headlessui/react";
-import StepTabList from "@components/addRecipe/StepTabList.tsx";
-import ParameterDroppable from "@components/addRecipe/ParameterDroppable.tsx";
+import StepTabList from "@components/shared/steps/StepTabList.tsx";
+import ParameterDroppable from "@components/shared/parameterList/ParameterDroppable.tsx";
 import {
   horizontalListSortingStrategy,
   SortableContext,
 } from "@dnd-kit/sortable";
-import ParameterBox from "@components/addRecipe/ParameterBox.tsx";
+import ParameterBox from "@components/shared/parameterList/ParameterBox.tsx";
 import { useAddRecipeContext } from "@hooks/useAddRecipeContext.tsx";
 import LabeledTextArea from "@components/shared/LabeledTextArea.tsx";
 

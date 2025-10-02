@@ -1,7 +1,7 @@
 import { TabList } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { useAddRecipeContext } from "@hooks/useAddRecipeContext";
-import StepTab from "./StepTab";
+import { useAddRecipeContext } from "@hooks/useAddRecipeContext.tsx";
+import StepTab from "./StepTab.tsx";
 
 /**
  * StepTabList Component
