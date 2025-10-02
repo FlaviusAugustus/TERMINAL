@@ -8,7 +8,10 @@ import FieldWithLabelAndValidation, {
 /**
  * Props type for FormInput component
  */
-export type InputFieldProps = Omit<InputLabelAndValidationProps, "inputRef"> &
+export type InputFieldProps = Omit<
+  InputLabelAndValidationProps,
+  "inputRef" | "onBlur"
+> &
   React.InputHTMLAttributes<HTMLInputElement> & {
     icon?: ReactNode;
     validationInfo?: string;
@@ -47,10 +50,7 @@ const FormInput = ({
           formNoValidate
           autoComplete="disabled"
           className={clsx(
-            "w-full px-3 py-2 border rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 focus:ring-offset-2 invalid:border-red-500",
-            {
-              "border-red-500": !isValid,
-            },
+            "w-full px-3 py-2 border rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 [&:user-invalid:not(:focus-within)]:border-red-500 focus:ring-offset-2",
             icon ? "pl-9" : "pl-3",
             className
           )}

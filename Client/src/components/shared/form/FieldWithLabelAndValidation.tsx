@@ -39,13 +39,32 @@ const FieldWithLabelAndValidation = ({
   inputRef,
 }: React.PropsWithChildren<InputLabelAndValidationProps>) => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [focused, setFocused] = useState(false);
 
   const handleBlur = () => {
+    setFocused(false);
+  };
+
+  const handleFocus = () => {
+    setFocused(true);
+  };
+
+  const handleChange = () => {
     setErrorMessage(getErrorMessage(inputRef.current));
   };
 
+  const hideErrorMessage =
+    (inputRef.current && inputRef.current.validity.valid) ||
+    (inputRef.current && !inputRef.current.validity.valid && focused);
+
   return (
-    <Field className="h-fit" onBlur={handleBlur}>
+    <Field
+      className="h-fit"
+      onChange={handleChange}
+      onBlur={handleBlur}
+      onFocus={handleFocus}
+      onInvalid={handleChange}
+    >
       {label && (
         <Label className="text-sm font-normal font-sans text-gray-700">
           {label}:
@@ -53,12 +72,7 @@ const FieldWithLabelAndValidation = ({
       )}
       {children}
       {validate && (
-        <div
-          className={clsx(
-            inputRef.current && inputRef.current.validity.valid && "invisible",
-            errorMessage == "" && "hidden"
-          )}
-        >
+        <div className={clsx(hideErrorMessage && "invisible")}>
           <p role="alert" className="text-xs h-4 py-1 text-red-500">
             {errorMessage}
           </p>

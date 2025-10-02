@@ -37,6 +37,7 @@ const NewProjectForm = () => {
             <FormInput
               name="name"
               label="Name"
+              required
               minLength={3}
               maxLength={50}
               value={projectName}
