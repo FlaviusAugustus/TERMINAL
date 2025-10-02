@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
-import InputField from "@components/shared/form/InputField.tsx";
+import FormInput from "@components/shared/form/FormInput.tsx";
 import {
   DialogButton,
   DialogComp,
 } from "@components/shared/dialog/DialogComp.tsx";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import {
-  LabeledSelect,
-  SelectItem,
-} from "@components/shared/form/LabeledSelect.tsx";
+import { FormSelect, SelectItem } from "@components/shared/form/FormSelect.tsx";
 import roles from "@api/models/Role";
 import { UserDetailsDto } from "@api/models/User";
 
@@ -50,7 +47,7 @@ const UserDetails = (props: UserDetailsProps) => {
       setIsOpen={props.setOpen}
       title={"Edit user"}
     >
-      <InputField
+      <FormInput
         label="Email"
         id="email"
         type="email"
@@ -60,7 +57,7 @@ const UserDetails = (props: UserDetailsProps) => {
           setIsChanged(true);
         }}
       />
-      <LabeledSelect
+      <FormSelect
         label="Role"
         value={role}
         onChange={(value: string) => {
@@ -72,7 +69,7 @@ const UserDetails = (props: UserDetailsProps) => {
         {roles.map((role) => (
           <SelectItem value={role} displayValue={role} key={role} />
         ))}
-      </LabeledSelect>
+      </FormSelect>
       <div className="flex flex-col gap-2 mt-4">
         <div className="flex gap-1">
           <DialogButton

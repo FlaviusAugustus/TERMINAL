@@ -8,10 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useAddRecipeContext } from "@hooks/recipes/useAddRecipeContext.tsx";
 import clsx from "clsx";
-import {
-  LabeledSelect,
-  SelectItem,
-} from "@components/shared/form/LabeledSelect.tsx";
+import { FormSelect, SelectItem } from "@components/shared/form/FormSelect.tsx";
 
 type ParameterBoxProps = {
   parameter: AllParameters;
@@ -134,7 +131,7 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
       {" "}
       {parameter.$type === "text" ? (
         <div className="rounded-md w-full h-full text-sm ms-2 focus:outline-none bg-gray-50">
-          <LabeledSelect
+          <FormSelect
             comboboxStyles={"!py-0 !mt-0"}
             comboboxOptionsStyles={"!py-0 !mt-0"}
             value={parameter.value ?? ""}
@@ -146,7 +143,7 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
             {parameter.allowedValues.map((value: string, index: number) => (
               <SelectItem key={index} value={value} displayValue={value} />
             ))}
-          </LabeledSelect>
+          </FormSelect>
         </div>
       ) : (
         <input

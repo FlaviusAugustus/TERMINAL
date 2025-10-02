@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import TerminalBanner from "@components/shared/common/TerminalBanner.tsx";
-import InputField from "@components/shared/form/InputField.tsx";
+import FormInput from "@components/shared/form/FormInput.tsx";
 import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 import {
   LoginRequest,
@@ -57,7 +57,7 @@ const LoginForm = () => {
             className="w-full h-full flex flex-col gap-3"
           >
             <div className="flex flex-col">
-              <InputField
+              <FormInput
                 name="email"
                 type="email"
                 label="Email"
@@ -65,7 +65,7 @@ const LoginForm = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <InputField
+              <FormInput
                 name="password"
                 type="password"
                 label="Password"

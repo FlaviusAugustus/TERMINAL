@@ -1,4 +1,4 @@
-import InputField from "@components/shared/form/InputField.tsx";
+import FormInput from "@components/shared/form/FormInput.tsx";
 import { useState } from "react";
 import { DialogButton } from "@components/shared/dialog/DialogComp.tsx";
 import useAddProject from "@hooks/projects/useAddProject";
@@ -34,7 +34,7 @@ const NewProjectForm = () => {
         </div>
         <div className="flex flex-col gap-3">
           <Form handleSubmit={handleSubmit}>
-            <InputField
+            <FormInput
               name="name"
               label="Name"
               minLength={3}

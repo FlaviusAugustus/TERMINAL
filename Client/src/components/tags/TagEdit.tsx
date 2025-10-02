@@ -4,7 +4,7 @@ import {
   DialogButton,
   DialogComp,
 } from "@components/shared/dialog/DialogComp.tsx";
-import InputField from "@components/shared/form/InputField.tsx";
+import FormInput from "@components/shared/form/FormInput.tsx";
 import LabeledSwitch from "@components/shared/form/LabeledSwitch.tsx";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
@@ -38,7 +38,7 @@ const TagEdit = (props: TagDetailsProps) => {
       setIsOpen={props.setOpen}
       title={"Edit tag"}
     >
-      <InputField
+      <FormInput
         label="Name"
         id="name"
         type="email"

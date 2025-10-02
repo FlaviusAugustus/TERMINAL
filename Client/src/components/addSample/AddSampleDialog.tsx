@@ -4,12 +4,9 @@ import {
   DialogComp,
   DialogProps,
 } from "@components/shared/dialog/DialogComp.tsx";
-import InputField from "@components/shared/form/InputField.tsx";
+import FormInput from "@components/shared/form/FormInput.tsx";
 import LabeledCheckbox from "@components/shared/form/LabeledCheckbox.tsx";
-import {
-  SelectItem,
-  LabeledSelect,
-} from "@components/shared/form/LabeledSelect.tsx";
+import { SelectItem, FormSelect } from "@components/shared/form/FormSelect.tsx";
 import { useProjects } from "@hooks/projects/useGetProjects";
 import { useState } from "react";
 import LabeledTextArea from "@components/shared/form/LabeledTextArea.tsx";
@@ -88,7 +85,7 @@ const AddSampleDialog = ({
       handleClose={handleClose}
     >
       <div className="flex flex-col gap-2">
-        <LabeledSelect
+        <FormSelect
           label="Project"
           value={selectedProject}
           displayValue={(project) => project?.name ?? ""}
@@ -102,14 +99,14 @@ const AddSampleDialog = ({
               displayValue={project.name}
             />
           ))}
-        </LabeledSelect>
+        </FormSelect>
         <LabeledCheckbox
           label="Save as recipe"
           checked={saveAsRecipe}
           onChange={setSaveAsRecipe}
         />
         {saveAsRecipe && (
-          <InputField
+          <FormInput
             label="Recipe Name"
             value={recipeName}
             onChange={(e) => setRecipeName(e.currentTarget.value)}

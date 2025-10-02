@@ -1,4 +1,4 @@
-import InputField from "@components/shared/form/InputField.tsx";
+import FormInput from "@components/shared/form/FormInput.tsx";
 import { DialogButton } from "@components/shared/dialog/DialogComp.tsx";
 import { useState } from "react";
 import { toastPromise } from "@utils/toast.utils.tsx";
@@ -27,7 +27,7 @@ const AddTag = () => {
         </div>
         <Form handleSubmit={handleSubmit}>
           <div className="flex flex-col gap-3">
-            <InputField
+            <FormInput
               label="Name"
               required
               value={tagName}

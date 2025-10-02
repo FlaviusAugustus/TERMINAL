@@ -4,7 +4,7 @@ import {
   DialogComp,
 } from "@components/shared/dialog/DialogComp.tsx";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import InputField from "@components/shared/form/InputField.tsx";
+import FormInput from "@components/shared/form/FormInput.tsx";
 import LabeledSwitch from "@components/shared/form/LabeledSwitch.tsx";
 import { ProjectDetailsDto } from "@api/models/Project";
 
@@ -46,7 +46,7 @@ const ProjectEdit = (props: ProjectDetailsProps) => {
       setIsOpen={props.setOpen}
       title={"Edit project"}
     >
-      <InputField
+      <FormInput
         label="Name"
         id="name"
         type="email"

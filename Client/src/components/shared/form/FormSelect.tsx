@@ -10,9 +10,9 @@ import {
 } from "@headlessui/react";
 import clsx from "clsx";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import InputLabelAndValidation, {
+import FieldWithLabelAndValidation, {
   InputLabelAndValidationProps,
-} from "./InputLabelAndValidation.tsx";
+} from "./FieldWithLabelAndValidation.tsx";
 import SelectedValues from "@components/shared/form/SelectedValues.tsx";
 
 type LabeledSelectProps<T, Multiple extends boolean> = Omit<
@@ -32,9 +32,9 @@ type LabeledSelectProps<T, Multiple extends boolean> = Omit<
  * Reusable input field component with validation support.
  *
  * @component
- * @param {InputFieldProps} props - The props for the InputField component
+ * @param {InputFieldProps} props - The props for the FormInput component
  */
-const LabeledSelect = <T, Multiple extends boolean>({
+const FormSelect = <T, Multiple extends boolean>({
   label,
   isValid = true,
   children,
@@ -49,7 +49,7 @@ const LabeledSelect = <T, Multiple extends boolean>({
   const multiple = rest.multiple;
 
   return (
-    <InputLabelAndValidation
+    <FieldWithLabelAndValidation
       label={label}
       isValid={isValid}
       inputRef={ref}
@@ -88,7 +88,7 @@ const LabeledSelect = <T, Multiple extends boolean>({
           <div className="max-h-[25vh]">{children}</div>
         </ComboboxOptions>
       </Combobox>
-    </InputLabelAndValidation>
+    </FieldWithLabelAndValidation>
   );
 };
 
@@ -107,4 +107,4 @@ const SelectItem = <T,>({ displayValue, ...rest }: SelectItemProps<T>) => {
   );
 };
 
-export { LabeledSelect, SelectItem };
+export { FormSelect, SelectItem };
