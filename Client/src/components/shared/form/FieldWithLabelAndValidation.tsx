@@ -54,8 +54,7 @@ const FieldWithLabelAndValidation = ({
   };
 
   const hideErrorMessage =
-    (inputRef.current && inputRef.current.validity.valid) ||
-    (inputRef.current && !inputRef.current.validity.valid && focused);
+    inputRef.current && (inputRef.current.validity.valid || focused);
 
   return (
     <Field
