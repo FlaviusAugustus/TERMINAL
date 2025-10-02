@@ -7,7 +7,7 @@ import SettingsPage from "./pages/SettingsPage";
 import NewProjectForm from "./components/Projects/NewProjectForm.tsx";
 import AuthorizedLayout from "./pages/layouts/AuthorizedLayout";
 import NoNavbarLayout from "./pages/layouts/NoNavbarLayout";
-import { toastOptions } from "./utils/toast.utils.tsx";
+import { toastOptions } from "@utils/toast.utils.tsx";
 import ProjectsPage from "@pages/ProjectsPage.tsx";
 import RecipesPage from "@pages/RecipesPage.tsx";
 import SamplesPage from "@pages/SamplesPage";

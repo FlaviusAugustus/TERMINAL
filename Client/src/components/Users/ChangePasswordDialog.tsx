@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Input, Button } from "@headlessui/react";
 import { useChangeUserPassword } from "@hooks/users/useChangeUserPassword.ts";
-import { toastPromise } from "../../utils/toast.utils.tsx";
+import { toastPromise } from "@utils/toast.utils.tsx";
 
 export interface ChangePasswordDialogProps {
   isOpen: boolean;

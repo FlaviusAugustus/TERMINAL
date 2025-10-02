@@ -8,7 +8,7 @@ import { useState } from "react";
 import { AllParameters } from "@api/models/Parameters.ts";
 import DialogLoader from "@components/Shared/DialogLoader.tsx";
 import { useDeactivateParameter } from "@hooks/parameters/useDeactivateParameter.ts";
-import { toastPromise } from "../utils/toast.utils.tsx";
+import { toastPromise } from "@utils/toast.utils.tsx";
 
 const ParametersPage = () => {
   const dataParameters = useGetParameters();

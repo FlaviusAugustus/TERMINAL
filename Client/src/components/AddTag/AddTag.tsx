@@ -1,7 +1,7 @@
 import InputField from "@components/Shared/InputField.tsx";
 import { DialogButton } from "@components/Shared/DialogComp.tsx";
 import { useState } from "react";
-import { toastPromise } from "../../utils/toast.utils.tsx";
+import { toastPromise } from "@utils/toast.utils.tsx";
 import useAddTag from "@hooks/tags/useAddTag.ts";
 import Form from "@components/Shared/Form.tsx";
 
