@@ -1,10 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useIsAuthenticated } from "@hooks/useIsAuthenticated";
-import Sidebar from "@components/Navbar/Sidebar.tsx";
-import MobileNavbar from "@components/Navbar/MobileNavbar.tsx";
-import { useUserRoles } from "@hooks/useUserRoles.ts";
+import { useIsAuthenticated } from "@hooks/users/auth/useIsAuthenticated.ts";
+import Sidebar from "@components/navbar/Sidebar.tsx";
+import MobileNavbar from "@components/navbar/MobileNavbar.tsx";
+import { useUserRoles } from "@hooks/users/useUserRoles.ts";
 import { Role } from "@api/models/Role.ts";
-import FullScreenLoader from "@components/Shared/FullScreenLoader";
+import FullScreenLoader from "@components/shared/loader/FullScreenLoader.tsx";
 
 type AuthorizedNavbarLayoutProps = {
   pageName: string;
@@ -51,7 +51,7 @@ const AuthorizedNavbarLayout = ({
             </div>
           </div>
           <div className="drawer-side">
-            {/* Navbar */}
+            {/* navbar */}
             <label
               htmlFor="drawer"
               aria-label="close sidebar"

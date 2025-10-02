@@ -1,4 +1,4 @@
-import NewParameterForm from "@components/AddParameter/NewParameterForm.tsx";
+import NewParameterForm from "@components/addParameter/NewParameterForm.tsx";
 
 const AddParameter = () => {
   return (

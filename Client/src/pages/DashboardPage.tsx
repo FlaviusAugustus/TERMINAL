@@ -2,11 +2,11 @@ import { Sample } from "@api/models/Sample";
 import {
   EntityAmountCard,
   EntityAmountCardButton,
-} from "@components/Dashboard/EntityAmountCard";
-import Chip from "@components/Shared/Chip";
-import IconButton from "@components/Shared/IconButton";
-import TableCard from "@components/Shared/Table/TableCard";
-import TableView from "@components/Shared/Table/TableView";
+} from "@components/dashboard/EntityAmountCard";
+import Chip from "@components/shared/common/Chip.tsx";
+import IconButton from "@components/shared/common/IconButton.tsx";
+import TableCard from "@components/shared/table/TableCard";
+import TableView from "@components/shared/table/TableView";
 import { TagIcon } from "@heroicons/react/24/outline";
 import { useGetProjectAmount } from "@hooks/projects/useGetProjectAmount";
 import { useGetRecipeAmount } from "@hooks/recipes/useGetRecipeAmount";

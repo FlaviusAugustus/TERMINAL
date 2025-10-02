@@ -1,13 +1,6 @@
 import apiClient from "@api/apiClient.ts";
-import {
-  AllParameters,
-  DecimalParameter,
-  IntegerParameter,
-  TextParameter,
-} from "@api/models/Parameters";
+import { ParameterResponse } from "@api/models/Parameters.ts";
 import { useQuery } from "@tanstack/react-query";
-
-type ParameterResponse = { parameters: AllParameters[] };
 
 async function fetchParameters(): Promise<ParameterResponse> {
   const result = await apiClient.get<ParameterResponse>("/parameters");
@@ -23,15 +16,10 @@ async function fetchParameters(): Promise<ParameterResponse> {
  */
 function useGetParameters() {
   return useQuery({
-    queryKey: ["parameters"],
+    queryKey: ["allparameters"],
     queryFn: fetchParameters,
+    staleTime: Infinity,
   });
 }
 
 export default useGetParameters;
-export type {
-  IntegerParameter,
-  DecimalParameter,
-  TextParameter,
-  AllParameters,
-};

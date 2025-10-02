@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import RegisterForm from "../components/Register/RegisterForm.tsx";
+import RegisterForm from "@components/register/RegisterForm.tsx";
 
 const RegisterPage = () => {
   return (
