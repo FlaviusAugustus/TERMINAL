@@ -17,7 +17,7 @@ import LoginOrNotFound from "@pages/LoginOrNotFound.tsx";
 import ParametersPage from "@pages/ParametersPage.tsx";
 import AddParameter from "@pages/AddParameter.tsx";
 import TagsPage from "@pages/TagsPage.tsx";
-import AddTag from "@components/addTag/AddTag.tsx";
+import AddTag from "@pages/AddTag.tsx";
 import AddSampleWithContexts from "@pages/AddSample.tsx";
 
 const queryClient = new QueryClient();
