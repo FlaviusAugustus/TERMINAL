@@ -1,5 +1,6 @@
 import { Button } from "@headlessui/react";
 import LoadingIndicator from "@components/login/LoadingIndicator.tsx";
+import clsx from "clsx";
 
 /**
  * Props interface for SubmitButton component
@@ -7,6 +8,7 @@ import LoadingIndicator from "@components/login/LoadingIndicator.tsx";
 export interface SubmitButtonProps {
   label: string;
   isLoading?: boolean;
+  dark?: boolean;
 }
 
 /**
@@ -17,12 +19,24 @@ export interface SubmitButtonProps {
  * @component
  * @param {SubmitButtonProps} props - The props for the SubmitButton component
  */
-const SubmitButton = ({ label, isLoading }: SubmitButtonProps) => (
+const SubmitButton = ({
+  label,
+  isLoading,
+  dark = false,
+  ...rest
+}: SubmitButtonProps) => (
   <div className="w-full">
     <Button
       type="submit"
-      className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-black hover:bg-black/85 transition-colors duration-100 py-2 px-4 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      className={clsx(
+        "w-full inline-flex items-center justify-center gap-2 rounded-md " +
+          "transition-colors duration-100 py-2 px-4 border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+        dark
+          ? "text-base font-medium bg-black  text-white  hover:bg-black/85"
+          : "text-sm font-normal bg-gray-100 text-black focus:outline-none focus:ring-2 disabled:border-gray-300 disabled:bg-gray-200 hover:border-green-400"
+      )}
       disabled={isLoading}
+      {...rest}
     >
       {isLoading ? <LoadingIndicator /> : label}
       {isLoading && "Loading..."}

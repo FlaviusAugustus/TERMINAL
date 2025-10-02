@@ -21,7 +21,7 @@ type AddSampleActionsProps = {
 const AddSampleActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { updateRecipe, recipe } = useAddRecipeContext();
-  const { mutateAsync } = useAddSample();
+  const { mutateAsync, isPending } = useAddSample();
 
   const handleSubmit = (args: {
     recipeName: string;
@@ -72,6 +72,7 @@ const AddSampleActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
         isOpen={dialogOpen}
         setIsOpen={setDialogOpen}
         onSubmit={handleSubmit}
+        isPending={isPending}
       />
     </>
   );

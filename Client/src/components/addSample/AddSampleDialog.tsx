@@ -12,6 +12,7 @@ import { useState } from "react";
 import LabeledTextArea from "@components/shared/form/LabeledTextArea.tsx";
 import LabeledTagInput from "@components/addSample/LabeledTagInput.tsx";
 import { Tag } from "@api/models/Tag.ts";
+import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 
 function validateRecipeName(name: string) {
   return name.length >= 5;
@@ -29,11 +30,13 @@ type AddSampleDialogProps = Omit<DialogProps, "title"> & {
     comment: string;
     tagIds: string[];
   }) => void;
+  isPending: boolean;
 };
 
 const AddSampleDialog = ({
   onSubmit,
   setIsOpen,
+  isPending,
   ...rest
 }: AddSampleDialogProps) => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -109,9 +112,7 @@ const AddSampleDialog = ({
         <LabeledTagInput tags={tags} setTags={setTags} />
         <LabeledTextArea value={comment} setValue={setComment} />
       </div>
-      <DialogButton className="hover:border-green-400" onClick={handleSubmit}>
-        Add sample
-      </DialogButton>
+      <SubmitButton label="Add sample" isLoading={isPending} />
       <DialogButton className="hover:border-red-400" onClick={handleClose}>
         Cancel
       </DialogButton>
