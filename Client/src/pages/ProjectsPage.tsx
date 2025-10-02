@@ -1,14 +1,14 @@
-import Projects from "@components/Projects/Projects.tsx";
+import Projects from "@components/projects/Projects.tsx";
 import { useState } from "react";
 import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useAllProjects } from "@hooks/projects/useGetAllProjects.ts";
 import { toastPromise } from "@utils/toast.utils.tsx";
 import { useDeleteProject } from "@hooks/projects/useDeleteProject.ts";
 import TableLayout from "./layouts/TableLayout";
-import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
-import Loader from "@components/Shared/Loader";
+import ComponentOrLoader from "@components/shared/ComponentOrLoader";
+import Loader from "@components/shared/Loader";
 import { useProjectDetails } from "@hooks/projects/useGetProjectDetails.ts";
-import ProjectEdit from "@components/Projects/ProjectEdit.tsx";
+import ProjectEdit from "@components/projects/ProjectEdit.tsx";
 import { useUpdateProjectName } from "@hooks/projects/useUpdateProjectName.ts";
 import { useUpdateProjectStatus } from "@hooks/projects/useUpdateProjectStatus.ts";
 import { useSearchProjects } from "@hooks/projects/useSearchProjects.ts";

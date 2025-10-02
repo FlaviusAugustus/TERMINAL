@@ -17,7 +17,7 @@ import { v4 as uuidv4, validate } from "uuid";
 import { useAddRecipeContext } from "./useAddRecipeContext";
 import { arrayMove } from "@dnd-kit/sortable";
 import { AllParameters } from "./parameters/useGetParameters.ts";
-import { ParameterSelect } from "@components/AddRecipe/ParameterSelect";
+import { ParameterSelect } from "@components/addRecipe/ParameterSelect";
 
 type RecipeDragContextValue = {
   onDragStart: (event: DragStartEvent) => void;

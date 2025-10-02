@@ -2,10 +2,10 @@ import { AddRecipeProvider } from "@hooks/useAddRecipeContext";
 import { useState } from "react";
 import { RecipeDragProvider } from "@hooks/useRecipeDragContext.tsx";
 import useGetParameters from "@hooks/parameters/useGetParameters.ts";
-import ParameterSelectList from "@components/AddRecipe/ParameterSelectList.tsx";
-import Steps from "@components/AddRecipe/Steps.tsx";
-import SelectRecipe from "@components/AddSample/SelectRecipe.tsx";
-import AddSampleActions from "@components/AddParameter/AddSampleActions.tsx";
+import ParameterSelectList from "@components/addRecipe/ParameterSelectList.tsx";
+import Steps from "@components/addRecipe/Steps.tsx";
+import SelectRecipe from "@components/addSample/SelectRecipe.tsx";
+import AddSampleActions from "@components/addParameter/AddSampleActions.tsx";
 import { Recipe } from "@api/models/Recipe.ts";
 
 const AddSampleWithContexts = () => {

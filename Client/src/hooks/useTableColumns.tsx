@@ -1,12 +1,12 @@
 import { useMemo } from "react";
-import IndeterminateCheckbox from "@components/Shared/IndeterminateCheckbox.tsx";
+import IndeterminateCheckbox from "@components/shared/IndeterminateCheckbox.tsx";
 import {
   ColumnDef,
   createColumnHelper,
   HeaderContext,
   Row,
 } from "@tanstack/react-table";
-import RowActions from "@components/Shared/Table/RowActions.tsx";
+import RowActions from "@components/shared/table/RowActions.tsx";
 
 type UseTableColumnsProps<T> = {
   columnsDef: ColumnDef<T>[];

@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useRecipes } from "@hooks/recipes/useGetRecipes.ts";
-import Recipes from "@components/Recipes/Recipes.tsx";
+import Recipes from "@components/recipes/Recipes.tsx";
 import { useRecipeDetails } from "@hooks/recipes/useGetRecipeDetails.ts";
-import RecipeDetails from "@components/Recipes/RecipeDetails.tsx";
+import RecipeDetails from "@components/recipes/RecipeDetails.tsx";
 import { useDeleteRecipe } from "@hooks/recipes/useDeleteRecipe.ts";
 import TableLayout from "./layouts/TableLayout";
-import ComponentOrLoader from "@components/Shared/ComponentOrLoader";
-import Loader from "@components/Shared/Loader";
-import EditRecipe from "@components/Recipes/EditRecipe";
+import ComponentOrLoader from "@components/shared/ComponentOrLoader";
+import Loader from "@components/shared/Loader";
+import EditRecipe from "@components/recipes/EditRecipe";
 
 const RecipesPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
