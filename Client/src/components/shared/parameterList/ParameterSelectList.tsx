@@ -1,8 +1,8 @@
 import { ParameterSelect } from "./ParameterSelect.tsx";
-import useGetParameters from "@hooks/useGetParameters.ts";
+import useGetParameters from "@hooks/parameters/useGetParameters.ts";
 import { useMemo } from "react";
 import { AllParameters } from "@api/models/Parameters.ts";
-import { useAddRecipeContext } from "@hooks/useAddRecipeContext.tsx";
+import { useAddRecipeContext } from "@hooks/recipes/useAddRecipeContext.tsx";
 
 /**
  * ParameterSelectList Component

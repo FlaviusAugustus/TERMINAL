@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { DialogComp } from "./DialogComp";
-import Loader from "./Loader";
+import { DialogComp } from "./DialogComp.tsx";
+import Loader from "../loader/Loader.tsx";
 
 const DialogLoader = () => {
   const [showLoader, setShowLoader] = useState(false);

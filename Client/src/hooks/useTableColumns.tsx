@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import IndeterminateCheckbox from "@components/shared/IndeterminateCheckbox.tsx";
+import IndeterminateCheckbox from "@components/shared/table/IndeterminateCheckbox.tsx";
 import {
   ColumnDef,
   createColumnHelper,

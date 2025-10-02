@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { HTMLProps, useMemo } from "react";
-import { Color, tailwindColorFrom } from "utils/colorUtils";
+import { Color, tailwindColorFrom } from "@utils/colorUtils.tsx";
 
 type ChipProps = HTMLProps<HTMLSpanElement> & {
   value: string;

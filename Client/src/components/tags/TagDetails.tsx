@@ -1,8 +1,8 @@
-import { DialogComp } from "@components/shared/DialogComp.tsx";
+import { DialogComp } from "@components/shared/dialog/DialogComp.tsx";
 import { TagDetailsDto } from "@api/models/Tag.ts";
-import Detail from "@components/shared/Detail.tsx";
+import Detail from "@components/shared/common/Detail.tsx";
 import { Color } from "@utils/colorUtils.tsx";
-import Chip from "@components/shared/Chip.tsx";
+import Chip from "@components/shared/common/Chip.tsx";
 
 export interface TagDetailsProps {
   tag: TagDetailsDto | undefined;

@@ -6,8 +6,8 @@ import { useRecipeDetails } from "@hooks/recipes/useGetRecipeDetails.ts";
 import RecipeDetails from "@components/recipes/RecipeDetails.tsx";
 import { useDeleteRecipe } from "@hooks/recipes/useDeleteRecipe.ts";
 import TableLayout from "./layouts/TableLayout";
-import ComponentOrLoader from "@components/shared/ComponentOrLoader";
-import Loader from "@components/shared/Loader";
+import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
+import Loader from "@components/shared/loader/Loader.tsx";
 import EditRecipe from "@components/recipes/EditRecipe";
 
 const RecipesPage = () => {

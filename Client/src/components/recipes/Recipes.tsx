@@ -12,9 +12,9 @@ import TableView from "@components/shared/table/TableView.tsx";
 import TableManagement from "@components/shared/table/TableManagment.tsx";
 import TableCard from "@components/shared/table/TableCard";
 import { useState } from "react";
-import IconButton from "@components/shared/IconButton";
-import InputField from "@components/shared/InputField";
-import VisibleForRoles from "@components/shared/VisibleForRoles";
+import IconButton from "@components/shared/common/IconButton.tsx";
+import InputField from "@components/shared/form/InputField.tsx";
+import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import {
   MagnifyingGlassIcon,
   XMarkIcon,

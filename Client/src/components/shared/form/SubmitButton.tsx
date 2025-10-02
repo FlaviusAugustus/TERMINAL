@@ -1,5 +1,5 @@
 import { Button } from "@headlessui/react";
-import LoadingIndicator from "@components/login/LoadingIndicator";
+import LoadingIndicator from "@components/login/LoadingIndicator.tsx";
 
 /**
  * Props interface for SubmitButton component

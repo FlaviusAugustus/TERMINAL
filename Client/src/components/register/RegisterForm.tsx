@@ -1,7 +1,7 @@
-import TerminalBanner from "@components/shared/TerminalBanner.tsx";
-import InputField from "@components/shared/InputField.tsx";
+import TerminalBanner from "@components/shared/common/TerminalBanner.tsx";
+import InputField from "@components/shared/form/InputField.tsx";
 import React, { useCallback, useState } from "react";
-import SubmitButton from "@components/shared/SubmitButton.tsx";
+import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 
 /**
  * RegisterForm Component

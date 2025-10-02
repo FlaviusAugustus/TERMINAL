@@ -1,11 +1,11 @@
 import {
   LabeledSelect,
   SelectItem,
-} from "@components/shared/LabeledSelect.tsx";
+} from "@components/shared/form/LabeledSelect.tsx";
 import { useGetRecipeAmount } from "@hooks/recipes/useGetRecipeAmount.ts";
 import { useRecipes } from "@hooks/recipes/useGetRecipes.ts";
 import { Recipe } from "@api/models/Recipe.ts";
-import { useAddRecipeContext } from "@hooks/useAddRecipeContext.tsx";
+import { useAddRecipeContext } from "@hooks/recipes/useAddRecipeContext.tsx";
 import { useEffect } from "react";
 import { useRecipeDetails } from "@hooks/recipes/useGetRecipeDetails.ts";
 

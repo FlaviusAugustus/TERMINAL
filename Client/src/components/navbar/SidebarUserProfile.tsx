@@ -1,6 +1,6 @@
 import { ArrowRightEndOnRectangleIcon } from "@heroicons/react/20/solid";
-import useLogout from "@hooks/users/useLogout";
-import useUserData from "@hooks/useUserData";
+import useLogout from "@hooks/users/auth/useLogout.ts";
+import useUserData from "@hooks/users/useUserData.ts";
 
 function getUserRoleDisplayValue(role: string): string {
   if (role === "Administrator") return "Administrator";

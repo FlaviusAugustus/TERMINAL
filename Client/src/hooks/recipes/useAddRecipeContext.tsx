@@ -1,6 +1,6 @@
-import { AllParameters } from "@api/models/Parameters";
-import { RecipeDetailsDto } from "@api/models/Recipe";
-import { Step } from "@api/models/Step";
+import { AllParameters } from "@api/models/Parameters.ts";
+import { RecipeDetailsDto } from "@api/models/Recipe.ts";
+import { Step } from "@api/models/Step.ts";
 import { arraySwap } from "@dnd-kit/sortable";
 import { createContext, ReactNode, useContext, useState } from "react";
 

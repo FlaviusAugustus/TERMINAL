@@ -1,8 +1,8 @@
-import InputField from "@components/shared/InputField.tsx";
+import InputField from "@components/shared/form/InputField.tsx";
 import {
   LabeledSelect,
   SelectItem,
-} from "@components/shared/LabeledSelect.tsx";
+} from "@components/shared/form/LabeledSelect.tsx";
 import NewParameterAllowedValues from "@components/addParameter/NewParameterAllowedValues.tsx";
 import { AllParametersRequest, ParameterType } from "@api/models/Parameters.ts";
 

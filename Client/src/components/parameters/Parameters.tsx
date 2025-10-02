@@ -12,17 +12,17 @@ import { useEffect, useState } from "react";
 import TableCard from "@components/shared/table/TableCard.tsx";
 import TableView from "@components/shared/table/TableView.tsx";
 import TableManagement from "@components/shared/table/TableManagment.tsx";
-import Chip from "@components/shared/Chip.tsx";
+import Chip from "@components/shared/common/Chip.tsx";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import {
   MagnifyingGlassIcon,
   PlusIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import VisibleForRoles from "@components/shared/VisibleForRoles.tsx";
-import IconButton from "@components/shared/IconButton.tsx";
+import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
+import IconButton from "@components/shared/common/IconButton.tsx";
 import { Link } from "react-router-dom";
-import InputField from "@components/shared/InputField.tsx";
+import InputField from "@components/shared/form/InputField.tsx";
 
 interface ParametersProps {
   parameters: Array<AllParameters>;

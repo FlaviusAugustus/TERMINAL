@@ -1,6 +1,6 @@
 import useGetParameters from "@hooks/parameters/useGetParameters.ts";
-import { RecipeDragProvider } from "@hooks/useRecipeDragContext";
-import { AddRecipeProvider } from "@hooks/useAddRecipeContext";
+import { RecipeDragProvider } from "@hooks/recipes/useRecipeDragContext.tsx";
+import { AddRecipeProvider } from "@hooks/recipes/useAddRecipeContext.tsx";
 import AddRecipeActions from "@components/addRecipe/AddRecipeActions";
 import ParameterSelectList from "@components/shared/parameterList/ParameterSelectList.tsx";
 import Steps from "@components/shared/steps/Steps.tsx";

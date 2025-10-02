@@ -14,12 +14,12 @@ import TableManagement from "@components/shared/table/TableManagment.tsx";
 import TableCard from "@components/shared/table/TableCard.tsx";
 import { useMemo, useState } from "react";
 import UsersRowActions from "./UsersRowActions";
-import Chip from "@components/shared/Chip";
+import Chip from "@components/shared/common/Chip.tsx";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import VisibleForRoles from "@components/shared/VisibleForRoles.tsx";
-import IconButton from "@components/shared/IconButton.tsx";
+import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
+import IconButton from "@components/shared/common/IconButton.tsx";
 import { Link } from "react-router-dom";
-import IndeterminateCheckbox from "@components/shared/IndeterminateCheckbox.tsx";
+import IndeterminateCheckbox from "@components/shared/table/IndeterminateCheckbox.tsx";
 import { UserDetailsDto } from "@api/models/User";
 
 export type UsersProps = {

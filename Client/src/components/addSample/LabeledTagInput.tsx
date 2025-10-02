@@ -3,7 +3,7 @@ import { Tag } from "@api/models/Tag.ts";
 import {
   LabeledSelect,
   SelectItem,
-} from "@components/shared/LabeledSelect.tsx";
+} from "@components/shared/form/LabeledSelect.tsx";
 import { useGetTags } from "@hooks/tags/useGetTags.ts";
 import { useGetTagAmount } from "@hooks/tags/useGetTagAmount.ts";
 

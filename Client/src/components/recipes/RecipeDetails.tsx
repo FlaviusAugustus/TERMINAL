@@ -1,9 +1,9 @@
-import { DialogComp } from "@components/shared/DialogComp.tsx";
-import Detail from "@components/shared/Detail";
+import { DialogComp } from "@components/shared/dialog/DialogComp.tsx";
+import Detail from "@components/shared/common/Detail.tsx";
 import StepsTableManagement from "@components/shared/table/StepsTableManagement";
 import TableCard from "@components/shared/table/TableCard";
 import TableView from "@components/shared/table/TableView";
-import { useEditableStepTable } from "@hooks/useEditableStepsTable";
+import { useEditableStepTable } from "@hooks/steps/useEditableStepsTable.tsx";
 import { RecipeDetailsDto } from "@api/models/Recipe";
 
 export interface RecipeDetailsProps {

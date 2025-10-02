@@ -1,5 +1,5 @@
 import { AllParameters } from "@api/models/Parameters";
-import { DialogButton } from "@components/shared/DialogComp";
+import { DialogButton } from "@components/shared/dialog/DialogComp.tsx";
 import TableCard from "@components/shared/table/TableCard";
 import TableView from "@components/shared/table/TableView";
 import {

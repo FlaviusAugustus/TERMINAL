@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
-import { DialogButton, DialogComp } from "@components/shared/DialogComp";
+import {
+  DialogButton,
+  DialogComp,
+} from "@components/shared/dialog/DialogComp.tsx";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import InputField from "@components/shared/InputField.tsx";
-import LabeledSwitch from "@components/shared/LabeledSwitch.tsx";
+import InputField from "@components/shared/form/InputField.tsx";
+import LabeledSwitch from "@components/shared/form/LabeledSwitch.tsx";
 import { ProjectDetailsDto } from "@api/models/Project";
 
 export interface ProjectDetailsProps {

@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
-import InputField from "@components/shared/InputField";
-import { DialogButton, DialogComp } from "@components/shared/DialogComp";
+import InputField from "@components/shared/form/InputField.tsx";
+import {
+  DialogButton,
+  DialogComp,
+} from "@components/shared/dialog/DialogComp.tsx";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { LabeledSelect, SelectItem } from "@components/shared/LabeledSelect";
+import {
+  LabeledSelect,
+  SelectItem,
+} from "@components/shared/form/LabeledSelect.tsx";
 import roles from "@api/models/Role";
 import { UserDetailsDto } from "@api/models/User";
 

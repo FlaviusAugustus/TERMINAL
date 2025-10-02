@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
-import useParameterColumns from "./useParameterColumns";
-import { AllParameters } from "@api/models/Parameters";
+import useParameterColumns from "../parameters/useParameterColumns.ts";
+import { AllParameters } from "@api/models/Parameters.ts";
 
 interface UseEditableTableOptions {
   steps: Array<{ parameters: AllParameters[] }>;

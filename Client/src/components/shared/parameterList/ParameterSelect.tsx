@@ -1,6 +1,6 @@
-import DragHandle from "@components/shared/DragHandle.tsx";
+import DragHandle from "@components/shared/parameterList/DragHandle.tsx";
 import { useDraggable } from "@dnd-kit/core";
-import { AllParameters } from "@hooks/parameters/useGetParameters.ts";
+import { AllParameters } from "@api/models/Parameters.ts";
 
 type ParameterBoxProps = {
   parameter: AllParameters;

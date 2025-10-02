@@ -1,7 +1,7 @@
-import IconButton from "@components/shared/IconButton.tsx";
+import IconButton from "@components/shared/common/IconButton.tsx";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { TextParameterRequest } from "@api/models/Parameters.ts";
-import InputField from "@components/shared/InputField.tsx";
+import InputField from "@components/shared/form/InputField.tsx";
 
 type NewParameterAllowedValuesProps = {
   parameterRequest: TextParameterRequest;

@@ -2,8 +2,8 @@ import {
   DialogButton,
   DialogComp,
   DialogProps,
-} from "@components/shared/DialogComp";
-import InputField from "@components/shared/InputField";
+} from "@components/shared/dialog/DialogComp.tsx";
+import InputField from "@components/shared/form/InputField.tsx";
 import { useState } from "react";
 
 function isRecipeNameValid(name: string) {

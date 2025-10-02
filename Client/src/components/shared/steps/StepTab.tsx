@@ -1,6 +1,6 @@
 import { Tab } from "@headlessui/react";
 import { DocumentDuplicateIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useAddRecipeContext } from "@hooks/useAddRecipeContext.tsx";
+import { useAddRecipeContext } from "@hooks/recipes/useAddRecipeContext.tsx";
 
 type StepTabProps = {
   index: number;

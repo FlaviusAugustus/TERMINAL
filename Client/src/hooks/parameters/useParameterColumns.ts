@@ -1,7 +1,7 @@
-import { AllParameters } from "@api/models/Parameters";
+import { AllParameters } from "@api/models/Parameters.ts";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
-import { editableColumn } from "utils/tableUtils";
+import { editableColumn } from "@utils/tableUtils.tsx";
 
 function useParameterColumns(editable: boolean = false) {
   const columns = useMemo<ColumnDef<AllParameters>[]>(

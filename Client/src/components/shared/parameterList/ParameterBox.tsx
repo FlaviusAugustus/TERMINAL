@@ -1,17 +1,17 @@
 import { AllParameters } from "@api/models/Parameters.ts";
-import DragHandle from "@components/shared/DragHandle.tsx";
+import DragHandle from "@components/shared/parameterList/DragHandle.tsx";
 import { defaultAnimateLayoutChanges, useSortable } from "@dnd-kit/sortable";
 import {
   ChevronUpIcon,
   ChevronDownIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useAddRecipeContext } from "@hooks/useAddRecipeContext.tsx";
+import { useAddRecipeContext } from "@hooks/recipes/useAddRecipeContext.tsx";
 import clsx from "clsx";
 import {
   LabeledSelect,
   SelectItem,
-} from "@components/shared/LabeledSelect.tsx";
+} from "@components/shared/form/LabeledSelect.tsx";
 
 type ParameterBoxProps = {
   parameter: AllParameters;

@@ -6,8 +6,8 @@ import {
   SortableContext,
 } from "@dnd-kit/sortable";
 import ParameterBox from "@components/shared/parameterList/ParameterBox.tsx";
-import { useAddRecipeContext } from "@hooks/useAddRecipeContext.tsx";
-import LabeledTextArea from "@components/shared/LabeledTextArea.tsx";
+import { useAddRecipeContext } from "@hooks/recipes/useAddRecipeContext.tsx";
+import LabeledTextArea from "@components/shared/form/LabeledTextArea.tsx";
 
 const Steps = () => {
   const { currentStep, setCurrentStep, recipe, updateComment } =

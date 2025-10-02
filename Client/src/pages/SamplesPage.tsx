@@ -7,10 +7,10 @@ import { useSampleDetails } from "@hooks/samples/useGetSampleDetails.ts";
 import { useDeleteSample } from "@hooks/samples/useDeleteSample.ts";
 import { useSearchSamples } from "@hooks/samples/useSearchSamples.ts";
 import TableLayout from "./layouts/TableLayout";
-import Loader from "@components/shared/Loader";
-import ComponentOrLoader from "@components/shared/ComponentOrLoader";
+import Loader from "@components/shared/loader/Loader.tsx";
+import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
 import EditSample from "@components/samples/EditSample";
-import DialogLoader from "@components/shared/DialogLoader";
+import DialogLoader from "@components/shared/dialog/DialogLoader.tsx";
 
 const SamplesPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);

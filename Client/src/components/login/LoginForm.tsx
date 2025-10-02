@@ -1,11 +1,14 @@
 import { useState, useCallback } from "react";
-import TerminalBanner from "@components/shared/TerminalBanner.tsx";
-import InputField from "@components/shared/InputField.tsx";
-import SubmitButton from "@components/shared/SubmitButton.tsx";
-import { LoginRequest, useLoginMutation } from "@hooks/useLoginMutation.ts";
+import TerminalBanner from "@components/shared/common/TerminalBanner.tsx";
+import InputField from "@components/shared/form/InputField.tsx";
+import SubmitButton from "@components/shared/form/SubmitButton.tsx";
+import {
+  LoginRequest,
+  useLoginMutation,
+} from "@hooks/users/auth/useLoginMutation.ts";
 import { useNavigate } from "react-router-dom";
 import { toastPromise } from "@utils/toast.utils.tsx";
-import Form from "@components/shared/Form.tsx";
+import Form from "@components/shared/form/Form.tsx";
 
 /**
  * LoginForm Component

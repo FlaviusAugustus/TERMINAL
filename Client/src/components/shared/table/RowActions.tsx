@@ -1,10 +1,10 @@
-import IconButton from "@components/shared/IconButton.tsx";
+import IconButton from "@components/shared/common/IconButton.tsx";
 import {
   EllipsisHorizontalIcon,
   PencilIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import VisibleForRoles from "@components/shared/VisibleForRoles.tsx";
+import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 
 type RowActionsProps = {
   onEdit?: () => void;

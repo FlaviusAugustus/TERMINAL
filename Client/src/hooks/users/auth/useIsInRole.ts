@@ -1,4 +1,4 @@
-import useUserData from "./useUserData";
+import useUserData from "../useUserData.ts";
 
 /**
  * useIsInRole Hook

@@ -1,4 +1,4 @@
-import useUserData from "./useUserData";
+import useUserData from "./useUserData.ts";
 import { Role } from "@api/models/Role.ts";
 
 export function useUserRoles(): Role | undefined {

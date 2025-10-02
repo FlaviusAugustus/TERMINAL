@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { useUserRoles } from "@hooks/useUserRoles.ts";
+import { useUserRoles } from "@hooks/users/useUserRoles.ts";
 import { Role } from "@api/models/Role.ts";
 
 export interface VisibleForRoleProps {

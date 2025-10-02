@@ -1,9 +1,9 @@
-import InputField from "@components/shared/InputField";
+import InputField from "@components/shared/form/InputField.tsx";
 import { useState } from "react";
-import { DialogButton } from "@components/shared/DialogComp";
+import { DialogButton } from "@components/shared/dialog/DialogComp.tsx";
 import useAddProject from "@hooks/projects/useAddProject";
 import { toastPromise } from "utils/toast.utils";
-import Form from "@components/shared/Form";
+import Form from "@components/shared/form/Form.tsx";
 
 /**
  * NewProjectForm Component

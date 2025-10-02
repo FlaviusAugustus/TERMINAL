@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { TagDetailsDto } from "@api/models/Tag.ts";
-import { DialogButton, DialogComp } from "@components/shared/DialogComp.tsx";
-import InputField from "@components/shared/InputField.tsx";
-import LabeledSwitch from "@components/shared/LabeledSwitch.tsx";
+import {
+  DialogButton,
+  DialogComp,
+} from "@components/shared/dialog/DialogComp.tsx";
+import InputField from "@components/shared/form/InputField.tsx";
+import LabeledSwitch from "@components/shared/form/LabeledSwitch.tsx";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 export interface TagDetailsProps {

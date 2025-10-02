@@ -1,12 +1,15 @@
 import { RecipeDetailsDto } from "@api/models/Recipe";
-import Detail from "@components/shared/Detail";
-import { DialogButton, DialogComp } from "@components/shared/DialogComp";
+import Detail from "@components/shared/common/Detail.tsx";
+import {
+  DialogButton,
+  DialogComp,
+} from "@components/shared/dialog/DialogComp.tsx";
 import StepsTableManagement from "@components/shared/table/StepsTableManagement";
 import TableCard from "@components/shared/table/TableCard";
 import TableView from "@components/shared/table/TableView";
 import useUpdateRecipe from "@hooks/recipes/useUpdateRecipe";
-import { useEditableStepTable } from "@hooks/useEditableStepsTable";
-import useEditableForm from "@hooks/useStepsForm";
+import { useEditableStepTable } from "@hooks/steps/useEditableStepsTable.tsx";
+import useEditableForm from "@hooks/steps/useStepsForm.tsx";
 import { toastPromise } from "utils/toast.utils";
 
 export interface RecipeDetailsDtoProps {

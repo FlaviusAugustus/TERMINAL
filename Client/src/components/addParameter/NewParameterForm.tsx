@@ -1,9 +1,9 @@
-import { DialogButton } from "@components/shared/DialogComp.tsx";
+import { DialogButton } from "@components/shared/dialog/DialogComp.tsx";
 import { AllParametersRequest, ParameterType } from "@api/models/Parameters.ts";
 import { useState } from "react";
 import { toastPromise } from "@utils/toast.utils.tsx";
 import { useAddParameter } from "@hooks/parameters/useAddParameter.ts";
-import Form from "@components/shared/Form.tsx";
+import Form from "@components/shared/form/Form.tsx";
 import NewParameterInputs from "@components/addParameter/NewParameterInputs.tsx";
 
 const NewParameterForm = () => {

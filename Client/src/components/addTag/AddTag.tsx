@@ -1,9 +1,9 @@
-import InputField from "@components/shared/InputField.tsx";
-import { DialogButton } from "@components/shared/DialogComp.tsx";
+import InputField from "@components/shared/form/InputField.tsx";
+import { DialogButton } from "@components/shared/dialog/DialogComp.tsx";
 import { useState } from "react";
 import { toastPromise } from "@utils/toast.utils.tsx";
 import useAddTag from "@hooks/tags/useAddTag.ts";
-import Form from "@components/shared/Form.tsx";
+import Form from "@components/shared/form/Form.tsx";
 
 const AddTag = () => {
   const { mutateAsync } = useAddTag();

@@ -9,19 +9,19 @@ import {
 } from "@tanstack/react-table";
 import { SamplesResponse } from "@hooks/samples/useGetSamples.ts";
 import { useEffect, useState } from "react";
-import Chip from "@components/shared/Chip";
+import Chip from "@components/shared/common/Chip.tsx";
 import {
   MagnifyingGlassIcon,
   PlusIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import IconButton from "@components/shared/IconButton";
-import InputField from "@components/shared/InputField";
+import IconButton from "@components/shared/common/IconButton.tsx";
+import InputField from "@components/shared/form/InputField.tsx";
 import TableCard from "@components/shared/table/TableCard";
 import TableManagement from "@components/shared/table/TableManagment";
 import TableView from "@components/shared/table/TableView";
 import { Link } from "react-router-dom";
-import VisibleForRoles from "@components/shared/VisibleForRoles.tsx";
+import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import { toastPromise } from "utils/toast.utils";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Sample } from "@api/models/Sample";

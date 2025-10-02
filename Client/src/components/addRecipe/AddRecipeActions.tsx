@@ -1,6 +1,6 @@
 import { ArrowPathIcon, CheckIcon } from "@heroicons/react/24/outline";
 import useAddRecipe from "@hooks/recipes/useAddRecipe";
-import { useAddRecipeContext } from "@hooks/useAddRecipeContext";
+import { useAddRecipeContext } from "@hooks/recipes/useAddRecipeContext.tsx";
 import { useState } from "react";
 import { toastPromise } from "utils/toast.utils";
 import AddRecipeDialog from "./AddRecipeDialog";

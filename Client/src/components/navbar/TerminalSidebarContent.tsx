@@ -11,7 +11,7 @@ import {
   UserIcon,
   TagIcon,
 } from "@heroicons/react/20/solid";
-import VisibleForRoles from "@components/shared/VisibleForRoles.tsx";
+import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import { CalculatorIcon } from "@heroicons/react/16/solid";
 
 /**

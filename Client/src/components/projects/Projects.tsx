@@ -12,19 +12,19 @@ import TableView from "@components/shared/table/TableView.tsx";
 import TableManagement from "@components/shared/table/TableManagment.tsx";
 import TableCard from "@components/shared/table/TableCard";
 import { Color } from "utils/colorUtils";
-import Chip from "@components/shared/Chip";
+import Chip from "@components/shared/common/Chip.tsx";
 import { useEffect, useState } from "react";
 import {
   MagnifyingGlassIcon,
   PlusIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import VisibleForRoles from "@components/shared/VisibleForRoles.tsx";
-import IconButton from "@components/shared/IconButton.tsx";
+import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
+import IconButton from "@components/shared/common/IconButton.tsx";
 import { Link } from "react-router-dom";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Project } from "@api/models/Project";
-import InputField from "@components/shared/InputField.tsx";
+import InputField from "@components/shared/form/InputField.tsx";
 
 export interface ProjectsProps {
   onChangeProjectDetails: (id: string) => void;

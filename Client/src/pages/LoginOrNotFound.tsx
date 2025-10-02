@@ -1,4 +1,4 @@
-import { useIsAuthenticated } from "@hooks/useIsAuthenticated";
+import { useIsAuthenticated } from "@hooks/users/auth/useIsAuthenticated.ts";
 import NotFoundPage from "./NotFoundPage";
 import { Navigate } from "react-router-dom";
 

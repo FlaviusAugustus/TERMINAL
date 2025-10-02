@@ -1,13 +1,16 @@
 import { SampleDetailsDto } from "@api/models/Sample";
-import ChipSet from "@components/shared/ChipSet";
-import Detail from "@components/shared/Detail";
-import { DialogButton, DialogComp } from "@components/shared/DialogComp";
+import ChipSet from "@components/shared/common/ChipSet.tsx";
+import Detail from "@components/shared/common/Detail.tsx";
+import {
+  DialogButton,
+  DialogComp,
+} from "@components/shared/dialog/DialogComp.tsx";
 import StepsTableManagement from "@components/shared/table/StepsTableManagement";
 import TableCard from "@components/shared/table/TableCard";
 import TableView from "@components/shared/table/TableView";
 import useUpdateSample from "@hooks/samples/useUpdateSample";
-import { useEditableStepTable } from "@hooks/useEditableStepsTable";
-import useEditableForm from "@hooks/useStepsForm";
+import { useEditableStepTable } from "@hooks/steps/useEditableStepsTable.tsx";
+import useEditableForm from "@hooks/steps/useStepsForm.tsx";
 import { toastPromise } from "utils/toast.utils";
 
 export interface SampleDetailsProps {

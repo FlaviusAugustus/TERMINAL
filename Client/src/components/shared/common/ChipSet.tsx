@@ -1,4 +1,4 @@
-import Chip from "./Chip";
+import Chip from "./Chip.tsx";
 
 type ChipSetProps = {
   values: string[];

@@ -3,14 +3,17 @@ import {
   DialogButton,
   DialogComp,
   DialogProps,
-} from "@components/shared/DialogComp";
-import InputField from "@components/shared/InputField";
-import LabeledCheckbox from "@components/shared/LabeledCheckbox";
-import { SelectItem, LabeledSelect } from "@components/shared/LabeledSelect";
+} from "@components/shared/dialog/DialogComp.tsx";
+import InputField from "@components/shared/form/InputField.tsx";
+import LabeledCheckbox from "@components/shared/form/LabeledCheckbox.tsx";
+import {
+  SelectItem,
+  LabeledSelect,
+} from "@components/shared/form/LabeledSelect.tsx";
 import { useProjects } from "@hooks/projects/useGetProjects";
 import { useState } from "react";
-import LabeledTextArea from "@components/shared/LabeledTextArea.tsx";
-import LabeledTagInput from "@components/shared/LabeledTagInput.tsx";
+import LabeledTextArea from "@components/shared/form/LabeledTextArea.tsx";
+import LabeledTagInput from "@components/addSample/LabeledTagInput.tsx";
 import { Tag } from "@api/models/Tag.ts";
 
 function validateRecipeName(name: string) {

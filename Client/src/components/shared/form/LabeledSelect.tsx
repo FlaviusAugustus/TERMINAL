@@ -12,8 +12,8 @@ import clsx from "clsx";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import InputLabelAndValidation, {
   InputLabelAndValidationProps,
-} from "./InputLabelAndValidation";
-import SelectedValues from "@components/shared/SelectedValues.tsx";
+} from "./InputLabelAndValidation.tsx";
+import SelectedValues from "@components/shared/form/SelectedValues.tsx";
 
 type LabeledSelectProps<T, Multiple extends boolean> = Omit<
   InputLabelAndValidationProps,

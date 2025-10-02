@@ -3,8 +3,8 @@ import {
   EntityAmountCard,
   EntityAmountCardButton,
 } from "@components/dashboard/EntityAmountCard";
-import Chip from "@components/shared/Chip";
-import IconButton from "@components/shared/IconButton";
+import Chip from "@components/shared/common/Chip.tsx";
+import IconButton from "@components/shared/common/IconButton.tsx";
 import TableCard from "@components/shared/table/TableCard";
 import TableView from "@components/shared/table/TableView";
 import { TagIcon } from "@heroicons/react/24/outline";

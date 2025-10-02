@@ -3,7 +3,7 @@ import { Input } from "@headlessui/react";
 import clsx from "clsx";
 import InputLabelAndValidation, {
   InputLabelAndValidationProps,
-} from "./InputLabelAndValidation";
+} from "./InputLabelAndValidation.tsx";
 
 /**
  * Props type for InputField component
