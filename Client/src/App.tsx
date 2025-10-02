@@ -3,7 +3,6 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "@pages/LoginPage";
-import SettingsPage from "@pages/SettingsPage";
 import NewProjectForm from "@components/projects/NewProjectForm.tsx";
 import AuthorizedLayout from "@pages/layouts/AuthorizedLayout";
 import NoNavbarLayout from "@pages/layouts/NoNavbarLayout";
@@ -56,8 +55,8 @@ export default function App() {
           <Route element={<AuthorizedLayout pageName="Recipes" />}>
             <Route path="/recipes" element={<RecipesPage />} />
           </Route>
-          <Route element={<AuthorizedLayout pageName="Settings" />}>
-            <Route path="/settings" element={<SettingsPage />} />
+          <Route element={<AuthorizedLayout pageName="Invitate new user" />}>
+            <Route path="/invitations" element={<></>} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Samples" />}>
             <Route path="/samples" element={<SamplesPage />} />

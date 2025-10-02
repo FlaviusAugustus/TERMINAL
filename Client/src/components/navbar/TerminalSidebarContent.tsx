@@ -84,7 +84,7 @@ const TerminalSidebarContent = () => {
           <VisibleForRoles roles={["Administrator"]}>
             <SidebarItem
               text="Invite"
-              href="/settings"
+              href="/invitations"
               icon={<EnvelopeIcon className="h-5 w-5" />}
             />
           </VisibleForRoles>
