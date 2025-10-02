@@ -5,6 +5,7 @@ import {
 } from "@components/shared/dialog/DialogComp.tsx";
 import FormInput from "@components/shared/form/FormInput.tsx";
 import { useState } from "react";
+import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 
 function isRecipeNameValid(name: string) {
   return name.length >= 5;
@@ -12,6 +13,7 @@ function isRecipeNameValid(name: string) {
 
 type AddRecipeDialog = Omit<DialogProps, "title"> & {
   onSubmit: (name: string) => void;
+  isPending: boolean;
 };
 
 /**
@@ -23,7 +25,12 @@ type AddRecipeDialog = Omit<DialogProps, "title"> & {
  *
  * @component
  */
-const AddRecipeDialog = ({ onSubmit, setIsOpen, ...rest }: AddRecipeDialog) => {
+const AddRecipeDialog = ({
+  onSubmit,
+  setIsOpen,
+  isPending,
+  ...rest
+}: AddRecipeDialog) => {
   const [recipeName, setRecipeName] = useState("");
   const [isNameValid, setIsNameValid] = useState(true);
 
@@ -59,9 +66,7 @@ const AddRecipeDialog = ({ onSubmit, setIsOpen, ...rest }: AddRecipeDialog) => {
           validationInfo="Recipe name must be at least 5 characters long"
         />
       </div>
-      <DialogButton className="hover:border-green-400" onClick={handleSubmit}>
-        Add recipe
-      </DialogButton>
+      <SubmitButton label="Add recipe" isLoading={isPending} />
       <DialogButton className="hover:border-red-400" onClick={handleClose}>
         Cancel
       </DialogButton>

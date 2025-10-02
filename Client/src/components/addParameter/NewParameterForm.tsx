@@ -1,10 +1,10 @@
-import { DialogButton } from "@components/shared/dialog/DialogComp.tsx";
 import { AllParametersRequest, ParameterType } from "@api/models/Parameters.ts";
 import { useState } from "react";
 import { toastPromise } from "@utils/toast.utils.tsx";
 import { useAddParameter } from "@hooks/parameters/useAddParameter.ts";
 import Form from "@components/shared/form/Form.tsx";
 import NewParameterInputs from "@components/addParameter/NewParameterInputs.tsx";
+import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 
 const NewParameterForm = () => {
   const [parameterRequest, setParameterRequest] =
@@ -36,7 +36,7 @@ const NewParameterForm = () => {
       setParameterRequest({ ...parameterRequest, allowedValues: newValues });
     }
   };
-  const { mutateAsync } = useAddParameter();
+  const { mutateAsync, isPending } = useAddParameter();
 
   const handleChangeValue = (attr: string, value: string) => {
     setParameterRequest({
@@ -85,9 +85,7 @@ const NewParameterForm = () => {
           handleChangeValue={handleChangeValue}
           handleChangeType={handleChangeType}
         />
-        <DialogButton className="hover:border-green-400" type="submit">
-          Add Parameter
-        </DialogButton>
+        <SubmitButton label="Add Parameter" isLoading={isPending} />
       </Form>
     </div>
   );

@@ -1,12 +1,12 @@
 import FormInput from "@components/shared/form/FormInput.tsx";
-import { DialogButton } from "@components/shared/dialog/DialogComp.tsx";
 import { useState } from "react";
 import { toastPromise } from "@utils/toast.utils.tsx";
 import useAddTag from "@hooks/tags/useAddTag.ts";
 import Form from "@components/shared/form/Form.tsx";
+import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 
 const AddTag = () => {
-  const { mutateAsync } = useAddTag();
+  const { mutateAsync, isPending } = useAddTag();
   const [tagName, setTagName] = useState("");
 
   const handleSubmit = async () => {
@@ -36,9 +36,7 @@ const AddTag = () => {
               maxLength={50}
               onChange={(e) => setTagName(e.currentTarget.value)}
             />
-            <DialogButton className="hover:border-green-400" type="submit">
-              Add Tag
-            </DialogButton>
+            <SubmitButton label="Add Tag" isLoading={isPending} />
           </div>
         </Form>
       </div>
