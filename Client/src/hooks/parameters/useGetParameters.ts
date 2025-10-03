@@ -16,7 +16,7 @@ async function fetchParameters(): Promise<ParameterResponse> {
  */
 function useGetParameters() {
   return useQuery({
-    queryKey: ["allparameters"],
+    queryKey: ["parameters"],
     queryFn: fetchParameters,
     staleTime: Infinity,
   });
