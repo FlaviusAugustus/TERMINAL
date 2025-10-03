@@ -6,13 +6,10 @@ import {
 import FormInput from "@components/shared/form/FormInput.tsx";
 import { useState } from "react";
 import SubmitButton from "@components/shared/form/SubmitButton.tsx";
-
-function isRecipeNameValid(name: string) {
-  return name.length >= 5;
-}
+import Form from "@components/shared/form/Form.tsx";
 
 type AddRecipeDialog = Omit<DialogProps, "title"> & {
-  onSubmit: (name: string) => void;
+  onSubmit: (name: string) => Promise<void>;
   isPending: boolean;
 };
 
@@ -32,21 +29,14 @@ const AddRecipeDialog = ({
   ...rest
 }: AddRecipeDialog) => {
   const [recipeName, setRecipeName] = useState("");
-  const [isNameValid, setIsNameValid] = useState(true);
 
   const handleClose = () => {
     setRecipeName("");
-    setIsNameValid(true);
     setIsOpen(false);
   };
 
-  const handleSubmit = () => {
-    if (!isRecipeNameValid(recipeName)) {
-      setIsNameValid(false);
-      return;
-    }
-
-    onSubmit(recipeName);
+  const handleSubmit = async () => {
+    await onSubmit(recipeName);
     handleClose();
   };
 
@@ -57,19 +47,22 @@ const AddRecipeDialog = ({
       setIsOpen={setIsOpen}
       handleClose={handleClose}
     >
-      <div className="flex flex-col">
-        <FormInput
-          label="Name"
-          value={recipeName}
-          onChange={(e) => setRecipeName(e.currentTarget.value)}
-          isValid={isNameValid}
-          validationInfo="Recipe name must be at least 5 characters long"
-        />
-      </div>
-      <SubmitButton label="Add recipe" isLoading={isPending} />
-      <DialogButton className="hover:border-red-400" onClick={handleClose}>
-        Cancel
-      </DialogButton>
+      <Form handleSubmit={handleSubmit}>
+        <div className="flex flex-col gap-3">
+          <FormInput
+            label="Name"
+            value={recipeName}
+            required
+            minLength={3}
+            maxLength={50}
+            onChange={(e) => setRecipeName(e.currentTarget.value)}
+          />
+          <SubmitButton label="Add recipe" isLoading={isPending} />
+          <DialogButton className="hover:border-red-400" onClick={handleClose}>
+            Cancel
+          </DialogButton>
+        </div>
+      </Form>
     </DialogComp>
   );
 };
