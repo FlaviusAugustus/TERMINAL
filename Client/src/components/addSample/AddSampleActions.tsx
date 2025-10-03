@@ -23,7 +23,7 @@ const AddSampleActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
   const { updateRecipe, recipe } = useAddRecipeContext();
   const { mutateAsync, isPending } = useAddSample();
 
-  const handleSubmit = (args: {
+  const handleSubmit = async (args: {
     recipeName: string;
     saveAsRecipe: boolean;
     comment: string;

@@ -13,10 +13,7 @@ import LabeledTextArea from "@components/shared/form/LabeledTextArea.tsx";
 import LabeledTagInput from "@components/addSample/LabeledTagInput.tsx";
 import { Tag } from "@api/models/Tag.ts";
 import SubmitButton from "@components/shared/form/SubmitButton.tsx";
-
-function validateRecipeName(name: string) {
-  return name.length >= 5;
-}
+import Form from "@components/shared/form/Form.tsx";
 
 function validateProject(project: Project | null) {
   return project !== null;
@@ -29,7 +26,7 @@ type AddSampleDialogProps = Omit<DialogProps, "title"> & {
     saveAsRecipe: boolean;
     comment: string;
     tagIds: string[];
-  }) => void;
+  }) => Promise<void>;
   isPending: boolean;
 };
 
@@ -52,16 +49,11 @@ const AddSampleDialog = ({
     setIsOpen(false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validateProject(selectedProject)) {
       return;
     }
-
-    if (saveAsRecipe && !validateRecipeName(recipeName)) {
-      return;
-    }
-
-    onSubmit({
+    await onSubmit({
       recipeName: recipeName,
       saveAsRecipe: saveAsRecipe,
       projectId: selectedProject.id,
@@ -81,41 +73,46 @@ const AddSampleDialog = ({
       setIsOpen={setIsOpen}
       handleClose={handleClose}
     >
-      <div className="flex flex-col gap-2">
-        <FormSelect
-          label="Project"
-          value={selectedProject}
-          displayValue={(project) => project?.name ?? ""}
-          onChange={(project: Project) => setSelectedProject(project)}
-        >
-          {data?.rows.map((project) => (
-            <SelectItem<Project>
-              key={project.id}
-              value={project}
-              displayValue={project.name}
-            />
-          ))}
-        </FormSelect>
-        <LabeledCheckbox
-          label="Save as recipe"
-          checked={saveAsRecipe}
-          onChange={setSaveAsRecipe}
-        />
-        {saveAsRecipe && (
-          <FormInput
-            label="Recipe Name"
-            required
-            value={recipeName}
-            onChange={(e) => setRecipeName(e.currentTarget.value)}
+      <Form handleSubmit={handleSubmit}>
+        <div className="flex flex-col gap-2">
+          <FormSelect
+            label="Project"
+            value={selectedProject}
+            displayValue={(project) => project?.name ?? ""}
+            onChange={(project: Project) => setSelectedProject(project)}
+          >
+            {data?.rows.map((project) => (
+              <SelectItem<Project>
+                key={project.id}
+                value={project}
+                displayValue={project.name}
+              />
+            ))}
+          </FormSelect>
+          <LabeledCheckbox
+            label="Save as recipe"
+            checked={saveAsRecipe}
+            onChange={setSaveAsRecipe}
           />
-        )}
-        <LabeledTagInput tags={tags} setTags={setTags} />
-        <LabeledTextArea value={comment} setValue={setComment} />
-      </div>
-      <SubmitButton label="Add sample" isLoading={isPending} />
-      <DialogButton className="hover:border-red-400" onClick={handleClose}>
-        Cancel
-      </DialogButton>
+          {saveAsRecipe && (
+            <FormInput
+              label="Recipe Name"
+              required={saveAsRecipe}
+              minLength={3}
+              maxLength={50}
+              value={recipeName}
+              onChange={(e) => setRecipeName(e.currentTarget.value)}
+            />
+          )}
+          <LabeledTagInput tags={tags} setTags={setTags} />
+          <LabeledTextArea value={comment} setValue={setComment} />
+
+          <SubmitButton label="Add sample" isLoading={isPending} />
+          <DialogButton className="hover:border-red-400" onClick={handleClose}>
+            Cancel
+          </DialogButton>
+        </div>
+      </Form>
     </DialogComp>
   );
 };
