@@ -26,12 +26,12 @@ type LabeledSelectProps<T, Multiple extends boolean> = ComboboxProps<
 };
 
 /**
- * Reusable input field component with validation support.
+ * Reusable Select field.
  *
  * @component
- * @param {InputFieldProps} props - The props for the FormInput component
+ * @param {LabeledSelectProps} props - The props for the LabeledSelect component
  */
-const FormSelect = <T, Multiple extends boolean>({
+const LabeledSelect = <T, Multiple extends boolean>({
   label,
   children,
   displayValue,
@@ -40,7 +40,6 @@ const FormSelect = <T, Multiple extends boolean>({
   comboboxOptionsStyles = "",
   ...rest
 }: LabeledSelectProps<T, Multiple>) => {
-  const ref = useRef<HTMLInputElement>(null);
   const value = rest.value;
   const multiple = rest.multiple;
 
@@ -57,7 +56,6 @@ const FormSelect = <T, Multiple extends boolean>({
             <SelectedValues values={value} handleRemove={handleRemoveValue} />
           )}
           <ComboboxInput
-            ref={ref}
             displayValue={displayValue}
             className={"w-full h-full focus:outline-none"}
           />
@@ -95,4 +93,4 @@ const SelectItem = <T,>({ displayValue, ...rest }: SelectItemProps<T>) => {
   );
 };
 
-export { FormSelect, SelectItem };
+export { LabeledSelect, SelectItem };

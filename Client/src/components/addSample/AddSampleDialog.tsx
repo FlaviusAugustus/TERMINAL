@@ -6,9 +6,12 @@ import {
 } from "@components/shared/dialog/DialogComp.tsx";
 import FormInput from "@components/shared/form/FormInput.tsx";
 import LabeledCheckbox from "@components/shared/form/LabeledCheckbox.tsx";
-import { SelectItem, FormSelect } from "@components/shared/form/FormSelect.tsx";
+import {
+  SelectItem,
+  LabeledSelect,
+} from "@components/shared/form/LabeledSelect.tsx";
 import { useProjects } from "@hooks/projects/useGetProjects";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LabeledTextArea from "@components/shared/form/LabeledTextArea.tsx";
 import LabeledTagInput from "@components/addSample/LabeledTagInput.tsx";
 import { Tag } from "@api/models/Tag.ts";
@@ -44,6 +47,12 @@ const AddSampleDialog = ({
 
   const { data, isLoading } = useProjects({ pageSize: 999, pageNumber: 0 });
 
+  useEffect(() => {
+    if (!selectedProject && data?.rows?.length) {
+      setSelectedProject(data.rows[0]);
+    }
+  }, [data?.rows, selectedProject]);
+
   const handleClose = () => {
     setSelectedProject(null);
     setIsOpen(false);
@@ -75,7 +84,7 @@ const AddSampleDialog = ({
     >
       <Form handleSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
-          <FormSelect
+          <LabeledSelect
             label="Project"
             value={selectedProject}
             displayValue={(project) => project?.name ?? ""}
@@ -88,7 +97,7 @@ const AddSampleDialog = ({
                 displayValue={project.name}
               />
             ))}
-          </FormSelect>
+          </LabeledSelect>
           <LabeledCheckbox
             label="Save as recipe"
             checked={saveAsRecipe}

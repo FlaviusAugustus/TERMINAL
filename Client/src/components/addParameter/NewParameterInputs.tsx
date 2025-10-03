@@ -1,5 +1,8 @@
 import FormInput from "@components/shared/form/FormInput.tsx";
-import { FormSelect, SelectItem } from "@components/shared/form/FormSelect.tsx";
+import {
+  LabeledSelect,
+  SelectItem,
+} from "@components/shared/form/LabeledSelect.tsx";
 import NewParameterAllowedValues from "@components/addParameter/NewParameterAllowedValues.tsx";
 import { AllParametersRequest, ParameterType } from "@api/models/Parameters.ts";
 
@@ -31,7 +34,7 @@ const NewParameterInputs = ({
         maxLength={50}
         onChange={(e) => handleChangeValue("name", e.target.value)}
       />
-      <FormSelect
+      <LabeledSelect
         label="Type"
         name="Type"
         value={parameterRequest.$type}
@@ -40,7 +43,7 @@ const NewParameterInputs = ({
         <SelectItem value="integer" displayValue="Integer" />
         <SelectItem value="decimal" displayValue="Decimal" />
         <SelectItem value="text" displayValue="Text" />
-      </FormSelect>
+      </LabeledSelect>
       {parameterRequest.$type !== "text" && (
         <FormInput
           required

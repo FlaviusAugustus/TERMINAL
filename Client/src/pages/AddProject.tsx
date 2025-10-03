@@ -53,4 +53,4 @@ const AddProject = () => {
   );
 };
 
-export default NewProjectForm;
+export default AddProject;
