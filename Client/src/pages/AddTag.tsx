@@ -29,6 +29,7 @@ const AddTag = () => {
           <div className="flex flex-col gap-3">
             <FormInput
               label="Name"
+              name="name"
               required
               value={tagName}
               minLength={3}

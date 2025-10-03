@@ -53,7 +53,7 @@ const FormSelect = <T, Multiple extends boolean>({
       label={label}
       isValid={isValid}
       inputRef={ref}
-      validate
+      validate={false}
     >
       <Combobox immediate {...rest}>
         <div
