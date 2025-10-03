@@ -49,7 +49,7 @@ const FormSelect = <T, Multiple extends boolean>({
       <Combobox immediate {...rest}>
         <div
           className={clsx(
-            "relative w-full bg-white px-3 border-[1px] rounded-md py-2 mb-3",
+            "relative w-full bg-white px-3 border-[1px] border-black/15 rounded-md py-2",
             comboboxStyles
           )}
         >
@@ -59,7 +59,7 @@ const FormSelect = <T, Multiple extends boolean>({
           <ComboboxInput
             ref={ref}
             displayValue={displayValue}
-            className={"w-full h-full focus:outline-none bg-inherit"}
+            className={"w-full h-full focus:outline-none"}
           />
 
           <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
@@ -68,7 +68,7 @@ const FormSelect = <T, Multiple extends boolean>({
         </div>
         <ComboboxOptions
           className={clsx(
-            "w-[--input-width] flex flex-col gap-1 bg-white border rounded-md shadow-sm mt-4 py-1 px-3 box-content",
+            "w-[--input-width] flex flex-col gap-1 bg-white border rounded-md shadow-sm mt-2 py-1",
             comboboxOptionsStyles
           )}
           anchor="bottom"
