@@ -26,7 +26,6 @@ export type InputFieldProps = Omit<
 const FormInput = ({
   label,
   icon,
-  isValid = true,
   validate = true,
   className,
   ...rest
@@ -36,7 +35,6 @@ const FormInput = ({
   return (
     <FieldWithLabelAndValidation
       label={label}
-      isValid={isValid}
       inputRef={ref}
       validate={validate}
     >

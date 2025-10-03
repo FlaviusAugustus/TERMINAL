@@ -5,7 +5,6 @@ import { RefObject, useState } from "react";
 export type InputLabelAndValidationProps = {
   validate?: boolean;
   label?: string;
-  isValid?: boolean;
   inputRef: RefObject<HTMLInputElement>;
 };
 

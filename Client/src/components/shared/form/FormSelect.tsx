@@ -36,7 +36,6 @@ type LabeledSelectProps<T, Multiple extends boolean> = Omit<
  */
 const FormSelect = <T, Multiple extends boolean>({
   label,
-  isValid = true,
   children,
   displayValue,
   handleRemoveValue,
@@ -49,20 +48,12 @@ const FormSelect = <T, Multiple extends boolean>({
   const multiple = rest.multiple;
 
   return (
-    <FieldWithLabelAndValidation
-      label={label}
-      isValid={isValid}
-      inputRef={ref}
-      validate={false}
-    >
+    <FieldWithLabelAndValidation label={label} inputRef={ref} validate={false}>
       <Combobox immediate {...rest}>
         <div
           className={clsx(
             "relative w-full bg-white px-3 border-[1px] border-black/15 rounded-md py-2",
-            comboboxStyles,
-            {
-              "border-red-500": !isValid,
-            }
+            comboboxStyles
           )}
         >
           {multiple && Array.isArray(value) && value.length > 0 && (
