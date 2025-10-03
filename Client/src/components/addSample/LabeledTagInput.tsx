@@ -1,6 +1,9 @@
 import { useMemo } from "react";
 import { Tag } from "@api/models/Tag.ts";
-import { FormSelect, SelectItem } from "@components/shared/form/FormSelect.tsx";
+import {
+  LabeledSelect,
+  SelectItem,
+} from "@components/shared/form/LabeledSelect.tsx";
 import { useGetTags } from "@hooks/tags/useGetTags.ts";
 import { useGetTagAmount } from "@hooks/tags/useGetTagAmount.ts";
 
@@ -32,7 +35,7 @@ const LabeledTagInput = ({ tags, setTags }: TagInputProps) => {
 
   return (
     <>
-      <FormSelect<Tag, true>
+      <LabeledSelect<Tag, true>
         multiple
         label="Tags"
         name="AddTag"
@@ -43,7 +46,7 @@ const LabeledTagInput = ({ tags, setTags }: TagInputProps) => {
         {availableTags?.map((tag: Tag) => (
           <SelectItem key={tag.id} value={tag} displayValue={tag.name} />
         ))}
-      </FormSelect>
+      </LabeledSelect>
     </>
   );
 };

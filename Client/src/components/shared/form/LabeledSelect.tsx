@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from "react";
+import { ReactNode } from "react";
 import {
   Combobox,
   ComboboxInput,
@@ -7,12 +7,12 @@ import {
   ComboboxButton,
   ComboboxProps,
   ComboboxOptionProps,
+  Field,
+  Label,
 } from "@headlessui/react";
 import clsx from "clsx";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import FieldWithLabelAndValidation, {
-  InputLabelAndValidationProps,
-} from "./FieldWithLabelAndValidation.tsx";
+import { InputLabelAndValidationProps } from "./FieldWithLabelAndValidation.tsx";
 import SelectedValues from "@components/shared/form/SelectedValues.tsx";
 
 type LabeledSelectProps<T, Multiple extends boolean> = Omit<
@@ -22,19 +22,18 @@ type LabeledSelectProps<T, Multiple extends boolean> = Omit<
   ComboboxProps<T, Multiple> & {
     displayValue?: (arg0: T) => string;
     children: ReactNode;
-    validationInfo?: string;
     handleRemoveValue?: (removedValue: T) => void;
     comboboxStyles?: string;
     comboboxOptionsStyles?: string;
   };
 
 /**
- * Reusable input field component with validation support.
+ * Reusable Select field.
  *
  * @component
- * @param {InputFieldProps} props - The props for the FormInput component
+ * @param {LabeledSelectProps} props - The props for the LabeledSelect component
  */
-const FormSelect = <T, Multiple extends boolean>({
+const LabeledSelect = <T, Multiple extends boolean>({
   label,
   children,
   displayValue,
@@ -43,12 +42,16 @@ const FormSelect = <T, Multiple extends boolean>({
   comboboxOptionsStyles = "",
   ...rest
 }: LabeledSelectProps<T, Multiple>) => {
-  const ref = useRef<HTMLInputElement>(null);
   const value = rest.value;
   const multiple = rest.multiple;
 
   return (
-    <FieldWithLabelAndValidation label={label} inputRef={ref} validate={false}>
+    <Field className="h-fit">
+      {label && (
+        <Label className="text-sm font-normal font-sans text-gray-700">
+          {label}:
+        </Label>
+      )}
       <Combobox immediate {...rest}>
         <div
           className={clsx(
@@ -60,7 +63,6 @@ const FormSelect = <T, Multiple extends boolean>({
             <SelectedValues values={value} handleRemove={handleRemoveValue} />
           )}
           <ComboboxInput
-            ref={ref}
             displayValue={displayValue}
             className={"w-full h-full focus:outline-none"}
           />
@@ -79,7 +81,7 @@ const FormSelect = <T, Multiple extends boolean>({
           <div className="max-h-[25vh]">{children}</div>
         </ComboboxOptions>
       </Combobox>
-    </FieldWithLabelAndValidation>
+    </Field>
   );
 };
 
@@ -98,4 +100,4 @@ const SelectItem = <T,>({ displayValue, ...rest }: SelectItemProps<T>) => {
   );
 };
 
-export { FormSelect, SelectItem };
+export { LabeledSelect, SelectItem };
