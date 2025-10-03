@@ -3,7 +3,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "@pages/LoginPage";
-import NewProjectForm from "@components/projects/NewProjectForm.tsx";
+import AddProject from "@pages/AddProject.tsx";
 import AuthorizedLayout from "@pages/layouts/AuthorizedLayout";
 import NoNavbarLayout from "@pages/layouts/NoNavbarLayout";
 import { toastOptions } from "@utils/toast.utils.tsx";
@@ -32,7 +32,7 @@ export default function App() {
             <Route path="/new-recipe" element={<AddRecipeWithContexts />} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Add new project" />}>
-            <Route path="/new-project" element={<NewProjectForm />} />
+            <Route path="/new-project" element={<AddProject />} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Add new sample" />}>
             <Route path="/new-sample" element={<AddSampleWithContexts />} />
