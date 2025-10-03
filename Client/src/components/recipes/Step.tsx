@@ -30,7 +30,7 @@ const StepTable = (props: StepProps) => {
               <tr key={index} className="hover:bg-gray-50">
                 <td>{param?.name}</td>
                 <td>{param?.value}</td>
-                <td>{param.$type !== "text" ? param?.unit : "-"}</td>
+                <td>{param.$type !== "Text" ? param?.unit : "-"}</td>
               </tr>
             );
           })}

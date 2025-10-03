@@ -30,7 +30,7 @@ const ParamsTable = ({ params, editable }: ParamsTableProps) => {
       },
       {
         id: "unit",
-        accessorFn: (param) => (param.$type !== "text" ? param.unit : "-"),
+        accessorFn: (param) => (param.$type !== "Text" ? param.unit : "-"),
       },
     ],
     []

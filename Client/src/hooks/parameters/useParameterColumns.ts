@@ -17,7 +17,7 @@ function useParameterColumns(editable: boolean = false) {
       },
       {
         id: "unit",
-        accessorFn: (param) => (param.$type !== "text" ? param.unit : "-"),
+        accessorFn: (param) => (param.$type !== "Text" ? param.unit : "-"),
       },
     ],
     []
