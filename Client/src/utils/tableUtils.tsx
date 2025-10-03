@@ -34,7 +34,7 @@ const editableColumn: Partial<ColumnDef<AllParameters>> = {
       setValue(initialValue);
     }, [initialValue]);
 
-    return parameterOrigin && parameterOrigin.$type === "text" ? (
+    return parameterOrigin && parameterOrigin.$type === "Text" ? (
       <select
         className="bg-transparent p-1 border rounded w-full"
         value={value as string}
