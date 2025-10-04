@@ -20,6 +20,6 @@ export function useRecipeDetails(id: string | null) {
     queryKey: ["recipeDetails", id],
     queryFn: () => fetchRecipeDetails(id),
     placeholderData: keepPreviousData,
-    enabled: id !== null,
+    enabled: id !== null && id !== "",
   });
 }

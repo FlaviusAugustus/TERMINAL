@@ -1,16 +1,16 @@
-import Users from "@components/Users/Users.tsx";
+import Users from "@components/users/Users.tsx";
 import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useUsers } from "@hooks/users/useGetUsers.ts";
-import UserDetails from "@components/Users/UserDetails.tsx";
+import UserDetails from "@components/users/UserDetails.tsx";
 import { useUserDetails } from "@hooks/users/useGetUserDetails.ts";
 import { useDeleteUser } from "@hooks/users/useDeleteUser.ts";
-import { toastPromise } from "../utils/toast.utils.tsx";
+import { toastPromise } from "@utils/toast.utils.tsx";
 import { useUpdateUserEmail } from "@hooks/users/useUpdateUserEmail.ts";
 import { useUpdateUserRole } from "@hooks/users/useUpdateUserRole.ts";
 import { useState } from "react";
 import TableLayout from "./layouts/TableLayout.tsx";
-import ComponentOrLoader from "@components/Shared/ComponentOrLoader.tsx";
-import Loader from "@components/Shared/Loader.tsx";
+import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
+import Loader from "@components/shared/loader/Loader.tsx";
 
 const UsersPage = () => {
   const [userDetailsId, setUserDetailsId] = useState<string | null>(null);

@@ -1,14 +1,14 @@
 import TableLayout from "./layouts/TableLayout";
-import ComponentOrLoader from "@components/Shared/ComponentOrLoader.tsx";
-import Loader from "@components/Shared/Loader.tsx";
+import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
+import Loader from "@components/shared/loader/Loader.tsx";
 import useGetParameters from "@hooks/parameters/useGetParameters.ts";
-import Parameters from "@components/Parameters/Parameters.tsx";
-import ParameterDetails from "@components/Parameters/ParameterDetails.tsx";
+import Parameters from "@components/parameters/Parameters.tsx";
+import ParameterDetails from "@components/parameters/ParameterDetails.tsx";
 import { useState } from "react";
 import { AllParameters } from "@api/models/Parameters.ts";
-import DialogLoader from "@components/Shared/DialogLoader.tsx";
+import DialogLoader from "@components/shared/dialog/DialogLoader.tsx";
 import { useDeactivateParameter } from "@hooks/parameters/useDeactivateParameter.ts";
-import { toastPromise } from "../utils/toast.utils.tsx";
+import { toastPromise } from "@utils/toast.utils.tsx";
 
 const ParametersPage = () => {
   const dataParameters = useGetParameters();

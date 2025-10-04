@@ -28,7 +28,8 @@
       "@components/*": ["./components/*"],
       "@pages/*": ["./pages/*"],
       "@hooks/*": ["./hooks/*"],
-      "@api/*": ["./api/*"]
+      "@api/*": ["./api/*"],
+      "@utils/*": ["./utils/*"]
     }
   },
   "include": ["src"]

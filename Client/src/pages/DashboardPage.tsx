@@ -2,11 +2,11 @@ import { Sample } from "@api/models/Sample";
 import {
   EntityAmountCard,
   EntityAmountCardButton,
-} from "@components/Dashboard/EntityAmountCard";
-import Chip from "@components/Shared/Chip";
-import IconButton from "@components/Shared/IconButton";
-import TableCard from "@components/Shared/Table/TableCard";
-import TableView from "@components/Shared/Table/TableView";
+} from "@components/dashboard/EntityAmountCard";
+import Chip from "@components/shared/common/Chip.tsx";
+import IconButton from "@components/shared/common/IconButton.tsx";
+import TableCard from "@components/shared/table/TableCard";
+import TableView from "@components/shared/table/TableView";
 import { TagIcon } from "@heroicons/react/24/outline";
 import { useGetProjectAmount } from "@hooks/projects/useGetProjectAmount";
 import { useGetRecipeAmount } from "@hooks/recipes/useGetRecipeAmount";
@@ -83,7 +83,7 @@ const DashboardPage = () => {
 
   return (
     <>
-      <div className="md:grid md:grid-cols-4 flex flex-col gap-3 p-3">
+      <div className="md:grid md:grid-cols-4 flex flex-col gap-3 p-3 overflow-auto">
         <div className="col-span-4">
           <p className="px-2 text-md">Stats</p>
         </div>
@@ -141,7 +141,7 @@ const DashboardPage = () => {
           </TableCard>
         </div>
 
-        <div className="col-span-1">
+        <div className="col-span-1 flex-1">
           <p className="p-2 text-md">Pinned Recipes</p>
           <TableCard>
             <TableView<Sample> table={recipeTable} handleClickRow={() => {}} />

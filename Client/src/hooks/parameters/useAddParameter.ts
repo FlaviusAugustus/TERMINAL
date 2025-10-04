@@ -1,7 +1,7 @@
 import { AllParametersRequest } from "@api/models/Parameters.ts";
 import apiClient from "@api/apiClient.ts";
 import { useMutation } from "@tanstack/react-query";
-import { queryClient } from "../../utils/queryClient.tsx";
+import { queryClient } from "@utils/queryClient.tsx";
 
 async function addParameter(parameterRequest: AllParametersRequest) {
   if (parameterRequest.$type == "text")

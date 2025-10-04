@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LoginResponse } from "../hooks/useLoginMutation";
+import { LoginResponse } from "@hooks/users/auth/useLoginMutation.ts";
 
 export const apiUrl = import.meta.env.VITE_API_URL + "/api";
 

@@ -1,10 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useIsAuthenticated } from "@hooks/useIsAuthenticated";
-import Sidebar from "@components/Navbar/Sidebar.tsx";
-import MobileNavbar from "@components/Navbar/MobileNavbar.tsx";
-import { useUserRoles } from "@hooks/useUserRoles.ts";
+import { useIsAuthenticated } from "@hooks/users/auth/useIsAuthenticated.ts";
+import Sidebar from "@components/navbar/Sidebar.tsx";
+import MobileNavbar from "@components/navbar/MobileNavbar.tsx";
+import { useUserRoles } from "@hooks/users/useUserRoles.ts";
 import { Role } from "@api/models/Role.ts";
-import FullScreenLoader from "@components/Shared/FullScreenLoader";
+import FullScreenLoader from "@components/shared/loader/FullScreenLoader.tsx";
 
 type AuthorizedNavbarLayoutProps = {
   pageName: string;
@@ -33,11 +33,11 @@ const AuthorizedNavbarLayout = ({
       <div className="w-screen flex flex-col sm:flex-row bg-gray-100">
         <div className="drawer md:drawer-open md:gap-2">
           <input id="drawer" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content flex flex-col sm:h-auto h-auto min-h-screen items-center justify-start relative overflow-x-hidden overflow-y-auto">
+          <div className="drawer-content flex flex-col sm:h-auto h-auto min-h-screen items-center justify-start relative">
             {/* Menu - only mobile  */}
             <MobileNavbar />
             {/* Page content */}
-            <div className="sm:p-2 sm:ps-0 w-full h-full flex flex-col">
+            <div className="flex flex-col w-full h-auto sm:h-screen sm:p-2 sm:ps-0">
               <div className="sm:hidden h-full">
                 <Outlet />
               </div>
@@ -51,7 +51,7 @@ const AuthorizedNavbarLayout = ({
             </div>
           </div>
           <div className="drawer-side">
-            {/* Navbar */}
+            {/* navbar */}
             <label
               htmlFor="drawer"
               aria-label="close sidebar"

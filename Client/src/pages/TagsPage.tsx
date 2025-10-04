@@ -1,17 +1,18 @@
 import TableLayout from "@pages/layouts/TableLayout.tsx";
-import Loader from "@components/Shared/Loader.tsx";
-import ComponentOrLoader from "@components/Shared/ComponentOrLoader.tsx";
-import Tags from "@components/Tags/Tags.tsx";
+import Loader from "@components/shared/loader/Loader.tsx";
+import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
+import Tags from "@components/tags/Tags.tsx";
 import { useState } from "react";
 import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useGetAllTags } from "@hooks/tags/useGetAllTags.ts";
 import { useGetTagDetails } from "@hooks/tags/useGetTagDetails.ts";
-import TagDetails from "@components/Tags/TagDetails.tsx";
+import TagDetails from "@components/tags/TagDetails.tsx";
 import { useDeleteTag } from "@hooks/tags/useDeleteTag.ts";
-import { toastPromise } from "../utils/toast.utils.tsx";
-import TagEdit from "@components/Tags/TagEdit.tsx";
+import { toastPromise } from "@utils/toast.utils.tsx";
+import TagEdit from "@components/tags/TagEdit.tsx";
 import { useUpdateTagName } from "@hooks/tags/useUpdateTagName.ts";
 import { useUpdateTagStatus } from "@hooks/tags/useUpdateTagStatus.ts";
+import { useSearchTags } from "@hooks/tags/useSearchTags.ts";
 
 const TagsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -20,11 +21,21 @@ const TagsPage = () => {
     pageSize: 10,
   });
 
+  const [searchPhrase, setSearchPhrase] = useState("");
+
   const queryTags = useGetAllTags({
     pageNumber: pagination.pageIndex,
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
   });
+
+  const searchTagsQuery = useSearchTags({
+    searchPhrase,
+    pageNumber: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+  });
+
+  const dataQueryTags = searchPhrase ? searchTagsQuery : queryTags;
 
   const deleteMutation = useDeleteTag({
     pageNumber: pagination.pageIndex,
@@ -43,7 +54,6 @@ const TagsPage = () => {
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
   });
-
   const handleDelete = async (id: string | null) => {
     if (!id) return;
     await toastPromise(deleteMutation.mutateAsync(id), {
@@ -52,7 +62,6 @@ const TagsPage = () => {
       error: "Deletion failed",
     });
   };
-
   const [tagDetailsId, setTagDetailsId] = useState<string | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const dataTagDetails = useGetTagDetails(tagDetailsId);
@@ -94,9 +103,12 @@ const TagsPage = () => {
 
   return (
     <TableLayout>
-      <ComponentOrLoader isLoading={queryTags.isLoading} loader={<Loader />}>
+      <ComponentOrLoader
+        isLoading={dataQueryTags.isLoading}
+        loader={<Loader />}
+      >
         <Tags
-          tags={queryTags.data}
+          tags={dataQueryTags.data}
           sorting={sorting}
           setSorting={setSorting}
           pagination={pagination}
@@ -104,6 +116,11 @@ const TagsPage = () => {
           onDetails={changeTagDetails}
           onDelete={handleDelete}
           onEdit={changeTagEdit}
+          searchProps={{
+            onSearch: setSearchPhrase,
+            searchValue: searchPhrase,
+            onClearSearch: () => setSearchPhrase(""),
+          }}
         />
       </ComponentOrLoader>
       <ComponentOrLoader
