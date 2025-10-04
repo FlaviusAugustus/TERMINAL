@@ -15,9 +15,9 @@ import AddRecipeDialog from "./AddRecipeDialog";
 const AddRecipeActions = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { updateRecipe, recipe } = useAddRecipeContext();
-  const { mutateAsync } = useAddRecipe();
+  const { mutateAsync, isPending } = useAddRecipe();
 
-  const handleSubmit = (name: string) => {
+  const handleSubmit = async (name: string) => {
     updateRecipe({ id: "", name: "", steps: [] });
     toastPromise(mutateAsync({ ...recipe, name: name }), {
       loading: "loading",
@@ -46,6 +46,7 @@ const AddRecipeActions = () => {
         isOpen={dialogOpen}
         setIsOpen={setDialogOpen}
         onSubmit={handleSubmit}
+        isPending={isPending}
       />
     </>
   );

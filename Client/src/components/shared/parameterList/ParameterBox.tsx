@@ -8,7 +8,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { useAddRecipeContext } from "@hooks/recipes/useAddRecipeContext.tsx";
 import clsx from "clsx";
-import { FormSelect, SelectItem } from "@components/shared/form/FormSelect.tsx";
+import {
+  LabeledSelect,
+  SelectItem,
+} from "@components/shared/form/LabeledSelect.tsx";
 
 type ParameterBoxProps = {
   parameter: AllParameters;
@@ -79,7 +82,7 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
             <ParameterInput parameter={parameter} />
             <DragHandle attributes={attributes} listeners={listeners} />
           </div>
-          {(parameter.$type === "integer" || parameter.$type === "decimal") && (
+          {(parameter.$type === "Integer" || parameter.$type === "Decimal") && (
             <div className="flex items-center justify-start rounded-md border border-gray-200 bg-gray-50">
               <p className="text-xs border-e border-gray-200 p-2 bg-white text-gray-700 rounded-l-md">
                 unit
@@ -104,12 +107,12 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
     parameter: AllParameters,
     newValue: string
   ): AllParameters => {
-    if (parameter.$type === "text") {
+    if (parameter.$type === "Text") {
       return {
         ...parameter,
         value: newValue,
       };
-    } else if (parameter.$type === "integer") {
+    } else if (parameter.$type === "Integer") {
       let parsedValue = 0;
       if (newValue !== "") parsedValue = parseInt(newValue, 10);
       return {
@@ -129,12 +132,12 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
   return (
     <>
       {" "}
-      {parameter.$type === "text" ? (
+      {parameter.$type === "Text" ? (
         <div className="rounded-md w-full h-full text-sm ms-2 focus:outline-none bg-gray-50">
-          <FormSelect
+          <LabeledSelect
             comboboxStyles={"!py-0 !mt-0"}
             comboboxOptionsStyles={"!py-0 !mt-0"}
-            value={parameter.value ?? ""}
+            value={parameter.allowedValues[0]}
             onChange={(val: string) => {
               const updatedParameter = onChangeValue(parameter, val);
               updateParameter(currentStep, updatedParameter);
@@ -143,7 +146,7 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
             {parameter.allowedValues.map((value: string, index: number) => (
               <SelectItem key={index} value={value} displayValue={value} />
             ))}
-          </FormSelect>
+          </LabeledSelect>
         </div>
       ) : (
         <input

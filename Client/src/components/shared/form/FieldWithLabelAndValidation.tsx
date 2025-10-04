@@ -5,26 +5,27 @@ import { RefObject, useState } from "react";
 export type InputLabelAndValidationProps = {
   validate?: boolean;
   label?: string;
-  isValid?: boolean;
-  inputRef: RefObject<HTMLInputElement>;
+  inputRef: RefObject<HTMLInputElement | HTMLSelectElement>;
 };
 
-function getErrorMessage(input: HTMLInputElement | null): string {
+function getErrorMessage(
+  input: HTMLInputElement | HTMLSelectElement | null
+): string {
   if (!input) return "";
 
   const validityState = input.validity;
 
-  if (validityState.tooShort)
+  if (validityState.tooShort && input instanceof HTMLInputElement)
     return `${input.name} must be at least ${input.minLength} characters long`;
-  if (validityState.tooLong)
+  if (validityState.tooLong && input instanceof HTMLInputElement)
     return `${input.name} must be at most ${input.maxLength} characters long`;
   if (validityState.valueMissing) return `${input.name} is required`;
   if (validityState.typeMismatch) return `please enter a valid ${input.type}`;
   if (validityState.patternMismatch)
     return `${input.name} does not match the required pattern`;
-  if (validityState.rangeUnderflow)
+  if (validityState.rangeUnderflow && input instanceof HTMLInputElement)
     return `${input.name} must be at larger than ${input.min}`;
-  if (validityState.rangeOverflow)
+  if (validityState.rangeOverflow && input instanceof HTMLInputElement)
     return `${input.name} must be lower than ${input.max}`;
   if (validityState.stepMismatch) return `${input.name} is not a valid step`;
   if (validityState.badInput) return `${input.name} is not a valid value`;

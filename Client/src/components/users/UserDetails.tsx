@@ -5,7 +5,10 @@ import {
   DialogComp,
 } from "@components/shared/dialog/DialogComp.tsx";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { FormSelect, SelectItem } from "@components/shared/form/FormSelect.tsx";
+import {
+  LabeledSelect,
+  SelectItem,
+} from "@components/shared/form/LabeledSelect.tsx";
 import roles from "@api/models/Role";
 import { UserDetailsDto } from "@api/models/User";
 
@@ -57,7 +60,7 @@ const UserDetails = (props: UserDetailsProps) => {
           setIsChanged(true);
         }}
       />
-      <FormSelect
+      <LabeledSelect
         label="Role"
         value={role}
         onChange={(value: string) => {
@@ -69,7 +72,7 @@ const UserDetails = (props: UserDetailsProps) => {
         {roles.map((role) => (
           <SelectItem value={role} displayValue={role} key={role} />
         ))}
-      </FormSelect>
+      </LabeledSelect>
       <div className="flex flex-col gap-2 mt-4">
         <div className="flex gap-1">
           <DialogButton

@@ -1,28 +1,28 @@
-import { DialogButton } from "@components/shared/dialog/DialogComp.tsx";
 import { AllParametersRequest, ParameterType } from "@api/models/Parameters.ts";
 import { useState } from "react";
 import { toastPromise } from "@utils/toast.utils.tsx";
 import { useAddParameter } from "@hooks/parameters/useAddParameter.ts";
 import Form from "@components/shared/form/Form.tsx";
 import NewParameterInputs from "@components/addParameter/NewParameterInputs.tsx";
+import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 
 const NewParameterForm = () => {
   const [parameterRequest, setParameterRequest] =
     useState<AllParametersRequest>({
-      $type: "integer",
+      $type: "Integer",
       name: "",
       unit: "",
     });
 
   const addAllowedValue = () => {
-    if (parameterRequest.$type == "text")
+    if (parameterRequest.$type == "Text")
       setParameterRequest({
         ...parameterRequest,
         allowedValues: [...parameterRequest.allowedValues, ""],
       });
   };
   const deleteAllowedValue = (index: number) => {
-    if (parameterRequest.$type == "text") {
+    if (parameterRequest.$type == "Text") {
       const newValues = parameterRequest.allowedValues.filter(
         (_, i) => i !== index
       );
@@ -30,13 +30,13 @@ const NewParameterForm = () => {
     }
   };
   const setAllowedValue = (index: number, value: string) => {
-    if (parameterRequest.$type == "text") {
+    if (parameterRequest.$type == "Text") {
       const newValues = [...parameterRequest.allowedValues];
       newValues[index] = value;
       setParameterRequest({ ...parameterRequest, allowedValues: newValues });
     }
   };
-  const { mutateAsync } = useAddParameter();
+  const { mutateAsync, isPending } = useAddParameter();
 
   const handleChangeValue = (attr: string, value: string) => {
     setParameterRequest({
@@ -47,7 +47,7 @@ const NewParameterForm = () => {
 
   const handleChangeType = (value: ParameterType) => {
     if (!value) return;
-    if (value === "text")
+    if (value === "Text")
       setParameterRequest({
         $type: value,
         name: parameterRequest.name,
@@ -68,7 +68,7 @@ const NewParameterForm = () => {
       error: "Failed adding parameter",
     });
     setParameterRequest({
-      $type: "integer",
+      $type: "Integer",
       name: "",
       unit: "",
     });
@@ -85,9 +85,7 @@ const NewParameterForm = () => {
           handleChangeValue={handleChangeValue}
           handleChangeType={handleChangeType}
         />
-        <DialogButton className="hover:border-green-400" type="submit">
-          Add Parameter
-        </DialogButton>
+        <SubmitButton label="Add Parameter" isLoading={isPending} />
       </Form>
     </div>
   );

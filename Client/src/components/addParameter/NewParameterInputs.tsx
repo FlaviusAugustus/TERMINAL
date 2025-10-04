@@ -1,5 +1,8 @@
 import FormInput from "@components/shared/form/FormInput.tsx";
-import { FormSelect, SelectItem } from "@components/shared/form/FormSelect.tsx";
+import {
+  LabeledSelect,
+  SelectItem,
+} from "@components/shared/form/LabeledSelect.tsx";
 import NewParameterAllowedValues from "@components/addParameter/NewParameterAllowedValues.tsx";
 import { AllParametersRequest, ParameterType } from "@api/models/Parameters.ts";
 
@@ -31,17 +34,17 @@ const NewParameterInputs = ({
         maxLength={50}
         onChange={(e) => handleChangeValue("name", e.target.value)}
       />
-      <FormSelect
+      <LabeledSelect
         label="Type"
         name="Type"
         value={parameterRequest.$type}
         onChange={handleChangeType}
       >
-        <SelectItem value="integer" displayValue="Integer" />
-        <SelectItem value="decimal" displayValue="Decimal" />
-        <SelectItem value="text" displayValue="Text" />
-      </FormSelect>
-      {parameterRequest.$type !== "text" && (
+        <SelectItem value="Integer" displayValue="Integer" />
+        <SelectItem value="Decimal" displayValue="Decimal" />
+        <SelectItem value="Text" displayValue="Text" />
+      </LabeledSelect>
+      {parameterRequest.$type !== "Text" && (
         <FormInput
           required
           label="Unit"
@@ -52,7 +55,7 @@ const NewParameterInputs = ({
           onChange={(e) => handleChangeValue("unit", e.currentTarget.value)}
         />
       )}
-      {parameterRequest.$type === "text" && (
+      {parameterRequest.$type === "Text" && (
         <NewParameterAllowedValues
           parameterRequest={parameterRequest}
           addAllowedValue={addAllowedValue}
