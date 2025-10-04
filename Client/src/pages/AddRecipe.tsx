@@ -23,13 +23,20 @@ const AddRecipeWithContexts = () => {
 
 const AddRecipe = () => {
   return (
-    <div className="p-2 flex gap-2 h-full overflow-auto bg-gray-50">
-      <div className="flex flex-col gap-2 w-80">
-        <ParameterSelectList />
-        <AddRecipeActions />
-      </div>
-      <div className="flex flex-col border border-gray-200 rounded-md bg-white w-full overflow-hidden">
-        <Steps />
+    <div className="flex flex-col h-full overflow-auto bg-gray-50">
+      <div className="flex overflow-auto px-2 py-1 pb-1 gap-2 flex-wrap sm:flex-nowrap">
+        <div className="flex flex-col gap-2 w-80">
+          <ParameterSelectList />
+          <div className="hidden sm:block">
+            <AddRecipeActions />
+          </div>
+        </div>
+        <div className="flex flex-col border border-gray-200 rounded-md bg-white w-full overflow-hidden">
+          <Steps />
+        </div>
+        <div className="w-full sm:hidden">
+          <AddRecipeActions />
+        </div>
       </div>
     </div>
   );
