@@ -10,23 +10,21 @@ import {
 } from "@headlessui/react";
 import clsx from "clsx";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import FieldWithLabelAndValidation, {
-  InputLabelAndValidationProps,
-} from "./FieldWithLabelAndValidation.tsx";
 import SelectedValues from "@components/shared/form/SelectedValues.tsx";
+import LabeledField from "./LabeledField.tsx";
 
-type LabeledSelectProps<T, Multiple extends boolean> = Omit<
-  InputLabelAndValidationProps,
-  "inputRef"
-> &
-  ComboboxProps<T, Multiple> & {
-    displayValue?: (arg0: T) => string;
-    children: ReactNode;
-    validationInfo?: string;
-    handleRemoveValue?: (removedValue: T) => void;
-    comboboxStyles?: string;
-    comboboxOptionsStyles?: string;
-  };
+type LabeledSelectProps<T, Multiple extends boolean> = ComboboxProps<
+  T,
+  Multiple
+> & {
+  displayValue?: (arg0: T) => string;
+  children: ReactNode;
+  validationInfo?: string;
+  handleRemoveValue?: (removedValue: T) => void;
+  comboboxStyles?: string;
+  comboboxOptionsStyles?: string;
+  label?: string;
+};
 
 /**
  * Reusable input field component with validation support.
@@ -36,7 +34,6 @@ type LabeledSelectProps<T, Multiple extends boolean> = Omit<
  */
 const FormSelect = <T, Multiple extends boolean>({
   label,
-  isValid = true,
   children,
   displayValue,
   handleRemoveValue,
@@ -49,20 +46,12 @@ const FormSelect = <T, Multiple extends boolean>({
   const multiple = rest.multiple;
 
   return (
-    <FieldWithLabelAndValidation
-      label={label}
-      isValid={isValid}
-      inputRef={ref}
-      validate={false}
-    >
+    <LabeledField label={label}>
       <Combobox immediate {...rest}>
         <div
           className={clsx(
-            "relative w-full bg-white px-3 border-[1px] border-black/15 rounded-md py-2",
-            comboboxStyles,
-            {
-              "border-red-500": !isValid,
-            }
+            "relative w-full bg-white px-3 border-[1px] rounded-md py-2 mb-3",
+            comboboxStyles
           )}
         >
           {multiple && Array.isArray(value) && value.length > 0 && (
@@ -71,7 +60,7 @@ const FormSelect = <T, Multiple extends boolean>({
           <ComboboxInput
             ref={ref}
             displayValue={displayValue}
-            className={"w-full h-full focus:outline-none"}
+            className={"w-full h-full focus:outline-none bg-inheri"}
           />
 
           <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
@@ -80,7 +69,7 @@ const FormSelect = <T, Multiple extends boolean>({
         </div>
         <ComboboxOptions
           className={clsx(
-            "w-[--input-width] flex flex-col gap-1 bg-white border rounded-md shadow-sm mt-2 py-1",
+            "w-[--input-width] flex flex-col gap-1 bg-white border rounded-md shadow-sm mt-4 py-1 px-3 box-content",
             comboboxOptionsStyles
           )}
           anchor="bottom"
@@ -88,7 +77,7 @@ const FormSelect = <T, Multiple extends boolean>({
           <div className="max-h-[25vh]">{children}</div>
         </ComboboxOptions>
       </Combobox>
-    </FieldWithLabelAndValidation>
+    </LabeledField>
   );
 };
 
