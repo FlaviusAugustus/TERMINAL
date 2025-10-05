@@ -1,7 +1,7 @@
 import { Checkbox, CheckboxProps } from "@headlessui/react";
-import LabeledField, { LabeledFieldProps } from "./LabeledField";
+import LabeledField from "./LabeledField";
 
-export type LabeledCheckboxProps = CheckboxProps & LabeledFieldProps;
+export type LabeledCheckboxProps = CheckboxProps & { label?: string };
 /**
  * Reusable checkbox component with validation support.
  *

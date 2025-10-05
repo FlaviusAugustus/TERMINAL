@@ -1,10 +1,11 @@
 import { Textarea } from "@headlessui/react";
-import LabeledField, { LabeledFieldProps } from "./LabeledField";
+import LabeledField from "./LabeledField";
 
 type LabeledTextAreaProps = {
   value: string;
   setValue: (newValue: string) => void;
-} & LabeledFieldProps;
+  label?: string;
+};
 
 const LabeledTextArea = ({ label, value, setValue }: LabeledTextAreaProps) => {
   return (

@@ -1,8 +1,8 @@
 import { Switch, SwitchProps } from "@headlessui/react";
 import clsx from "clsx";
-import LabeledField, { LabeledFieldProps } from "./LabeledField";
+import LabeledField from "./LabeledField";
 
-type LabeledSwitchProps = SwitchProps & LabeledFieldProps;
+type LabeledSwitchProps = SwitchProps & { label?: string };
 
 const LabeledSwitch = ({ label, ...switchProps }: LabeledSwitchProps) => {
   return (

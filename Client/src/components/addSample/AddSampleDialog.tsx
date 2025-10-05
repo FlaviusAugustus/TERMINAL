@@ -90,7 +90,6 @@ const AddSampleDialog = ({
           value={selectedProject}
           displayValue={(project) => project?.name ?? ""}
           onChange={(project: Project) => setSelectedProject(project)}
-          isValid={isProjectValid}
         >
           {data?.rows.map((project) => (
             <SelectItem<Project>
@@ -108,10 +107,9 @@ const AddSampleDialog = ({
         {saveAsRecipe && (
           <FormInput
             label="Recipe Name"
+            required
             value={recipeName}
             onChange={(e) => setRecipeName(e.currentTarget.value)}
-            isValid={isRecipeNameValid}
-            validationInfo="Recipe Name name must be at least 5 characters long"
           />
         )}
         <LabeledTagInput tags={tags} setTags={setTags} />
