@@ -29,7 +29,7 @@ const TagDetails = ({ tag, open, openChange }: TagDetailsProps) => {
       <div className="space-y-3 font-light text-sm text-gray-600">
         <div className="grid grid-cols-2 gap-3">
           <Detail label="name">{tag?.name}</Detail>
-          <Detail label="name">
+          <Detail label="is Active">
             <Chip
               value={getChipValue(tag?.isActive || false)}
               getColorValue={() => getChipColors(tag?.isActive || false)}
