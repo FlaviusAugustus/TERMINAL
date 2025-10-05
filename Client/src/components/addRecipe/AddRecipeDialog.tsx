@@ -25,17 +25,14 @@ type AddRecipeDialog = Omit<DialogProps, "title"> & {
  */
 const AddRecipeDialog = ({ onSubmit, setIsOpen, ...rest }: AddRecipeDialog) => {
   const [recipeName, setRecipeName] = useState("");
-  const [isNameValid, setIsNameValid] = useState(true);
 
   const handleClose = () => {
     setRecipeName("");
-    setIsNameValid(true);
     setIsOpen(false);
   };
 
   const handleSubmit = () => {
     if (!isRecipeNameValid(recipeName)) {
-      setIsNameValid(false);
       return;
     }
 
@@ -53,10 +50,9 @@ const AddRecipeDialog = ({ onSubmit, setIsOpen, ...rest }: AddRecipeDialog) => {
       <div className="flex flex-col">
         <FormInput
           label="Name"
+          required
           value={recipeName}
           onChange={(e) => setRecipeName(e.currentTarget.value)}
-          isValid={isNameValid}
-          validationInfo="Recipe name must be at least 5 characters long"
         />
       </div>
       <DialogButton className="hover:border-green-400" onClick={handleSubmit}>

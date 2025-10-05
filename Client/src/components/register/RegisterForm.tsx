@@ -83,12 +83,6 @@ const RegisterForm = () => {
           label="Password"
           value={firstPassword.value}
           onChange={handleChange}
-          isValid={firstPassword.isValid}
-          validationInfo={
-            !firstPassword.isValid
-              ? "Password must be 6-32 characters, contain at least one digit and one special character."
-              : ""
-          }
         />
         <FormInput
           name="secondPassword"
@@ -96,10 +90,6 @@ const RegisterForm = () => {
           label="Reapet Password"
           value={secondPassword.value}
           onChange={handleChange}
-          isValid={secondPassword.isValid}
-          validationInfo={
-            !secondPassword.isValid ? "Passwords do not match." : ""
-          }
         />
         <SubmitButton label="Set Password" isLoading={isLoading} />
       </form>
