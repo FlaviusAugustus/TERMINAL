@@ -40,27 +40,21 @@ const AddSampleDialog = ({
   const [saveAsRecipe, setSaveAsRecipe] = useState(false);
   const [recipeName, setRecipeName] = useState("");
   const [comment, setComment] = useState("");
-  const [isRecipeNameValid, setIsRecipeNameValid] = useState(true);
-  const [isProjectValid, setIsProjectValid] = useState(true);
   const [tags, setTags] = useState<Tag[]>([]);
 
   const { data, isLoading } = useProjects({ pageSize: 999, pageNumber: 0 });
 
   const handleClose = () => {
     setSelectedProject(null);
-    setIsRecipeNameValid(true);
-    setIsProjectValid(true);
     setIsOpen(false);
   };
 
   const handleSubmit = () => {
     if (!validateProject(selectedProject)) {
-      setIsProjectValid(false);
       return;
     }
 
     if (saveAsRecipe && !validateRecipeName(recipeName)) {
-      setIsRecipeNameValid(false);
       return;
     }
 
