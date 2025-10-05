@@ -7,9 +7,9 @@ public class GetParametersDto
     public IEnumerable<GetParameterDto> Parameters { get; set; }
 }
 
-[JsonDerivedType(typeof(GetTextParameterDto), "text")]
-[JsonDerivedType(typeof(GetDecimalParameterDto), typeDiscriminator: "decimal")]
-[JsonDerivedType(typeof(GetIntegerParameterDto), typeDiscriminator: "integer")]
+[JsonDerivedType(typeof(GetTextParameterDto), "Text")]
+[JsonDerivedType(typeof(GetDecimalParameterDto), typeDiscriminator: "Decimal")]
+[JsonDerivedType(typeof(GetIntegerParameterDto), typeDiscriminator: "Integer")]
 public abstract record GetParameterDto(Guid Id, string Name, uint Order, Guid? ParentId = null);
 
 public sealed record GetTextParameterDto(
