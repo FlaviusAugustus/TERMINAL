@@ -7,8 +7,9 @@ import LabeledField from "./LabeledField.tsx";
  * Props type for FormInput component
  */
 export type InputFieldProps = InputProps & {
+  label?: string;
   icon?: ReactNode;
-  label: string;
+  validate?: boolean;
 };
 
 function getErrorMessage(input: HTMLInputElement | null): string {
@@ -40,7 +41,13 @@ function getErrorMessage(input: HTMLInputElement | null): string {
  * @component
  * @param {InputFieldProps} props - The props for the FormInput component
  */
-const FormInput = ({ label, icon, className, ...rest }: InputFieldProps) => {
+const FormInput = ({
+  label,
+  icon,
+  className,
+  validate = true,
+  ...rest
+}: InputFieldProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [focused, setFocused] = useState(false);
@@ -85,11 +92,13 @@ const FormInput = ({ label, icon, className, ...rest }: InputFieldProps) => {
             className
           )}
         />
-        <div className={clsx(!showErrorMessage && "invisible")}>
-          <p role="alert" className="text-xs h-4 py-1 text-red-500">
-            {errorMessage}
-          </p>
-        </div>
+        {validate && (
+          <div className={clsx(!showErrorMessage && "invisible")}>
+            <p role="alert" className="text-xs h-4 py-1 text-red-500">
+              {errorMessage}
+            </p>
+          </div>
+        )}
       </div>
     </LabeledField>
   );
