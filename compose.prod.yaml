@@ -11,9 +11,3 @@ services:
       - 60004:5006
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-
-  database:
-    ports:
-      - 5432:5432
-    volumes:
-      - ~/terminalData:/var/lib/postgresql/data
