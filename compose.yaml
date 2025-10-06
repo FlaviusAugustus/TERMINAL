@@ -1,31 +1,16 @@
 name: terminal
 services:
-  #  reverse-proxy:
-  #    container_name: terminal.reverseproxy
-  #    image: nginx:latest
-  #    ports:
-  #      - 80:80
-  #      - 443:443
-  #    volumes:
-  #      - ./Config/nginx:/etc/nginx/:ro
-  #      - ./Config/cert:/etc/ssl/:ro
-  #    depends_on: [server, client]
-
   client:
     container_name: terminal.client
-    build: "./Client"
-    ports:
-      - 60005:5173
     restart: always
-    depends_on: ["server"]
+    depends_on:
+      server:
+        condition: service_healthy
 
   server:
     container_name: terminal.server
-    build: "./Server/src"
-    ports:
-      - 60004:5006
+    restart: always
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=${ASPNETCORE_URLS}
       - Jwt__Issuer=${Jwt__Issuer}
       - Jwt__Audience=${Jwt__Audience}
@@ -33,24 +18,24 @@ services:
       - Postgres__ConnectionString=${Postgres__ConnectionString}
       - Administrator__Email=${Administrator__Email}
       - Administrator__Password=${Administrator__Password}
-    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "server:5006/api/ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     depends_on:
       database:
         condition: service_healthy
 
   database:
-    container_name: terminal.postgres
     image: postgres:17-bookworm
-    ports:
-      - 5432:5432
-    volumes:
-      - ~/terminalData:/var/lib/postgresql/data
+    container_name: terminal.postgres
+    restart: always
+    pull_policy: missing
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
-    restart: always
-    pull_policy: missing
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"]
       interval: 1s

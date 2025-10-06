@@ -1,0 +1,19 @@
+name: terminal.prod
+services:
+  client:
+    image: ghcr.io/flaviusaugustus/terminal/client:latest
+    ports:
+      - 60005:5173
+
+  server:
+    image: ghcr.io/flaviusaugustus/terminal/server:latest
+    ports:
+      - 60004:5006
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  database:
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/terminalData:/var/lib/postgresql/data
