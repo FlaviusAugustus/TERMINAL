@@ -19,7 +19,6 @@ type LabeledSelectProps<T, Multiple extends boolean> = ComboboxProps<
 > & {
   displayValue?: (arg0: T) => string;
   children: ReactNode;
-  validationInfo?: string;
   handleRemoveValue?: (removedValue: T) => void;
   comboboxStyles?: string;
   comboboxOptionsStyles?: string;
@@ -60,7 +59,7 @@ const FormSelect = <T, Multiple extends boolean>({
           <ComboboxInput
             ref={ref}
             displayValue={displayValue}
-            className={"w-full h-full focus:outline-none bg-inheri"}
+            className={"w-full h-full focus:outline-none bg-inherit"}
           />
 
           <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
