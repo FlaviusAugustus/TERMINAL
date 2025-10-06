@@ -1,25 +1,24 @@
-import { Field, Label, Textarea } from "@headlessui/react";
+import { Textarea } from "@headlessui/react";
+import LabeledField from "./LabeledField";
 
 type LabeledTextAreaProps = {
   value: string;
   setValue: (newValue: string) => void;
+  label?: string;
 };
 
-const LabeledTextArea = ({ value, setValue }: LabeledTextAreaProps) => {
+const LabeledTextArea = ({ label, value, setValue }: LabeledTextAreaProps) => {
   return (
-    <Field className="rounded-md border border-gray-200 shadow-sm">
-      <div className="border-b border-gray-200 rounded-t-md bg-white p-1">
-        <Label className="pl-1 text-sm">Comment</Label>
-      </div>
+    <LabeledField label={label}>
       <div className="p-2 bg-gray-50">
         <Textarea
           className="h-auto w-full focus:outline-none bg-gray-50"
           name="description"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-        ></Textarea>
+        />
       </div>
-    </Field>
+    </LabeledField>
   );
 };
 

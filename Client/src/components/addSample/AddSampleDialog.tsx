@@ -40,27 +40,21 @@ const AddSampleDialog = ({
   const [saveAsRecipe, setSaveAsRecipe] = useState(false);
   const [recipeName, setRecipeName] = useState("");
   const [comment, setComment] = useState("");
-  const [isRecipeNameValid, setIsRecipeNameValid] = useState(true);
-  const [isProjectValid, setIsProjectValid] = useState(true);
   const [tags, setTags] = useState<Tag[]>([]);
 
   const { data, isLoading } = useProjects({ pageSize: 999, pageNumber: 0 });
 
   const handleClose = () => {
     setSelectedProject(null);
-    setIsRecipeNameValid(true);
-    setIsProjectValid(true);
     setIsOpen(false);
   };
 
   const handleSubmit = () => {
     if (!validateProject(selectedProject)) {
-      setIsProjectValid(false);
       return;
     }
 
     if (saveAsRecipe && !validateRecipeName(recipeName)) {
-      setIsRecipeNameValid(false);
       return;
     }
 
@@ -90,7 +84,6 @@ const AddSampleDialog = ({
           value={selectedProject}
           displayValue={(project) => project?.name ?? ""}
           onChange={(project: Project) => setSelectedProject(project)}
-          isValid={isProjectValid}
         >
           {data?.rows.map((project) => (
             <SelectItem<Project>
@@ -108,10 +101,9 @@ const AddSampleDialog = ({
         {saveAsRecipe && (
           <FormInput
             label="Recipe Name"
+            required
             value={recipeName}
             onChange={(e) => setRecipeName(e.currentTarget.value)}
-            isValid={isRecipeNameValid}
-            validationInfo="Recipe Name name must be at least 5 characters long"
           />
         )}
         <LabeledTagInput tags={tags} setTags={setTags} />
