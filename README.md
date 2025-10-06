@@ -7,7 +7,7 @@ For both environments, swagger is available under the /swagger path
 ### Run compose
 
 ```
-docker compose -f compose.yaml -f compose.prod.yaml --env-file .env up
+docker compose --env-file .env.sample.local -f oci://ghcr.io/flaviusaugustus/terminal/compose:latest up
 ```
 
 ## Development
