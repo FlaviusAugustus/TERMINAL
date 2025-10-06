@@ -185,3 +185,5 @@ coverage/
 
 # Exclude system files
 .vscode/
+
+cert/

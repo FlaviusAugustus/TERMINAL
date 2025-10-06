@@ -1,0 +1,30 @@
+name: terminal.dev
+services:
+  client:
+    stdin_open: true
+    ports:
+      - 5173:5173
+    build:
+      context: "./Client"
+      dockerfile: "Dockerfile.dev"
+    develop:
+      watch:
+        - action: sync
+          x-initialSync: true
+          path: "./Client"
+          ignore:
+            - node_modules/
+          target: "/app"
+        - action: rebuild
+          path: package.json
+
+  server:
+    ports:
+      - 5006:5006
+    build: "./Server/src"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    develop:
+      watch:
+        - action: rebuild
+          path: ./Server/src

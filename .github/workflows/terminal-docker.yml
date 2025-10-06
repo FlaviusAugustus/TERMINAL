@@ -49,7 +49,7 @@ jobs:
           images: ${{ inputs.registry-url }}/${{ env.REPO_LC }}/${{ matrix.image-name }}
           tags: |
             # set latest tag for default branch
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest
             type=sha
 
       - name: Build and push Docker images
@@ -60,3 +60,8 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Push compose stack
+        run: |
+          docker compose -f compose.yaml -f compose.prod.yaml publish -y ghcr.io/flaviusaugustus/terminal/compose:${{ github.sha }}
+          docker compose -f compose.yaml -f compose.prod.yaml publish -y ghcr.io/flaviusaugustus/terminal/compose:latest
