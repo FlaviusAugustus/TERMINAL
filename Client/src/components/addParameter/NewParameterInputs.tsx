@@ -15,6 +15,12 @@ type NewParameterInputsProps = {
   handleChangeType: (type: ParameterType) => void;
 };
 
+const capitalizeFirstLetter = (str: ParameterType): string => {
+  console.log(str);
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 const NewParameterInputs = ({
   parameterRequest,
   addAllowedValue,
@@ -38,6 +44,7 @@ const NewParameterInputs = ({
         label="Type"
         name="Type"
         value={parameterRequest.$type}
+        displayValue={capitalizeFirstLetter}
         onChange={handleChangeType}
       >
         <SelectItem value="integer" displayValue="Integer" />
