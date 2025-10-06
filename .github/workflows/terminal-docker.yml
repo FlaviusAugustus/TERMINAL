@@ -63,5 +63,5 @@ jobs:
 
       - name: Push compose stack
         run: |
-          docker compose -f compose.yaml -f compose.prod.yaml publish -y ghcr.io/flaviusaugustus/terminal/compose:${ github.sha }
+          docker compose -f compose.yaml -f compose.prod.yaml publish -y ghcr.io/flaviusaugustus/terminal/compose:${{ github.sha }}
           docker compose -f compose.yaml -f compose.prod.yaml publish -y ghcr.io/flaviusaugustus/terminal/compose:latest
