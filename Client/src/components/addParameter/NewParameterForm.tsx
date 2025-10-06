@@ -9,20 +9,20 @@ import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 const NewParameterForm = () => {
   const [parameterRequest, setParameterRequest] =
     useState<AllParametersRequest>({
-      $type: "Integer",
+      $type: "integer",
       name: "",
       unit: "",
     });
 
   const addAllowedValue = () => {
-    if (parameterRequest.$type == "Text")
+    if (parameterRequest.$type == "text")
       setParameterRequest({
         ...parameterRequest,
         allowedValues: [...parameterRequest.allowedValues, ""],
       });
   };
   const deleteAllowedValue = (index: number) => {
-    if (parameterRequest.$type == "Text") {
+    if (parameterRequest.$type == "text") {
       const newValues = parameterRequest.allowedValues.filter(
         (_, i) => i !== index
       );
@@ -30,7 +30,7 @@ const NewParameterForm = () => {
     }
   };
   const setAllowedValue = (index: number, value: string) => {
-    if (parameterRequest.$type == "Text") {
+    if (parameterRequest.$type == "text") {
       const newValues = [...parameterRequest.allowedValues];
       newValues[index] = value;
       setParameterRequest({ ...parameterRequest, allowedValues: newValues });
@@ -47,7 +47,7 @@ const NewParameterForm = () => {
 
   const handleChangeType = (value: ParameterType) => {
     if (!value) return;
-    if (value === "Text")
+    if (value === "text")
       setParameterRequest({
         $type: value,
         name: parameterRequest.name,
@@ -68,7 +68,7 @@ const NewParameterForm = () => {
       error: "Failed adding parameter",
     });
     setParameterRequest({
-      $type: "Integer",
+      $type: "integer",
       name: "",
       unit: "",
     });

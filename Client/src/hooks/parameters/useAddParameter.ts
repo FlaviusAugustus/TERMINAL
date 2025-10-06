@@ -4,12 +4,12 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@utils/queryClient.tsx";
 
 async function addParameter(parameterRequest: AllParametersRequest) {
-  if (parameterRequest.$type == "Text")
+  if (parameterRequest.$type == "text")
     return await apiClient.post("/parameters/define/text", {
       name: parameterRequest.name,
       allowedValues: parameterRequest.allowedValues,
     });
-  else if (parameterRequest.$type == "Decimal")
+  else if (parameterRequest.$type == "decimal")
     return await apiClient.post("/parameters/define/decimal", {
       name: parameterRequest.name,
       unit: parameterRequest.unit,

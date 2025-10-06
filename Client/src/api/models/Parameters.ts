@@ -1,4 +1,4 @@
-export type ParameterType = "Decimal" | "Text" | "Integer";
+export type ParameterType = "decimal" | "text" | "integer";
 
 export type ParameterValue<T> = {
   value: T;
@@ -14,23 +14,23 @@ export type Parameter = {
 };
 
 export type NumericParameter = Parameter & {
-  $type: "Decimal" | "Integer";
+  $type: "decimal" | "integer";
   unit: string;
 };
 
 export type IntegerParameter = NumericParameter &
   ParameterValue<number> & {
-    $type: "Integer";
+    $type: "integer";
   };
 
 export type DecimalParameter = NumericParameter &
   ParameterValue<number> & {
-    $type: "Decimal";
+    $type: "decimal";
   };
 
 export type TextParameter = Parameter &
   ParameterValue<string> & {
-    $type: "Text";
+    $type: "text";
     allowedValues: string[];
   };
 
@@ -55,12 +55,12 @@ export type ParameterRequest = {
 };
 
 export type NumericParameterRequest = ParameterRequest & {
-  $type: "Decimal" | "Integer";
+  $type: "decimal" | "integer";
   unit: string;
 };
 
 export type TextParameterRequest = ParameterRequest & {
-  $type: "Text";
+  $type: "text";
   allowedValues: string[];
 };
 

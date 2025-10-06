@@ -29,15 +29,15 @@ const ParameterDetails = ({
       <div className="space-y-3 font-light text-sm text-gray-600">
         <div className="grid grid-cols-3 gap-3">
           <Detail label="name">{parameter?.name}</Detail>
-          {(parameter?.$type === "Decimal" ||
-            parameter?.$type === "Integer") && (
+          {(parameter?.$type === "decimal" ||
+            parameter?.$type === "integer") && (
             <>
               <Detail label="step">{parameter?.step}</Detail>
               <Detail label="unit">{parameter?.unit}</Detail>
             </>
           )}
         </div>
-        {parameter?.$type === "Text" && (
+        {parameter?.$type === "text" && (
           <div className="flex flex-col gap-1 items-start w-full justify-center">
             <Detail label="Allowed values:">
               <div className="flex gap-1">

@@ -40,11 +40,11 @@ const NewParameterInputs = ({
         value={parameterRequest.$type}
         onChange={handleChangeType}
       >
-        <SelectItem value="Integer" displayValue="Integer" />
-        <SelectItem value="Decimal" displayValue="Decimal" />
-        <SelectItem value="Text" displayValue="Text" />
+        <SelectItem value="integer" displayValue="Integer" />
+        <SelectItem value="decimal" displayValue="Decimal" />
+        <SelectItem value="text" displayValue="Text" />
       </LabeledSelect>
-      {parameterRequest.$type !== "Text" && (
+      {parameterRequest.$type !== "text" && (
         <FormInput
           required
           label="Unit"
@@ -55,7 +55,7 @@ const NewParameterInputs = ({
           onChange={(e) => handleChangeValue("unit", e.currentTarget.value)}
         />
       )}
-      {parameterRequest.$type === "Text" && (
+      {parameterRequest.$type === "text" && (
         <NewParameterAllowedValues
           parameterRequest={parameterRequest}
           addAllowedValue={addAllowedValue}
