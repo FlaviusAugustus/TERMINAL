@@ -12,7 +12,7 @@ import {
 } from "@components/shared/form/LabeledSelect.tsx";
 import { useProjects } from "@hooks/projects/useGetProjects";
 import { useEffect, useState } from "react";
-import LabeledTextArea from "@components/shared/form/LabeledTextArea.tsx";
+import HeaderedTextArea from "@components/shared/form/HeaderedTextArea.tsx";
 import LabeledTagInput from "@components/addSample/LabeledTagInput.tsx";
 import { Tag } from "@api/models/Tag.ts";
 import SubmitButton from "@components/shared/form/SubmitButton.tsx";
@@ -114,7 +114,11 @@ const AddSampleDialog = ({
             />
           )}
           <LabeledTagInput tags={tags} setTags={setTags} />
-          <LabeledTextArea value={comment} setValue={setComment} />
+          <HeaderedTextArea
+            value={comment}
+            setValue={setComment}
+            label={"Comment"}
+          />
 
           <SubmitButton label="Add sample" isLoading={isPending} />
           <DialogButton className="hover:border-red-400" onClick={handleClose}>
