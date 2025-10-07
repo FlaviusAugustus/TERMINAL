@@ -44,6 +44,7 @@ const SelectedValue = <T,>({
       <Chip value={displayValue} getColorValue={() => "gray"}>
         {handleRemove && (
           <button
+            type="button"
             className="items-center text-gray-900 hover:text-gray-400 pl-1"
             onClick={() => handleRemove(value)}
           >

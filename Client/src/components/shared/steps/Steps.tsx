@@ -7,7 +7,7 @@ import {
 } from "@dnd-kit/sortable";
 import ParameterBox from "@components/shared/parameterList/ParameterBox.tsx";
 import { useAddRecipeContext } from "@hooks/recipes/useAddRecipeContext.tsx";
-import LabeledTextArea from "@components/shared/form/LabeledTextArea.tsx";
+import HeaderedTextArea from "@components/shared/form/HeaderedTextArea.tsx";
 
 const Steps = () => {
   const { currentStep, setCurrentStep, recipe, updateComment } =
@@ -48,9 +48,10 @@ const Steps = () => {
                     </ParameterDroppable>
                   </div>
                   <div className="flex flex-col w-full sm:w-2/5 gap-1">
-                    <LabeledTextArea
+                    <HeaderedTextArea
                       value={step.comment}
                       setValue={(value) => updateComment(index, value)}
+                      label={"Comment"}
                     />
                   </div>
                 </TabPanel>

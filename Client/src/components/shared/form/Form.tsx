@@ -14,7 +14,11 @@ const Form = ({ handleSubmit, children, ...rest }: FormProps) => {
       onSubmit={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (formRef.current?.checkValidity()) handleSubmit();
+        if (formRef.current?.checkValidity()) {
+          handleSubmit().then(() => {
+            formRef.current?.reset();
+          });
+        }
       }}
     >
       {children}

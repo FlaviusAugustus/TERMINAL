@@ -8,7 +8,7 @@ const LabeledField = ({
   ...rest
 }: React.PropsWithChildren<LabeledFieldProps>) => {
   return (
-    <Field {...rest} className="h-fit data-invalid:text-red-500 flex flex-col">
+    <Field {...rest} className="h-fit data-invalid:text-red-500">
       {label && (
         <Label className="text-sm font-normal font-sans text-gray-700">
           {label}:

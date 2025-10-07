@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from "react";
+import { ReactNode } from "react";
 import {
   Combobox,
   ComboboxInput,
@@ -26,12 +26,12 @@ type LabeledSelectProps<T, Multiple extends boolean> = ComboboxProps<
 };
 
 /**
- * Reusable input field component with validation support.
+ * Reusable Select field.
  *
  * @component
- * @param {InputFieldProps} props - The props for the FormInput component
+ * @param {LabeledSelectProps} props - The props for the LabeledSelect component
  */
-const FormSelect = <T, Multiple extends boolean>({
+const LabeledSelect = <T, Multiple extends boolean>({
   label,
   children,
   displayValue,
@@ -40,7 +40,6 @@ const FormSelect = <T, Multiple extends boolean>({
   comboboxOptionsStyles = "",
   ...rest
 }: LabeledSelectProps<T, Multiple>) => {
-  const ref = useRef<HTMLInputElement>(null);
   const value = rest.value;
   const multiple = rest.multiple;
 
@@ -49,7 +48,7 @@ const FormSelect = <T, Multiple extends boolean>({
       <Combobox immediate {...rest}>
         <div
           className={clsx(
-            "relative w-full bg-white px-3 border-[1px] rounded-md py-2 mb-3",
+            "relative w-full bg-white px-3 border-[1px] border-black/15 rounded-md py-2",
             comboboxStyles
           )}
         >
@@ -57,9 +56,8 @@ const FormSelect = <T, Multiple extends boolean>({
             <SelectedValues values={value} handleRemove={handleRemoveValue} />
           )}
           <ComboboxInput
-            ref={ref}
             displayValue={displayValue}
-            className={"w-full h-full focus:outline-none bg-inherit"}
+            className={"w-full h-full focus:outline-none"}
           />
 
           <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
@@ -68,7 +66,7 @@ const FormSelect = <T, Multiple extends boolean>({
         </div>
         <ComboboxOptions
           className={clsx(
-            "w-[--input-width] flex flex-col gap-1 bg-white border rounded-md shadow-sm mt-4 py-1 px-3 box-content",
+            "w-[--input-width] flex flex-col gap-1 bg-white border rounded-md shadow-sm mt-2 py-1",
             comboboxOptionsStyles
           )}
           anchor="bottom"
@@ -95,4 +93,4 @@ const SelectItem = <T,>({ displayValue, ...rest }: SelectItemProps<T>) => {
   );
 };
 
-export { FormSelect, SelectItem };
+export { LabeledSelect, SelectItem };

@@ -1,5 +1,8 @@
 import FormInput from "@components/shared/form/FormInput.tsx";
-import { FormSelect, SelectItem } from "@components/shared/form/FormSelect.tsx";
+import {
+  LabeledSelect,
+  SelectItem,
+} from "@components/shared/form/LabeledSelect.tsx";
 import NewParameterAllowedValues from "@components/addParameter/NewParameterAllowedValues.tsx";
 import { AllParametersRequest, ParameterType } from "@api/models/Parameters.ts";
 
@@ -10,6 +13,12 @@ type NewParameterInputsProps = {
   setAllowedValue: (index: number, value: string) => void;
   handleChangeValue: (attr: string, value: string) => void;
   handleChangeType: (type: ParameterType) => void;
+};
+
+const capitalizeFirstLetter = (str: ParameterType): string => {
+  console.log(str);
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
 const NewParameterInputs = ({
@@ -31,22 +40,23 @@ const NewParameterInputs = ({
         maxLength={50}
         onChange={(e) => handleChangeValue("name", e.target.value)}
       />
-      <FormSelect
+      <LabeledSelect
         label="Type"
         name="Type"
         value={parameterRequest.$type}
+        displayValue={capitalizeFirstLetter}
         onChange={handleChangeType}
       >
         <SelectItem value="integer" displayValue="Integer" />
         <SelectItem value="decimal" displayValue="Decimal" />
         <SelectItem value="text" displayValue="Text" />
-      </FormSelect>
+      </LabeledSelect>
       {parameterRequest.$type !== "text" && (
         <FormInput
           required
           label="Unit"
           name="Unit"
-          minLength={3}
+          minLength={1}
           maxLength={50}
           value={parameterRequest.unit}
           onChange={(e) => handleChangeValue("unit", e.currentTarget.value)}
