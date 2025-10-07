@@ -24,7 +24,7 @@ const AddRecipeWithContexts = () => {
 const AddRecipe = () => {
   return (
     <div className="flex flex-col h-full overflow-auto bg-gray-50">
-      <div className="flex overflow-auto px-2 py-1 pb-1 gap-2 flex-wrap sm:flex-nowrap">
+      <div className="flex overflow-auto h-full px-2 py-1 pb-1 gap-2 flex-wrap sm:flex-nowrap">
         <div className="flex flex-col gap-2 w-80">
           <ParameterSelectList />
           <div className="hidden sm:block">

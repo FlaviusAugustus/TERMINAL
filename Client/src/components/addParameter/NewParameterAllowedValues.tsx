@@ -35,6 +35,9 @@ const NewParameterAllowedValues = ({
                 name={`Value - ${index}`}
                 className="flex-grow"
                 value={value}
+                required
+                minLength={1}
+                maxLength={50}
                 onChange={(e) => setAllowedValue(index, e.currentTarget.value)}
               />
             </div>

@@ -56,7 +56,7 @@ const NewParameterInputs = ({
           required
           label="Unit"
           name="Unit"
-          minLength={3}
+          minLength={1}
           maxLength={50}
           value={parameterRequest.unit}
           onChange={(e) => handleChangeValue("unit", e.currentTarget.value)}
