@@ -29,7 +29,7 @@ const TableView = <T extends TableElement>(props: TableViewProps<T>) => {
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="sticky top-0 bg-white border-b border-gray-200"
+                  className="sticky top-0 bg-white border-b border-gray-200 z-[1]"
                 >
                   <div
                     onClick={header.column.getToggleSortingHandler()}
