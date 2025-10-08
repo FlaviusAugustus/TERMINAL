@@ -137,6 +137,7 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
           <LabeledSelect
             comboboxStyles={"!py-0 !mt-0"}
             comboboxOptionsStyles={"!py-0 !mt-0"}
+            value={parameter.value}
             onChange={(val: string) => {
               const updatedParameter = onChangeValue(parameter, val);
               updateParameter(currentStep, updatedParameter);
