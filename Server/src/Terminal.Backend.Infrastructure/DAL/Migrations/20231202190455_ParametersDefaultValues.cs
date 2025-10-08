@@ -22,10 +22,10 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                 type: "integer",
                 nullable: true);
 
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.AddColumn<long>(
                 name: "TextParameter_DefaultValue",
                 table: "Parameters",
-                type: "text",
+                type: "bigint",
                 nullable: true);
         }
 

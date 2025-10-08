@@ -852,8 +852,8 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                         .HasColumnType("text[]")
                         .HasColumnName("TextParameter_AllowedValues");
 
-                    b.Property<string>("DefaultValue")
-                        .HasColumnType("text");
+                    b.Property<long>("DefaultValue")
+                        .HasColumnType("bigint");
 
                     b.ToTable("Parameters", t =>
                         {

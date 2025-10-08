@@ -18,7 +18,6 @@ function useGetParameters() {
   return useQuery({
     queryKey: ["parameters"],
     queryFn: fetchParameters,
-    staleTime: Infinity,
   });
 }
 
