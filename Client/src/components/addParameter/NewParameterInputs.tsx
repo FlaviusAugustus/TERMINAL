@@ -51,25 +51,27 @@ const NewParameterInputs = ({
         <SelectItem value="decimal" displayValue="Decimal" />
         <SelectItem value="text" displayValue="Text" />
       </LabeledSelect>
-      {parameterRequest.$type !== "text" && (
-        <FormInput
-          required
-          label="Unit"
-          name="Unit"
-          minLength={1}
-          maxLength={50}
-          value={parameterRequest.unit}
-          onChange={(e) => handleChangeValue("unit", e.currentTarget.value)}
-        />
-      )}
-      {parameterRequest.$type === "text" && (
-        <NewParameterAllowedValues
-          parameterRequest={parameterRequest}
-          addAllowedValue={addAllowedValue}
-          removeAllowedValue={deleteAllowedValue}
-          setAllowedValue={setAllowedValue}
-        />
-      )}
+      <div className="flex flex-col gap-3 pt-4">
+        {parameterRequest.$type !== "text" && (
+          <FormInput
+            required
+            label="Unit"
+            name="Unit"
+            minLength={1}
+            maxLength={50}
+            value={parameterRequest.unit}
+            onChange={(e) => handleChangeValue("unit", e.currentTarget.value)}
+          />
+        )}
+        {parameterRequest.$type === "text" && (
+          <NewParameterAllowedValues
+            parameterRequest={parameterRequest}
+            addAllowedValue={addAllowedValue}
+            removeAllowedValue={deleteAllowedValue}
+            setAllowedValue={setAllowedValue}
+          />
+        )}
+      </div>
     </div>
   );
 };
