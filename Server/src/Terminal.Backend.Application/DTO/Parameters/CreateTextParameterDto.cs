@@ -3,7 +3,7 @@ using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Application.DTO.Parameters;
 
-public sealed record CreateTextParameterDto(ParameterId Id, string Name, List<string> AllowedValues)
+public sealed record CreateTextParameterDto(ParameterId Id, string Name, List<string> AllowedValues, string DefaultValue)
 {
-    public TextParameter AsParameter() => new(Id, Name, AllowedValues);
+    public TextParameter AsParameter() => new(Id, Name, AllowedValues, DefaultValue);
 }
