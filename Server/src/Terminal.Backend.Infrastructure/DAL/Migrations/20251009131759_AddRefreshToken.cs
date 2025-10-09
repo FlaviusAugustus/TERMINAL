@@ -36,7 +36,8 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Token = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ExpiresOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    ExpiresOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsValid = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

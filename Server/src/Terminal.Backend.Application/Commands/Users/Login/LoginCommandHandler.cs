@@ -1,20 +1,26 @@
 using MediatR;
 using Terminal.Backend.Application.Abstractions;
-using Terminal.Backend.Application.DTO.Users;
 using Terminal.Backend.Application.Exceptions;
 using Terminal.Backend.Core.Abstractions.Repositories;
+using Terminal.Backend.Core.Entities;
 
 namespace Terminal.Backend.Application.Commands.Users.Login;
 
 internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, AuthenticatedResponse>
 {
     private readonly IUserRepository _userRepository;
+    private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtProvider _jwtProvider;
 
-    public LoginCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher, IJwtProvider jwtProvider)
+    public LoginCommandHandler(
+        IUserRepository userRepository, 
+        IRefreshTokenRepository refreshTokenRepository, 
+        IPasswordHasher passwordHasher, 
+        IJwtProvider jwtProvider)
     {
         _userRepository = userRepository;
+        _refreshTokenRepository = refreshTokenRepository;
         _passwordHasher = passwordHasher;
         _jwtProvider = jwtProvider;
     }
@@ -40,7 +46,25 @@ internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, Authen
         }
  
         var accessToken = _jwtProvider.GenerateJwt(user);
-        var refreshToken = "TEST";
-        return new AuthenticatedResponse(accessToken, refreshToken);
+
+        var refreshToken = new RefreshToken
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            Token = _jwtProvider.GenerateRefreshToken(),
+            ExpiresOnUtc = DateTime.UtcNow.AddDays(360),
+            IsValid = true,
+        };
+        
+        var existingToken = await _refreshTokenRepository.GetAsync(user.Id, cancellationToken);
+        
+        if (existingToken != null)
+        {
+            await _refreshTokenRepository.DeleteAsync(existingToken, cancellationToken);
+        }
+
+        await _refreshTokenRepository.AddAsync(refreshToken, cancellationToken);
+        
+        return new AuthenticatedResponse(accessToken, refreshToken.Token);
     }
 }

@@ -326,6 +326,9 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                     b.Property<DateTime>("ExpiresOnUtc")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Token")
                         .IsRequired()
                         .HasMaxLength(256)

@@ -13,7 +13,7 @@ using Terminal.Backend.Infrastructure.DAL;
 namespace Terminal.Backend.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(TerminalDbContext))]
-    [Migration("20251009113521_AddRefreshToken")]
+    [Migration("20251009131759_AddRefreshToken")]
     partial class AddRefreshToken
     {
         /// <inheritdoc />
@@ -328,6 +328,9 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
 
                     b.Property<DateTime>("ExpiresOnUtc")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Token")
                         .IsRequired()

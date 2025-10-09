@@ -8,6 +8,7 @@ public sealed class RefreshToken
     public string Token { get; set; }
     public UserId UserId { get; set; }
     public DateTime ExpiresOnUtc { get; set; }
+    public Boolean IsValid { get; set; }
     
     public User User { get; set; }
 }
