@@ -73,7 +73,7 @@ public static class Extensions
                     IntegerParameterValue i => new GetSampleIntegerParameterValueDto(i.Parameter.Id, i.Parameter.Name,
                         i.Value, (i.Parameter as IntegerParameter)!.Unit),
                     TextParameterValue t => new GetSampleTextParameterValueDto(t.Parameter.Id, t.Parameter.Name,
-                        t.Value),
+                        t.Value, (p.Parameter as TextParameter)!.AllowedValues),
                     _ => throw new ArgumentOutOfRangeException(nameof(p))
                 };
                 return b;
