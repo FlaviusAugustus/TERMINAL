@@ -180,20 +180,13 @@ public static class UsersModule
             .WithTags(SwaggerSetup.UserTag);
 
         app.MapPost(ApiBaseRoute + "/refresh", async (
-                ClaimsPrincipal claimsPrincipal,
+                RefreshTokenCommand refreshTokenCommand,
                 ISender sender,
                 CancellationToken ct) =>
             {
-                var id = claimsPrincipal.GetUserId();
-                if (id is null)
-                {
-                    return Results.BadRequest();
-                }
-
-                var command = new RefreshTokenCommand(id.Value);
-                var token = await sender.Send(command, ct);
-                return Results.Ok(token);
-            }).RequireAuthorization(Role.Registered)
+                var response = await sender.Send(refreshTokenCommand, ct);
+                return Results.Ok(response);
+            }).AllowAnonymous()
             .WithTags(SwaggerSetup.UserTag);
     }
 }

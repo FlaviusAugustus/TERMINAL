@@ -3,4 +3,4 @@ using Terminal.Backend.Application.Commands.Users.Login;
 
 namespace Terminal.Backend.Application.Commands.Users.Refresh;
 
-public sealed record RefreshTokenCommand(Guid Id) : IRequest<AuthenticatedResponse>;
+public sealed record RefreshTokenCommand(string RefreshToken) : IRequest<AuthenticatedResponse>;
