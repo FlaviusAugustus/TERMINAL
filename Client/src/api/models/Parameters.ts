@@ -21,17 +21,20 @@ export type NumericParameter = Parameter & {
 export type IntegerParameter = NumericParameter &
   ParameterValue<number> & {
     $type: "integer";
+    defaultValue: number;
   };
 
 export type DecimalParameter = NumericParameter &
   ParameterValue<number> & {
     $type: "decimal";
+    defaultValue: number;
   };
 
 export type TextParameter = Parameter &
   ParameterValue<string> & {
     $type: "text";
     allowedValues: string[];
+    defaultValue: string;
   };
 
 export type UpdateParameter = {

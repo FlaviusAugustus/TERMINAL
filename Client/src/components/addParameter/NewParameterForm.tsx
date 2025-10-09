@@ -22,7 +22,10 @@ const NewParameterForm = () => {
       });
   };
   const deleteAllowedValue = (index: number) => {
-    if (parameterRequest.$type == "text") {
+    if (
+      parameterRequest.$type == "text" &&
+      parameterRequest.allowedValues.length > 1
+    ) {
       const newValues = parameterRequest.allowedValues.filter(
         (_, i) => i !== index
       );

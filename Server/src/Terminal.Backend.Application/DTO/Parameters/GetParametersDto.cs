@@ -17,7 +17,7 @@ public sealed record GetTextParameterDto(
     string Name,
     IEnumerable<string> AllowedValues,
     uint Order,
-    uint DefaultValue,
+    string DefaultValue,
     Guid? ParentId = null)
     : GetParameterDto(Id, Name, Order, ParentId);
 

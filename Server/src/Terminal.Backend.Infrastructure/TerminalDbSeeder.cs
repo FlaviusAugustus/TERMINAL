@@ -48,7 +48,8 @@ internal sealed class TerminalDbSeeder
                 "nucleation",
                 "dip-coating",
                 "without nucleation"
-            });
+            },
+            "spin-coating");
         var temperatureParameter = new IntegerParameter(ParameterId.Create(), "Temperature", "C\u2070", 1);
         var pressureParameter = new IntegerParameter(ParameterId.Create(), "Pressure", "Torr", 1);
         var powerParameter = new IntegerParameter(ParameterId.Create(), "Pmw", "W", 1);
@@ -60,10 +61,11 @@ internal sealed class TerminalDbSeeder
                 "silicon dioxide",
                 "glass",
                 "tantalum"
-            });
+            },
+            "silicon");
         var bufferParameter = new DecimalParameter(ParameterId.Create(), "Buffer", "h", 0.1m);
         var additionalGasesParameter = new TextParameter(ParameterId.Create(), "Additional gases",
-            new List<string> { "none", "nitrogen", "oxygen" }, order: 12);
+            new List<string> { "none", "nitrogen", "oxygen" }, "none", order: 12);
         var additionalGassesAmountParameter =
             new IntegerParameter(ParameterId.Create(), "Additional gases amount", "sccm", 1);
         additionalGassesAmountParameter.SetParent(additionalGasesParameter);
