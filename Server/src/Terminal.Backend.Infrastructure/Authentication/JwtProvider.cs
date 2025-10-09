@@ -18,7 +18,7 @@ internal sealed class JwtProvider : IJwtProvider
         _options = options.Value;
     }
 
-    public JwtToken Generate(User user)
+    public string GenerateJwt(User user)
     {
         var claims = new Claim[]
         {
@@ -37,12 +37,12 @@ internal sealed class JwtProvider : IJwtProvider
             _options.Audience,
             claims,
             null,
-            DateTime.UtcNow.AddHours(12),
+            DateTime.UtcNow.AddMilliseconds(1),
             signingCredentials);
 
         var tokenValue = new JwtSecurityTokenHandler()
             .WriteToken(token);
 
-        return new JwtToken(tokenValue);
+        return tokenValue ;
     }
 }

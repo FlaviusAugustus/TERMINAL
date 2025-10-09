@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Terminal.Backend.Infrastructure.DAL;
@@ -12,9 +13,11 @@ using Terminal.Backend.Infrastructure.DAL;
 namespace Terminal.Backend.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(TerminalDbContext))]
-    partial class TerminalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251009113521_AddRefreshToken")]
+    partial class AddRefreshToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -877,9 +880,8 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                         .HasColumnType("text[]")
                         .HasColumnName("TextParameter_AllowedValues");
 
-                    b.Property<string>("DefaultValue")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<long>("DefaultValue")
+                        .HasColumnType("bigint");
 
                     b.ToTable("Parameters", t =>
                         {

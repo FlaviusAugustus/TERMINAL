@@ -6,7 +6,7 @@ using Terminal.Backend.Core.Abstractions.Repositories;
 
 namespace Terminal.Backend.Application.Commands.Users.Refresh;
 
-internal sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, JwtToken>
+internal sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, AuthenticatedResponse>
 {
     private readonly IJwtProvider _jwtProvider;
     private readonly IUserRepository _userRepository;
@@ -17,7 +17,7 @@ internal sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenC
         _userRepository = userRepository;
     }
 
-    public async Task<JwtToken> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+    public async Task<AuthenticatedResponse> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
         var id = request.Id;
         var user = await _userRepository.GetAsync(id, cancellationToken);
@@ -26,7 +26,7 @@ internal sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenC
             throw new UserNotFoundException();
         }
 
-        var token = _jwtProvider.Generate(user);
-        return token;
+        var token = _jwtProvider.GenerateJwt(user);
+        return new AuthenticatedResponse(token, "TEST");
     }
 }

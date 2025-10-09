@@ -5,5 +5,5 @@ namespace Terminal.Backend.Application.Abstractions;
 
 public interface IJwtProvider
 {
-    JwtToken Generate(User user);
+    string GenerateJwt(User user);
 }

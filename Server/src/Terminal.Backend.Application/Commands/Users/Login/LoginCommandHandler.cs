@@ -1,11 +1,12 @@
 using MediatR;
 using Terminal.Backend.Application.Abstractions;
+using Terminal.Backend.Application.DTO.Users;
 using Terminal.Backend.Application.Exceptions;
 using Terminal.Backend.Core.Abstractions.Repositories;
 
 namespace Terminal.Backend.Application.Commands.Users.Login;
 
-internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, JwtToken>
+internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, AuthenticatedResponse>
 {
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher _passwordHasher;
@@ -18,7 +19,7 @@ internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, JwtTok
         _jwtProvider = jwtProvider;
     }
 
-    public async Task<JwtToken> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<AuthenticatedResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var (email, password) = request;
 
@@ -37,7 +38,9 @@ internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, JwtTok
         {
             throw new InvalidCredentialsException();
         }
-
-        return _jwtProvider.Generate(user);
+ 
+        var accessToken = _jwtProvider.GenerateJwt(user);
+        var refreshToken = "TEST";
+        return new AuthenticatedResponse(accessToken, refreshToken);
     }
 }
