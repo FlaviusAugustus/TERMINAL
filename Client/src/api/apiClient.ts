@@ -12,6 +12,9 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (request) => {
+    if (request.url && request.url.includes("/users/refresh")) {
+      console.log("Set refresh token");
+    }
     const accessToken = sessionStorage.getItem("token");
     if (accessToken) {
       request.headers.Authorization = "Bearer " + accessToken;
