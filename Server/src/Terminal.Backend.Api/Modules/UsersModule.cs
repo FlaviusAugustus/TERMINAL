@@ -188,5 +188,18 @@ public static class UsersModule
                 return Results.Ok(response);
             }).AllowAnonymous()
             .WithTags(SwaggerSetup.UserTag);
+        
+        app.MapPost(ApiBaseRoute + "/logout", async (
+                ClaimsPrincipal claims,
+                ISender sender,
+                CancellationToken ct) =>
+            {
+                var id = claims.GetUserId();
+                if (id is null) return Results.BadRequest();
+
+                await sender.Send(new DeleteRefreshTokenCommand(id.Value), ct);
+                return Results.Ok();
+            }).RequireAuthorization(Role.Registered)
+            .WithTags(SwaggerSetup.UserTag);
     }
 }
