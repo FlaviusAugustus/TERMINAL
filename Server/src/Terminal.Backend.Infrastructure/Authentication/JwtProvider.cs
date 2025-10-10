@@ -38,7 +38,7 @@ internal sealed class JwtProvider : IJwtProvider
             _options.Audience,
             claims,
             null,
-            DateTime.UtcNow.AddMinutes(1),
+            DateTime.UtcNow.AddSeconds(20),
             signingCredentials);
 
         var tokenValue = new JwtSecurityTokenHandler()

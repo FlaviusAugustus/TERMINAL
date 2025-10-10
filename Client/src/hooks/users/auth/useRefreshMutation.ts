@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
 
-async function loginUser() {
-  return await apiClient.post(`/users/logout`);
+async function refreshToken() {
+  return await apiClient.post(`/users/refresh`);
 }
 
 /**
@@ -14,10 +14,10 @@ async function loginUser() {
  */
 export function useLogoutMutation() {
   const result = useMutation({
-    mutationFn: () => loginUser(),
-    onSuccess: () => {
-      sessionStorage.removeItem("token");
-      localStorage.removeItem("refresh-token");
+    mutationFn: () => refreshToken(),
+    onSuccess: (data) => {
+      sessionStorage.setItem("token", data.data.token);
+      localStorage.setItem("refresh-token", data.data.refreshToken);
     },
   });
 

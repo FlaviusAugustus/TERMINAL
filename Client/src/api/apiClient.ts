@@ -12,9 +12,6 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (request) => {
-    if (request.url && request.url.includes("/users/refresh")) {
-      console.log("Set refresh token");
-    }
     const accessToken = sessionStorage.getItem("token");
     if (accessToken) {
       request.headers.Authorization = "Bearer " + accessToken;
@@ -41,10 +38,13 @@ apiClient.interceptors.response.use(
     originalRequest._retry = true;
 
     try {
-      const response = await apiClient.post<LoginResponse>("/users/refresh");
-      const { token } = response.data;
+      const response = await apiClient.post<LoginResponse>("/users/refresh", {
+        refreshToken: localStorage.getItem("refresh-token"),
+      });
+      const { token, refreshToken } = response.data;
 
       sessionStorage.setItem("token", token);
+      localStorage.setItem("refresh-token", refreshToken);
     } catch {
       return Promise.reject(error);
     }

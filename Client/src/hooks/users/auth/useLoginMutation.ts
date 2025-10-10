@@ -27,7 +27,7 @@ export function useLoginMutation() {
     mutationFn: (params: LoginRequest) => loginUser(params),
     onSuccess: (data) => {
       sessionStorage.setItem("token", data.data.token);
-      sessionStorage.setItem("refresh-token", data.data.refreshToken);
+      localStorage.setItem("refresh-token", data.data.refreshToken);
     },
   });
 
