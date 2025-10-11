@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Terminal.Backend.Application.Abstractions;
 using Terminal.Backend.Application.Invitations;
@@ -23,5 +25,12 @@ public static class Extensions
         services.AddScoped<IInvitationFactory, InvitationFactory>();
 
         return services;
+    }
+    
+    public static string Hash(string token)
+    {
+        var rawHash = SHA256.HashData(Encoding.UTF8.GetBytes(token));
+        
+        return Encoding.UTF8.GetString(rawHash);
     }
 }

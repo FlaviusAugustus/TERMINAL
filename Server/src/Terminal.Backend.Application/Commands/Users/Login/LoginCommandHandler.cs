@@ -46,12 +46,13 @@ internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, Authen
         }
  
         var accessToken = _jwtProvider.GenerateJwt(user);
+        var refreshToken = _jwtProvider.GenerateRefreshToken();
 
-        var refreshToken = new RefreshToken
+        var refreshTokenEntity = new RefreshToken
         {
             Id = Guid.NewGuid(),
             UserId = user.Id,
-            Token = _jwtProvider.GenerateRefreshToken(),
+            Token = Extensions.Hash(refreshToken),
             ExpiresOnUtc = DateTime.UtcNow.AddDays(360),
             IsValid = true,
         };
@@ -63,8 +64,8 @@ internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, Authen
             await _refreshTokenRepository.DeleteAsync(existingToken, cancellationToken);
         }
 
-        await _refreshTokenRepository.AddAsync(refreshToken, cancellationToken);
+        await _refreshTokenRepository.AddAsync(refreshTokenEntity, cancellationToken);
         
-        return new AuthenticatedResponse(accessToken, refreshToken.Token);
+        return new AuthenticatedResponse(accessToken, refreshToken);
     }
 }

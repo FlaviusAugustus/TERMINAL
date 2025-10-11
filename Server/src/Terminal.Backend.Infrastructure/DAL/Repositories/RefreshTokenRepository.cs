@@ -20,6 +20,9 @@ internal class RefreshTokenRepository : IRefreshTokenRepository
     public async Task<RefreshToken?> GetAsync(string token, CancellationToken ct)
         => await _refreshTokens.SingleOrDefaultAsync(r => r.Token == token, ct);
     
+    public async Task<RefreshToken?> GetAsync(Guid userId, CancellationToken ct)
+        => await _refreshTokens.SingleOrDefaultAsync(r => r.UserId.Value == userId, ct);
+    
     public async Task AddAsync(RefreshToken refreshToken, CancellationToken ct)
         => await _refreshTokens.AddAsync(refreshToken, ct);
     
