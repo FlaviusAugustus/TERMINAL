@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import FormInput from "../form/FormInput";
 import { DialogButton, DialogComp, DialogProps } from "./DialogComp";
+import Form from "../form/Form";
 
 export type ConfirmDeleteDialogProps = DialogProps & {
   description?: string;
   confirmationText?: string;
-  onSubmit: () => void;
+  onSubmit: () => Promise<void>;
 };
 
 const ConfirmDeleteDialog = ({
@@ -24,9 +25,9 @@ const ConfirmDeleteDialog = ({
     setConfirmation("");
   }, [open]);
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (confirmation === confirmationTargetText) {
-      onSubmit();
+      await onSubmit();
       setIsOpen(false);
     }
   };
@@ -53,17 +54,23 @@ const ConfirmDeleteDialog = ({
       title={"Are you sure?"}
     >
       {description && <p className="text-sm text-gray-700">{description}</p>}
-      <FormInput
-        ref={inputRef}
-        label="Confirmation"
-        required
-        name="Confirmation"
-        value={confirmation}
-        onChange={handleChange}
-      />
-      <DialogButton onClick={confirmDelete} className="hover:border-red-400">
-        Delete
-      </DialogButton>
+      <Form handleSubmit={confirmDelete}>
+        <FormInput
+          ref={inputRef}
+          label="Confirmation"
+          required
+          name="Confirmation"
+          value={confirmation}
+          onChange={handleChange}
+        />
+        <DialogButton
+          type="submit"
+          onClick={confirmDelete}
+          className="hover:border-red-400"
+        >
+          Delete
+        </DialogButton>
+      </Form>
     </DialogComp>
   );
 };
