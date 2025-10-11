@@ -14,6 +14,7 @@ using Terminal.Backend.Application.Commands.Users.Update.Role;
 using Terminal.Backend.Application.Queries.Users;
 using Terminal.Backend.Application.Queries.Users.Invitations;
 using Terminal.Backend.Core.Entities;
+using Terminal.Backend.Core.Exceptions;
 using Permission = Terminal.Backend.Core.Enums.Permission;
 
 namespace Terminal.Backend.Api.Modules;
@@ -184,8 +185,15 @@ public static class UsersModule
                 ISender sender,
                 CancellationToken ct) =>
             {
-                var response = await sender.Send(refreshTokenCommand, ct);
-                return Results.Ok(response);
+                try
+                {
+                    var response = await sender.Send(refreshTokenCommand, ct);
+                    return Results.Ok(response);
+                }
+                catch (InvalidRefreshToken e)
+                {
+                    return Results.Unauthorized();
+                }
             }).AllowAnonymous()
             .WithTags(SwaggerSetup.UserTag);
         

@@ -37,7 +37,7 @@ internal sealed class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenC
         var user = await _userRepository.GetAsync(refreshTokenEntity.UserId, cancellationToken);
         if (user is null)
         {
-            throw new UserNotFoundException();
+            throw new InvalidRefreshToken();
         }
 
         var newAccessToken = _jwtProvider.GenerateJwt(user);
