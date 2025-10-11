@@ -1,17 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import FormInput from "../form/FormInput";
-import { DialogButton, DialogComp, DialogProps } from "./DialogComp";
+import { DialogComp, DialogProps } from "./DialogComp";
+import { DialogSubmitButton } from "./DialogSubmitButton";
 
 export type ConfirmDeleteDialogProps = DialogProps & {
   description?: string;
   confirmationText?: string;
   onSubmit: () => void;
+  isSubmitting: boolean;
 };
 
 const ConfirmDeleteDialog = ({
   confirmationText,
   description,
   onSubmit,
+  isSubmitting,
   setIsOpen,
   isOpen,
   ...rest
@@ -61,9 +64,13 @@ const ConfirmDeleteDialog = ({
         value={confirmation}
         onChange={handleChange}
       />
-      <DialogButton onClick={confirmDelete} className="hover:border-red-400">
+      <DialogSubmitButton
+        onClick={confirmDelete}
+        className="hover:border-red-400"
+        isSubmitting={isSubmitting}
+      >
         Delete
-      </DialogButton>
+      </DialogSubmitButton>
     </DialogComp>
   );
 };

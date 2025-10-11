@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes } from "react";
 import { DialogButton } from "./DialogButton";
+import Loader from "../common/Loader";
 
 type DialogSubmitButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   isSubmitting: boolean;
@@ -19,7 +20,7 @@ const DialogSubmitButton = ({
 }: DialogSubmitButtonProps) => {
   return (
     <DialogButton {...rest}>
-      {isSubmitting ? "Loading..." : children}
+      {isSubmitting ? <Loader /> : children}
     </DialogButton>
   );
 };

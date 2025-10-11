@@ -62,11 +62,8 @@ const ProjectsPage = () => {
 
   const handleDelete = async (id: string | null) => {
     if (!id) return;
-    await toastPromise(deleteMutation.mutateAsync(id), {
-      loading: "Deleting project...",
-      success: "Deletion successful",
-      error: "Deletion failed",
-    });
+    await deleteMutation.mutateAsync(id);
+    if (deleteMutation.isSuccess) setDeleteOpen(false);
   };
 
   const openDeleteDialog = (id: string) => {
@@ -131,6 +128,7 @@ const ProjectsPage = () => {
         />
         <ConfirmDeleteDialog
           onSubmit={() => handleDelete(deleteProjectId)}
+          isSubmitting={deleteMutation.isPending}
           isOpen={deleteOpen}
           description={`Deleting the project will remove all associated samples. Type the word delete to confirm`}
           setIsOpen={setDeleteOpen}
