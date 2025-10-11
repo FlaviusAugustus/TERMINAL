@@ -4,10 +4,12 @@ import {
   useState,
   forwardRef,
   useImperativeHandle,
+  useEffect,
 } from "react";
 import { Input, InputProps } from "@headlessui/react";
 import clsx from "clsx";
 import LabeledField from "./LabeledField.tsx";
+import { useFormContext } from "@hooks/useFormContext.tsx";
 
 /**
  * Props type for FormInput component
@@ -54,6 +56,13 @@ const FormInput = forwardRef<HTMLInputElement, InputFieldProps>(
     const [errorMessage, setErrorMessage] = useState("");
     const [focused, setFocused] = useState(false);
     const [touched, setTouched] = useState(false);
+    const { formValidity } = useFormContext();
+
+    useEffect(() => {
+      if (formValidity === false) {
+        setErrorMessage(getErrorMessage(inputRef.current));
+      }
+    }, [formValidity]);
 
     const handleBlur = () => {
       setFocused(false);
@@ -72,7 +81,8 @@ const FormInput = forwardRef<HTMLInputElement, InputFieldProps>(
     useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
 
     const showErrorMessage =
-      !inputRef.current?.validity.valid && !focused && touched;
+      (!inputRef.current?.validity.valid && !focused && touched) ||
+      !formValidity;
 
     return (
       <LabeledField

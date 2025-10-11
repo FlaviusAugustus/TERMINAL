@@ -13,17 +13,13 @@ import TableManagement from "@components/shared/table/TableManagment.tsx";
 import TableCard from "@components/shared/table/TableCard";
 import { useState } from "react";
 import IconButton from "@components/shared/common/IconButton.tsx";
-import FormInput from "@components/shared/form/FormInput.tsx";
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
-import {
-  MagnifyingGlassIcon,
-  XMarkIcon,
-  PlusIcon,
-} from "@heroicons/react/24/outline";
+import { XMarkIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { toastPromise } from "utils/toast.utils";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Recipe } from "@api/models/Recipe";
+import { Input } from "@headlessui/react";
 
 export interface RecipesProps {
   recipe: RecipesResponse | undefined;
@@ -119,11 +115,9 @@ const Recipes = ({
   return (
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <FormInput
-          validate={false}
-          className="!text-sm !h-[40px]"
+        <Input
+          className="!text-sm !h-[40px] w-full px-3 py-2 border rounded-md"
           placeholder="Search"
-          icon={<MagnifyingGlassIcon className="h-4" />}
         />
         <VisibleForRoles roles={["Administrator", "Moderator"]}>
           <div className="flex gap-1">

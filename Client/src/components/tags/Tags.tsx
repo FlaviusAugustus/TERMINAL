@@ -10,11 +10,7 @@ import {
 import { Tag } from "@api/models/Tag.ts";
 import { useEffect, useState } from "react";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
-import {
-  MagnifyingGlassIcon,
-  PlusIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import IconButton from "@components/shared/common/IconButton.tsx";
 import TableCard from "@components/shared/table/TableCard.tsx";
@@ -22,7 +18,7 @@ import TableView from "@components/shared/table/TableView.tsx";
 import TableManagement from "@components/shared/table/TableManagment.tsx";
 import { TagsResponse } from "@hooks/tags/useGetAllTags.ts";
 import { Link } from "react-router-dom";
-import FormInput from "@components/shared/form/FormInput.tsx";
+import { Input } from "@headlessui/react";
 
 export interface TagProps {
   tags: TagsResponse | undefined;
@@ -106,11 +102,9 @@ const Tags = (props: TagProps) => {
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
         <div className="flex items-center gap-1">
-          <FormInput
-            validate={false}
-            className="!text-sm !h-[40px]"
+          <Input
+            className="!text-sm !h-[40px] w-full px-3 py-2 border rounded-md"
             placeholder="Search"
-            icon={<MagnifyingGlassIcon className="h-4" />}
             value={localSearch}
             onChange={(e) => setLocalSearch(e.currentTarget.value)}
             onKeyDown={(e) => {

@@ -14,17 +14,13 @@ import TableCard from "@components/shared/table/TableCard";
 import { Color } from "utils/colorUtils";
 import Chip from "@components/shared/common/Chip.tsx";
 import { useEffect, useState } from "react";
-import {
-  MagnifyingGlassIcon,
-  PlusIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import IconButton from "@components/shared/common/IconButton.tsx";
 import { Link } from "react-router-dom";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Project } from "@api/models/Project";
-import FormInput from "@components/shared/form/FormInput.tsx";
+import { Input } from "@headlessui/react";
 
 export interface ProjectsProps {
   onChangeProjectDetails: (id: string) => void;
@@ -129,11 +125,9 @@ const Projects = (props: ProjectsProps) => {
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
         <div className="flex items-center gap-1">
-          <FormInput
-            validate={false}
-            className="!text-sm !h-[40px]"
+          <Input
+            className="!text-sm !h-[40px] w-full px-3 py-2 border rounded-md"
             placeholder="Search"
-            icon={<MagnifyingGlassIcon className="h-4" />}
             value={localSearch}
             onChange={(e) => setLocalSearch(e.currentTarget.value)}
             onKeyDown={(e) => {

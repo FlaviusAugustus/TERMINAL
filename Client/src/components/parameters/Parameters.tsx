@@ -14,15 +14,11 @@ import TableView from "@components/shared/table/TableView.tsx";
 import TableManagement from "@components/shared/table/TableManagment.tsx";
 import Chip from "@components/shared/common/Chip.tsx";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
-import {
-  MagnifyingGlassIcon,
-  PlusIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import IconButton from "@components/shared/common/IconButton.tsx";
 import { Link } from "react-router-dom";
-import FormInput from "@components/shared/form/FormInput.tsx";
+import { Input } from "@headlessui/react";
 
 interface ParametersProps {
   parameters: Array<AllParameters>;
@@ -97,11 +93,9 @@ const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
   return (
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <FormInput
-          validate={false}
-          className="!text-sm !h-[40px]"
+        <Input
+          className="!text-sm !h-[40px] w-full px-3 py-2 border rounded-md"
           placeholder="Search"
-          icon={<MagnifyingGlassIcon className="h-4" />}
           onChange={(e) => setSearchValue(e.target.value)}
         />
         <VisibleForRoles roles={["Administrator", "Moderator"]}>

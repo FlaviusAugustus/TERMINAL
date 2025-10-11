@@ -1,4 +1,5 @@
-import { ComponentProps, PropsWithChildren, useRef } from "react";
+import FormContext from "@hooks/useFormContext";
+import { ComponentProps, PropsWithChildren, useRef, useState } from "react";
 
 type FormProps = PropsWithChildren<ComponentProps<"form">> & {
   handleSubmit: () => Promise<void>;
@@ -6,11 +7,20 @@ type FormProps = PropsWithChildren<ComponentProps<"form">> & {
 
 const Form = ({ handleSubmit, children, ...rest }: FormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
+  const [formValid, setFormValid] = useState(true);
+
+  const handleChange = () => {
+    if (!formValid) {
+      setFormValid(true);
+    }
+  };
+
   return (
     <form
       noValidate
       {...rest}
       ref={formRef}
+      onChange={handleChange}
       onSubmit={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -19,9 +29,12 @@ const Form = ({ handleSubmit, children, ...rest }: FormProps) => {
             formRef.current?.reset();
           });
         }
+        setFormValid(formRef.current?.checkValidity() || false);
       }}
     >
-      {children}
+      <FormContext.Provider value={{ formValidity: formValid }}>
+        {children}
+      </FormContext.Provider>
     </form>
   );
 };

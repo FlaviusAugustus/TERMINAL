@@ -11,10 +11,11 @@ import {
 } from "@components/shared/form/LabeledSelect.tsx";
 import roles from "@api/models/Role";
 import { UserDetailsDto } from "@api/models/User";
+import Form from "@components/shared/form/Form";
 
 export interface UserDetailsProps {
   dataQuery: UserDetailsDto;
-  onSubmit: (id: string, email: string, role: string) => void;
+  onSubmit: (id: string, email: string, role: string) => Promise<void>;
   open: boolean;
   setOpen: (arg0: boolean) => void;
 }
@@ -50,47 +51,51 @@ const UserDetails = (props: UserDetailsProps) => {
       setIsOpen={props.setOpen}
       title={"Edit user"}
     >
-      <FormInput
-        label="Email"
-        id="email"
-        type="email"
-        value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-          setIsChanged(true);
-        }}
-      />
-      <LabeledSelect
-        label="Role"
-        value={role}
-        onChange={(value: string) => {
-          if (!value) return;
-          setRole(value);
-          setIsChanged(true);
-        }}
+      <Form
+        handleSubmit={() => props.onSubmit(props.dataQuery.id, email, role)}
       >
-        {roles.map((role) => (
-          <SelectItem value={role} displayValue={role} key={role} />
-        ))}
-      </LabeledSelect>
-      <div className="flex flex-col gap-2 mt-4">
-        <div className="flex gap-1">
-          <DialogButton
-            disabled={!isChanged}
-            className="hover:border-blue-400 "
-            onClick={() => props.onSubmit(props.dataQuery.id, email, role)}
-          >
-            Submit changes
-          </DialogButton>
-          <DialogButton
-            disabled={!isChanged}
-            className="!w-fit hover:border-blue-400"
-            onClick={handleReset}
-          >
-            <ArrowPathIcon className="h-4 w-4" />
-          </DialogButton>
+        <FormInput
+          name="email"
+          label="Email"
+          type="email"
+          value={email}
+          required
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setIsChanged(true);
+          }}
+        />
+        <LabeledSelect
+          label="Role"
+          value={role}
+          onChange={(value: string) => {
+            setRole(value);
+            setIsChanged(true);
+          }}
+        >
+          {roles.map((role) => (
+            <SelectItem value={role} displayValue={role} key={role} />
+          ))}
+        </LabeledSelect>
+        <div className="flex flex-col gap-2 mt-4">
+          <div className="flex gap-1">
+            <DialogButton
+              disabled={!isChanged}
+              type="submit"
+              className="hover:border-blue-400 "
+            >
+              Submit changes
+            </DialogButton>
+            <DialogButton
+              disabled={!isChanged}
+              className="!w-fit hover:border-blue-400"
+              onClick={handleReset}
+            >
+              <ArrowPathIcon className="h-4 w-4" />
+            </DialogButton>
+          </div>
         </div>
-      </div>
+      </Form>
     </DialogComp>
   );
 };

@@ -10,13 +10,8 @@ import {
 import { SamplesResponse } from "@hooks/samples/useGetSamples.ts";
 import { useEffect, useState } from "react";
 import Chip from "@components/shared/common/Chip.tsx";
-import {
-  MagnifyingGlassIcon,
-  PlusIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import IconButton from "@components/shared/common/IconButton.tsx";
-import FormInput from "@components/shared/form/FormInput.tsx";
 import TableCard from "@components/shared/table/TableCard";
 import TableManagement from "@components/shared/table/TableManagment";
 import TableView from "@components/shared/table/TableView";
@@ -25,6 +20,7 @@ import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import { toastPromise } from "utils/toast.utils";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Sample } from "@api/models/Sample";
+import { Input } from "@headlessui/react";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
@@ -132,11 +128,9 @@ const Samples = (props: SamplesProps) => {
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
         <div className="flex items-center gap-1">
-          <FormInput
-            validate={false}
-            className="!text-sm !h-[40px]"
+          <Input
             placeholder="Search"
-            icon={<MagnifyingGlassIcon className="h-4" />}
+            className="!text-sm !h-[40px] w-full px-3 py-2 border rounded-md"
             value={localSearch}
             onChange={(e) => setLocalSearch(e.currentTarget.value)}
             onKeyDown={(e) => {
