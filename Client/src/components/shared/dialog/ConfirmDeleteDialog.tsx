@@ -1,30 +1,33 @@
 import { useEffect, useRef, useState } from "react";
 import FormInput from "../form/FormInput";
-import { DialogButton, DialogComp } from "./DialogComp";
+import { DialogButton, DialogComp, DialogProps } from "./DialogComp";
 
-export interface ProjectDetailsProps {
-  onSubmit: () => void;
-  open: boolean;
-  setOpen: (arg0: boolean) => void;
+export type ConfirmDeleteDialogProps = DialogProps & {
   description?: string;
   confirmationText?: string;
-}
+  onSubmit: () => void;
+};
 
-const ConfirmDeleteButton = (props: ProjectDetailsProps) => {
+const ConfirmDeleteDialog = ({
+  confirmationText,
+  description,
+  onSubmit,
+  setIsOpen,
+  isOpen,
+  ...rest
+}: ConfirmDeleteDialogProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [confirmation, setConfirmation] = useState("");
-  const confirmationTargetText = props.confirmationText
-    ? props.confirmationText
-    : "delete";
+  const confirmationTargetText = confirmationText ? confirmationText : "delete";
 
   useEffect(() => {
     setConfirmation("");
-  }, [props.open]);
+  }, [open]);
 
   const confirmDelete = () => {
     if (confirmation === confirmationTargetText) {
-      props.onSubmit();
-      props.setOpen(false);
+      onSubmit();
+      setIsOpen(false);
     }
   };
 
@@ -44,13 +47,12 @@ const ConfirmDeleteButton = (props: ProjectDetailsProps) => {
 
   return (
     <DialogComp
-      isOpen={props.open}
-      setIsOpen={props.setOpen}
+      {...rest}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
       title={"Are you sure?"}
     >
-      {props.description && (
-        <p className="text-sm text-gray-700">{props.description}</p>
-      )}
+      {description && <p className="text-sm text-gray-700">{description}</p>}
       <FormInput
         ref={inputRef}
         label="Confirmation"
@@ -66,4 +68,4 @@ const ConfirmDeleteButton = (props: ProjectDetailsProps) => {
   );
 };
 
-export default ConfirmDeleteButton;
+export default ConfirmDeleteDialog;

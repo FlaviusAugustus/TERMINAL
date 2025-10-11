@@ -12,7 +12,7 @@ import ProjectEdit from "@components/projects/ProjectEdit.tsx";
 import { useUpdateProjectName } from "@hooks/projects/useUpdateProjectName.ts";
 import { useUpdateProjectStatus } from "@hooks/projects/useUpdateProjectStatus.ts";
 import { useSearchProjects } from "@hooks/projects/useSearchProjects.ts";
-import ConfirmDeleteButton from "@components/shared/dialog/ConfirmDeleteDialog";
+import ConfirmDeleteDialog from "@components/shared/dialog/ConfirmDeleteDialog";
 
 const ProjectsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -129,11 +129,11 @@ const ProjectsPage = () => {
           open={editOpen}
           setOpen={setEditOpen}
         />
-        <ConfirmDeleteButton
+        <ConfirmDeleteDialog
           onSubmit={() => handleDelete(deleteProjectId)}
-          open={deleteOpen}
+          isOpen={deleteOpen}
           description={`Deleting the project will remove all associated samples. Type the word delete to confirm`}
-          setOpen={setDeleteOpen}
+          setIsOpen={setDeleteOpen}
         />
       </ComponentOrLoader>
     </TableLayout>
