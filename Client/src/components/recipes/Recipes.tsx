@@ -115,10 +115,12 @@ const Recipes = ({
   return (
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <Input
-          className="!text-sm !h-[40px] w-full px-3 py-2 border rounded-md"
-          placeholder="Search"
-        />
+        <div className="flex items-center gap-1">
+          <Input
+            className="!text-sm !h-[40px] w-full px-3 py-2 border rounded-md"
+            placeholder="Search"
+          />
+        </div>
         <VisibleForRoles roles={["Administrator", "Moderator"]}>
           <div className="flex gap-1">
             <IconButton
