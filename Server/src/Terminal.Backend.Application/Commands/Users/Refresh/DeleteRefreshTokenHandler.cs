@@ -14,7 +14,7 @@ public sealed class DeleteRefreshTokenHandler : IRequestHandler<DeleteRefreshTok
 
     public async Task Handle(DeleteRefreshTokenCommand deleteRefreshTokenCommand, CancellationToken ct)
     {
-        var refreshToken = await _refreshTokenRepository.GetAsync(deleteRefreshTokenCommand.uiserId, ct);
+        var refreshToken = await _refreshTokenRepository.GetAsync(deleteRefreshTokenCommand.userId, ct);
 
         if (refreshToken != null)
         {

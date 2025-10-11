@@ -31,6 +31,6 @@ public static class Extensions
     {
         var rawHash = SHA256.HashData(Encoding.UTF8.GetBytes(token));
         
-        return Encoding.UTF8.GetString(rawHash);
+        return Convert.ToBase64String(rawHash);
     }
 }

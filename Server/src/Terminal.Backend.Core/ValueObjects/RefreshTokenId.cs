@@ -16,7 +16,7 @@ public sealed record  RefreshTokenId
         Value = id;
     }
 
-    public static SampleId Create() => new(Guid.NewGuid());
+    public static RefreshTokenId Create() => new(Guid.NewGuid());
 
     public static implicit operator Guid(RefreshTokenId id) => id.Value;
     public static implicit operator RefreshTokenId(Guid id) => new(id);

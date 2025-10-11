@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Terminal.Backend.Application.Abstractions;
 using Terminal.Backend.Application.Commands.Users.Login;
 using Terminal.Backend.Core.Entities;
+using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Infrastructure.Authentication;
 
@@ -61,7 +62,7 @@ internal sealed class JwtProvider : IJwtProvider
     {
        return new RefreshToken
         {
-            Id = Guid.NewGuid(),
+            Id = new RefreshTokenId(Guid.NewGuid()),
             UserId = userId,
             Token = hashedRefreshToken,
             ExpiresOnUtc = DateTime.UtcNow.AddDays(_options.RefreshTokenExpirationDays),
