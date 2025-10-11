@@ -10,7 +10,7 @@ const LabeledField = ({
   return (
     <Field {...rest} className="h-fit data-invalid:text-red-500">
       {label && (
-        <Label className="text-sm font-normal font-sans text-gray-700">
+        <Label className="text-xs font-normal font-sans text-gray-700">
           {label}:
         </Label>
       )}
