@@ -7,4 +7,5 @@ public interface IJwtProvider
 {
     string GenerateJwt(User user);
     string GenerateRefreshToken();
+    RefreshToken CreateRefreshTokenEntity(Guid userId, string hashedRefreshToken);
 }

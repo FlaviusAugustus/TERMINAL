@@ -47,23 +47,14 @@ internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, Authen
  
         var accessToken = _jwtProvider.GenerateJwt(user);
         var refreshToken = _jwtProvider.GenerateRefreshToken();
-
-        var refreshTokenEntity = new RefreshToken
-        {
-            Id = Guid.NewGuid(),
-            UserId = user.Id,
-            Token = Extensions.Hash(refreshToken),
-            ExpiresOnUtc = DateTime.UtcNow.AddDays(360),
-            IsValid = true,
-        };
         
         var existingToken = await _refreshTokenRepository.GetAsync(user.Id, cancellationToken);
-        
         if (existingToken != null)
         {
             await _refreshTokenRepository.DeleteAsync(existingToken, cancellationToken);
         }
 
+        var refreshTokenEntity = _jwtProvider.CreateRefreshTokenEntity(user.Id, Extensions.Hash(refreshToken));
         await _refreshTokenRepository.AddAsync(refreshTokenEntity, cancellationToken);
         
         return new AuthenticatedResponse(accessToken, refreshToken);

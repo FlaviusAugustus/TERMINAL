@@ -38,7 +38,7 @@ internal sealed class JwtProvider : IJwtProvider
             _options.Audience,
             claims,
             null,
-            DateTime.UtcNow.AddMinutes(15),
+            DateTime.UtcNow.AddMinutes(_options.AccessTokenExpirationMinutes),
             signingCredentials);
 
         var tokenValue = new JwtSecurityTokenHandler()
@@ -55,5 +55,17 @@ internal sealed class JwtProvider : IJwtProvider
             rng.GetBytes(randomNumber);
             return Convert.ToBase64String(randomNumber);
         }
+    }
+
+    public RefreshToken CreateRefreshTokenEntity(Guid userId, string hashedRefreshToken)
+    {
+       return new RefreshToken
+        {
+            Id = Guid.NewGuid(),
+            UserId = userId,
+            Token = hashedRefreshToken,
+            ExpiresOnUtc = DateTime.UtcNow.AddDays(_options.RefreshTokenExpirationDays),
+            IsValid = true,
+        };
     }
 }
