@@ -33,7 +33,7 @@ const Form = ({ handleSubmit, children, ...rest }: FormProps) => {
       }}
     >
       <FormContext.Provider value={{ formValidity: formValid }}>
-        {children}
+        <div className="flex flex-col gap-3">{children}</div>
       </FormContext.Provider>
     </form>
   );

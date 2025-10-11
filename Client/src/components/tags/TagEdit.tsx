@@ -42,9 +42,9 @@ const TagEdit = (props: TagDetailsProps) => {
       <Form handleSubmit={() => props.onSubmit(props.tag.id, name, isActive)}>
         <FormInput
           label="Name"
-          id="name"
-          type="email"
+          name="name"
           value={name}
+          required
           onChange={(e) => {
             setName(e.target.value);
             setIsChanged(true);
