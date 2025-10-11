@@ -48,7 +48,7 @@ const LabeledSelect = <T, Multiple extends boolean>({
       <Combobox immediate {...rest}>
         <div
           className={clsx(
-            "relative w-full bg-white px-3 border-[1px] border-black/15 rounded-md py-2",
+            "relative w-full bg-white px-3 border-[1px] rounded-md py-2",
             comboboxStyles
           )}
         >
@@ -66,7 +66,7 @@ const LabeledSelect = <T, Multiple extends boolean>({
         </div>
         <ComboboxOptions
           className={clsx(
-            "w-[--input-width] flex flex-col gap-1 bg-white border rounded-md shadow-sm mt-2 py-1",
+            "w-[--input-width] flex flex-col gap-1 bg-white border rounded-md shadow-sm mt-4 py-1 px-3 box-content",
             comboboxOptionsStyles
           )}
           anchor="bottom"

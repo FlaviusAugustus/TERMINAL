@@ -50,6 +50,7 @@ const AddRecipeDialog = ({
       <Form handleSubmit={handleSubmit}>
         <div className="flex flex-col gap-3">
           <FormInput
+            name="Name"
             label="Name"
             value={recipeName}
             required

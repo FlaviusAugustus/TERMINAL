@@ -12,11 +12,11 @@ import {
 } from "@components/shared/form/LabeledSelect.tsx";
 import { useProjects } from "@hooks/projects/useGetProjects";
 import { useEffect, useState } from "react";
-import HeaderedTextArea from "@components/shared/form/HeaderedTextArea.tsx";
 import LabeledTagInput from "@components/addSample/LabeledTagInput.tsx";
 import { Tag } from "@api/models/Tag.ts";
 import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 import Form from "@components/shared/form/Form.tsx";
+import LabeledTextArea from "@components/shared/form/LabeledTextArea";
 
 function validateProject(project: Project | null) {
   return project !== null;
@@ -114,9 +114,9 @@ const AddSampleDialog = ({
             />
           )}
           <LabeledTagInput tags={tags} setTags={setTags} />
-          <HeaderedTextArea
+          <LabeledTextArea
             value={comment}
-            setValue={setComment}
+            onChange={(e) => setComment(e.target.value)}
             label={"Comment"}
           />
 
