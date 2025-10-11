@@ -1,4 +1,10 @@
-import { ReactNode, useRef, useState } from "react";
+import {
+  ReactNode,
+  useRef,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import { Input, InputProps } from "@headlessui/react";
 import clsx from "clsx";
 import LabeledField from "./LabeledField.tsx";
@@ -41,67 +47,66 @@ function getErrorMessage(input: HTMLInputElement | null): string {
  * @component
  * @param {InputFieldProps} props - The props for the FormInput component
  */
-const FormInput = ({
-  label,
-  icon,
-  className,
-  validate = true,
-  ...rest
-}: InputFieldProps) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [focused, setFocused] = useState(false);
-  const [touched, setTouched] = useState(false);
+// eslint-disable-next-line react/display-name
+const FormInput = forwardRef<HTMLInputElement, InputFieldProps>(
+  ({ label, icon, className, validate = true, ...rest }, ref) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [focused, setFocused] = useState(false);
+    const [touched, setTouched] = useState(false);
 
-  const handleBlur = () => {
-    setFocused(false);
-    setErrorMessage(getErrorMessage(inputRef.current));
-  };
+    const handleBlur = () => {
+      setFocused(false);
+      setErrorMessage(getErrorMessage(inputRef.current));
+    };
 
-  const handleFocus = () => {
-    setTouched(true);
-    setFocused(true);
-  };
+    const handleFocus = () => {
+      setTouched(true);
+      setFocused(true);
+    };
 
-  const handleChange = () => {
-    setErrorMessage(getErrorMessage(inputRef.current));
-  };
+    const handleChange = () => {
+      setErrorMessage(getErrorMessage(inputRef.current));
+    };
 
-  const showErrorMessage =
-    !inputRef.current?.validity.valid && !focused && touched;
+    useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
 
-  return (
-    <LabeledField
-      label={label}
-      onChange={handleChange}
-      onBlur={handleBlur}
-      onFocus={handleFocus}
-      onInvalid={handleChange}
-    >
-      <div className="relative">
-        <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-          {icon}
-        </div>
-        <Input
-          {...rest}
-          ref={inputRef}
-          className={clsx(
-            "w-full px-3 py-2 border rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 focus:ring-offset-2",
-            showErrorMessage && "border-red-500",
-            icon ? "pl-9" : "pl-3",
-            className
-          )}
-        />
-        {validate && (
-          <div className={clsx(!showErrorMessage && "invisible")}>
-            <p role="alert" className="text-xs h-4 py-1 text-red-500">
-              {errorMessage}
-            </p>
+    const showErrorMessage =
+      !inputRef.current?.validity.valid && !focused && touched;
+
+    return (
+      <LabeledField
+        label={label}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        onFocus={handleFocus}
+        onInvalid={handleChange}
+      >
+        <div className="relative">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+            {icon}
           </div>
-        )}
-      </div>
-    </LabeledField>
-  );
-};
+          <Input
+            {...rest}
+            ref={inputRef}
+            className={clsx(
+              "w-full px-3 py-2 border rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 focus:ring-offset-2",
+              showErrorMessage && "border-red-500",
+              icon ? "pl-9" : "pl-3",
+              className
+            )}
+          />
+          {validate && (
+            <div className={clsx(!showErrorMessage && "invisible")}>
+              <p role="alert" className="text-xs h-4 py-1 text-red-500">
+                {errorMessage}
+              </p>
+            </div>
+          )}
+        </div>
+      </LabeledField>
+    );
+  }
+);
 
 export default FormInput;
