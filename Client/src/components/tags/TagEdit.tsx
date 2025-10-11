@@ -7,10 +7,11 @@ import {
 import FormInput from "@components/shared/form/FormInput.tsx";
 import LabeledSwitch from "@components/shared/form/LabeledSwitch.tsx";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import Form from "@components/shared/form/Form";
 
 export interface TagDetailsProps {
   tag: TagDetailsDto;
-  onSubmit: (id: string, name: string, isActive: boolean) => void;
+  onSubmit: (id: string, name: string, isActive: boolean) => Promise<void>;
   open: boolean;
   setOpen: (arg0: boolean) => void;
 }
@@ -38,41 +39,43 @@ const TagEdit = (props: TagDetailsProps) => {
       setIsOpen={props.setOpen}
       title={"Edit tag"}
     >
-      <FormInput
-        label="Name"
-        id="name"
-        type="email"
-        value={name}
-        onChange={(e) => {
-          setName(e.target.value);
-          setIsChanged(true);
-        }}
-      />
-      <LabeledSwitch
-        label="Status"
-        id="status"
-        checked={isActive}
-        onChange={() => {
-          setActive(!isActive);
-          setIsChanged(true);
-        }}
-      />
-      <div className="flex gap-1 mt-4">
-        <DialogButton
-          disabled={!isChanged}
-          className="hover:border-blue-400 "
-          onClick={() => props.onSubmit(props.tag.id, name, isActive)}
-        >
-          Submit changes
-        </DialogButton>
-        <DialogButton
-          disabled={!isChanged}
-          className="!w-fit hover:border-blue-400"
-          onClick={handleReset}
-        >
-          <ArrowPathIcon className="h-4 w-4" />
-        </DialogButton>
-      </div>
+      <Form handleSubmit={() => props.onSubmit(props.tag.id, name, isActive)}>
+        <FormInput
+          label="Name"
+          id="name"
+          type="email"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+            setIsChanged(true);
+          }}
+        />
+        <LabeledSwitch
+          label="Status"
+          id="status"
+          checked={isActive}
+          onChange={() => {
+            setActive(!isActive);
+            setIsChanged(true);
+          }}
+        />
+        <div className="flex gap-1 mt-4">
+          <DialogButton
+            disabled={!isChanged}
+            className="hover:border-blue-400 "
+            type="submit"
+          >
+            Submit changes
+          </DialogButton>
+          <DialogButton
+            disabled={!isChanged}
+            className="!w-fit hover:border-blue-400"
+            onClick={handleReset}
+          >
+            <ArrowPathIcon className="h-4 w-4" />
+          </DialogButton>
+        </div>
+      </Form>
     </DialogComp>
   );
 };
