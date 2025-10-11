@@ -25,7 +25,7 @@ const ConfirmDeleteDialog = ({
 
   useEffect(() => {
     setConfirmation("");
-  }, [open]);
+  }, [isOpen]);
 
   const confirmDelete = () => {
     if (confirmation === confirmationTargetText) {
