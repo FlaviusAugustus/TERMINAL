@@ -7,11 +7,11 @@ type FormProps = PropsWithChildren<ComponentProps<"form">> & {
 
 const Form = ({ handleSubmit, children, ...rest }: FormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
-  const [formValid, setFormValid] = useState(true);
+  const [formValid, setFormValid] = useState({ formValidity: true });
 
   const handleChange = () => {
     if (!formValid) {
-      setFormValid(true);
+      setFormValid({ formValidity: true });
     }
   };
 
@@ -26,13 +26,17 @@ const Form = ({ handleSubmit, children, ...rest }: FormProps) => {
         e.stopPropagation();
         if (formRef.current?.checkValidity()) {
           handleSubmit().then(() => {
+            setFormValid({ formValidity: true });
             formRef.current?.reset();
           });
+          return;
         }
-        setFormValid(formRef.current?.checkValidity() || false);
+        setFormValid({
+          formValidity: formRef.current?.checkValidity() || false,
+        });
       }}
     >
-      <FormContext.Provider value={{ formValidity: formValid }}>
+      <FormContext.Provider value={formValid}>
         <div className="flex flex-col gap-3">{children}</div>
       </FormContext.Provider>
     </form>

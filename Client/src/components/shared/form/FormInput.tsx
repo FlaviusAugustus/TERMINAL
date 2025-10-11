@@ -56,13 +56,22 @@ const FormInput = forwardRef<HTMLInputElement, InputFieldProps>(
     const [errorMessage, setErrorMessage] = useState("");
     const [focused, setFocused] = useState(false);
     const [touched, setTouched] = useState(false);
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
     const { formValidity } = useFormContext();
 
     useEffect(() => {
       if (formValidity === false) {
         setErrorMessage(getErrorMessage(inputRef.current));
       }
-    }, [formValidity]);
+      setTouched(false);
+    }, [formValidity, inputRef.current]);
+
+    useEffect(() => {
+      setShowErrorMessage(
+        (!inputRef.current?.validity.valid && !focused && touched) ||
+          (!inputRef.current?.validity.valid && !formValidity)
+      );
+    }, [inputRef.current, focused, touched, formValidity]);
 
     const handleBlur = () => {
       setFocused(false);
@@ -79,10 +88,6 @@ const FormInput = forwardRef<HTMLInputElement, InputFieldProps>(
     };
 
     useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
-
-    const showErrorMessage =
-      (!inputRef.current?.validity.valid && !focused && touched) ||
-      !formValidity;
 
     return (
       <LabeledField
