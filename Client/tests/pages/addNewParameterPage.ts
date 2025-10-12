@@ -11,7 +11,7 @@ export class NewParameterPage extends BaseAddNewPage {
   }
 
   async fillType(type: string) {
-    await this.page.getByRole('combobox', { name: 'Type:' }).click();
-    await this.page.getByRole('option', { name: type }).click();
+    await this.page.getByRole("combobox", { name: "Type:" }).click();
+    await this.page.getByRole("option", { name: type }).click();
   }
 }

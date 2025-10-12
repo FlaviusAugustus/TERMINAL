@@ -44,8 +44,10 @@ export abstract class BasePage {
   }
 
   async confirmDeletion() {
-    await this.page.getByRole('textbox', { name: 'Confirmation:' }).fill('delete');
-    await this.page.getByRole('button', { name: 'Delete' }).click();
+    await this.page
+      .getByRole("textbox", { name: "Confirmation:" })
+      .fill("delete");
+    await this.page.getByRole("button", { name: "Delete" }).click();
   }
 
   async checkIfToastVisible() {
@@ -64,11 +66,11 @@ export abstract class BasePage {
   async deleteUsingCheckbox(n: number) {
     const row = await this.getRow(n);
     await row.getByRole("checkbox").click();
-    await this.page.getByRole('button', { name: /delete selected/i }).click();
+    await this.page.getByRole("button", { name: /delete selected/i }).click();
   }
 
   async deleteAllRows() {
     await this.page.getByRole("row").nth(0).getByRole("checkbox").click();
-    await this.page.getByRole('button', { name: /delete selected/i }).click();
+    await this.page.getByRole("button", { name: /delete selected/i }).click();
   }
 }

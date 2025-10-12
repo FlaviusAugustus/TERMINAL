@@ -13,8 +13,12 @@ export class LoginPage {
   }
 
   async login() {
-    await this.page.getByRole("textbox", { name: "Email:" }).fill(DEFAULT_USER_EMAIL);
-    await this.page.getByRole("textbox", { name: "Password:" }).fill(DEFAULT_USER_PASSWORD);
+    await this.page
+      .getByRole("textbox", { name: "Email:" })
+      .fill(DEFAULT_USER_EMAIL);
+    await this.page
+      .getByRole("textbox", { name: "Password:" })
+      .fill(DEFAULT_USER_PASSWORD);
     await this.page.getByRole("button", { name: "Sign in" }).click();
   }
 }

@@ -1,10 +1,7 @@
 import { test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { DashboardPage } from "./pages/dashboardPage";
-import {
-  mockCount,
-  mockRecentSamples
-} from "./helpers/mocks";
+import { mockCount, mockRecentSamples } from "./helpers/mocks";
 import { recentSamplesMock } from "./helpers/mockedData";
 
 test.beforeEach(async ({ page }) => {

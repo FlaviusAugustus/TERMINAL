@@ -1,7 +1,7 @@
 import { Locator, Page, expect } from "@playwright/test";
 import { BasePage } from "./basePage";
 
-export class TagsPage extends BasePage{
+export class TagsPage extends BasePage {
   readonly pageLink: Locator;
   readonly clearButton: Locator;
   readonly deleteSuccessText = "Deletion successful";

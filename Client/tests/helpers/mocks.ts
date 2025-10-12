@@ -1,5 +1,17 @@
 import { Page } from "@playwright/test";
-import { samplesMock, recentSamplesMock, projectsMock, tagsMock, tagDetailsMock, parametersMock, recipesMock, recipesAmountMock, recipeDetailsMock, usersMock, userDetilsMock } from "./mockedData";
+import {
+  samplesMock,
+  recentSamplesMock,
+  projectsMock,
+  tagsMock,
+  tagDetailsMock,
+  parametersMock,
+  recipesMock,
+  recipesAmountMock,
+  recipeDetailsMock,
+  usersMock,
+  userDetilsMock,
+} from "./mockedData";
 
 export let currentProjects = [...projectsMock.projects];
 export let currentSamples = [...samplesMock.samples];
@@ -55,10 +67,10 @@ export async function mockCount(page: Page, apiPath: string, amount: number) {
 
 export async function mockSamples(page: Page, dataArray = currentSamples) {
   await page.route("**/api/samples?pageNumber=0&pageSize=10", async (route) => {
-      if (route.request().method() === 'GET') {
+    if (route.request().method() === "GET") {
       await route.fulfill({
         status: 200,
-        contentType: 'application/json',
+        contentType: "application/json",
         body: JSON.stringify({ samples: dataArray }),
       });
       return;
@@ -67,12 +79,15 @@ export async function mockSamples(page: Page, dataArray = currentSamples) {
   });
 }
 
-export async function mockSamplesNextPage(page: Page, dataArray = currentSamples) {
+export async function mockSamplesNextPage(
+  page: Page,
+  dataArray = currentSamples
+) {
   await page.route("**/api/samples?pageNumber=1&pageSize=10", async (route) => {
-      if (route.request().method() === 'GET') {
+    if (route.request().method() === "GET") {
       await route.fulfill({
         status: 200,
-        contentType: 'application/json',
+        contentType: "application/json",
         body: JSON.stringify({ samples: dataArray }),
       });
       return;
@@ -81,17 +96,24 @@ export async function mockSamplesNextPage(page: Page, dataArray = currentSamples
   });
 }
 
-export async function mockSearch(page: Page, apiPath: string, items: any[], property = "name", responseKey: string) {
+export async function mockSearch(
+  page: Page,
+  apiPath: string,
+  items: any[],
+  property = "name",
+  responseKey: string
+) {
   await page.route(apiPath, async (route) => {
-    if (route.request().method() === 'GET') {
+    if (route.request().method() === "GET") {
       const url = new URL(route.request().url());
-      const searchPhrase = url.searchParams.get("searchPhrase")?.toLowerCase() ?? "";
+      const searchPhrase =
+        url.searchParams.get("searchPhrase")?.toLowerCase() ?? "";
 
       const filteredItems = items.filter((item) =>
-        ((item[property] ?? "").toLowerCase().includes(searchPhrase))
+        (item[property] ?? "").toLowerCase().includes(searchPhrase)
       );
       console.log("Filtered items:", filteredItems);
-      
+
       await route.fulfill({
         status: 200,
         contentType: "application/json",
@@ -107,31 +129,37 @@ export async function mockSearch(page: Page, apiPath: string, items: any[], prop
   });
 }
 
-export async function mockEntityDetails(page: Page, path: string, dataArray: any[], entityDetails: any, entityName: string) {
+export async function mockEntityDetails(
+  page: Page,
+  path: string,
+  dataArray: any[],
+  entityDetails: any,
+  entityName: string
+) {
   await page.route(path, async (route) => {
     const url = new URL(route.request().url());
     const id = url.pathname.split("/").pop();
 
-    if (route.request().method() === 'GET') {
+    if (route.request().method() === "GET") {
       await route.fulfill({
         status: 200,
-        contentType: 'application/json',
+        contentType: "application/json",
         body: JSON.stringify(entityDetails),
       });
       return;
-    } else if (route.request().method() === 'DELETE') {
+    } else if (route.request().method() === "DELETE") {
       const index = dataArray.findIndex((item) => item.id === id);
       if (index !== -1) dataArray.splice(index, 1);
       await route.fulfill({
         status: 200,
-        contentType: 'application/json',
+        contentType: "application/json",
         body: JSON.stringify({ message: `${entityName} deleted successfully` }),
       });
       return;
-    } else if (route.request().method() === 'PATCH') {
+    } else if (route.request().method() === "PATCH") {
       await route.fulfill({
         status: 200,
-        contentType: 'application/json',
+        contentType: "application/json",
         body: JSON.stringify("Mocked success"),
       });
       return;
@@ -154,7 +182,7 @@ export async function mockProjectCreation(page: Page) {
   await page.route("**/api/projects", async (route) => {
     if (route.request().method() === "POST") {
       const requestBody = JSON.parse(route.request().postData() || "{}");
-      
+
       await route.fulfill({
         status: 201,
         contentType: "application/json",
@@ -169,16 +197,15 @@ export async function mockProjectCreation(page: Page) {
     }
 
     return route.continue();
-  }
-  );
+  });
 }
 
 export async function mockProjects(page: Page) {
   await page.route("**/api/projects", async (route) => {
-      if (route.request().method() === 'GET') {
+    if (route.request().method() === "GET") {
       await route.fulfill({
         status: 200,
-        contentType: 'application/json',
+        contentType: "application/json",
         body: JSON.stringify(projectsMock),
       });
       return;
@@ -189,10 +216,10 @@ export async function mockProjects(page: Page) {
 
 export async function mockProjectsAll(page: Page) {
   await page.route("**/api/projects/all**", async (route) => {
-      if (route.request().method() === 'GET') {
+    if (route.request().method() === "GET") {
       await route.fulfill({
         status: 200,
-        contentType: 'application/json',
+        contentType: "application/json",
         body: JSON.stringify({ projects: currentProjects }),
       });
       return;
@@ -203,11 +230,11 @@ export async function mockProjectsAll(page: Page) {
 
 export async function mockProjectDeactivation(page: Page, id: string) {
   await page.route(`**/api/projects/${id}/deactivate`, async (route) => {
-    if (route.request().method() === 'POST') {
+    if (route.request().method() === "POST") {
       return route.fulfill({
         status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ message: 'Mocked success' }),
+        contentType: "application/json",
+        body: JSON.stringify({ message: "Mocked success" }),
       });
     }
     return route.continue();
@@ -235,10 +262,10 @@ export async function mockTagCreation(page: Page) {
 
 export async function mockTags(page: Page) {
   await page.route("**/api/tags", async (route) => {
-      if (route.request().method() === 'GET') {
+    if (route.request().method() === "GET") {
       await route.fulfill({
         status: 200,
-        contentType: 'application/json',
+        contentType: "application/json",
         body: JSON.stringify(tagsMock),
       });
       return;
@@ -249,10 +276,10 @@ export async function mockTags(page: Page) {
 
 export async function mockAllTags(page: Page, dataArray = currentTags) {
   await page.route("**/api/tags/all**", async (route) => {
-      if (route.request().method() === 'GET') {
+    if (route.request().method() === "GET") {
       await route.fulfill({
         status: 200,
-        contentType: 'application/json',
+        contentType: "application/json",
         body: JSON.stringify({ tags: dataArray }),
       });
       return;
@@ -263,11 +290,11 @@ export async function mockAllTags(page: Page, dataArray = currentTags) {
 
 export async function mockTagDeactivation(page: Page, id: string) {
   await page.route(`**/api/tags/${id}/deactivate`, async (route) => {
-    if (route.request().method() === 'POST') {
+    if (route.request().method() === "POST") {
       return route.fulfill({
         status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ message: 'Mocked success' }),
+        contentType: "application/json",
+        body: JSON.stringify({ message: "Mocked success" }),
       });
     }
     return route.continue();
@@ -284,8 +311,8 @@ export async function mockParameterCreation(page: Page) {
         contentType: "application/json",
         body: JSON.stringify({
           id: {
-            value: "mocked-tag-id-1234"
-          }
+            value: "mocked-tag-id-1234",
+          },
         }),
       });
       return;
@@ -295,12 +322,15 @@ export async function mockParameterCreation(page: Page) {
   });
 }
 
-export async function mockParameters(page: Page, dataArray = currentParameters) {
+export async function mockParameters(
+  page: Page,
+  dataArray = currentParameters
+) {
   await page.route("**/api/parameters", async (route) => {
-      if (route.request().method() === 'GET') {
+    if (route.request().method() === "GET") {
       await route.fulfill({
         status: 200,
-        contentType: 'application/json',
+        contentType: "application/json",
         body: JSON.stringify({ parameters: dataArray }),
       });
       return;
@@ -311,13 +341,13 @@ export async function mockParameters(page: Page, dataArray = currentParameters) 
 
 export async function mockParameterDeactivation(page: Page, id: string) {
   await page.route(`**/api/parameters/${id}/deactivate`, async (route) => {
-    if (route.request().method() === 'POST') {
+    if (route.request().method() === "POST") {
       const index = currentParameters.findIndex((item) => item.id === id);
       if (index !== -1) currentParameters.splice(index, 1);
       return route.fulfill({
         status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ message: 'Mocked success' }),
+        contentType: "application/json",
+        body: JSON.stringify({ message: "Mocked success" }),
       });
     }
     return route.continue();
@@ -371,7 +401,11 @@ export async function mockSampleCreation(page: Page) {
   });
 }
 
-export async function mockRecipes(page: Page, dataArray = currentRecipes, path = "**/api/recipes?pageNumber=0&pageSize=10&desc=true") {
+export async function mockRecipes(
+  page: Page,
+  dataArray = currentRecipes,
+  path = "**/api/recipes?pageNumber=0&pageSize=10&desc=true"
+) {
   await page.route(path, async (route) => {
     if (route.request().method() === "GET") {
       await route.fulfill({
@@ -414,23 +448,26 @@ export async function mockRecipeDetails(page: Page, id: string) {
 }
 
 export async function mockUsers(page: Page) {
-  await page.route("**/api/users?pageNumber=0&pageSize=10&desc=true", async (route) => {
-    if (route.request().method() === "GET") {
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify(usersMock),
-      });
-      return;
+  await page.route(
+    "**/api/users?pageNumber=0&pageSize=10&desc=true",
+    async (route) => {
+      if (route.request().method() === "GET") {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify(usersMock),
+        });
+        return;
+      }
+      return route.continue();
     }
-    return route.continue();
-  });
+  );
 }
 
 export async function mockUserDetails(page: Page, id: string) {
   await page.route(`**/api/users/${id}`, async (route) => {
     if (route.request().method() === "GET") {
-      const user = usersMock.users.find(u => u.id === id) || userDetilsMock;
+      const user = usersMock.users.find((u) => u.id === id) || userDetilsMock;
       await route.fulfill({
         status: 200,
         contentType: "application/json",

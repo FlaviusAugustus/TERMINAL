@@ -1,7 +1,15 @@
 import { test, expect } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { TagsPage } from "./pages/tagPage";
-import { mockAllTags, mockEntityDetails, mockTagDeactivation, mockSearch, resetTags, currentTags, setCurrentData } from "./helpers/mocks";
+import {
+  mockAllTags,
+  mockEntityDetails,
+  mockTagDeactivation,
+  mockSearch,
+  resetTags,
+  currentTags,
+  setCurrentData,
+} from "./helpers/mocks";
 import { MOCKED_TAG_ID, TAG_DETAILS_PATH, TAG_ENTITY } from "./constants";
 import { tagDetailsMock, tagsMock, tagMock } from "./helpers/mockedData";
 
@@ -16,7 +24,9 @@ test("renders table with correct columns", async ({ page }) => {
   const tags = new TagsPage(page);
   await tags.goto();
   await expect(page.getByRole("cell", { name: "Name" })).toBeVisible();
-  await expect(page.getByRole("cell", { name: "Actions" }).locator('div')).toBeVisible();
+  await expect(
+    page.getByRole("cell", { name: "Actions" }).locator("div")
+  ).toBeVisible();
 });
 
 test("searches for existing tag", async ({ page }) => {
@@ -48,48 +58,74 @@ test("redirects to Add New Tag page", async ({ page }) => {
 
 test("shows tag details", async ({ page }) => {
   await mockAllTags(page);
-  await mockEntityDetails(page, TAG_DETAILS_PATH, currentTags, tagDetailsMock, TAG_ENTITY);
+  await mockEntityDetails(
+    page,
+    TAG_DETAILS_PATH,
+    currentTags,
+    tagDetailsMock,
+    TAG_ENTITY
+  );
 
   const tags = new TagsPage(page);
   await tags.goto();
   const firstRow = await tags.getRow(1);
   await firstRow.getByRole("button").nth(0).click();
-  await expect(page.getByText('Tag details')).toBeVisible();
-  await expect(page.getByText('name').nth(2)).toBeVisible();
-  await expect(page.getByText('is Active')).toBeVisible();
+  await expect(page.getByText("Tag details")).toBeVisible();
+  await expect(page.getByText("name").nth(2)).toBeVisible();
+  await expect(page.getByText("is Active")).toBeVisible();
 });
 
 test("edits tag name", async ({ page }) => {
   await mockAllTags(page);
-  await mockEntityDetails(page, TAG_DETAILS_PATH, currentTags, tagDetailsMock, TAG_ENTITY);
-  
+  await mockEntityDetails(
+    page,
+    TAG_DETAILS_PATH,
+    currentTags,
+    tagDetailsMock,
+    TAG_ENTITY
+  );
+
   const tags = new TagsPage(page);
   await tags.goto();
   const firstRow = await tags.getRow(1);
   await firstRow.getByRole("button").nth(1).click();
-  await page.getByRole('textbox', { name: 'Name:' }).click();
-  await page.getByRole('textbox', { name: 'Name:' }).fill('popular-sample-modified');
-  await page.getByRole('button', { name: 'Submit changes' }).click();
-  await expect(page.getByText('Name updated successfully')).toBeVisible();
+  await page.getByRole("textbox", { name: "Name:" }).click();
+  await page
+    .getByRole("textbox", { name: "Name:" })
+    .fill("popular-sample-modified");
+  await page.getByRole("button", { name: "Submit changes" }).click();
+  await expect(page.getByText("Name updated successfully")).toBeVisible();
 });
 
 test("deactivates tag using switch", async ({ page }) => {
   await mockAllTags(page);
-  await mockEntityDetails(page, TAG_DETAILS_PATH, currentTags, tagDetailsMock, TAG_ENTITY);
+  await mockEntityDetails(
+    page,
+    TAG_DETAILS_PATH,
+    currentTags,
+    tagDetailsMock,
+    TAG_ENTITY
+  );
   await mockTagDeactivation(page, MOCKED_TAG_ID);
 
   const tags = new TagsPage(page);
   await tags.goto();
   const firstRow = await tags.getRow(1);
   await firstRow.getByRole("button").nth(1).click();
-  await page.getByRole('switch', { name: 'Status' }).click();
-  await page.getByRole('button', { name: 'Submit changes' }).click();
-  await expect(page.getByText('Tag status updated successfully')).toBeVisible();
+  await page.getByRole("switch", { name: "Status" }).click();
+  await page.getByRole("button", { name: "Submit changes" }).click();
+  await expect(page.getByText("Tag status updated successfully")).toBeVisible();
 });
 
 test("delete tag using X button", async ({ page }) => {
   await mockAllTags(page);
-  await mockEntityDetails(page, TAG_DETAILS_PATH, currentTags, tagDetailsMock, TAG_ENTITY);
+  await mockEntityDetails(
+    page,
+    TAG_DETAILS_PATH,
+    currentTags,
+    tagDetailsMock,
+    TAG_ENTITY
+  );
 
   const tags = new TagsPage(page);
   await tags.goto();
@@ -98,7 +134,13 @@ test("delete tag using X button", async ({ page }) => {
 
 test("deletes selected tag using checkbox", async ({ page }) => {
   await mockAllTags(page);
-  await mockEntityDetails(page, TAG_DETAILS_PATH, currentTags, tagDetailsMock, TAG_ENTITY);
+  await mockEntityDetails(
+    page,
+    TAG_DETAILS_PATH,
+    currentTags,
+    tagDetailsMock,
+    TAG_ENTITY
+  );
 
   const tags = new TagsPage(page);
   await tags.goto();
@@ -109,7 +151,13 @@ test("deletes selected tag using checkbox", async ({ page }) => {
 test("deletes all tags using checkbox", async ({ page }) => {
   setCurrentData(currentTags, tagMock.tags);
   await mockAllTags(page);
-  await mockEntityDetails(page, TAG_DETAILS_PATH, currentTags, tagDetailsMock, TAG_ENTITY);
+  await mockEntityDetails(
+    page,
+    TAG_DETAILS_PATH,
+    currentTags,
+    tagDetailsMock,
+    TAG_ENTITY
+  );
 
   const tags = new TagsPage(page);
   await tags.goto();

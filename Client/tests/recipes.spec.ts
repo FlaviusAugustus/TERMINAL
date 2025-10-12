@@ -1,8 +1,19 @@
 import { test, expect } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
-import { currentRecipes, mockEntityDetails, mockRecipeDetails, mockRecipes, resetRecipes, setCurrentData } from "./helpers/mocks";
+import {
+  currentRecipes,
+  mockEntityDetails,
+  mockRecipeDetails,
+  mockRecipes,
+  resetRecipes,
+  setCurrentData,
+} from "./helpers/mocks";
 import { RecipePage } from "./pages/recipePage";
-import { MOCKED_RECIPE_ID, RECIPE_DETAILS_PATH, RECIPE_ENTITY } from "./constants";
+import {
+  MOCKED_RECIPE_ID,
+  RECIPE_DETAILS_PATH,
+  RECIPE_ENTITY,
+} from "./constants";
 import { recipeDetailsMock } from "./helpers/mockedData";
 
 test.beforeEach(async ({ page }) => {
@@ -37,51 +48,75 @@ test("shows recipe details", async ({ page }) => {
   await recipes.goto();
   const firstRow = await recipes.getRow(1);
   await firstRow.getByRole("button").nth(0).click();
-  await expect(page.getByRole('paragraph').filter({ hasText: 'name' })).toBeVisible();
-  await expect(page.getByText('steps')).toBeVisible();
-  await expect(page.getByText('Comment')).toBeVisible();
+  await expect(
+    page.getByRole("paragraph").filter({ hasText: "name" })
+  ).toBeVisible();
+  await expect(page.getByText("steps")).toBeVisible();
+  await expect(page.getByText("Comment")).toBeVisible();
 });
 
 test("edits a recipe", async ({ page }) => {
   mockRecipes(page);
   mockRecipeDetails(page, MOCKED_RECIPE_ID);
-  mockEntityDetails(page, RECIPE_DETAILS_PATH, currentRecipes, recipeDetailsMock, RECIPE_ENTITY);
+  mockEntityDetails(
+    page,
+    RECIPE_DETAILS_PATH,
+    currentRecipes,
+    recipeDetailsMock,
+    RECIPE_ENTITY
+  );
 
   const recipes = new RecipePage(page);
   await recipes.goto();
   const firstRow = await recipes.getRow(1);
   await firstRow.getByRole("button").nth(1).click();
-  await expect(page.getByRole('heading', { name: 'Recipe details' })).toBeVisible();
-  await page.getByRole('button', { name: 'Step 2' }).click();
-  await page.getByRole('spinbutton').click();
-  await page.getByRole('spinbutton').fill('1339');
-  await page.getByText('SaveReset').click();
-  await page.getByRole('button', { name: 'Save' }).click();
-  await expect(page.getByText('Success updating sample')).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Recipe details" })
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Step 2" }).click();
+  await page.getByRole("spinbutton").click();
+  await page.getByRole("spinbutton").fill("1339");
+  await page.getByText("SaveReset").click();
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect(page.getByText("Success updating sample")).toBeVisible();
 });
 
 test("restes while editing a recipe", async ({ page }) => {
   mockRecipes(page);
   mockRecipeDetails(page, MOCKED_RECIPE_ID);
-  mockEntityDetails(page, RECIPE_DETAILS_PATH, currentRecipes, recipeDetailsMock, RECIPE_ENTITY);
+  mockEntityDetails(
+    page,
+    RECIPE_DETAILS_PATH,
+    currentRecipes,
+    recipeDetailsMock,
+    RECIPE_ENTITY
+  );
 
   const recipes = new RecipePage(page);
   await recipes.goto();
   const firstRow = await recipes.getRow(1);
   await firstRow.getByRole("button").nth(1).click();
-  await expect(page.getByRole('heading', { name: 'Recipe details' })).toBeVisible();
-  await page.getByRole('button', { name: 'Step 2' }).click();
-  await page.getByRole('spinbutton').click();
-  await page.getByRole('spinbutton').fill('1339');
-  await page.getByText('SaveReset').click();
-  await page.getByRole('button', { name: 'Reset' }).click();
-  await expect(page.getByRole('spinbutton')).toHaveValue('1333');
+  await expect(
+    page.getByRole("heading", { name: "Recipe details" })
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Step 2" }).click();
+  await page.getByRole("spinbutton").click();
+  await page.getByRole("spinbutton").fill("1339");
+  await page.getByText("SaveReset").click();
+  await page.getByRole("button", { name: "Reset" }).click();
+  await expect(page.getByRole("spinbutton")).toHaveValue("1333");
 });
 
 test("delete recipe using X button", async ({ page }) => {
   mockRecipes(page);
   mockRecipeDetails(page, MOCKED_RECIPE_ID);
-  mockEntityDetails(page, RECIPE_DETAILS_PATH, currentRecipes, recipeDetailsMock, RECIPE_ENTITY);
+  mockEntityDetails(
+    page,
+    RECIPE_DETAILS_PATH,
+    currentRecipes,
+    recipeDetailsMock,
+    RECIPE_ENTITY
+  );
 
   const recipes = new RecipePage(page);
   await recipes.goto();
@@ -89,9 +124,15 @@ test("delete recipe using X button", async ({ page }) => {
 });
 
 test("delete recipe using checkbox", async ({ page }) => {
-  mockRecipes(page);  
+  mockRecipes(page);
   mockRecipeDetails(page, MOCKED_RECIPE_ID);
-  mockEntityDetails(page, RECIPE_DETAILS_PATH, currentRecipes, recipeDetailsMock, RECIPE_ENTITY);
+  mockEntityDetails(
+    page,
+    RECIPE_DETAILS_PATH,
+    currentRecipes,
+    recipeDetailsMock,
+    RECIPE_ENTITY
+  );
 
   const recipes = new RecipePage(page);
   await recipes.goto();
@@ -102,7 +143,13 @@ test("delete recipe using checkbox", async ({ page }) => {
 test("deletes all recipes using checkbox", async ({ page }) => {
   mockRecipes(page);
   mockRecipeDetails(page, MOCKED_RECIPE_ID);
-  mockEntityDetails(page, RECIPE_DETAILS_PATH, currentRecipes, recipeDetailsMock, RECIPE_ENTITY);
+  mockEntityDetails(
+    page,
+    RECIPE_DETAILS_PATH,
+    currentRecipes,
+    recipeDetailsMock,
+    RECIPE_ENTITY
+  );
   const recipes = new RecipePage(page);
   await recipes.goto();
   await recipes.deleteAllRows();

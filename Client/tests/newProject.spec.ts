@@ -31,7 +31,9 @@ test("shows validation error for too short name", async ({ page }) => {
   await project.openAddForm();
   await project.fillName("A");
   await project.submit();
-  await project.expectValidationError("name must be at least 3 characters long");
+  await project.expectValidationError(
+    "name must be at least 3 characters long"
+  );
 });
 
 test("shows failure toast for duplicate project name", async ({ page }) => {
@@ -42,5 +44,3 @@ test("shows failure toast for duplicate project name", async ({ page }) => {
   await project.submit();
   await project.expectFailureToast();
 });
-
-

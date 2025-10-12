@@ -1,8 +1,19 @@
 import { test, expect } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { ProjectsPage } from "./pages/projectPage";
-import { MOCKED_PROJECT_ID, PROJECT_DETAILS_PATH, PROJECT_ENTITY } from "./constants";
-import { resetProjects, mockProjectsAll, mockSearch, mockProjectDeactivation, mockEntityDetails, currentProjects } from "./helpers/mocks";
+import {
+  MOCKED_PROJECT_ID,
+  PROJECT_DETAILS_PATH,
+  PROJECT_ENTITY,
+} from "./constants";
+import {
+  resetProjects,
+  mockProjectsAll,
+  mockSearch,
+  mockProjectDeactivation,
+  mockEntityDetails,
+  currentProjects,
+} from "./helpers/mocks";
 import { projectDetailsMock, projectsMock } from "./helpers/mockedData";
 
 test.beforeEach(async ({ page }) => {
@@ -16,13 +27,23 @@ test("renders table with correct columns", async ({ page }) => {
   const projects = new ProjectsPage(page);
   await projects.goto();
   await expect(page.getByRole("cell", { name: "Name" })).toBeVisible();
-  await expect(page.getByRole("cell", { name: "Active" }).locator('div')).toBeVisible();
-  await expect(page.getByRole("cell", { name: "Actions" }).locator('div')).toBeVisible();
+  await expect(
+    page.getByRole("cell", { name: "Active" }).locator("div")
+  ).toBeVisible();
+  await expect(
+    page.getByRole("cell", { name: "Actions" }).locator("div")
+  ).toBeVisible();
 });
 
 test("searches for existing project", async ({ page }) => {
   await mockProjectsAll(page);
-  await mockSearch(page, "**/api/projects/search**", projectsMock.projects, "name", "projects");
+  await mockSearch(
+    page,
+    "**/api/projects/search**",
+    projectsMock.projects,
+    "name",
+    "projects"
+  );
   const searchedProject = "Upturn";
   const projects = new ProjectsPage(page);
   await projects.goto();
@@ -32,7 +53,13 @@ test("searches for existing project", async ({ page }) => {
 
 test("shows nothing when no results found", async ({ page }) => {
   await mockProjectsAll(page);
-  await mockSearch(page, "**/api/projects/search**", projectsMock.projects, "name", "projects");
+  await mockSearch(
+    page,
+    "**/api/projects/search**",
+    projectsMock.projects,
+    "name",
+    "projects"
+  );
   const projects = new ProjectsPage(page);
   await projects.goto();
   await projects.searchFor("NonExistingProject123");
@@ -58,12 +85,18 @@ test("redirects to Add New Project page", async ({ page }) => {
 
 test("edits project name and status", async ({ page }) => {
   await mockProjectsAll(page);
-  await mockEntityDetails(page, PROJECT_DETAILS_PATH, currentProjects, projectDetailsMock, PROJECT_ENTITY);
+  await mockEntityDetails(
+    page,
+    PROJECT_DETAILS_PATH,
+    currentProjects,
+    projectDetailsMock,
+    PROJECT_ENTITY
+  );
   await mockProjectDeactivation(page, MOCKED_PROJECT_ID);
 
   const projects = new ProjectsPage(page);
   await projects.goto();
-  
+
   const firstRow = await projects.getRow(1);
   await firstRow.getByRole("button").nth(0).click();
   await expect(page.getByText("Edit project")).toBeVisible();
@@ -77,13 +110,21 @@ test("edits project name and status", async ({ page }) => {
 
   await page.getByRole("switch", { name: "Status" }).click();
   await page.getByRole("button", { name: "Submit changes" }).click();
-  await expect(page.getByText("Project status updated successfully")).toBeVisible();
+  await expect(
+    page.getByText("Project status updated successfully")
+  ).toBeVisible();
 });
 
 test("deletes project using X button", async ({ page }) => {
   await mockProjectsAll(page);
-  await mockEntityDetails(page, PROJECT_DETAILS_PATH, currentProjects, projectDetailsMock, PROJECT_ENTITY);
-  
+  await mockEntityDetails(
+    page,
+    PROJECT_DETAILS_PATH,
+    currentProjects,
+    projectDetailsMock,
+    PROJECT_ENTITY
+  );
+
   const projects = new ProjectsPage(page);
   await projects.goto();
   await projects.deleteRow(1);
@@ -93,8 +134,14 @@ test("deletes project using X button", async ({ page }) => {
 
 test("deletes selected projects using X button", async ({ page }) => {
   await mockProjectsAll(page);
-  await mockEntityDetails(page, PROJECT_DETAILS_PATH, currentProjects, projectDetailsMock, PROJECT_ENTITY);
-  
+  await mockEntityDetails(
+    page,
+    PROJECT_DETAILS_PATH,
+    currentProjects,
+    projectDetailsMock,
+    PROJECT_ENTITY
+  );
+
   const projects = new ProjectsPage(page);
   await projects.goto();
   await projects.deleteUsingCheckbox(1);
@@ -104,8 +151,14 @@ test("deletes selected projects using X button", async ({ page }) => {
 
 test("deletes all projects using checkbox", async ({ page }) => {
   await mockProjectsAll(page);
-  await mockEntityDetails(page, PROJECT_DETAILS_PATH, currentProjects, projectDetailsMock, PROJECT_ENTITY);
-  
+  await mockEntityDetails(
+    page,
+    PROJECT_DETAILS_PATH,
+    currentProjects,
+    projectDetailsMock,
+    PROJECT_ENTITY
+  );
+
   const projects = new ProjectsPage(page);
   await projects.goto();
   await projects.deleteAllRows();

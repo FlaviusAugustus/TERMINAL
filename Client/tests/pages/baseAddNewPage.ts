@@ -12,12 +12,20 @@ export abstract class BaseAddNewPage {
   }
 
   async openAddForm() {
-    await this.page.getByRole("button", { name: "Add new", exact: true }).click();
-    await expect(this.page.getByRole("link", { name: this.entityName, exact: true })).toBeVisible();
-    await this.page.getByRole("link", { name: this.entityName, exact: true }).click();
+    await this.page
+      .getByRole("button", { name: "Add new", exact: true })
+      .click();
+    await expect(
+      this.page.getByRole("link", { name: this.entityName, exact: true })
+    ).toBeVisible();
+    await this.page
+      .getByRole("link", { name: this.entityName, exact: true })
+      .click();
 
     await expect(this.page).toHaveURL(this.expectedUrl);
-    await expect(this.page.getByText(`Add new ${this.entityName}`).nth(1)).toBeVisible();
+    await expect(
+      this.page.getByText(`Add new ${this.entityName}`).nth(1)
+    ).toBeVisible();
   }
 
   async fillName(name: string) {

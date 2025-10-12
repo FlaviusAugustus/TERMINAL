@@ -1,7 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./basePage";
 
-export class ProjectsPage extends BasePage{
+export class ProjectsPage extends BasePage {
   readonly pageLink: Locator;
   readonly clearButton: Locator;
   readonly deleteSuccessText = "Deletion successful";
@@ -21,6 +21,9 @@ export class ProjectsPage extends BasePage{
   }
 
   async closeEditModal() {
-    await this.page.getByRole("heading", { name: "Edit project" }).locator("svg").click();
+    await this.page
+      .getByRole("heading", { name: "Edit project" })
+      .locator("svg")
+      .click();
   }
 }
