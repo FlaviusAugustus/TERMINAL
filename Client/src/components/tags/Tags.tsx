@@ -115,6 +115,7 @@ const Tags = (props: TagProps) => {
             onChange={(e) => setLocalSearch(e.currentTarget.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
+                e.preventDefault();
                 props.searchProps?.onSearch?.(localSearch);
               }
             }}
