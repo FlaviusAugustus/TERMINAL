@@ -9,6 +9,7 @@ import TableLayout from "./layouts/TableLayout";
 import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
 import Loader from "@components/shared/loader/Loader.tsx";
 import EditRecipe from "@components/recipes/EditRecipe";
+import { useSearchRecipes } from "@hooks/recipes/useSearchRecipes.ts";
 
 const RecipesPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -16,12 +17,21 @@ const RecipesPage = () => {
     pageIndex: 0,
     pageSize: 10,
   });
+  const [searchPhrase, setSearchPhrase] = useState("");
 
-  const dataQueryRecipes = useRecipes({
+  const queryRecipes = useRecipes({
     pageNumber: pagination.pageIndex,
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
   });
+
+  const searchRecipesQuery = useSearchRecipes({
+    searchPhrase,
+    pageNumber: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+  });
+
+  const dataQueryRecipes = searchPhrase ? searchRecipesQuery : queryRecipes;
 
   const mutation = useDeleteRecipe({
     pageNumber: pagination.pageIndex,
@@ -65,6 +75,11 @@ const RecipesPage = () => {
           onEdit={(id: string) => handleEditRecipe(id)}
           onDetails={(id: string) => changeRecipeDetails(id)}
           onDelete={async (id: string) => await handleDelete(id)}
+          searchProps={{
+            onSearch: setSearchPhrase,
+            searchValue: searchPhrase,
+            onClearSearch: () => setSearchPhrase(""),
+          }}
         />
       </ComponentOrLoader>
       <ComponentOrLoader

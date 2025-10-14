@@ -11,14 +11,14 @@ import { RecipesResponse } from "@hooks/recipes/useGetRecipes.ts";
 import TableView from "@components/shared/table/TableView.tsx";
 import TableManagement from "@components/shared/table/TableManagment.tsx";
 import TableCard from "@components/shared/table/TableCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IconButton from "@components/shared/common/IconButton.tsx";
 import FormInput from "@components/shared/form/FormInput.tsx";
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import {
   MagnifyingGlassIcon,
-  XMarkIcon,
   PlusIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { toastPromise } from "utils/toast.utils";
@@ -34,6 +34,11 @@ export interface RecipesProps {
   onEdit: (id: string) => void;
   onDelete: (id: string) => Promise<void>;
   onDetails: (id: string) => void;
+  searchProps?: {
+    onSearch?: (phrase: string) => void;
+    searchValue?: string;
+    onClearSearch?: () => void;
+  };
 }
 
 const columnHelper = createColumnHelper<Recipe>();
@@ -55,18 +60,9 @@ const columnsDef = [
  * @component
  * @param {RecipesProps} props - The properties for the recipes component.
  */
-const Recipes = ({
-  recipe,
-  sorting,
-  setSorting,
-  pagination,
-  setPagination,
-  onEdit,
-  onDelete,
-  onDetails,
-}: RecipesProps) => {
+const Recipes = (props: RecipesProps) => {
   const handleDelete = async (id: string) => {
-    await toastPromise(onDelete(id), {
+    await toastPromise(props.onDelete(id), {
       success: "Recipe deleted succesfully",
       loading: "Removing recipe...",
       error: "Error deleting recipe",
@@ -75,16 +71,23 @@ const Recipes = ({
 
   const columns = useTableColumns<Recipe>({
     columnsDef: columnsDef,
-    onEdit: onEdit,
+    onEdit: props.onEdit,
     onDelete: handleDelete,
-    onDetails: onDetails,
+    onDetails: props.onDetails,
   });
 
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+  const [localSearch, setLocalSearch] = useState(
+    props.searchProps?.searchValue || ""
+  );
+
+  useEffect(() => {
+    setLocalSearch(props.searchProps?.searchValue || "");
+  }, [props.searchProps?.searchValue]);
 
   const handleDeleteSelected = () => {
     const tasks = table.getSelectedRowModel().rows.map((row) => {
-      onDelete(row.original.id);
+      props.onDelete(row.original.id);
     });
 
     toastPromise(Promise.all(tasks), {
@@ -96,22 +99,22 @@ const Recipes = ({
 
   const table = useReactTable({
     columns: columns,
-    data: recipe?.rows ?? [],
+    data: props.recipe?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
     defaultColumn: {
       size: "auto" as unknown as number,
     },
     state: {
-      sorting: sorting,
-      pagination: pagination,
+      sorting: props.sorting,
+      pagination: props.pagination,
       rowSelection: rowSelection,
     },
     getRowId: (row) => row.id,
     onRowSelectionChange: setRowSelection,
     enableMultiRowSelection: true,
-    rowCount: recipe?.rowsAmount ?? 0,
-    onSortingChange: setSorting,
-    onPaginationChange: setPagination,
+    rowCount: props.recipe?.rowsAmount ?? 0,
+    onSortingChange: props.setSorting,
+    onPaginationChange: props.setPagination,
     manualSorting: true,
     manualPagination: true,
   });
@@ -119,12 +122,34 @@ const Recipes = ({
   return (
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <FormInput
-          validate={false}
-          className="!text-sm !h-[40px]"
-          placeholder="Search"
-          icon={<MagnifyingGlassIcon className="h-4" />}
-        />
+        <div className="flex items-center gap-1">
+          <FormInput
+            validate={false}
+            className="!text-sm !h-[40px]"
+            placeholder="Search"
+            icon={<MagnifyingGlassIcon className="h-4" />}
+            value={localSearch}
+            onChange={(e) => setLocalSearch(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                props.searchProps?.onSearch?.(localSearch);
+              }
+            }}
+          />
+          {localSearch && (
+            <IconButton
+              onClick={() => {
+                setLocalSearch("");
+                props.searchProps?.onClearSearch?.();
+              }}
+              className="h-[40px] flex bg-white items-center gap-1 !hover:border-gray-300"
+              title="Clear search"
+            >
+              <XMarkIcon className="h-4" />
+              <p className="text-xs">Clear</p>
+            </IconButton>
+          )}
+        </div>
         <VisibleForRoles roles={["Administrator", "Moderator"]}>
           <div className="flex gap-1">
             <IconButton

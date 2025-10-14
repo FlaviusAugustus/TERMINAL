@@ -6,7 +6,7 @@ using Terminal.Backend.Core.Entities;
 
 namespace Terminal.Backend.Infrastructure.DAL.Handlers.Recipes;
 
-internal sealed class SearchRecipeQueryHandler : IRequestHandler<SearchRecipeQuery, GetRecipesDto>
+internal sealed class SearchRecipeQueryHandler : IRequestHandler<SearchRecipeQuery, GetSearchedRecipesDto>
 {
     private readonly DbSet<Recipe> _recipes;
 
@@ -15,14 +15,18 @@ internal sealed class SearchRecipeQueryHandler : IRequestHandler<SearchRecipeQue
         _recipes = dbContext.Recipes;
     }
 
-    public async Task<GetRecipesDto> Handle(SearchRecipeQuery request, CancellationToken ct) =>
-        new()
+    public async Task<GetSearchedRecipesDto> Handle(SearchRecipeQuery request, CancellationToken cancellationToken)
         {
-            Recipes = await _recipes
-                .AsNoTracking()
-                .Where(r => EF.Functions.ILike(r.RecipeName, $"%{request.SearchPhrase}%"))
-                .Select(r => new GetRecipesDto.RecipeDto(r.Id, r.RecipeName))
-                .Paginate(request.Parameters)
-                .ToListAsync(ct)
-        };
+            var query = _recipes
+                        .AsNoTracking()
+                        .Where(p => EF.Functions.ILike(p.Name, $"%{request.SearchPhrase}%"));
+
+            var amount = await query.CountAsync(cancellationToken);
+
+            var recipes = await query
+                .Select(p => new GetSearchedRecipesDto.RecipeDto(p.Id, p.Name))
+                .ToListAsync(cancellationToken);
+
+            return new GetSearchedRecipesDto(recipes, amount);
+        }
 }
