@@ -19,12 +19,12 @@ internal sealed class SearchRecipeQueryHandler : IRequestHandler<SearchRecipeQue
         {
             var query = _recipes
                         .AsNoTracking()
-                        .Where(p => EF.Functions.ILike(p.Name, $"%{request.SearchPhrase}%"));
+                        .Where(p => EF.Functions.ILike(p.RecipeName, $"%{request.SearchPhrase}%"));
 
             var amount = await query.CountAsync(cancellationToken);
 
             var recipes = await query
-                .Select(p => new GetSearchedRecipesDto.RecipeDto(p.Id, p.Name))
+                .Select(p => new GetSearchedRecipesDto.RecipeDto(p.Id, p.RecipeName))
                 .ToListAsync(cancellationToken);
 
             return new GetSearchedRecipesDto(recipes, amount);
