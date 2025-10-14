@@ -5,12 +5,12 @@ namespace Terminal.Backend.Core.Entities.Parameters;
 public sealed class TextParameter : Parameter
 {
     public List<string> AllowedValues { get; private set; }
-    public uint DefaultValue { get; private set; }
+    public string DefaultValue { get; private set; }
 
     public TextParameter(ParameterId id,
         ParameterName name,
         List<string> allowedValues,
-        uint defaultValue = 0,
+        string defaultValue,
         uint order = 0,
         bool isActive = true)
         : base(id, name, order, isActive)

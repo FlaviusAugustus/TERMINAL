@@ -1,4 +1,7 @@
-import { FormSelect, SelectItem } from "@components/shared/form/FormSelect.tsx";
+import {
+  LabeledSelect,
+  SelectItem,
+} from "@components/shared/form/LabeledSelect.tsx";
 import { useGetRecipeAmount } from "@hooks/recipes/useGetRecipeAmount.ts";
 import { useRecipes } from "@hooks/recipes/useGetRecipes.ts";
 import { Recipe } from "@api/models/Recipe.ts";
@@ -33,12 +36,12 @@ const SelectRecipe = ({
   }, [dataQueryRecipeDetails.data]);
 
   return (
-    <div className="flex flex-col flex-grow border border-gray-200 rounded-md bg-gray-100 shadow-sm ">
+    <div className="flex flex-col border border-gray-200 rounded-md bg-gray-100 shadow-sm ">
       <div className="p-4 border-b border-gray-200 rounded-t-md bg-white ">
         <p>Select Recipe</p>
       </div>
       <div className="flex flex-col h-full justify-center mx-auto overflow-auto p-4">
-        <FormSelect
+        <LabeledSelect
           name="SelectRecipe"
           value={selectedRecipe}
           displayValue={(selectedRecipe) => selectedRecipe.name}
@@ -53,7 +56,7 @@ const SelectRecipe = ({
               displayValue={recipe.name}
             />
           ))}
-        </FormSelect>
+        </LabeledSelect>
       </div>
     </div>
   );

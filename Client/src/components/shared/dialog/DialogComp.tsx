@@ -38,7 +38,7 @@ const DialogComp = ({
       open={isOpen}
       onClose={() => closeDialog()}
       transition
-      className="fixed inset-0 flex w-screen backdrop-blur-sm items-center justify-center bg-black/30 p-4 transition duration-100 ease-out data-[closed]:opacity-0"
+      className="fixed inset-0 flex w-screen backdrop-blur-sm items-center justify-center bg-black/30 p-4 transition duration-100 ease-out data-[closed]:opacity-0 z-50"
     >
       <DialogPanel
         className={clsx(

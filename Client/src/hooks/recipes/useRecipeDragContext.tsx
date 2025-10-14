@@ -151,13 +151,31 @@ const RecipeDragProvider = ({
 
     const newStep = { ...step };
 
-    newStep.parameters = [
-      ...newStep.parameters,
-      {
-        ...item,
-        id: parameters.find((param) => param.name === item.name)!.id,
-      },
-    ];
+    const param = parameters.find((param) => param.name === item.name);
+    if (!param) {
+      setActiveId(null);
+      return;
+    }
+
+    if (item.$type === "text") {
+      newStep.parameters = [
+        ...newStep.parameters,
+        {
+          ...item,
+          id: param.id,
+          value: item.defaultValue,
+        },
+      ];
+    } else {
+      newStep.parameters = [
+        ...newStep.parameters,
+        {
+          ...item,
+          id: param.id,
+          value: item.defaultValue,
+        },
+      ];
+    }
 
     updateStep(currentStep, newStep);
     setActiveId(null);
@@ -185,6 +203,7 @@ const RecipeDragProvider = ({
                 value: 0,
                 order: 0,
                 parentId: "",
+                defaultValue: 0,
               }}
             />
           )}

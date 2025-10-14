@@ -12,6 +12,7 @@ import ProjectEdit from "@components/projects/ProjectEdit.tsx";
 import { useUpdateProjectName } from "@hooks/projects/useUpdateProjectName.ts";
 import { useUpdateProjectStatus } from "@hooks/projects/useUpdateProjectStatus.ts";
 import { useSearchProjects } from "@hooks/projects/useSearchProjects.ts";
+import ConfirmDeleteDialog from "@components/shared/dialog/ConfirmDeleteDialog";
 
 const ProjectsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -21,7 +22,9 @@ const ProjectsPage = () => {
   });
   const [searchPhrase, setSearchPhrase] = useState("");
   const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const [projectDetailsId, setProjectDetailsId] = useState<string | null>(null);
+  const [deleteProjectId, setDeleteProjectId] = useState<string | null>(null);
 
   const queryProjects = useAllProjects({
     pageNumber: pagination.pageIndex,
@@ -59,11 +62,13 @@ const ProjectsPage = () => {
 
   const handleDelete = async (id: string | null) => {
     if (!id) return;
-    await toastPromise(deleteMutation.mutateAsync(id), {
-      loading: "Deleting project...",
-      success: "Deletion successful",
-      error: "Deletion failed",
-    });
+    await deleteMutation.mutateAsync(id);
+    if (deleteMutation.isSuccess) setDeleteOpen(false);
+  };
+
+  const openDeleteDialog = (id: string) => {
+    setDeleteOpen(true);
+    setDeleteProjectId(id);
   };
 
   const handleEdit = async (id: string | null) => {
@@ -103,7 +108,7 @@ const ProjectsPage = () => {
           setPagination={setPagination}
           onChangeProjectDetails={() => {}}
           onEdit={handleEdit}
-          onDelete={handleDelete}
+          onDelete={openDeleteDialog}
           searchProps={{
             onSearch: setSearchPhrase,
             searchValue: searchPhrase,
@@ -120,6 +125,13 @@ const ProjectsPage = () => {
           onSubmit={handleSubmit}
           open={editOpen}
           setOpen={setEditOpen}
+        />
+        <ConfirmDeleteDialog
+          onSubmit={() => handleDelete(deleteProjectId)}
+          isSubmitting={deleteMutation.isPending}
+          isOpen={deleteOpen}
+          description={`Deleting the project will remove all associated samples. Type the word delete to confirm`}
+          setIsOpen={setDeleteOpen}
         />
       </ComponentOrLoader>
     </TableLayout>

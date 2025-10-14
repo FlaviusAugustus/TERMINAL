@@ -5,13 +5,12 @@ import {
 } from "@components/shared/dialog/DialogComp.tsx";
 import FormInput from "@components/shared/form/FormInput.tsx";
 import { useState } from "react";
-
-function isRecipeNameValid(name: string) {
-  return name.length >= 5;
-}
+import SubmitButton from "@components/shared/form/SubmitButton.tsx";
+import Form from "@components/shared/form/Form.tsx";
 
 type AddRecipeDialog = Omit<DialogProps, "title"> & {
-  onSubmit: (name: string) => void;
+  onSubmit: (name: string) => Promise<void>;
+  isPending: boolean;
 };
 
 /**
@@ -23,23 +22,21 @@ type AddRecipeDialog = Omit<DialogProps, "title"> & {
  *
  * @component
  */
-const AddRecipeDialog = ({ onSubmit, setIsOpen, ...rest }: AddRecipeDialog) => {
+const AddRecipeDialog = ({
+  onSubmit,
+  setIsOpen,
+  isPending,
+  ...rest
+}: AddRecipeDialog) => {
   const [recipeName, setRecipeName] = useState("");
-  const [isNameValid, setIsNameValid] = useState(true);
 
   const handleClose = () => {
     setRecipeName("");
-    setIsNameValid(true);
     setIsOpen(false);
   };
 
-  const handleSubmit = () => {
-    if (!isRecipeNameValid(recipeName)) {
-      setIsNameValid(false);
-      return;
-    }
-
-    onSubmit(recipeName);
+  const handleSubmit = async () => {
+    await onSubmit(recipeName);
     handleClose();
   };
 
@@ -50,21 +47,23 @@ const AddRecipeDialog = ({ onSubmit, setIsOpen, ...rest }: AddRecipeDialog) => {
       setIsOpen={setIsOpen}
       handleClose={handleClose}
     >
-      <div className="flex flex-col">
-        <FormInput
-          label="Name"
-          value={recipeName}
-          onChange={(e) => setRecipeName(e.currentTarget.value)}
-          isValid={isNameValid}
-          validationInfo="Recipe name must be at least 5 characters long"
-        />
-      </div>
-      <DialogButton className="hover:border-green-400" onClick={handleSubmit}>
-        Add recipe
-      </DialogButton>
-      <DialogButton className="hover:border-red-400" onClick={handleClose}>
-        Cancel
-      </DialogButton>
+      <Form handleSubmit={handleSubmit}>
+        <div className="flex flex-col gap-3">
+          <FormInput
+            name="Name"
+            label="Name"
+            value={recipeName}
+            required
+            minLength={3}
+            maxLength={50}
+            onChange={(e) => setRecipeName(e.currentTarget.value)}
+          />
+          <SubmitButton label="Add recipe" isLoading={isPending} />
+          <DialogButton className="hover:border-red-400" onClick={handleClose}>
+            Cancel
+          </DialogButton>
+        </div>
+      </Form>
     </DialogComp>
   );
 };

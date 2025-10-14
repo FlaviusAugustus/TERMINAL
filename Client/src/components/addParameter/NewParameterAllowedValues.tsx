@@ -17,8 +17,8 @@ const NewParameterAllowedValues = ({
   setAllowedValue,
 }: NewParameterAllowedValuesProps) => {
   return (
-    <div>
-      <div className="flex justify-between items-center py-3 gap-2">
+    <>
+      <div className="flex justify-between items-center gap-2">
         <p className="text-sm text-gray-700">
           Allowed values ({parameterRequest.allowedValues.length}):
         </p>
@@ -35,6 +35,9 @@ const NewParameterAllowedValues = ({
                 name={`Value - ${index}`}
                 className="flex-grow"
                 value={value}
+                required
+                minLength={1}
+                maxLength={50}
                 onChange={(e) => setAllowedValue(index, e.currentTarget.value)}
               />
             </div>
@@ -47,7 +50,7 @@ const NewParameterAllowedValues = ({
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 };
 

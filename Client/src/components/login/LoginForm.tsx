@@ -75,7 +75,11 @@ const LoginForm = () => {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <SubmitButton label="Sign in" isLoading={mutation.isPending} />
+              <SubmitButton
+                label="Sign in"
+                isLoading={mutation.isPending}
+                dark
+              />
               <p className="text-xs p-0 font-normal text-center text-gray-600">
                 Don&apos;t have an account? Ask for an invitation
               </p>

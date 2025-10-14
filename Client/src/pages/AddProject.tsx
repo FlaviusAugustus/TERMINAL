@@ -1,19 +1,19 @@
 import FormInput from "@components/shared/form/FormInput.tsx";
 import { useState } from "react";
-import { DialogButton } from "@components/shared/dialog/DialogComp.tsx";
-import useAddProject from "@hooks/projects/useAddProject";
-import { toastPromise } from "utils/toast.utils";
+import useAddProject from "@hooks/projects/useAddProject.ts";
+import { toastPromise } from "@utils/toast.utils.tsx";
 import Form from "@components/shared/form/Form.tsx";
+import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 
 /**
- * NewProjectForm Component
+ * AddProject Component
  *
  * A form component that allows users to add a new project.
  *
  * @component
  */
-const NewProjectForm = () => {
-  const { mutateAsync } = useAddProject();
+const AddProject = () => {
+  const { mutateAsync, isPending } = useAddProject();
   const [projectName, setProjectName] = useState("");
 
   const handleSubmit = async () => {
@@ -34,18 +34,18 @@ const NewProjectForm = () => {
         </div>
         <div className="flex flex-col gap-3">
           <Form handleSubmit={handleSubmit}>
-            <FormInput
-              name="name"
-              label="Name"
-              required
-              minLength={3}
-              maxLength={50}
-              value={projectName}
-              onChange={(e) => setProjectName(e.currentTarget.value)}
-            />
-            <DialogButton type="submit" className="hover:border-green-400 mt-2">
-              Add Project
-            </DialogButton>
+            <div className="flex flex-col gap-3">
+              <FormInput
+                name="name"
+                label="Name"
+                required
+                minLength={3}
+                maxLength={50}
+                value={projectName}
+                onChange={(e) => setProjectName(e.currentTarget.value)}
+              />
+              <SubmitButton label="Add Project" isLoading={isPending} />
+            </div>
           </Form>
         </div>
       </div>
@@ -53,4 +53,4 @@ const NewProjectForm = () => {
   );
 };
 
-export default NewProjectForm;
+export default AddProject;
