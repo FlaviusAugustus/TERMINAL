@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint:pipeline": "eslint --output-file eslint_report.json --format json src",
+    "lint:test": "eslint tests",
     "lint": "eslint src",
     "format": "prettier --write .",
     "format:pipeline": "prettier . --check",
