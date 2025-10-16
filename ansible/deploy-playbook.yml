@@ -10,7 +10,9 @@
       fail:
         msg: "Create .env file! For reference see https://github.com/FlaviusAugustus/TERMINAL/blob/main/.env.sample.local"
       when: not file_check.stat.exists
+    - name: Docker compose down
+      shell: docker compose --env-file .env -f oci://ghcr.io/flaviusaugustus/terminal/compose:latest down
     - name: Docker compose pull
       shell: docker compose --env-file .env -f oci://ghcr.io/flaviusaugustus/terminal/compose:latest pull
     - name: Docker compose up
-      shell: docker compose --env-file .env -f oci://ghcr.io/flaviusaugustus/terminal/compose:latest up -d
+      shell: docker compose --env-file .env -f oci://ghcr.io/flaviusaugustus/terminal/compose:latest up -yd
