@@ -2,11 +2,11 @@ using Terminal.Backend.Core.Exceptions;
 
 namespace Terminal.Backend.Core.ValueObjects;
 
-public sealed record SampleId
+public sealed record ProcessId
 {
     public Guid Value { get; }
 
-    public SampleId(Guid id)
+    public ProcessId(Guid id)
     {
         if (id == Guid.Empty)
         {
@@ -16,8 +16,8 @@ public sealed record SampleId
         Value = id;
     }
 
-    public static SampleId Create() => new(Guid.NewGuid());
+    public static ProcessId Create() => new(Guid.NewGuid());
 
-    public static implicit operator Guid(SampleId id) => id.Value;
-    public static implicit operator SampleId(Guid id) => new(id);
+    public static implicit operator Guid(ProcessId id) => id.Value;
+    public static implicit operator ProcessId(Guid id) => new(id);
 }

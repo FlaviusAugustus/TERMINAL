@@ -62,7 +62,7 @@ internal sealed class CreateSampleCommandHandler : IRequestHandler<CreateSampleC
             throw new ProjectNotActiveException(project.Name);
         }
 
-        var sample = new Core.Entities.Sample(sampleId,
+        var sample = new Core.Entities.Process(sampleId,
             project,
             recipe,
             new Comment(comment),

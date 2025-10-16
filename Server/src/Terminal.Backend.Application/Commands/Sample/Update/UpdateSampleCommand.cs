@@ -6,7 +6,7 @@ using Terminal.Backend.Core.ValueObjects;
 namespace Terminal.Backend.Application.Commands.Sample.Update;
 
 public sealed record UpdateSampleCommand(
-    [property: JsonIgnore] SampleId Id,
+    [property: JsonIgnore] ProcessId Id,
     Guid ProjectId,
     Guid? RecipeId,
     IEnumerable<UpdateSampleStepDto> Steps,

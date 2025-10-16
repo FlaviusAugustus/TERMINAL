@@ -276,8 +276,8 @@ internal sealed class TerminalDbSeeder
 
         #region samples
 
-        var sample1 = new Sample(
-            SampleId.Create(),
+        var sample1 = new Process(
+            ProcessId.Create(),
             projectUpturn,
             null,
             new Comment("First sample!"),
@@ -286,8 +286,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample1);
         _dbContext.SaveChanges();
 
-        var sample2 = new Sample(
-            SampleId.Create(),
+        var sample2 = new Process(
+            ProcessId.Create(),
             projectUpturn,
             null,
             new Comment("First sample!"),
@@ -296,8 +296,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample2);
         _dbContext.SaveChanges();
 
-        var sample3 = new Sample(
-            SampleId.Create(),
+        var sample3 = new Process(
+            ProcessId.Create(),
             projectBessy2,
             null,
             new Comment("First sample!"),
@@ -306,8 +306,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample3);
         _dbContext.SaveChanges();
 
-        var sample4 = new Sample(
-            SampleId.Create(),
+        var sample4 = new Process(
+            ProcessId.Create(),
             projectBessy2,
             null,
             new Comment("First sample!"),
@@ -316,8 +316,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample4);
         _dbContext.SaveChanges();
 
-        var sample5 = new Sample(
-            SampleId.Create(),
+        var sample5 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -326,8 +326,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample5);
         _dbContext.SaveChanges();
 
-        var sample6 = new Sample(
-            SampleId.Create(),
+        var sample6 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -336,8 +336,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample6);
         _dbContext.SaveChanges();
 
-        var sample7 = new Sample(
-            SampleId.Create(),
+        var sample7 = new Process(
+            ProcessId.Create(),
             projectNobelium,
             null,
             new Comment("First sample!"),
@@ -346,8 +346,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample7);
         _dbContext.SaveChanges();
 
-        var sample8 = new Sample(
-            SampleId.Create(),
+        var sample8 = new Process(
+            ProcessId.Create(),
             projectNobelium,
             null,
             new Comment("First sample!"),
@@ -356,8 +356,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample8);
         _dbContext.SaveChanges();
 
-        var sample9 = new Sample(
-            SampleId.Create(),
+        var sample9 = new Process(
+            ProcessId.Create(),
             projectNobelium,
             null,
             new Comment("First sample!"),
@@ -366,8 +366,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample9);
         _dbContext.SaveChanges();
 
-        var sample10 = new Sample(
-            SampleId.Create(),
+        var sample10 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -376,8 +376,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample10);
         _dbContext.SaveChanges();
 
-        var sample11 = new Sample(
-            SampleId.Create(),
+        var sample11 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -386,8 +386,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample11);
         _dbContext.SaveChanges();
 
-        var sample12 = new Sample(
-            SampleId.Create(),
+        var sample12 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -396,8 +396,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample12);
         _dbContext.SaveChanges();
 
-        var sample13 = new Sample(
-            SampleId.Create(),
+        var sample13 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -406,8 +406,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample13);
         _dbContext.SaveChanges();
 
-        var sample14 = new Sample(
-            SampleId.Create(),
+        var sample14 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -416,8 +416,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample14);
         _dbContext.SaveChanges();
 
-        var sample15 = new Sample(
-            SampleId.Create(),
+        var sample15 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -426,8 +426,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample15);
         _dbContext.SaveChanges();
 
-        var sample16 = new Sample(
-            SampleId.Create(),
+        var sample16 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -436,8 +436,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample16);
         _dbContext.SaveChanges();
 
-        var sample17 = new Sample(
-            SampleId.Create(),
+        var sample17 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -446,8 +446,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample17);
         _dbContext.SaveChanges();
 
-        var sample18 = new Sample(
-            SampleId.Create(),
+        var sample18 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -456,8 +456,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample18);
         _dbContext.SaveChanges();
 
-        var sample19 = new Sample(
-            SampleId.Create(),
+        var sample19 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -466,8 +466,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample19);
         _dbContext.SaveChanges();
 
-        var sample20 = new Sample(
-            SampleId.Create(),
+        var sample20 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -476,8 +476,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample20);
         _dbContext.SaveChanges();
 
-        var sample21 = new Sample(
-            SampleId.Create(),
+        var sample21 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -486,8 +486,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample21);
         _dbContext.SaveChanges();
 
-        var sample22 = new Sample(
-            SampleId.Create(),
+        var sample22 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -496,8 +496,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample22);
         _dbContext.SaveChanges();
 
-        var sample23 = new Sample(
-            SampleId.Create(),
+        var sample23 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -506,8 +506,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample23);
         _dbContext.SaveChanges();
 
-        var sample24 = new Sample(
-            SampleId.Create(),
+        var sample24 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -516,8 +516,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample24);
         _dbContext.SaveChanges();
 
-        var sample25 = new Sample(
-            SampleId.Create(),
+        var sample25 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -526,8 +526,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample25);
         _dbContext.SaveChanges();
 
-        var sample26 = new Sample(
-            SampleId.Create(),
+        var sample26 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -536,8 +536,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample26);
         _dbContext.SaveChanges();
 
-        var sample27 = new Sample(
-            SampleId.Create(),
+        var sample27 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -546,8 +546,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample27);
         _dbContext.SaveChanges();
 
-        var sample28 = new Sample(
-            SampleId.Create(),
+        var sample28 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -556,8 +556,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample28);
         _dbContext.SaveChanges();
 
-        var sample29 = new Sample(
-            SampleId.Create(),
+        var sample29 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -566,8 +566,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample29);
         _dbContext.SaveChanges();
 
-        var sample30 = new Sample(
-            SampleId.Create(),
+        var sample30 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -576,8 +576,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample30);
         _dbContext.SaveChanges();
 
-        var sample31 = new Sample(
-            SampleId.Create(),
+        var sample31 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -586,8 +586,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample31);
         _dbContext.SaveChanges();
 
-        var sample32 = new Sample(
-            SampleId.Create(),
+        var sample32 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -596,8 +596,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample32);
         _dbContext.SaveChanges();
 
-        var sample33 = new Sample(
-            SampleId.Create(),
+        var sample33 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -606,8 +606,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample33);
         _dbContext.SaveChanges();
 
-        var sample34 = new Sample(
-            SampleId.Create(),
+        var sample34 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -616,8 +616,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample34);
         _dbContext.SaveChanges();
 
-        var sample35 = new Sample(
-            SampleId.Create(),
+        var sample35 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -626,8 +626,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample35);
         _dbContext.SaveChanges();
 
-        var sample36 = new Sample(
-            SampleId.Create(),
+        var sample36 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -636,8 +636,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample36);
         _dbContext.SaveChanges();
 
-        var sample37 = new Sample(
-            SampleId.Create(),
+        var sample37 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -646,8 +646,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample37);
         _dbContext.SaveChanges();
 
-        var sample38 = new Sample(
-            SampleId.Create(),
+        var sample38 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -656,8 +656,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample38);
         _dbContext.SaveChanges();
 
-        var sample39 = new Sample(
-            SampleId.Create(),
+        var sample39 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -666,8 +666,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample39);
         _dbContext.SaveChanges();
 
-        var sample40 = new Sample(
-            SampleId.Create(),
+        var sample40 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -676,8 +676,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample40);
         _dbContext.SaveChanges();
 
-        var sample41 = new Sample(
-            SampleId.Create(),
+        var sample41 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -686,8 +686,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample41);
         _dbContext.SaveChanges();
 
-        var sample42 = new Sample(
-            SampleId.Create(),
+        var sample42 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -696,8 +696,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample42);
         _dbContext.SaveChanges();
 
-        var sample43 = new Sample(
-            SampleId.Create(),
+        var sample43 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -706,8 +706,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample43);
         _dbContext.SaveChanges();
 
-        var sample44 = new Sample(
-            SampleId.Create(),
+        var sample44 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),
@@ -716,8 +716,8 @@ internal sealed class TerminalDbSeeder
         _dbContext.Samples.Add(sample44);
         _dbContext.SaveChanges();
 
-        var sample45 = new Sample(
-            SampleId.Create(),
+        var sample45 = new Process(
+            ProcessId.Create(),
             projectNitro,
             null,
             new Comment("First sample!"),

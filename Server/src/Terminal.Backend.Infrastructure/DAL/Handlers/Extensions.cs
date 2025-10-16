@@ -47,7 +47,7 @@ public static class Extensions
     public static GetTagDto AsGetTagDto(this Tag entity)
         => new(entity.Id, entity.Name, entity.IsActive);
 
-    public static GetSampleDto AsGetSampleDto(this Sample entity)
+    public static GetSampleDto AsGetSampleDto(this Process entity)
         => new()
         {
             Id = entity.Id.Value,

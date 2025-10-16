@@ -2,18 +2,18 @@ using Terminal.Backend.Core.Exceptions;
 
 namespace Terminal.Backend.Core.ValueObjects;
 
-public sealed record SampleCode
+public sealed record Sample
 {
     private const string Prefix = "AX"; // TODO: move to configuration file
     public string Value => $"{Prefix}{Number}";
     public ulong Number { get; }
 
-    public SampleCode(ulong number)
+    public Sample(ulong number)
     {
         Number = number;
     }
 
-    public SampleCode(string code)
+    public Sample(string code)
     {
         var isParsable = ulong.TryParse(code.AsSpan(Prefix.Length), out var number);
         var isValid = !string.IsNullOrWhiteSpace(code) &&
@@ -28,6 +28,6 @@ public sealed record SampleCode
         Number = number;
     }
 
-    public static implicit operator string(SampleCode code) => code.Value;
-    public static implicit operator SampleCode(string code) => new(code);
+    public static implicit operator string(Sample code) => code.Value;
+    public static implicit operator Sample(string code) => new(code);
 }

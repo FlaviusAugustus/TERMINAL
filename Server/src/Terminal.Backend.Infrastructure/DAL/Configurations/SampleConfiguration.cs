@@ -6,18 +6,18 @@ using Terminal.Backend.Infrastructure.DAL.ValueGenerators;
 
 namespace Terminal.Backend.Infrastructure.DAL.Configurations;
 
-internal sealed class SampleConfiguration : IEntityTypeConfiguration<Sample>
+internal sealed class SampleConfiguration : IEntityTypeConfiguration<Process>
 {
-    public void Configure(EntityTypeBuilder<Sample> builder)
+    public void Configure(EntityTypeBuilder<Process> builder)
     {
         builder.HasKey(m => m.Id);
 
         builder.Property(m => m.Id)
             .HasConversion(i => i.Value,
-                i => new SampleId(i));
+                i => new ProcessId(i));
         builder.Property(m => m.Code)
             .HasConversion(c => c.Number,
-                c => new SampleCode(c))
+                c => new Sample(c))
             .HasValueGenerator(typeof(SampleCodeValueGenerator));
         builder.Property(m => m.Comment)
             .HasConversion(c => c.Value,

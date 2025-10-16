@@ -9,7 +9,7 @@ namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples;
 internal sealed class GetRecentSamplesQueryHandler :
     IRequestHandler<GetRecentSamplesQuery, GetRecentSamplesDto>
 {
-    private readonly DbSet<Sample> _samples;
+    private readonly DbSet<Process> _samples;
 
     public GetRecentSamplesQueryHandler(TerminalDbContext dbContext)
     {

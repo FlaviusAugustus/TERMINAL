@@ -6,7 +6,7 @@ using Terminal.Backend.Core.ValueObjects;
 namespace Terminal.Backend.Application.Commands.Sample.Create;
 
 public sealed record CreateSampleCommand(
-    [property: JsonIgnore] SampleId SampleId,
+    [property: JsonIgnore] ProcessId SampleId,
     Guid ProjectId,
     Guid? RecipeId,
     IEnumerable<CreateSampleStepDto> Steps,

@@ -7,7 +7,7 @@ namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples;
 
 internal sealed class GetSamplesAmountQueryHandler : IRequestHandler<GetSamplesAmountQuery, int>
 {
-    private readonly DbSet<Sample> _samples;
+    private readonly DbSet<Process> _samples;
 
     public GetSamplesAmountQueryHandler(TerminalDbContext dbContext)
     {

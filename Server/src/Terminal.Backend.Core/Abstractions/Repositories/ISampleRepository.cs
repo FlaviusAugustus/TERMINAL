@@ -5,8 +5,8 @@ namespace Terminal.Backend.Core.Abstractions.Repositories;
 
 public interface ISampleRepository
 {
-    Task AddAsync(Sample sample, CancellationToken ct);
-    Task<Sample?> GetAsync(SampleId id, CancellationToken cancellationToken);
-    Task DeleteAsync(Sample sample, CancellationToken cancellationToken);
-    Task UpdateAsync(Sample sample, CancellationToken cancellationToken);
+    Task AddAsync(Process sample, CancellationToken ct);
+    Task<Process?> GetAsync(ProcessId id, CancellationToken cancellationToken);
+    Task DeleteAsync(Process sample, CancellationToken cancellationToken);
+    Task UpdateAsync(Process sample, CancellationToken cancellationToken);
 }

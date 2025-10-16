@@ -7,17 +7,17 @@ namespace Terminal.Backend.Infrastructure.DAL.Repositories;
 
 internal sealed class SampleRepository : ISampleRepository
 {
-    private readonly DbSet<Sample> _samples;
+    private readonly DbSet<Process> _samples;
 
     public SampleRepository(TerminalDbContext dbContext)
     {
         _samples = dbContext.Samples;
     }
 
-    public async Task AddAsync(Sample sample, CancellationToken ct)
+    public async Task AddAsync(Process sample, CancellationToken ct)
         => await _samples.AddAsync(sample, ct);
 
-    public Task<Sample?> GetAsync(SampleId id, CancellationToken cancellationToken)
+    public Task<Process?> GetAsync(ProcessId id, CancellationToken cancellationToken)
         => _samples
             .Include(s => s.Project)
             .Include(s => s.Recipe)
@@ -27,13 +27,13 @@ internal sealed class SampleRepository : ISampleRepository
             .Include(s => s.Tags)
             .SingleOrDefaultAsync(s => s.Id == id, cancellationToken);
 
-    public Task DeleteAsync(Sample sample, CancellationToken cancellationToken)
+    public Task DeleteAsync(Process sample, CancellationToken cancellationToken)
     {
         _samples.Remove(sample);
         return Task.CompletedTask;
     }
 
-    public Task UpdateAsync(Sample sample, CancellationToken cancellationToken)
+    public Task UpdateAsync(Process sample, CancellationToken cancellationToken)
     {
         _samples.Update(sample);
         return Task.CompletedTask;

@@ -8,7 +8,7 @@ namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples;
 
 internal sealed class SearchSampleQueryHandler : IRequestHandler<SearchSampleQuery, GetSearchedSamplesDto>
 {
-    private readonly DbSet<Sample> _samples;
+    private readonly DbSet<Process> _samples;
 
     public SearchSampleQueryHandler(TerminalDbContext dbContext)
     {

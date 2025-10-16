@@ -24,7 +24,7 @@ public static class SamplesModule
                 ISender sender,
                 CancellationToken ct) =>
             {
-                var id = SampleId.Create();
+                var id = ProcessId.Create();
                 command = command with { SampleId = id };
                 await sender.Send(command, ct);
                 return Results.Created(ApiRouteBase, new { id });
@@ -33,7 +33,7 @@ public static class SamplesModule
 
         app.MapGet(ApiRouteBase + "/example", () =>
             {
-                var sample = new CreateSampleCommand(SampleId.Create(), ProjectId.Create(), null, new[]
+                var sample = new CreateSampleCommand(ProcessId.Create(), ProjectId.Create(), null, new[]
                     {
                         new CreateSampleStepDto(new CreateSampleBaseParameterValueDto[]
                             {

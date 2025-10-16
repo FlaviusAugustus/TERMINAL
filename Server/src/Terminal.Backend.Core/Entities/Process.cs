@@ -2,10 +2,10 @@ using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Core.Entities;
 
-public sealed class Sample
+public sealed class Process
 {
-    public SampleId Id { get; private set; }
-    public SampleCode Code { get; private set; }
+    public ProcessId Id { get; private set; }
+    public Sample Code { get; private set; }
     public DateTime CreatedAtUtc { get; private set; }
     public Comment Comment { get; private set; }
 
@@ -14,7 +14,7 @@ public sealed class Sample
     public ICollection<SampleStep> Steps { get; private set; } = new List<SampleStep>();
     public ICollection<Tag> Tags { get; private set; } = new List<Tag>();
 
-    public Sample(SampleId id, Project project, Recipe? recipe, Comment comment, ICollection<SampleStep> steps,
+    public Process(ProcessId id, Project project, Recipe? recipe, Comment comment, ICollection<SampleStep> steps,
         ICollection<Tag> tags)
     {
         Id = id;
@@ -26,7 +26,7 @@ public sealed class Sample
         CreatedAtUtc = DateTime.UtcNow;
     }
 
-    private Sample(SampleId id, SampleCode code, DateTime createdAtUtc, Comment comment)
+    private Process(ProcessId id, Sample code, DateTime createdAtUtc, Comment comment)
     {
         Id = id;
         Code = code;

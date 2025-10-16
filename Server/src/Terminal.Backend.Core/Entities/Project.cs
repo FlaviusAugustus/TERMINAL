@@ -8,7 +8,7 @@ public sealed class Project
     public string Name { get; private set; }
     public bool IsActive { get; private set; }
 
-    public ICollection<Sample> Samples { get; private set; } = new List<Sample>();
+    public ICollection<Process> Samples { get; private set; } = new List<Process>();
 
     public Project(ProjectId id, string name, bool isActive = true)
     {
