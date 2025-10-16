@@ -7,20 +7,26 @@ export type SamplesRequest = {
   pageSize: number;
   orderBy?: string;
   desc?: boolean;
+  searchPhrase?: string;
 };
 
 export type SamplesResponse = {
   rows: Sample[];
   pageAmount: number;
-  rowsAmount: number; // All rows (samples)
+  rowsAmount: number;
 };
 
 function correctParams(params: SamplesRequest): SamplesRequest {
   function capitalizeFirstLetter(val: string | undefined) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
   }
+
   if (params.orderBy === "")
-    return { pageNumber: params.pageNumber, pageSize: params.pageSize };
+    return {
+      searchPhrase: params.searchPhrase,
+      pageNumber: params.pageNumber,
+      pageSize: params.pageSize,
+    };
   else {
     return {
       pageNumber: params.pageNumber,
@@ -34,15 +40,39 @@ function correctParams(params: SamplesRequest): SamplesRequest {
 async function fetchDataSamples(
   params: SamplesRequest
 ): Promise<SamplesResponse> {
+  let samples;
+  let rowsAmount;
   params = correctParams(params);
-  const resultSamples = await apiClient.get(`/samples`, { params });
-  const resultAmountOfSamples = await apiClient.get(`/samples/amount`);
-
-  return {
-    rows: resultSamples.data.samples,
-    pageAmount: Math.ceil(resultAmountOfSamples.data / params.pageSize),
-    rowsAmount: resultAmountOfSamples.data,
-  };
+  if (params.searchPhrase) {
+    samples = await apiClient.get("/samples/search", {
+      params: {
+        searchPhrase: params.searchPhrase,
+        pageNumber: params.pageNumber,
+        pageSize: params.pageSize,
+        desc: params.desc,
+      },
+    });
+    rowsAmount = samples.data.totalAmount;
+    return {
+      rows: samples.data.samples,
+      pageAmount: Math.ceil(rowsAmount / params.pageSize),
+      rowsAmount,
+    };
+  } else {
+    samples = await apiClient.get("/samples", {
+      params: {
+        pageNumber: params.pageNumber,
+        pageSize: params.pageSize,
+        desc: params.desc,
+      },
+    });
+    const amountOfSamples = await apiClient.get("/samples/amount");
+    return {
+      rows: samples.data.samples,
+      pageAmount: Math.ceil(amountOfSamples.data / params.pageSize),
+      rowsAmount: amountOfSamples.data,
+    };
+  }
 }
 
 /**

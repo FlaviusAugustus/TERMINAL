@@ -12,7 +12,6 @@ import { toastPromise } from "@utils/toast.utils.tsx";
 import TagEdit from "@components/tags/TagEdit.tsx";
 import { useUpdateTagName } from "@hooks/tags/useUpdateTagName.ts";
 import { useUpdateTagStatus } from "@hooks/tags/useUpdateTagStatus.ts";
-import { useSearchTags } from "@hooks/tags/useSearchTags.ts";
 
 const TagsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -27,15 +26,8 @@ const TagsPage = () => {
     pageNumber: pagination.pageIndex,
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
-  });
-
-  const searchTagsQuery = useSearchTags({
     searchPhrase,
-    pageNumber: pagination.pageIndex,
-    pageSize: pagination.pageSize,
   });
-
-  const dataQueryTags = searchPhrase ? searchTagsQuery : queryTags;
 
   const deleteMutation = useDeleteTag({
     pageNumber: pagination.pageIndex,
@@ -103,12 +95,9 @@ const TagsPage = () => {
 
   return (
     <TableLayout>
-      <ComponentOrLoader
-        isLoading={dataQueryTags.isLoading}
-        loader={<Loader />}
-      >
+      <ComponentOrLoader isLoading={queryTags.isLoading} loader={<Loader />}>
         <Tags
-          tags={dataQueryTags.data}
+          tags={queryTags.data}
           sorting={sorting}
           setSorting={setSorting}
           pagination={pagination}

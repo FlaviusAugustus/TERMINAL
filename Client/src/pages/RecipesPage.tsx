@@ -9,7 +9,6 @@ import TableLayout from "./layouts/TableLayout";
 import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
 import Loader from "@components/shared/loader/Loader.tsx";
 import EditRecipe from "@components/recipes/EditRecipe";
-import { useSearchRecipes } from "@hooks/recipes/useSearchRecipes.ts";
 
 const RecipesPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -23,15 +22,8 @@ const RecipesPage = () => {
     pageNumber: pagination.pageIndex,
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
-  });
-
-  const searchRecipesQuery = useSearchRecipes({
     searchPhrase,
-    pageNumber: pagination.pageIndex,
-    pageSize: pagination.pageSize,
   });
-
-  const dataQueryRecipes = searchPhrase ? searchRecipesQuery : queryRecipes;
 
   const mutation = useDeleteRecipe({
     pageNumber: pagination.pageIndex,
@@ -62,12 +54,9 @@ const RecipesPage = () => {
 
   return (
     <TableLayout>
-      <ComponentOrLoader
-        isLoading={dataQueryRecipes.isLoading}
-        loader={<Loader />}
-      >
+      <ComponentOrLoader isLoading={queryRecipes.isLoading} loader={<Loader />}>
         <Recipes
-          recipe={dataQueryRecipes.data}
+          recipe={queryRecipes.data}
           sorting={sorting}
           setSorting={setSorting}
           pagination={pagination}
