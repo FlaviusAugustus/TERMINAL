@@ -19,6 +19,22 @@ jobs:
           echo -e "tag=$TAG" >> $GITHUB_OUTPUT
         env:
           GITHUB_REF: ${{ github.ref }}
+      - name: Verify tag comes from main branch
+        shell: bash
+        run: |
+          COMMIT_HASH=$(git rev-parse --verify $RELEASE_TAG)
+          BRANCHES_WITH_COMMIT=$(git branch -r --contains "$COMMIT_HASH" | sed 's/^[ \t]*//;s/[ \t]*$//')
+
+          if echo "$BRANCHES_WITH_COMMIT" | grep -qx "origin/$DEFAULT_BRANCH"; then
+              echo "✅ Tag from main!"
+              exit 0
+          else
+              echo "⛔️ Tag not from main!"
+              exit 1
+          fi
+        env:
+          RELEASE_TAG: ${{ steps.create-tag.outputs.tag }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       - name: Create release
         shell: bash
         run: |
