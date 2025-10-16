@@ -17,7 +17,7 @@ jobs:
         shell: bash
         id: create-tag
         run: |
-          TAG=${GITHUB_REF#/refs/tags/}
+          TAG=$(echo "$GITHUB_REF" | sed "s/^refs\/tags\///g")
           echo "Extracted tag: $TAG"
           echo -e "tag=$TAG" >> $GITHUB_OUTPUT
         env:
@@ -32,7 +32,13 @@ jobs:
               echo "✅ Tag from main!"
               exit 0
           else
-              echo "⛔️ Tag not from main!"
+              echo "⛔️ Tag not from main, removing incorrect tag..."
+
+              git config user.name "github-actions-bot"
+              git config user.email "github-actions-bot@users.noreply.github.com"
+              git tag -d $RELEASE_TAG
+              git push origin --delete tag $RELEASE_TAG
+
               exit 1
           fi
         env:
