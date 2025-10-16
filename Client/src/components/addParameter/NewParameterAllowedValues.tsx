@@ -26,7 +26,7 @@ const NewParameterAllowedValues = ({
           <PlusIcon className="h-4" />
         </IconButton>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-y-2">
         {parameterRequest.allowedValues.map((value, index) => (
           <div key={index} className="flex gap-2">
             <div className="w-full">
