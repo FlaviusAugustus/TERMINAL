@@ -2,7 +2,7 @@ name: Build docker images
 
 on:
   workflow_run:
-    workflows: [Create release from tag]
+    workflows: ["Create release from tag"]
     types:
       - completed
 
@@ -11,6 +11,13 @@ on:
 permissions: write-all
 
 jobs:
+  build-and-push-images:
+    uses: ./.github/workflows/terminal-docker.yml
+    with:
+      registry-url: ghcr.io
+      registry-username: ${{ github.actor }}
+    secrets:
+      registry-token: ${{ secrets.GITHUB_TOKEN }}
   deploy:
     needs: [build-and-push-images]
     uses: ./.github/workflows/terminal-ansible.yml
