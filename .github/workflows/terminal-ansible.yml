@@ -23,7 +23,7 @@ jobs:
 
       - name: Create Ansible inventory
         id: make-inventory
-        uses: ./.github/workflows/actions/make-inventory
+        uses: ./.github/actions/make-inventory
         with:
           host-list: ${{ secrets.deployment-targets }}
           group-name: web
