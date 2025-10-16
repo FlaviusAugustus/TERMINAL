@@ -17,7 +17,7 @@ const NewParameterAllowedValues = ({
   setAllowedValue,
 }: NewParameterAllowedValuesProps) => {
   return (
-    <>
+    <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center gap-2">
         <p className="text-sm text-gray-700">
           Allowed values ({parameterRequest.allowedValues.length}):
@@ -50,7 +50,7 @@ const NewParameterAllowedValues = ({
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
