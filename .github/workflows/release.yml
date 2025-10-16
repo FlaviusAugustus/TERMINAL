@@ -1,0 +1,32 @@
+name: Create release from tag
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions: write-all
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract tag
+        shell: bash
+        id: create-tag
+        run: |
+          TAG=${GITHUB_REF#/refs/tags/}
+          echo "Extracted tag: $TAG"
+          echo -e "tag=$TAG" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_REF: ${{ github.ref }}
+      - name: Create release
+        shell: bash
+        run: |
+          echo "Creating release for tag $RELEASE_TAG"
+          gh release create "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "$RELEASE_TAG" \
+            --generate-notes
+        env:
+          RELEASE_TAG: ${{ steps.create-tag.outputs.tag }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
