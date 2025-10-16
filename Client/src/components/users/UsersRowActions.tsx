@@ -1,7 +1,7 @@
 import IconButton from "@components/shared/common/IconButton.tsx";
 import {
   PencilIcon,
-  EllipsisHorizontalIcon,
+  MagnifyingGlassIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
@@ -29,7 +29,7 @@ const UsersRowActions = ({
           onClick={onChangePassword}
           className="hover:bg-gray-100 hover:border-blue-200 hidden"
         >
-          <EllipsisHorizontalIcon className="h-4 rounded-md" />
+          <MagnifyingGlassIcon className="h-4 rounded-md" />
         </IconButton>
         <IconButton
           onClick={onDelete}

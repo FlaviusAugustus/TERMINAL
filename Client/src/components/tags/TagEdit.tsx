@@ -41,7 +41,6 @@ const TagEdit = (props: TagDetailsProps) => {
       <FormInput
         label="Name"
         id="name"
-        type="email"
         value={name}
         onChange={(e) => {
           setName(e.target.value);
