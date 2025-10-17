@@ -27,7 +27,7 @@ import FormInput from "@components/shared/form/FormInput.tsx";
 interface ParametersProps {
   parameters: Array<AllParameters>;
   onDetails: (parameterId: string) => void;
-  onDelete: (parameterId: string) => Promise<void>;
+  onDelete: (parameterId: string | string[]) => void;
 }
 
 const columnHelper = createColumnHelper<AllParameters>();
@@ -45,7 +45,7 @@ const columnsDef = [
   }),
 ] as Array<ColumnDef<AllParameters, unknown>>;
 
-const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
+const Parameters = (props: ParametersProps) => {
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -57,16 +57,16 @@ const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
   >([]);
 
   useEffect(() => {
-    const filteredParams = parameters.filter((param) =>
+    const filteredParams = props.parameters.filter((param) =>
       param.name.toLowerCase().includes(searchValue.toLowerCase())
     );
     setParametersFiltered(filteredParams);
-  }, [parameters, searchValue]);
+  }, [props.parameters, searchValue]);
 
   const columns = useTableColumns<AllParameters>({
     columnsDef: columnsDef,
-    onDetails: onDetails,
-    onDelete: onDelete,
+    onDetails: props.onDetails,
+    onDelete: props.onDelete,
   });
 
   const table = useReactTable({
@@ -89,9 +89,9 @@ const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
   });
 
   const handleDeleteSelected = () => {
-    table.getSelectedRowModel().rows.forEach((row) => {
-      onDelete(row.original.id);
-    });
+    const ids = table.getSelectedRowModel().rows.map((row) => row.original.id);
+    if (ids.length === 0) return;
+    props.onDelete(ids);
   };
 
   return (

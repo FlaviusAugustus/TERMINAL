@@ -21,7 +21,6 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-import { toastPromise } from "utils/toast.utils";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Recipe } from "@api/models/Recipe";
 
@@ -32,7 +31,7 @@ export interface RecipesProps {
   pagination: PaginationState;
   setPagination: OnChangeFn<PaginationState>;
   onEdit: (id: string) => void;
-  onDelete: (id: string) => Promise<void>;
+  onDelete: (id: string | string[]) => void;
   onDetails: (id: string) => void;
   searchProps?: {
     onSearch?: (phrase: string) => void;
@@ -61,18 +60,10 @@ const columnsDef = [
  * @param {RecipesProps} props - The properties for the recipes component.
  */
 const Recipes = (props: RecipesProps) => {
-  const handleDelete = async (id: string) => {
-    await toastPromise(props.onDelete(id), {
-      success: "Recipe deleted succesfully",
-      loading: "Removing recipe...",
-      error: "Error deleting recipe",
-    });
-  };
-
   const columns = useTableColumns<Recipe>({
     columnsDef: columnsDef,
     onEdit: props.onEdit,
-    onDelete: handleDelete,
+    onDelete: props.onDelete,
     onDetails: props.onDetails,
   });
 
@@ -86,15 +77,9 @@ const Recipes = (props: RecipesProps) => {
   }, [props.searchProps?.searchValue]);
 
   const handleDeleteSelected = () => {
-    const tasks = table.getSelectedRowModel().rows.map((row) => {
-      props.onDelete(row.original.id);
-    });
-
-    toastPromise(Promise.all(tasks), {
-      success: "recipes deleted succesfully",
-      loading: "Removing recipes...",
-      error: "Error deleting recipes",
-    });
+    const ids = table.getSelectedRowModel().rows.map((row) => row.original.id);
+    if (ids.length === 0) return;
+    props.onDelete(ids);
   };
 
   const table = useReactTable({
