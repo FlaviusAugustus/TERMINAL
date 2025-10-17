@@ -5,7 +5,6 @@ import SampleDetails from "@components/samples/SampleDetails.tsx";
 import { useSamples } from "@hooks/samples/useGetSamples.ts";
 import { useSampleDetails } from "@hooks/samples/useGetSampleDetails.ts";
 import { useDeleteSample } from "@hooks/samples/useDeleteSample.ts";
-import { useSearchSamples } from "@hooks/samples/useSearchSamples.ts";
 import TableLayout from "./layouts/TableLayout";
 import Loader from "@components/shared/loader/Loader.tsx";
 import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
@@ -25,15 +24,8 @@ const SamplesPage = () => {
     pageSize: pagination.pageSize,
     orderBy: sorting[0]?.id ?? "",
     desc: sorting[0]?.desc ?? true,
-  });
-
-  const searchSamplesQuery = useSearchSamples({
     searchPhrase,
-    pageNumber: pagination.pageIndex,
-    pageSize: pagination.pageSize,
   });
-
-  const dataQuerySamples = searchPhrase ? searchSamplesQuery : samplesQuery;
 
   const deleteMutation = useDeleteSample({
     pageNumber: pagination.pageIndex,
@@ -64,12 +56,9 @@ const SamplesPage = () => {
 
   return (
     <TableLayout>
-      <ComponentOrLoader
-        isLoading={dataQuerySamples.isLoading}
-        loader={<Loader />}
-      >
+      <ComponentOrLoader isLoading={samplesQuery.isLoading} loader={<Loader />}>
         <Samples
-          samples={dataQuerySamples.data}
+          samples={samplesQuery.data}
           sorting={sorting}
           pagination={pagination}
           setSorting={setSorting}

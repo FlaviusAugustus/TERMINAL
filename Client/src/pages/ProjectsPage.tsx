@@ -10,7 +10,6 @@ import { useProjectDetails } from "@hooks/projects/useGetProjectDetails.ts";
 import ProjectEdit from "@components/projects/ProjectEdit.tsx";
 import { useUpdateProjectName } from "@hooks/projects/useUpdateProjectName.ts";
 import { useUpdateProjectStatus } from "@hooks/projects/useUpdateProjectStatus.ts";
-import { useSearchProjects } from "@hooks/projects/useSearchProjects.ts";
 import ConfirmDeleteDialog from "@components/shared/dialog/ConfirmDeleteDialog";
 import { toastError } from "@utils/toast.utils.tsx";
 
@@ -30,15 +29,8 @@ const ProjectsPage = () => {
     pageNumber: pagination.pageIndex,
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
-  });
-
-  const searchProjectsQuery = useSearchProjects({
     searchPhrase,
-    pageNumber: pagination.pageIndex,
-    pageSize: pagination.pageSize,
   });
-
-  const dataQueryProjects = searchPhrase ? searchProjectsQuery : queryProjects;
 
   const queryProjectDetails = useProjectDetails(projectDetailsId);
 
@@ -110,11 +102,11 @@ const ProjectsPage = () => {
   return (
     <TableLayout>
       <ComponentOrLoader
-        isLoading={dataQueryProjects.isLoading}
+        isLoading={queryProjects.isLoading}
         loader={<Loader />}
       >
         <Projects
-          projects={dataQueryProjects.data}
+          projects={queryProjects.data}
           sorting={sorting}
           setSorting={setSorting}
           pagination={pagination}

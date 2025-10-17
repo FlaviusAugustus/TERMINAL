@@ -16,11 +16,13 @@ const RecipesPage = () => {
     pageIndex: 0,
     pageSize: 10,
   });
+  const [searchPhrase, setSearchPhrase] = useState("");
 
-  const dataQueryRecipes = useRecipes({
+  const queryRecipes = useRecipes({
     pageNumber: pagination.pageIndex,
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
+    searchPhrase,
   });
 
   const mutation = useDeleteRecipe({
@@ -52,12 +54,9 @@ const RecipesPage = () => {
 
   return (
     <TableLayout>
-      <ComponentOrLoader
-        isLoading={dataQueryRecipes.isLoading}
-        loader={<Loader />}
-      >
+      <ComponentOrLoader isLoading={queryRecipes.isLoading} loader={<Loader />}>
         <Recipes
-          recipe={dataQueryRecipes.data}
+          recipe={queryRecipes.data}
           sorting={sorting}
           setSorting={setSorting}
           pagination={pagination}
@@ -65,6 +64,11 @@ const RecipesPage = () => {
           onEdit={(id: string) => handleEditRecipe(id)}
           onDetails={(id: string) => changeRecipeDetails(id)}
           onDelete={async (id: string) => await handleDelete(id)}
+          searchProps={{
+            onSearch: setSearchPhrase,
+            searchValue: searchPhrase,
+            onClearSearch: () => setSearchPhrase(""),
+          }}
         />
       </ComponentOrLoader>
       <ComponentOrLoader
