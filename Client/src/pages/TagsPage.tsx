@@ -8,7 +8,7 @@ import { useGetAllTags } from "@hooks/tags/useGetAllTags.ts";
 import { useGetTagDetails } from "@hooks/tags/useGetTagDetails.ts";
 import TagDetails from "@components/tags/TagDetails.tsx";
 import { useDeleteTag } from "@hooks/tags/useDeleteTag.ts";
-import { toastPromise } from "@utils/toast.utils.tsx";
+import { toastError, toastPromise } from "@utils/toast.utils.tsx";
 import TagEdit from "@components/tags/TagEdit.tsx";
 import { useUpdateTagName } from "@hooks/tags/useUpdateTagName.ts";
 import { useUpdateTagStatus } from "@hooks/tags/useUpdateTagStatus.ts";
@@ -83,21 +83,33 @@ const TagsPage = () => {
     name: string,
     isActive: boolean
   ) => {
-    if (dataTagDetails.data?.name !== name) {
-      console.log("test", isActive);
-      await toastPromise(updateNameMutation.mutateAsync({ id, name }), {
-        success: "Name updated successfully",
-        error: "Failed to update name",
-        loading: "Updating name...",
-      });
+    const hasNameChanged = dataTagDetails.data?.name !== name;
+    const hasStatusChanged = dataTagDetails.data?.isActive !== isActive;
+
+    if (!hasNameChanged && !hasStatusChanged) return;
+
+    let errorOccurred = false;
+
+    if (hasNameChanged) {
+      try {
+        await updateNameMutation.mutateAsync({ id, name });
+      } catch {
+        toastError(`Error while updating name`);
+        errorOccurred = true;
+      }
     }
 
-    if (dataTagDetails.data?.isActive !== isActive) {
-      await toastPromise(updateStatusMutation.mutateAsync({ id, isActive }), {
-        success: "Tag status updated successfully",
-        error: "Failed to update tag status",
-        loading: "Updating tag status...",
-      });
+    if (hasStatusChanged) {
+      try {
+        await updateStatusMutation.mutateAsync({ id, isActive });
+      } catch {
+        toastError(`Error while updating status`);
+        errorOccurred = true;
+      }
+    }
+
+    if (!errorOccurred) {
+      setTagEditOpen(false);
     }
   };
 
@@ -142,6 +154,9 @@ const TagsPage = () => {
           onSubmit={handleSubmitEdit}
           open={tagEditOpen}
           setOpen={setTagEditOpen}
+          isSubmitting={
+            updateNameMutation.isPending || updateStatusMutation.isPending
+          }
         />
       </ComponentOrLoader>
     </TableLayout>

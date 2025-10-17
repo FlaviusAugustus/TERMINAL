@@ -2,7 +2,6 @@ import Projects from "@components/projects/Projects.tsx";
 import { useState } from "react";
 import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useAllProjects } from "@hooks/projects/useGetAllProjects.ts";
-import { toastPromise } from "@utils/toast.utils.tsx";
 import { useDeleteProject } from "@hooks/projects/useDeleteProject.ts";
 import TableLayout from "./layouts/TableLayout";
 import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
@@ -13,6 +12,7 @@ import { useUpdateProjectName } from "@hooks/projects/useUpdateProjectName.ts";
 import { useUpdateProjectStatus } from "@hooks/projects/useUpdateProjectStatus.ts";
 import { useSearchProjects } from "@hooks/projects/useSearchProjects.ts";
 import ConfirmDeleteDialog from "@components/shared/dialog/ConfirmDeleteDialog";
+import { toastError } from "@utils/toast.utils.tsx";
 
 const ProjectsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -77,20 +77,33 @@ const ProjectsPage = () => {
   };
 
   const handleSubmit = async (id: string, name: string, isActive: boolean) => {
-    if (queryProjectDetails.data?.name !== name) {
-      await toastPromise(updateNameMutation.mutateAsync({ id, name }), {
-        success: "Name updated successfully",
-        error: "Failed to update name",
-        loading: "Updating name...",
-      });
+    const hasNameChanged = queryProjectDetails.data?.name !== name;
+    const hasStatusChanged = queryProjectDetails.data?.isActive !== isActive;
+
+    if (!hasNameChanged && !hasStatusChanged) return;
+
+    let errorOccurred = false;
+
+    if (hasNameChanged) {
+      try {
+        await updateNameMutation.mutateAsync({ id, name });
+      } catch {
+        toastError(`Error while updating name`);
+        errorOccurred = true;
+      }
     }
 
-    if (queryProjectDetails.data?.isActive !== isActive) {
-      await toastPromise(updateActivityMutation.mutateAsync({ id, isActive }), {
-        success: "Project status updated successfully",
-        error: "Failed to update project status",
-        loading: "Updating project status...",
-      });
+    if (hasStatusChanged) {
+      try {
+        await updateActivityMutation.mutateAsync({ id, isActive });
+      } catch {
+        toastError(`Error while updating status`);
+        errorOccurred = true;
+      }
+    }
+
+    if (!errorOccurred) {
+      setEditOpen(false);
     }
   };
 
@@ -125,6 +138,9 @@ const ProjectsPage = () => {
           onSubmit={handleSubmit}
           open={editOpen}
           setOpen={setEditOpen}
+          isSubmitting={
+            updateNameMutation.isPending || updateActivityMutation.isPending
+          }
         />
         <ConfirmDeleteDialog
           onSubmit={() => handleDelete(deleteProjectId)}

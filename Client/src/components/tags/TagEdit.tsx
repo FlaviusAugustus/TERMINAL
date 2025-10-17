@@ -7,12 +7,14 @@ import {
 import FormInput from "@components/shared/form/FormInput.tsx";
 import LabeledSwitch from "@components/shared/form/LabeledSwitch.tsx";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { DialogSubmitButton } from "@components/shared/dialog/DialogSubmitButton.tsx";
 
 export interface TagDetailsProps {
   tag: TagDetailsDto;
   onSubmit: (id: string, name: string, isActive: boolean) => void;
   open: boolean;
   setOpen: (arg0: boolean) => void;
+  isSubmitting: boolean;
 }
 
 const TagEdit = (props: TagDetailsProps) => {
@@ -57,13 +59,14 @@ const TagEdit = (props: TagDetailsProps) => {
         }}
       />
       <div className="flex gap-1 mt-4">
-        <DialogButton
+        <DialogSubmitButton
           disabled={!isChanged}
           className="hover:border-blue-400 "
           onClick={() => props.onSubmit(props.tag.id, name, isActive)}
+          isSubmitting={props.isSubmitting}
         >
           Submit changes
-        </DialogButton>
+        </DialogSubmitButton>
         <DialogButton
           disabled={!isChanged}
           className="!w-fit hover:border-blue-400"
