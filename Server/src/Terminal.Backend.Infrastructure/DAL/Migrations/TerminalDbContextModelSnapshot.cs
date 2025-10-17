@@ -318,35 +318,6 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                     b.ToTable("Recipes");
                 });
 
-            modelBuilder.Entity("Terminal.Backend.Core.Entities.RefreshToken", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("ExpiresOnUtc")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsValid")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Token")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RefreshTokens");
-                });
-
             modelBuilder.Entity("Terminal.Backend.Core.Entities.Role", b =>
                 {
                     b.Property<int>("Value")
@@ -1002,17 +973,6 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Parent");
-                });
-
-            modelBuilder.Entity("Terminal.Backend.Core.Entities.RefreshToken", b =>
-                {
-                    b.HasOne("Terminal.Backend.Core.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Terminal.Backend.Core.Entities.RolePermission", b =>

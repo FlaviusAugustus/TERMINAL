@@ -29,10 +29,8 @@ internal sealed class JwtBearerOptionsSetup : IConfigureNamedOptions<JwtBearerOp
             ValidateIssuerSigningKey = true,
             ValidIssuer = _options.Issuer,
             ValidAudience = _options.Audience,
-            ClockSkew = TimeSpan.Zero,
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_options.SecretKey))
-            
         };
     }
 }

@@ -27,18 +27,10 @@ apiClient.interceptors.response.use(
     const originalRequest = error.config;
 
     if (
-      error.response.status === 401 &&
-      originalRequest.url.includes("/users/refresh")
-    ) {
-      localStorage.removeItem("refresh-token");
-    }
-
-    if (
       error.response.status !== 401 ||
       originalRequest._retry ||
       originalRequest.url.includes("/users/refresh") ||
-      (sessionStorage.getItem("token") === null &&
-        localStorage.getItem("refresh-token") === null)
+      sessionStorage.getItem("token") === null
     ) {
       return Promise.reject(error);
     }
@@ -46,13 +38,10 @@ apiClient.interceptors.response.use(
     originalRequest._retry = true;
 
     try {
-      const response = await apiClient.post<LoginResponse>("/users/refresh", {
-        refreshToken: localStorage.getItem("refresh-token"),
-      });
-      const { token, refreshToken } = response.data;
+      const response = await apiClient.post<LoginResponse>("/users/refresh");
+      const { token } = response.data;
 
       sessionStorage.setItem("token", token);
-      localStorage.setItem("refresh-token", refreshToken);
     } catch {
       return Promise.reject(error);
     }

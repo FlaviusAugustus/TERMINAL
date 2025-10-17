@@ -14,7 +14,6 @@ using Terminal.Backend.Application.Commands.Users.Update.Role;
 using Terminal.Backend.Application.Queries.Users;
 using Terminal.Backend.Application.Queries.Users.Invitations;
 using Terminal.Backend.Core.Entities;
-using Terminal.Backend.Core.Exceptions;
 using Permission = Terminal.Backend.Core.Enums.Permission;
 
 namespace Terminal.Backend.Api.Modules;
@@ -181,32 +180,19 @@ public static class UsersModule
             .WithTags(SwaggerSetup.UserTag);
 
         app.MapPost(ApiBaseRoute + "/refresh", async (
-                RefreshTokenCommand refreshTokenCommand,
+                ClaimsPrincipal claimsPrincipal,
                 ISender sender,
                 CancellationToken ct) =>
             {
-                try
+                var id = claimsPrincipal.GetUserId();
+                if (id is null)
                 {
-                    var response = await sender.Send(refreshTokenCommand, ct);
-                    return Results.Ok(response);
+                    return Results.BadRequest();
                 }
-                catch (InvalidRefreshToken e)
-                {
-                    return Results.Unauthorized();
-                }
-            }).AllowAnonymous()
-            .WithTags(SwaggerSetup.UserTag);
-        
-        app.MapPost(ApiBaseRoute + "/logout", async (
-                ClaimsPrincipal claims,
-                ISender sender,
-                CancellationToken ct) =>
-            {
-                var id = claims.GetUserId();
-                if (id is null) return Results.BadRequest();
 
-                await sender.Send(new DeleteRefreshTokenCommand(id.Value), ct);
-                return Results.Ok();
+                var command = new RefreshTokenCommand(id.Value);
+                var token = await sender.Send(command, ct);
+                return Results.Ok(token);
             }).RequireAuthorization(Role.Registered)
             .WithTags(SwaggerSetup.UserTag);
     }

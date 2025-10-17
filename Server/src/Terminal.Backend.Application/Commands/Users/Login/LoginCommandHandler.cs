@@ -2,30 +2,23 @@ using MediatR;
 using Terminal.Backend.Application.Abstractions;
 using Terminal.Backend.Application.Exceptions;
 using Terminal.Backend.Core.Abstractions.Repositories;
-using Terminal.Backend.Core.Entities;
 
 namespace Terminal.Backend.Application.Commands.Users.Login;
 
-internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, AuthenticatedResponse>
+internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, JwtToken>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtProvider _jwtProvider;
 
-    public LoginCommandHandler(
-        IUserRepository userRepository, 
-        IRefreshTokenRepository refreshTokenRepository, 
-        IPasswordHasher passwordHasher, 
-        IJwtProvider jwtProvider)
+    public LoginCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher, IJwtProvider jwtProvider)
     {
         _userRepository = userRepository;
-        _refreshTokenRepository = refreshTokenRepository;
         _passwordHasher = passwordHasher;
         _jwtProvider = jwtProvider;
     }
 
-    public async Task<AuthenticatedResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<JwtToken> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var (email, password) = request;
 
@@ -44,19 +37,7 @@ internal sealed class LoginCommandHandler : IRequestHandler<LoginCommand, Authen
         {
             throw new InvalidCredentialsException();
         }
- 
-        var accessToken = _jwtProvider.GenerateJwt(user);
-        var refreshToken = _jwtProvider.GenerateRefreshToken();
-        
-        var existingToken = await _refreshTokenRepository.GetAsync(user.Id, cancellationToken);
-        if (existingToken != null)
-        {
-            await _refreshTokenRepository.DeleteAsync(existingToken, cancellationToken);
-        }
 
-        var refreshTokenEntity = _jwtProvider.CreateRefreshTokenEntity(user.Id, Extensions.Hash(refreshToken));
-        await _refreshTokenRepository.AddAsync(refreshTokenEntity, cancellationToken);
-        
-        return new AuthenticatedResponse(accessToken, refreshToken);
+        return _jwtProvider.Generate(user);
     }
 }

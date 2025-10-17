@@ -28,10 +28,7 @@ const AuthorizedNavbarLayout = ({
   return (
     <>
       <FullScreenLoader
-        visible={
-          isAuthenticated === undefined ||
-          (isAuthenticated && userRole === undefined)
-        }
+        visible={isAuthenticated === undefined || userRole === undefined}
       />
       <div className="w-screen flex flex-col md:flex-row bg-gray-100">
         <div className="drawer md:drawer-open md:gap-2">
