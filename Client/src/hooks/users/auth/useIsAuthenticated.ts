@@ -6,8 +6,5 @@
  * @hook
  */
 export function useIsAuthenticated(): boolean | undefined {
-  return (
-    sessionStorage.getItem("token") !== null ||
-    localStorage.getItem("refresh-token") !== null
-  );
+  return sessionStorage.getItem("token") !== null;
 }

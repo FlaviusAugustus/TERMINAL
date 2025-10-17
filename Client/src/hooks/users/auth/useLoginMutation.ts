@@ -3,7 +3,6 @@ import apiClient from "@api/apiClient.ts";
 
 export type LoginResponse = {
   token: string;
-  refreshToken: string;
 };
 
 export type LoginRequest = {
@@ -27,7 +26,6 @@ export function useLoginMutation() {
     mutationFn: (params: LoginRequest) => loginUser(params),
     onSuccess: (data) => {
       sessionStorage.setItem("token", data.data.token);
-      localStorage.setItem("refresh-token", data.data.refreshToken);
     },
   });
 
