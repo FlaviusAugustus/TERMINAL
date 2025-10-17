@@ -10,11 +10,11 @@ import { Bars3Icon } from "@heroicons/react/24/outline";
  */
 const MobileNavbar = () => {
   return (
-    <div className="navbar bg-base-100 shadow-sm sm:hidden p-0 sticky top-0 z-10">
+    <div className="navbar bg-base-100 shadow-sm md:hidden p-0 sticky top-0 z-10">
       <div className="flex-none">
         <label
           htmlFor="drawer"
-          className="py-4 px-3 border-none shadow-none bg-base-100 drawer-button sm:hidden"
+          className="py-4 px-3 border-none shadow-none bg-base-100 drawer-button"
         >
           <Bars3Icon className="h-5 w-5" />
         </label>
