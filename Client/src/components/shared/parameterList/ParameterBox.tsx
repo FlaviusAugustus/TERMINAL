@@ -150,7 +150,9 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
           </LabeledSelect>
         ) : (
           <FormInput
-            className={"!py-0 !mt-0"}
+            className={
+              "!py-0 !mt-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            }
             name="Step"
             type="number"
             step={parameter.step}
