@@ -5,7 +5,7 @@ import MobileNavbar from "@components/navbar/MobileNavbar.tsx";
 import { useUserRoles } from "@hooks/users/useUserRoles.ts";
 import { Role } from "@api/models/Role.ts";
 import FullScreenLoader from "@components/shared/loader/FullScreenLoader.tsx";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 type AuthorizedNavbarLayoutProps = {
   pageName: string;
