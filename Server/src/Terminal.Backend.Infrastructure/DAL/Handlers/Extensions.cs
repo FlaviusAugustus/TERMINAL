@@ -3,7 +3,7 @@ using Terminal.Backend.Application.DTO.Parameters;
 using Terminal.Backend.Application.DTO.ParameterValues;
 using Terminal.Backend.Application.DTO.Projects;
 using Terminal.Backend.Application.DTO.Recipes;
-using Terminal.Backend.Application.DTO.Samples;
+using Terminal.Backend.Application.DTO.Processes;
 using Terminal.Backend.Application.DTO.Tags;
 using Terminal.Backend.Application.DTO.Users;
 using Terminal.Backend.Application.DTO.Users.Invitations;
@@ -29,13 +29,13 @@ public static class Extensions
             Recipes = entities.Select(r => new GetRecipesDto.RecipeDto(r.Id, r.RecipeName))
         };
 
-    public static GetProjectDto AsGetProjectDto(this Project entity)
+    public static ProjectDto AsGetProjectDto(this Project entity)
         => new()
         {
             Id = entity.Id,
             Name = entity.Name,
             IsActive = entity.IsActive,
-            SamplesIds = entity.Samples.Select(m => m.Id.Value)
+            SamplesIds = entity.Processes.Select(m => m.Id.Value)
         };
 
     public static GetTagsDto AsGetTagsDto(this IEnumerable<Tag> entities)
@@ -47,13 +47,13 @@ public static class Extensions
     public static GetTagDto AsGetTagDto(this Tag entity)
         => new(entity.Id, entity.Name, entity.IsActive);
 
-    public static GetSampleDto AsGetSampleDto(this Process entity)
+    public static GetProcessDto AsGetSampleDto(this Process entity)
         => new()
         {
             Id = entity.Id.Value,
-            ProjectId = entity.Project.Id.Value,
+            Projects = entity.Projects.AsProjectsDto(),
             Recipe = entity.Recipe?.AsDto(),
-            Code = entity.Code.Value,
+            Code = entity.Sample.Value,
             Comment = entity.Comment.Value,
             CreatedAtUtc = entity.CreatedAtUtc.ToString("o"),
             Steps = entity.Steps.AsStepsDto(),
@@ -78,6 +78,9 @@ public static class Extensions
                 };
                 return b;
             }), s.Comment));
+
+    public static IEnumerable<ProjectDto> AsProjectsDto(this IEnumerable<Project> projects)
+        => projects.Select(p => new ProjectDto());
 
     // public static IEnumerable<GetSampleStepsDto> AsStepsDto(this IEnumerable<RecipeStep> steps)
     //     => steps.Select(s => new GetSampleStepsDto(

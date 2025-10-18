@@ -18,10 +18,10 @@ public enum Permission
     TagWrite,
     TagUpdate,
     TagDelete, // Tag
-    SampleRead,
-    SampleWrite,
-    SampleUpdate,
-    SampleDelete, // Sample
+    ProcessRead,
+    ProcessWrite,
+    ProcessUpdate,
+    ProcessDelete, // Process
     ParameterRead,
     ParameterWrite,
     ParameterUpdate,

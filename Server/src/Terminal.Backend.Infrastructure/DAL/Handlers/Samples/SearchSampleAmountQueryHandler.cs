@@ -1,20 +1,20 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Terminal.Backend.Application.Queries.Samples.Search;
+using Terminal.Backend.Application.Queries.Processes.Search;
 using Terminal.Backend.Core.Entities;
 
 namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples.Search;
 
-internal sealed class SearchSampleAmountQueryHandler : IRequestHandler<SearchSampleAmountQuery, int>
+internal sealed class SearchSampleAmountQueryHandler : IRequestHandler<SearchProcessAmountQuery, int>
 {
   private readonly DbSet<Process> _samples;
 
   public SearchSampleAmountQueryHandler(TerminalDbContext dbContext)
   {
-    _samples = dbContext.Samples;
+    _samples = dbContext.Processes;
   }
 
-  public async Task<int> Handle(SearchSampleAmountQuery request, CancellationToken ct)
+  public async Task<int> Handle(SearchProcessAmountQuery request, CancellationToken ct)
   {
     var amount = _samples
       .AsNoTracking()

@@ -15,7 +15,7 @@ internal sealed class GetTagsQueryHandler :
 
     public GetTagsQueryHandler(TerminalDbContext dbContext)
     {
-        _samples = dbContext.Samples;
+        _samples = dbContext.Processes;
         _tags = dbContext.Tags;
     }
 

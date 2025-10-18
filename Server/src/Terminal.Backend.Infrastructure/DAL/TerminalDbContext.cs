@@ -8,7 +8,7 @@ namespace Terminal.Backend.Infrastructure.DAL;
 internal sealed class TerminalDbContext : DbContext
 {
     public DbSet<Project> Projects { get; set; }
-    public DbSet<Process> Samples { get; set; }
+    public DbSet<Process> Processes { get; set; }
     public DbSet<RecipeStep> RecipeSteps { get; set; }
     public DbSet<SampleStep> SampleSteps { get; set; }
     public DbSet<Recipe> Recipes { get; set; }

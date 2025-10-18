@@ -14,9 +14,9 @@ internal sealed class SampleCodeValueGenerator : ValueGenerator<Sample>
     public override Sample Next(EntityEntry entry)
     {
         var dbContext = entry.Context as TerminalDbContext ?? throw new InvalidDataException();
-        var lastCodeNumber = dbContext.Samples
-            .OrderBy(m => m.Code)
-            .Select(m => m.Code)
+        var lastCodeNumber = dbContext.Processes
+            .OrderBy(m => m.Sample)
+            .Select(m => m.Sample)
             .LastOrDefault()?.Number;
 
         return lastCodeNumber is null
@@ -27,8 +27,8 @@ internal sealed class SampleCodeValueGenerator : ValueGenerator<Sample>
     public override async ValueTask<Sample> NextAsync(EntityEntry entry, CancellationToken ct = default)
     {
         var dbContext = entry.Context as TerminalDbContext ?? throw new InvalidDataException(); // FIXME
-        var lastCodeNumber = (await dbContext.Samples.OrderBy(m => m.Code).LastOrDefaultAsync(ct))
-            ?.Code.Number;
+        var lastCodeNumber = (await dbContext.Processes.OrderBy(m => m.Sample).LastOrDefaultAsync(ct))
+            ?.Sample.Number;
 
         return lastCodeNumber is null
             ? new Sample(InitialNumberValue)

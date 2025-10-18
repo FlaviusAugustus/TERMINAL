@@ -1,4 +1,4 @@
-using Terminal.Backend.Application.DTO.Samples;
+using Terminal.Backend.Application.DTO.Processes;
 
 namespace Terminal.Backend.Application.DTO.Recipes;
 

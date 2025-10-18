@@ -1,6 +1,6 @@
 using Terminal.Backend.Application.Abstractions;
 using Terminal.Backend.Application.DTO.ParameterValues;
-using Terminal.Backend.Application.DTO.Samples;
+using Terminal.Backend.Application.DTO.Processes;
 using Terminal.Backend.Application.Exceptions;
 using Terminal.Backend.Core.Abstractions.Repositories;
 using Terminal.Backend.Core.Entities;
@@ -15,11 +15,14 @@ internal sealed class ConvertDtoService : IConvertDtoService
 {
     private readonly IParameterRepository _parameterRepository;
     private readonly ITagRepository _tagRepository;
+    private readonly IProjectRepository _projectRepository;
 
-    public ConvertDtoService(IParameterRepository parameterRepository, ITagRepository tagRepository)
+
+    public ConvertDtoService(IParameterRepository parameterRepository, ITagRepository tagRepository, IProjectRepository projectRepository)
     {
         _parameterRepository = parameterRepository;
         _tagRepository = tagRepository;
+        _projectRepository = projectRepository;
     }
 
     public async Task<IEnumerable<SampleStep>> ConvertAsync(IEnumerable<CreateSampleStepDto> stepsDto,
@@ -83,4 +86,7 @@ internal sealed class ConvertDtoService : IConvertDtoService
 
     public Task<IEnumerable<Tag>> ConvertAsync(IEnumerable<TagId> tagIds, CancellationToken ct)
         => _tagRepository.GetManyAsync(tagIds, ct);
+
+    public Task<IEnumerable<Project>> ConvertAsync(IEnumerable<ProjectId> projectIds, CancellationToken ct)
+    => _projectRepository.GetManyAsync(projectIds, ct);
 }

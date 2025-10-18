@@ -278,452 +278,452 @@ internal sealed class TerminalDbSeeder
 
         var sample1 = new Process(
             ProcessId.Create(),
-            projectUpturn,
+            new List<Project> { projectUpturn },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step1 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample1);
+        _dbContext.Processes.Add(sample1);
         _dbContext.SaveChanges();
 
         var sample2 = new Process(
             ProcessId.Create(),
-            projectUpturn,
+            new List<Project> { projectUpturn, projectBessy2 },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step2 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample2);
+        _dbContext.Processes.Add(sample2);
         _dbContext.SaveChanges();
 
         var sample3 = new Process(
             ProcessId.Create(),
-            projectBessy2,
+            new List<Project> { projectUpturn, projectBessy2 },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step3 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample3);
+        _dbContext.Processes.Add(sample3);
         _dbContext.SaveChanges();
 
         var sample4 = new Process(
             ProcessId.Create(),
-            projectBessy2,
+            new List<Project> { projectUpturn, projectBessy2 },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step4 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample4);
+        _dbContext.Processes.Add(sample4);
         _dbContext.SaveChanges();
 
         var sample5 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step5 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample5);
+        _dbContext.Processes.Add(sample5);
         _dbContext.SaveChanges();
 
         var sample6 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step6 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample6);
+        _dbContext.Processes.Add(sample6);
         _dbContext.SaveChanges();
 
         var sample7 = new Process(
             ProcessId.Create(),
-            projectNobelium,
+            new List<Project> { projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step7 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample7);
+        _dbContext.Processes.Add(sample7);
         _dbContext.SaveChanges();
 
         var sample8 = new Process(
             ProcessId.Create(),
-            projectNobelium,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step8 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample8);
+        _dbContext.Processes.Add(sample8);
         _dbContext.SaveChanges();
 
         var sample9 = new Process(
             ProcessId.Create(),
-            projectNobelium,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step9 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample9);
+        _dbContext.Processes.Add(sample9);
         _dbContext.SaveChanges();
 
         var sample10 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample10);
+        _dbContext.Processes.Add(sample10);
         _dbContext.SaveChanges();
 
         var sample11 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample11);
+        _dbContext.Processes.Add(sample11);
         _dbContext.SaveChanges();
 
         var sample12 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample12);
+        _dbContext.Processes.Add(sample12);
         _dbContext.SaveChanges();
 
         var sample13 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample13);
+        _dbContext.Processes.Add(sample13);
         _dbContext.SaveChanges();
 
         var sample14 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample14);
+        _dbContext.Processes.Add(sample14);
         _dbContext.SaveChanges();
 
         var sample15 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample15);
+        _dbContext.Processes.Add(sample15);
         _dbContext.SaveChanges();
 
         var sample16 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample16);
+        _dbContext.Processes.Add(sample16);
         _dbContext.SaveChanges();
 
         var sample17 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample17);
+        _dbContext.Processes.Add(sample17);
         _dbContext.SaveChanges();
 
         var sample18 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample18);
+        _dbContext.Processes.Add(sample18);
         _dbContext.SaveChanges();
 
         var sample19 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample19);
+        _dbContext.Processes.Add(sample19);
         _dbContext.SaveChanges();
 
         var sample20 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample20);
+        _dbContext.Processes.Add(sample20);
         _dbContext.SaveChanges();
 
         var sample21 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample21);
+        _dbContext.Processes.Add(sample21);
         _dbContext.SaveChanges();
 
         var sample22 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample22);
+        _dbContext.Processes.Add(sample22);
         _dbContext.SaveChanges();
 
         var sample23 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample23);
+        _dbContext.Processes.Add(sample23);
         _dbContext.SaveChanges();
 
         var sample24 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample24);
+        _dbContext.Processes.Add(sample24);
         _dbContext.SaveChanges();
 
         var sample25 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample25);
+        _dbContext.Processes.Add(sample25);
         _dbContext.SaveChanges();
 
         var sample26 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample26);
+        _dbContext.Processes.Add(sample26);
         _dbContext.SaveChanges();
 
         var sample27 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample27);
+        _dbContext.Processes.Add(sample27);
         _dbContext.SaveChanges();
 
         var sample28 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample28);
+        _dbContext.Processes.Add(sample28);
         _dbContext.SaveChanges();
 
         var sample29 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample29);
+        _dbContext.Processes.Add(sample29);
         _dbContext.SaveChanges();
 
         var sample30 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample30);
+        _dbContext.Processes.Add(sample30);
         _dbContext.SaveChanges();
 
         var sample31 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample31);
+        _dbContext.Processes.Add(sample31);
         _dbContext.SaveChanges();
 
         var sample32 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample32);
+        _dbContext.Processes.Add(sample32);
         _dbContext.SaveChanges();
 
         var sample33 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample33);
+        _dbContext.Processes.Add(sample33);
         _dbContext.SaveChanges();
 
         var sample34 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample34);
+        _dbContext.Processes.Add(sample34);
         _dbContext.SaveChanges();
 
         var sample35 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample35);
+        _dbContext.Processes.Add(sample35);
         _dbContext.SaveChanges();
 
         var sample36 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample36);
+        _dbContext.Processes.Add(sample36);
         _dbContext.SaveChanges();
 
         var sample37 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample37);
+        _dbContext.Processes.Add(sample37);
         _dbContext.SaveChanges();
 
         var sample38 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample38);
+        _dbContext.Processes.Add(sample38);
         _dbContext.SaveChanges();
 
         var sample39 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample39);
+        _dbContext.Processes.Add(sample39);
         _dbContext.SaveChanges();
 
         var sample40 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample40);
+        _dbContext.Processes.Add(sample40);
         _dbContext.SaveChanges();
 
         var sample41 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample41);
+        _dbContext.Processes.Add(sample41);
         _dbContext.SaveChanges();
 
         var sample42 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample42);
+        _dbContext.Processes.Add(sample42);
         _dbContext.SaveChanges();
 
         var sample43 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample43);
+        _dbContext.Processes.Add(sample43);
         _dbContext.SaveChanges();
 
         var sample44 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample44);
+        _dbContext.Processes.Add(sample44);
         _dbContext.SaveChanges();
 
         var sample45 = new Process(
             ProcessId.Create(),
-            projectNitro,
+            new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
             new Comment("First sample!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Samples.Add(sample45);
+        _dbContext.Processes.Add(sample45);
 
         _dbContext.SaveChanges();
 

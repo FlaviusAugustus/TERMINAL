@@ -1,32 +1,33 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Terminal.Backend.Application.DTO.Samples;
-using Terminal.Backend.Application.Queries.Samples.Get;
+using System.Linq;
+using Terminal.Backend.Application.DTO.Processes;
+using Terminal.Backend.Application.Queries.Processes.Get;
 using Terminal.Backend.Core.Entities;
 
 namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples;
 
-internal sealed class GetSamplesQueryHandler : IRequestHandler<GetSamplesQuery, GetSamplesDto>
+internal sealed class GetSamplesQueryHandler : IRequestHandler<GetProcessesQuery, GetProcessesDto>
 {
     private readonly DbSet<Process> _samples;
 
     public GetSamplesQueryHandler(TerminalDbContext dbContext)
     {
-        _samples = dbContext.Samples;
+        _samples = dbContext.Processes;
     }
 
-    public async Task<GetSamplesDto> Handle(GetSamplesQuery request, CancellationToken ct)
+    public async Task<GetProcessesDto> Handle(GetProcessesQuery request, CancellationToken ct)
     {
         var samples = await _samples
             .AsNoTracking()
-            .Include(m => m.Project)
+            .Include(m => m.Projects)
             .Include(m => m.Tags)
             .OrderBy(request.OrderingParameters)
             .Paginate(request.Parameters)
-            .Select(m => new GetSamplesDto.SampleDto(
-                m.Id, m.Code.Value, m.Project.Name, m.CreatedAtUtc.ToString("o"), m.Comment))
+            .Select(m => new GetProcessesDto.ProcessDto(
+                m.Id, m.Sample.Value, m.Projects.Select(p => p.Name), m.CreatedAtUtc.ToString("o"), m.Comment))
             .ToListAsync(ct);
 
-        return new GetSamplesDto { Samples = samples };
+        return new GetProcessesDto { Processes = samples };
     }
 }
