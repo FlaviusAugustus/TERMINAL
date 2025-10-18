@@ -11,12 +11,11 @@ type NewParameterInputsProps = {
   addAllowedValue: () => void;
   deleteAllowedValue: (index: number) => void;
   setAllowedValue: (index: number, value: string) => void;
-  handleChangeValue: (attr: string, value: string) => void;
+  handleChangeValue: (attr: string, value: string | number) => void;
   handleChangeType: (type: ParameterType) => void;
 };
 
 const capitalizeFirstLetter = (str: ParameterType): string => {
-  console.log(str);
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
@@ -51,17 +50,47 @@ const NewParameterInputs = ({
         <SelectItem value="decimal" displayValue="Decimal" />
         <SelectItem value="text" displayValue="Text" />
       </LabeledSelect>
-      <div className="flex flex-col gap-3 pt-4">
+      <div className="flex flex-col pt-4">
         {parameterRequest.$type !== "text" && (
-          <FormInput
-            required
-            label="Unit"
-            name="Unit"
-            minLength={1}
-            maxLength={50}
-            value={parameterRequest.unit}
-            onChange={(e) => handleChangeValue("unit", e.currentTarget.value)}
-          />
+          <>
+            <FormInput
+              required
+              label="Unit"
+              name="Unit"
+              minLength={1}
+              maxLength={50}
+              value={parameterRequest.unit}
+              onChange={(e) => handleChangeValue("unit", e.currentTarget.value)}
+            />
+            {parameterRequest.$type === "integer" && (
+              <FormInput
+                required
+                label="Step"
+                name="Step"
+                type="number"
+                min={1}
+                step={1}
+                value={parameterRequest.step}
+                onChange={(e) =>
+                  handleChangeValue("step", e.currentTarget.value)
+                }
+              />
+            )}
+            {parameterRequest.$type === "decimal" && (
+              <FormInput
+                required
+                label="Step"
+                name="Step"
+                type="number"
+                min={0.1}
+                step={0.1}
+                value={parameterRequest.step}
+                onChange={(e) =>
+                  handleChangeValue("step", e.currentTarget.value)
+                }
+              />
+            )}
+          </>
         )}
         {parameterRequest.$type === "text" && (
           <NewParameterAllowedValues

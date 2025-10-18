@@ -57,7 +57,7 @@ function useAddRecipeContext(): AddRecipeContextValue {
  * @hook
  */
 const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
-  const [currentStep, setCurrentStep] = useState<number | null>(null);
+  const [currentStep, setCurrentStep] = useState<number | null>(0);
   const [recipe, setRecipe] = useState<RecipeDetailsDto>({
     id: "",
     name: "",
