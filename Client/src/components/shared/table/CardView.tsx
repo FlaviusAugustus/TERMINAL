@@ -25,11 +25,7 @@ const CardView = <T extends TableElement>({ table }: TableViewProps<T>) => {
           <div className="flex justify-between items-center ps-2 pe-1 py-1 bg-white rounded-t-lg border-b">
             {row
               .getVisibleCells()
-              .filter(
-                (c) =>
-                  c.column.id === checkboxColumn.id ||
-                  c.column.id == actionsColumn.id
-              )
+              .filter((c) => !dataColumns.has(c.column.id))
               .map((cell) => (
                 <div key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
