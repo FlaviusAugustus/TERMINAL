@@ -41,7 +41,7 @@ const SidebarUserProfile = () => {
   if (status === "error") return <div>Error...</div>;
 
   return (
-    <div className="p-2 bg-white rounded-b-md w-full">
+    <div className="p-2 bg-white md:rounded-b-md w-full">
       <div className="flex gap-3 rounded-md p-2 hover:bg-gray-200 group hover:cursor-pointer w-full items-center">
         <div
           style={{ backgroundColor: getAvatarColor(data?.email) }}

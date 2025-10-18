@@ -13,7 +13,7 @@ const Sidebar = () => {
   return (
     <nav className="flex flex-col h-dvh min-h-dvh max-h-dvh md:pe-0 overflow-hidden w-full md:min-w-72 md:p-2 p-0">
       <div className="md:hidden h-[64px] bg-transparent"></div>
-      <div className="h-full inline-flex w-full flex-col justify-between rounded-md border border-solid bg-white border-gray-200 shadow-sm">
+      <div className="h-full inline-flex w-full flex-col justify-between md:rounded-md border border-solid bg-white border-gray-200 shadow-sm">
         <div className="navbar-start w-full flex flex-col flex-1 rounded-md bg-white overflow-hidden">
           <div className="y-4 items-center bg-white p-4 rounded-t-md md:flex hidden">
             <p className="text-xl font-semibold">Terminal</p>
