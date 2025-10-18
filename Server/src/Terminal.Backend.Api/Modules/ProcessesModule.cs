@@ -33,7 +33,7 @@ public static class ProcessesModule
 
         app.MapGet(ApiRouteBase + "/example", () =>
             {
-                var sample = new CreateProcessCommand(ProcessId.Create(),
+                var process = new CreateProcessCommand(ProcessId.Create(),
                     new List<Guid>
                     {
                         ProjectId.Create(), ProjectId.Create(), ProjectId.Create()
@@ -55,7 +55,7 @@ public static class ProcessesModule
                     },
                     "comment", false);
 
-                return Results.Ok(sample);
+                return Results.Ok(process);
             }).AllowAnonymous()
             .WithTags(SwaggerSetup.ProcessTag);
 
@@ -69,16 +69,16 @@ public static class ProcessesModule
                     return Results.BadRequest();
                 }
 
-                var recentSamples = await sender.Send(new GetRecentProcessesQuery(length), ct);
-                return Results.Ok(recentSamples);
+                var recentProcesses = await sender.Send(new GetRecentProcessesQuery(length), ct);
+                return Results.Ok(recentProcesses);
             }).RequireAuthorization(Permission.ProcessRead.ToString())
             .WithTags(SwaggerSetup.ProcessTag);
 
         app.MapGet(ApiRouteBase + "/{id:guid}", async (Guid id, ISender sender, CancellationToken ct) =>
             {
                 var query = new GetProcessQuery { Id = id };
-                var sample = await sender.Send(query, ct);
-                return sample is null ? Results.NotFound() : Results.Ok(sample);
+                var process = await sender.Send(query, ct);
+                return process is null ? Results.NotFound() : Results.Ok(process);
             }).RequireAuthorization(Permission.ProcessRead.ToString())
             .WithTags(SwaggerSetup.ProcessTag);
 
@@ -91,8 +91,8 @@ public static class ProcessesModule
                 CancellationToken ct) =>
             {
                 var query = new GetProcessesQuery(pageNumber, pageSize, orderBy ?? "CreatedAtUtc", desc ?? true);
-                var samples = await sender.Send(query, ct);
-                return Results.Ok(samples);
+                var processes = await sender.Send(query, ct);
+                return Results.Ok(processes);
             }).RequireAuthorization(Permission.ProcessRead.ToString())
             .WithTags(SwaggerSetup.ProcessTag);
 
@@ -114,8 +114,8 @@ public static class ProcessesModule
                 CancellationToken ct) =>
             {
                 var query = new SearchProcessQuery(searchPhrase, pageNumber, pageSize);
-                var samples = await sender.Send(query, ct);
-                return Results.Ok(samples);
+                var processes = await sender.Send(query, ct);
+                return Results.Ok(processes);
             }).RequireAuthorization(Permission.ProcessRead.ToString())
             .WithTags(SwaggerSetup.ProcessTag);
 
