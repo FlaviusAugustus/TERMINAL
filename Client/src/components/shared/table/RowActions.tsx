@@ -41,7 +41,6 @@ const RowActions = ({ onEdit, onDetails, onDelete }: RowActionsProps) => {
           </IconButton>
         )}
       </VisibleForRoles>
-      <div className="m-4" />
     </div>
   );
 };

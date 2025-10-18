@@ -17,14 +17,12 @@ import {
 } from "@heroicons/react/24/outline";
 import IconButton from "@components/shared/common/IconButton.tsx";
 import FormInput from "@components/shared/form/FormInput.tsx";
-import TableCard from "@components/shared/table/TableCard";
-import TableManagement from "@components/shared/table/TableManagment";
-import TableView from "@components/shared/table/TableView";
 import { Link } from "react-router-dom";
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import { toastPromise } from "utils/toast.utils";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Sample } from "@api/models/Sample";
+import TableOrCardLayout from "@components/shared/table/TableOrCardLayout";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
@@ -181,10 +179,7 @@ const Samples = (props: SamplesProps) => {
           </div>
         </VisibleForRoles>
       </div>
-      <TableCard className="!h-full">
-        <TableView<Sample> table={table} />
-        <TableManagement<Sample> table={table} />
-      </TableCard>
+      <TableOrCardLayout table={table} />
     </>
   );
 };
