@@ -45,7 +45,7 @@ const columnsDef = [
   }),
 ] as Array<ColumnDef<AllParameters, unknown>>;
 
-const Parameters = (props: ParametersProps) => {
+const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -57,16 +57,16 @@ const Parameters = (props: ParametersProps) => {
   >([]);
 
   useEffect(() => {
-    const filteredParams = props.parameters.filter((param) =>
+    const filteredParams = parameters.filter((param) =>
       param.name.toLowerCase().includes(searchValue.toLowerCase())
     );
     setParametersFiltered(filteredParams);
-  }, [props.parameters, searchValue]);
+  }, [parameters, searchValue]);
 
   const columns = useTableColumns<AllParameters>({
     columnsDef: columnsDef,
-    onDetails: props.onDetails,
-    onDelete: props.onDelete,
+    onDetails: onDetails,
+    onDelete: onDelete,
   });
 
   const table = useReactTable({
@@ -91,7 +91,7 @@ const Parameters = (props: ParametersProps) => {
   const handleDeleteSelected = () => {
     const ids = table.getSelectedRowModel().rows.map((row) => row.original.id);
     if (ids.length === 0) return;
-    props.onDelete(ids);
+    onDelete(ids);
   };
 
   return (
