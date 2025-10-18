@@ -25,4 +25,8 @@
         </Reference>
         <Reference Include="Microsoft.AspNetCore.Http.Features" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Commands\RefreshToken\" />
+    </ItemGroup>
 </Project>
