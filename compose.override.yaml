@@ -24,10 +24,10 @@ services:
     build: "./Server/src"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-    develop:
-      watch:
-        - action: rebuild
-          path: ./Server/src
+  #    develop:
+  #      watch:
+  #        - action: rebuild
+  #          path: ./Server/src
   database:
     ports:
       - "5432:5432"
