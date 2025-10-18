@@ -4,6 +4,7 @@ export type NavbarItemProps = {
   icon?: React.ReactNode;
   text: string;
   href: string;
+  onClick: () => void;
 };
 
 /**
@@ -13,9 +14,10 @@ export type NavbarItemProps = {
  *
  * @component
  */
-const SidebarItem = ({ icon, text, href }: NavbarItemProps) => {
+const SidebarItem = ({ onClick, icon, text, href }: NavbarItemProps) => {
   return (
     <NavLink
+      onClick={onClick}
       to={href}
       className={({ isActive }) =>
         isActive ? "bg-gray-200/60 rounded-md" : ""

@@ -8,7 +8,7 @@ import {
 } from "@headlessui/react";
 
 type SidebarItemWithSubLinksProps = React.PropsWithChildren<
-  Omit<NavbarItemProps, "href">
+  Omit<NavbarItemProps, "href" | "onClick">
 >;
 
 /**

@@ -5,6 +5,7 @@ import MobileNavbar from "@components/navbar/MobileNavbar.tsx";
 import { useUserRoles } from "@hooks/users/useUserRoles.ts";
 import { Role } from "@api/models/Role.ts";
 import FullScreenLoader from "@components/shared/loader/FullScreenLoader.tsx";
+import { useState } from "react";
 
 type AuthorizedNavbarLayoutProps = {
   pageName: string;
@@ -17,6 +18,7 @@ const AuthorizedNavbarLayout = ({
 }: AuthorizedNavbarLayoutProps) => {
   const isAuthenticated = useIsAuthenticated();
   const userRole = useUserRoles();
+  const [checked, setChecked] = useState(false);
 
   if (isAuthenticated === false) {
     return <Navigate to="/login" />;
@@ -25,6 +27,10 @@ const AuthorizedNavbarLayout = ({
   if (roles && userRole && !roles.includes(userRole))
     return <Navigate to="/" />;
 
+  const closeSidebar = () => {
+    setChecked(false);
+  };
+
   return (
     <>
       <FullScreenLoader
@@ -32,10 +38,16 @@ const AuthorizedNavbarLayout = ({
       />
       <div className="w-screen flex flex-col md:flex-row bg-gray-100">
         <div className="drawer md:drawer-open md:gap-2">
-          <input id="drawer" type="checkbox" className="drawer-toggle" />
+          <input
+            onChange={(e) => setChecked(e.target.checked)}
+            checked={checked}
+            id="drawer"
+            type="checkbox"
+            className="drawer-toggle"
+          />
           <div className="drawer-content flex flex-col min-h-dvh max-h-dvh items-center justify-start relative md:py-2">
             {/* Menu - only mobile  */}
-            <MobileNavbar />
+            <MobileNavbar open={checked} />
             {/* Page content */}
             <div className="flex flex-col h-dvh md:ps-0 rounded-md md:flex border border-gray-200 shadow-sm w-full overflow-hidden">
               <div className="bg-white h-[60px] text-xl font-medium items-center px-4 rounded-t-md flex-shrink-0 hidden md:flex">
@@ -46,12 +58,7 @@ const AuthorizedNavbarLayout = ({
             </div>
           </div>
           <div className="drawer-side z-[1]">
-            <label
-              htmlFor="drawer"
-              aria-label="close sidebar"
-              className="drawer-overlay"
-            ></label>
-            <Sidebar />
+            <Sidebar onAfterNavigate={closeSidebar} />
           </div>
         </div>
       </div>
