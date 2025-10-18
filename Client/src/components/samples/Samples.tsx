@@ -22,7 +22,6 @@ import TableManagement from "@components/shared/table/TableManagment";
 import TableView from "@components/shared/table/TableView";
 import { Link } from "react-router-dom";
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
-import { toastPromise } from "utils/toast.utils";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Sample } from "@api/models/Sample";
 
@@ -34,7 +33,7 @@ export interface SamplesProps {
   setSorting: OnChangeFn<SortingState>;
   setPagination: OnChangeFn<PaginationState>;
   onEdit: (sampleId: string) => void;
-  onDelete: (sampleId: string) => Promise<void>;
+  onDelete: (sampleId: string | string[]) => void;
   onDetails: (sampleId: string) => void;
   searchProps?: {
     onSearch?: (phrase: string) => void;
@@ -71,17 +70,9 @@ const columnsDef = [
  * @param {SamplesProps} props - The properties for the samples component.
  */
 const Samples = (props: SamplesProps) => {
-  const handleDelete = async (id: string) => {
-    await toastPromise(props.onDelete(id), {
-      success: "Sample deleted successfully",
-      loading: "Removing sample...",
-      error: "Error deleting sample",
-    });
-  };
-
   const columns = useTableColumns<Sample>({
     columnsDef: columnsDef,
-    onDelete: handleDelete,
+    onDelete: props.onDelete,
     onEdit: props.onEdit,
     onDetails: props.onDetails,
   });
@@ -117,15 +108,9 @@ const Samples = (props: SamplesProps) => {
   });
 
   const handleDeleteSelected = () => {
-    const tasks = table.getSelectedRowModel().rows.map((row) => {
-      props.onDelete(row.original.id);
-    });
-
-    toastPromise(Promise.all(tasks), {
-      success: "samples deleted succesfully",
-      loading: "Removing samples...",
-      error: "Error deleting samples",
-    });
+    const ids = table.getSelectedRowModel().rows.map((row) => row.original.id);
+    if (ids.length === 0) return;
+    props.onDelete(ids);
   };
 
   return (

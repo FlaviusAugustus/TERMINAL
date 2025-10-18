@@ -8,16 +8,27 @@ import { useState } from "react";
 import { AllParameters } from "@api/models/Parameters.ts";
 import DialogLoader from "@components/shared/dialog/DialogLoader.tsx";
 import { useDeactivateParameter } from "@hooks/parameters/useDeactivateParameter.ts";
-import { toastPromise } from "@utils/toast.utils.tsx";
+import { toastError } from "@utils/toast.utils.tsx";
+import ConfirmDeleteDialog from "@components/shared/dialog/ConfirmDeleteDialog.tsx";
 
 const ParametersPage = () => {
   const dataParameters = useGetParameters();
-  const { mutateAsync } = useDeactivateParameter();
+  const mutation = useDeactivateParameter();
 
   const [parameterDetails, setParameterDetails] = useState<
     AllParameters | undefined
   >(undefined);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteParametersIds, setDeleteParametersIds] = useState<
+    string[] | null
+  >(null);
+
+  const openDeleteDialog = (id: string | string[]) => {
+    const ids = Array.isArray(id) ? id : [id];
+    setDeleteOpen(true);
+    setDeleteParametersIds(ids);
+  };
 
   const handleParameterDetails = (id: string) => {
     setDetailsOpen(true);
@@ -27,13 +38,15 @@ const ParametersPage = () => {
     setParameterDetails(paramDetails);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!id) return;
-    await toastPromise(mutateAsync(id), {
-      loading: "Deleting parameter...",
-      success: "Deletion successful",
-      error: "Deletion failed",
-    });
+  const handleDelete = async (ids: string[] | null) => {
+    if (!ids || ids.length === 0) return;
+    try {
+      await Promise.all(ids.map((id) => mutation.mutateAsync(id)));
+      setDeleteOpen(false);
+      setDeleteParametersIds(null);
+    } catch {
+      toastError("Error deleting parameter(s)");
+    }
   };
 
   return (
@@ -45,7 +58,7 @@ const ParametersPage = () => {
         <Parameters
           parameters={dataParameters?.data?.parameters || []}
           onDetails={handleParameterDetails}
-          onDelete={handleDelete}
+          onDelete={openDeleteDialog}
         />
       </ComponentOrLoader>
       <ComponentOrLoader
@@ -56,6 +69,13 @@ const ParametersPage = () => {
           parameter={parameterDetails}
           open={detailsOpen}
           openChange={setDetailsOpen}
+        />
+        <ConfirmDeleteDialog
+          onSubmit={() => handleDelete(deleteParametersIds)}
+          isSubmitting={mutation.isPending}
+          isOpen={deleteOpen}
+          description={`Disabling this parameter will deactivate it — associated data will not be permanently deleted and the parameter can be re-enabled later. Type 'delete' to confirm.`}
+          setIsOpen={setDeleteOpen}
         />
       </ComponentOrLoader>
     </TableLayout>

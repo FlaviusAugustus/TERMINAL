@@ -27,7 +27,7 @@ import FormInput from "@components/shared/form/FormInput.tsx";
 interface ParametersProps {
   parameters: Array<AllParameters>;
   onDetails: (parameterId: string) => void;
-  onDelete: (parameterId: string) => Promise<void>;
+  onDelete: (parameterId: string | string[]) => void;
 }
 
 const columnHelper = createColumnHelper<AllParameters>();
@@ -89,9 +89,9 @@ const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
   });
 
   const handleDeleteSelected = () => {
-    table.getSelectedRowModel().rows.forEach((row) => {
-      onDelete(row.original.id);
-    });
+    const ids = table.getSelectedRowModel().rows.map((row) => row.original.id);
+    if (ids.length === 0) return;
+    onDelete(ids);
   };
 
   return (
