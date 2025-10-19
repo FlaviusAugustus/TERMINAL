@@ -132,7 +132,7 @@ const Samples = (props: SamplesProps) => {
         <div className="flex items-center gap-1">
           <FormInput
             validate={false}
-            className="!text-sm !h-[40px]"
+            className="!text-sm !h-[40px] focus:!ring-0 focus:!ring-offset-0"
             placeholder="Search"
             icon={<MagnifyingGlassIcon className="h-4" />}
             value={localSearch}
@@ -144,19 +144,6 @@ const Samples = (props: SamplesProps) => {
               }
             }}
           />
-          {localSearch && (
-            <IconButton
-              onClick={() => {
-                setLocalSearch("");
-                props.searchProps?.onClearSearch?.();
-              }}
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-gray-300"
-              title="Clear search"
-            >
-              <XMarkIcon className="h-4" />
-              <p className="text-xs">Clear</p>
-            </IconButton>
-          )}
         </div>
         <VisibleForRoles roles={["Administrator", "Moderator"]}>
           <div className="flex gap-1">
@@ -165,15 +152,15 @@ const Samples = (props: SamplesProps) => {
               disabled={
                 !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
               }
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+              className="h-[40px] w-[40px] md:w-auto flex justify-center bg-white items-center gap-1 !hover:border-red-200"
             >
               <XMarkIcon className="h-4 " />
-              <p className="text-xs">Delete Selected</p>
+              <p className="text-xs hidden md:block">Delete Selected</p>
             </IconButton>
             <Link to="/new-sample">
-              <IconButton className="h-[40px] flex bg-white items-center gap-1">
+              <IconButton className="h-[40px] w-[40px] md:w-auto flex justify-center bg-white items-center gap-1">
                 <PlusIcon className="h-4" />
-                <p className="text-xs">Add new</p>
+                <p className="text-xs hidden md:block">Add new</p>
               </IconButton>
             </Link>
           </div>
