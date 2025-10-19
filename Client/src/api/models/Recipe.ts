@@ -15,3 +15,9 @@ export type UpdateRecipeRequest = {
   name: string;
   steps: UpdateStep[];
 };
+
+export const EMPTY_RECIPE: RecipeDetailsDto = {
+  id: "",
+  name: "",
+  steps: [{ id: "", comment: "", parameters: [] }],
+};

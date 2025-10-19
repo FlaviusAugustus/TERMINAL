@@ -4,6 +4,7 @@ import { useAddRecipeContext } from "@hooks/recipes/useAddRecipeContext.tsx";
 import { useState } from "react";
 import { toastPromise } from "utils/toast.utils";
 import AddRecipeDialog from "./AddRecipeDialog";
+import { EMPTY_RECIPE } from "@api/models/Recipe.ts";
 
 /**
  * AddRecipeActions Component
@@ -18,11 +19,7 @@ const AddRecipeActions = () => {
   const { mutateAsync, isPending } = useAddRecipe();
 
   const handleSubmit = async (name: string) => {
-    updateRecipe({
-      id: "",
-      name: "",
-      steps: [{ id: "", comment: "", parameters: [] }],
-    });
+    updateRecipe(EMPTY_RECIPE);
     setCurrentStep(0);
     toastPromise(mutateAsync({ ...recipe, name: name }), {
       loading: "loading",
@@ -32,11 +29,7 @@ const AddRecipeActions = () => {
   };
 
   const handleClearData = () => {
-    updateRecipe({
-      id: "",
-      name: "",
-      steps: [{ id: "", comment: "", parameters: [] }],
-    });
+    updateRecipe(EMPTY_RECIPE);
     setCurrentStep(0);
   };
 
