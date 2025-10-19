@@ -2,6 +2,10 @@ import { CommandLineIcon } from "@heroicons/react/24/outline";
 import TerminalSidebarContent from "./TerminalSidebarContent.tsx";
 import SidebarUserProfile from "./SidebarUserProfile.tsx";
 
+type SidebarProps = {
+  onAfterNavigate: () => void;
+};
+
 /**
  * navbar Component
  *
@@ -9,7 +13,7 @@ import SidebarUserProfile from "./SidebarUserProfile.tsx";
  *
  * @component
  */
-const Sidebar = () => {
+const Sidebar = ({ onAfterNavigate }: SidebarProps) => {
   return (
     <nav className="flex flex-col h-dvh min-h-dvh max-h-dvh md:pe-0 overflow-hidden w-full md:min-w-72 md:p-2 p-0">
       <div className="md:hidden h-[64px] bg-transparent"></div>
@@ -21,7 +25,7 @@ const Sidebar = () => {
           </div>
           <div className="h-px border-t border-solid border-gray-200 w-full"></div>
           <div className="flex-1 overflow-auto">
-            <TerminalSidebarContent />
+            <TerminalSidebarContent onAfterNavigate={onAfterNavigate} />
           </div>
         </div>
         <div className="navbar-end w-full">

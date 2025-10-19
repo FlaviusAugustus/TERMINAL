@@ -23,7 +23,9 @@ const ProjectsPage = () => {
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [projectDetailsId, setProjectDetailsId] = useState<string | null>(null);
-  const [deleteProjectId, setDeleteProjectId] = useState<string | null>(null);
+  const [deleteProjectIds, setDeleteProjectIds] = useState<string[] | null>(
+    null
+  );
 
   const queryProjects = useAllProjects({
     pageNumber: pagination.pageIndex,
@@ -52,15 +54,21 @@ const ProjectsPage = () => {
     desc: sorting[0]?.desc ?? true,
   });
 
-  const handleDelete = async (id: string | null) => {
-    if (!id) return;
-    await deleteMutation.mutateAsync(id);
-    if (deleteMutation.isSuccess) setDeleteOpen(false);
+  const handleDelete = async (ids: string[] | null) => {
+    if (!ids || ids.length === 0) return;
+    try {
+      await Promise.all(ids.map((id) => deleteMutation.mutateAsync(id)));
+      setDeleteOpen(false);
+      setDeleteProjectIds(null);
+    } catch {
+      toastError("Error deleting project(s)");
+    }
   };
 
-  const openDeleteDialog = (id: string) => {
+  const openDeleteDialog = (ids: string | string[]) => {
+    const id = Array.isArray(ids) ? ids : [ids];
     setDeleteOpen(true);
-    setDeleteProjectId(id);
+    setDeleteProjectIds(id);
   };
 
   const handleEdit = async (id: string | null) => {
@@ -135,7 +143,7 @@ const ProjectsPage = () => {
           }
         />
         <ConfirmDeleteDialog
-          onSubmit={() => handleDelete(deleteProjectId)}
+          onSubmit={() => handleDelete(deleteProjectIds)}
           isSubmitting={deleteMutation.isPending}
           isOpen={deleteOpen}
           description={`Deleting the project will remove all associated samples. Type the word delete to confirm`}

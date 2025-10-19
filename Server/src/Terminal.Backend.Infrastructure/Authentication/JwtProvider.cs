@@ -1,11 +1,13 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Terminal.Backend.Application.Abstractions;
 using Terminal.Backend.Application.Commands.Users.Login;
 using Terminal.Backend.Core.Entities;
+using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Infrastructure.Authentication;
 
@@ -18,7 +20,7 @@ internal sealed class JwtProvider : IJwtProvider
         _options = options.Value;
     }
 
-    public JwtToken Generate(User user)
+    public string GenerateJwt(User user)
     {
         var claims = new Claim[]
         {
@@ -37,12 +39,34 @@ internal sealed class JwtProvider : IJwtProvider
             _options.Audience,
             claims,
             null,
-            DateTime.UtcNow.AddHours(12),
+            DateTime.UtcNow.AddMinutes(_options.AccessTokenExpirationMinutes),
             signingCredentials);
 
         var tokenValue = new JwtSecurityTokenHandler()
             .WriteToken(token);
 
-        return new JwtToken(tokenValue);
+        return tokenValue ;
+    }
+
+    public string GenerateRefreshToken()
+    {
+        var randomNumber = new byte[32];
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
+        }
+    }
+
+    public RefreshToken CreateRefreshTokenEntity(Guid userId, string hashedRefreshToken)
+    {
+       return new RefreshToken
+        {
+            Id = new RefreshTokenId(Guid.NewGuid()),
+            UserId = userId,
+            Token = hashedRefreshToken,
+            ExpiresOnUtc = DateTime.UtcNow.AddDays(_options.RefreshTokenExpirationDays),
+            IsValid = true,
+        };
     }
 }

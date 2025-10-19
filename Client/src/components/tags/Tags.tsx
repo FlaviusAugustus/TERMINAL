@@ -29,7 +29,7 @@ export interface TagProps {
   setSorting: OnChangeFn<SortingState>;
   setPagination: OnChangeFn<PaginationState>;
   onDetails: (tagId: string) => void;
-  onDelete: (tagId: string) => void;
+  onDelete: (id: string | string[]) => void;
   onEdit: (tagId: string) => void;
   searchProps?: {
     onSearch?: (phrase: string) => void;
@@ -95,9 +95,9 @@ const Tags = (props: TagProps) => {
   });
 
   const handleDeleteSelected = () => {
-    table.getSelectedRowModel().rows.forEach((row) => {
-      props.onDelete(row.original.id);
-    });
+    const ids = table.getSelectedRowModel().rows.map((row) => row.original.id);
+    if (ids.length === 0) return;
+    props.onDelete(ids);
   };
 
   return (

@@ -8,10 +8,11 @@ import { useGetAllTags } from "@hooks/tags/useGetAllTags.ts";
 import { useGetTagDetails } from "@hooks/tags/useGetTagDetails.ts";
 import TagDetails from "@components/tags/TagDetails.tsx";
 import { useDeleteTag } from "@hooks/tags/useDeleteTag.ts";
-import { toastError, toastPromise } from "@utils/toast.utils.tsx";
+import { toastError } from "@utils/toast.utils.tsx";
 import TagEdit from "@components/tags/TagEdit.tsx";
 import { useUpdateTagName } from "@hooks/tags/useUpdateTagName.ts";
 import { useUpdateTagStatus } from "@hooks/tags/useUpdateTagStatus.ts";
+import ConfirmDeleteDialog from "@components/shared/dialog/ConfirmDeleteDialog.tsx";
 
 const TagsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -21,6 +22,14 @@ const TagsPage = () => {
   });
 
   const [searchPhrase, setSearchPhrase] = useState("");
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteTagsIds, setDeleteTagsIds] = useState<string[] | null>(null);
+
+  const openDeleteDialog = (id: string | string[]) => {
+    const ids = Array.isArray(id) ? id : [id];
+    setDeleteOpen(true);
+    setDeleteTagsIds(ids);
+  };
 
   const queryTags = useGetAllTags({
     pageNumber: pagination.pageIndex,
@@ -46,14 +55,17 @@ const TagsPage = () => {
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
   });
-  const handleDelete = async (id: string | null) => {
-    if (!id) return;
-    await toastPromise(deleteMutation.mutateAsync(id), {
-      loading: "Deleting tag...",
-      success: "Deletion successful",
-      error: "Deletion failed",
-    });
+  const handleDelete = async (ids: string[] | null) => {
+    if (!ids || ids.length === 0) return;
+    try {
+      await Promise.all(ids.map((id) => deleteMutation.mutateAsync(id)));
+      setDeleteOpen(false);
+      setDeleteTagsIds(null);
+    } catch {
+      toastError("Error deleting tag(s)");
+    }
   };
+
   const [tagDetailsId, setTagDetailsId] = useState<string | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const dataTagDetails = useGetTagDetails(tagDetailsId);
@@ -115,7 +127,7 @@ const TagsPage = () => {
           pagination={pagination}
           setPagination={setPagination}
           onDetails={changeTagDetails}
-          onDelete={handleDelete}
+          onDelete={openDeleteDialog}
           onEdit={changeTagEdit}
           searchProps={{
             onSearch: setSearchPhrase,
@@ -146,6 +158,13 @@ const TagsPage = () => {
           isSubmitting={
             updateNameMutation.isPending || updateStatusMutation.isPending
           }
+        />
+        <ConfirmDeleteDialog
+          onSubmit={() => handleDelete(deleteTagsIds)}
+          isSubmitting={deleteMutation.isPending}
+          isOpen={deleteOpen}
+          description={`Deleting this tag(s) is irreversible and will remove all associated data. Type delete to confirm.`}
+          setIsOpen={setDeleteOpen}
         />
       </ComponentOrLoader>
     </TableLayout>

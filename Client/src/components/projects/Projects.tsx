@@ -32,7 +32,7 @@ export interface ProjectsProps {
   setSorting: OnChangeFn<SortingState>;
   setPagination: OnChangeFn<PaginationState>;
   onEdit: (projectId: string) => void;
-  onDelete: (projectId: string) => void;
+  onDelete: (projectId: string | string[]) => void;
   searchProps?: {
     onSearch?: (phrase: string) => void;
     searchValue?: string;
@@ -114,9 +114,9 @@ const Projects = (props: ProjectsProps) => {
   });
 
   const handleDeleteSelected = () => {
-    table.getSelectedRowModel().rows.forEach((row) => {
-      props.onDelete(row.original.id);
-    });
+    const ids = table.getSelectedRowModel().rows.map((row) => row.original.id);
+    if (ids.length === 0) return;
+    props.onDelete(ids);
   };
 
   return (

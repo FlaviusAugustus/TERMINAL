@@ -13,11 +13,13 @@ async function addParameter(parameterRequest: AllParametersRequest) {
     return await apiClient.post("/parameters/define/decimal", {
       name: parameterRequest.name,
       unit: parameterRequest.unit,
+      step: parameterRequest.step,
     });
   else
     return await apiClient.post("/parameters/define/integer", {
       name: parameterRequest.name,
       unit: parameterRequest.unit,
+      step: parameterRequest.step,
     });
 }
 
