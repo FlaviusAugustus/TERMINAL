@@ -7,14 +7,21 @@ import {
 } from "@heroicons/react/16/solid";
 import { Button } from "@headlessui/react";
 import { HTMLAttributes } from "react";
+import clsx from "clsx";
 
 export interface TableManagementProps<T> {
   table: Table<T>;
+  className?: string;
 }
 
 const TableManagement = <T,>(props: TableManagementProps<T>) => {
   return (
-    <div className="flex p-3 border-t border-gray-200 justify-end">
+    <div
+      className={clsx(
+        "flex p-3 border-t border-gray-200 justify-end",
+        props.className
+      )}
+    >
       <div className="flex gap-1">
         <div className="h-6 border rounded flex justify-center items-center overflow-hidden">
           <select

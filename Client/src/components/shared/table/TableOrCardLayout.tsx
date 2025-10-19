@@ -33,6 +33,10 @@ const TableOrCardLayout = <T extends TableElement>(
       </div>
       <div className="md:hidden">
         <CardView<T> {...props} />
+        <TableManagement<T>
+          className="border! bg-white rounded-md"
+          table={props.table}
+        />
       </div>
     </>
   );
