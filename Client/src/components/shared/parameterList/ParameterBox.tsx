@@ -63,6 +63,7 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
       <div className="border-b border-gray-200 rounded-t-md bg-white flex justify-between">
         <p className="p-2 text-sm">{parameter.name}</p>
         <div className="flex gap-2 px-2 items-center justify-center">
+          <DragHandle attributes={attributes} listeners={listeners} />
           <button onClick={() => moveParameterUp(currentStep, parameter.id)}>
             <ChevronUpIcon className="h-4 w-4" />
           </button>
@@ -81,7 +82,6 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
               value
             </p>
             <ParameterInput parameter={parameter} />
-            <DragHandle attributes={attributes} listeners={listeners} />
           </div>
           {(parameter.$type === "integer" || parameter.$type === "decimal") && (
             <div className="flex items-center justify-start rounded-md border border-gray-200 bg-gray-50">
@@ -133,7 +133,7 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
   return (
     <>
       {" "}
-      <div className="rounded-md w-full h-full text-sm ms-2 focus:outline-none bg-gray-50">
+      <div className="rounded-md w-full h-full text-sm mx-2 focus:outline-none bg-gray-50">
         {parameter.$type === "text" ? (
           <LabeledSelect
             comboboxStyles={"!py-0 !mt-0"}
