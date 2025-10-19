@@ -12,7 +12,7 @@ import StepTab from "./StepTab.tsx";
  * @component
  */
 const StepTabList = () => {
-  const { addStep, recipe } = useAddRecipeContext();
+  const { addStep, recipe, setCurrentStep } = useAddRecipeContext();
   return (
     <TabList className="flex gap-1 w-full p-2 overflow-x-auto hover:cursor-pointer">
       <div className="overflow-x-auto flex gap-1 w-full">
@@ -21,7 +21,10 @@ const StepTabList = () => {
         ))}
       </div>
       <button
-        onClick={() => addStep()}
+        onClick={() => {
+          addStep();
+          setCurrentStep(recipe.steps.length);
+        }}
         className="p-2 rounded border border-gray-200 bg-white flex items-center justify-center aspect-square hover:bg-gray-100"
       >
         <PlusIcon className="h-5 aspect-square" />
