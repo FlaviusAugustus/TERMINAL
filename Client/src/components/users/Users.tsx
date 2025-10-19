@@ -9,9 +9,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { UsersResponse } from "@hooks/users/useGetUsers.ts";
-import TableView from "@components/shared/table/TableView.tsx";
-import TableManagement from "@components/shared/table/TableManagment.tsx";
-import TableCard from "@components/shared/table/TableCard.tsx";
 import { useMemo, useState } from "react";
 import UsersRowActions from "./UsersRowActions";
 import Chip from "@components/shared/common/Chip.tsx";
@@ -21,6 +18,7 @@ import IconButton from "@components/shared/common/IconButton.tsx";
 import { Link } from "react-router-dom";
 import IndeterminateCheckbox from "@components/shared/table/IndeterminateCheckbox.tsx";
 import { UserDetailsDto } from "@api/models/User";
+import TableOrCardLayout from "@components/shared/table/TableOrCardLayout";
 
 export type UsersProps = {
   onChangeUserDetails?: (userId: string) => void;
@@ -84,7 +82,6 @@ const Users = (props: UsersProps) => {
           <UsersRowActions
             onEdit={() => props.onEdit(row.original.id)}
             onDelete={() => props.onDelete(row.original.id)}
-            onChangePassword={() => props.onChangePassword(row.original.id)}
           />
         ),
       }),
@@ -114,10 +111,6 @@ const Users = (props: UsersProps) => {
     manualPagination: true,
   });
 
-  const handleClick = (id: string | null | undefined) => {
-    props.onChangeUserDetails?.(id?.toString() ?? "");
-  };
-
   const handleDeleteSelected = () => {
     table.getSelectedRowModel().rows.forEach((row) => {
       props.onDelete(row.original.id);
@@ -134,24 +127,21 @@ const Users = (props: UsersProps) => {
               disabled={
                 !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
               }
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+              className="h-[40px] flex w-[40px] md:w-auto bg-white justify-center  items-center gap-1 !hover:border-red-200"
             >
               <XMarkIcon className="h-4 " />
-              <p className="text-xs">Delete Selected</p>
+              <p className="text-xs hidden md:block">Delete Selected</p>
             </IconButton>
             <Link to="/settings">
-              <IconButton className="h-[40px] flex bg-white items-center gap-1">
-                <PlusIcon className="h-4" />
-                <p className="text-xs">Add new</p>
+              <IconButton className="h-[40px] w-[40px] md:w-auto flex bg-white justify-center  items-center gap-1">
+                <PlusIcon className="h-4 " />
+                <p className="text-xs hidden md:block">Add new</p>
               </IconButton>
             </Link>
           </div>
         </VisibleForRoles>
       </div>
-      <TableCard className="!h-full">
-        <TableView<UserDetailsDto> table={table} handleClickRow={handleClick} />
-        <TableManagement<UserDetailsDto> table={table} />
-      </TableCard>
+      <TableOrCardLayout table={table} />
     </>
   );
 };

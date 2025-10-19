@@ -9,9 +9,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
-import TableCard from "@components/shared/table/TableCard.tsx";
-import TableView from "@components/shared/table/TableView.tsx";
-import TableManagement from "@components/shared/table/TableManagment.tsx";
 import Chip from "@components/shared/common/Chip.tsx";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import {
@@ -23,6 +20,7 @@ import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import IconButton from "@components/shared/common/IconButton.tsx";
 import { Link } from "react-router-dom";
 import FormInput from "@components/shared/form/FormInput.tsx";
+import TableOrCardLayout from "@components/shared/table/TableOrCardLayout";
 
 interface ParametersProps {
   parameters: Array<AllParameters>;
@@ -111,24 +109,21 @@ const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
               disabled={
                 !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
               }
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+              className="h-[40px] flex w-[40px] md:w-auto bg-white justify-center  items-center gap-1 !hover:border-red-200"
             >
-              <XMarkIcon className="h-4 " />
-              <p className="text-xs">Delete Selected</p>
+              <XMarkIcon className="h-4 w-4 md:w-auto" />
+              <p className="text-xs hidden md:block">Delete Selected</p>
             </IconButton>
             <Link to="/new-parameter">
-              <IconButton className="h-[40px] flex bg-white items-center gap-1">
-                <PlusIcon className="h-4" />
-                <p className="text-xs">Add new</p>
+              <IconButton className="h-[40px] w-[40px] md:w-auto flex justify-center  bg-white items-center gap-1">
+                <PlusIcon className="h-4 w-4 md:w-auto" />
+                <p className="text-xs hidden md:block">Add new</p>
               </IconButton>
             </Link>
           </div>
         </VisibleForRoles>
       </div>
-      <TableCard className="!h-full">
-        <TableView<AllParameters> table={table} />
-        <TableManagement<AllParameters> table={table} />
-      </TableCard>
+      <TableOrCardLayout table={table} />
     </>
   );
 };
