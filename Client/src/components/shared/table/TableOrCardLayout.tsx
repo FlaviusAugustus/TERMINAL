@@ -31,7 +31,7 @@ const TableOrCardLayout = <T extends TableElement>(
           <TableManagement<T> table={props.table} />
         </TableCard>
       </div>
-      <div className="md:hidden">
+      <div className="md:hidden h-full flex flex-col justify-between">
         <CardView<T> {...props} />
         <TableManagement<T>
           className="border! bg-white rounded-md"

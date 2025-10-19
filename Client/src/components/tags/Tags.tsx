@@ -17,12 +17,10 @@ import {
 } from "@heroicons/react/24/outline";
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import IconButton from "@components/shared/common/IconButton.tsx";
-import TableCard from "@components/shared/table/TableCard.tsx";
-import TableView from "@components/shared/table/TableView.tsx";
-import TableManagement from "@components/shared/table/TableManagment.tsx";
 import { TagsResponse } from "@hooks/tags/useGetAllTags.ts";
 import { Link } from "react-router-dom";
 import FormInput from "@components/shared/form/FormInput.tsx";
+import TableOrCardLayout from "@components/shared/table/TableOrCardLayout";
 
 export interface TagProps {
   tags: TagsResponse | undefined;
@@ -141,24 +139,21 @@ const Tags = (props: TagProps) => {
               disabled={
                 !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
               }
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+              className="h-[40px] flex w-[40px] md:w-auto bg-white justify-center  items-center gap-1 !hover:border-red-200"
             >
-              <XMarkIcon className="h-4 " />
-              <p className="text-xs">Delete Selected</p>
+              <XMarkIcon className="h-4" />
+              <p className="text-xs hidden md:block">Delete Selected</p>
             </IconButton>
             <Link to="/new-Tag">
-              <IconButton className="h-[40px] flex bg-white items-center gap-1">
+              <IconButton className="h-[40px] w-[40px] md:w-auto justify-center  flex bg-white items-center gap-1">
                 <PlusIcon className="h-4" />
-                <p className="text-xs">Add new</p>
+                <p className="text-xs hidden md:block">Add new</p>
               </IconButton>
             </Link>
           </div>
         </VisibleForRoles>
       </div>
-      <TableCard className="!h-full">
-        <TableView<Tag> table={table} />
-        <TableManagement<Tag> table={table} />
-      </TableCard>
+      <TableOrCardLayout table={table} />
     </>
   );
 };

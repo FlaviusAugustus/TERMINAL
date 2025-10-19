@@ -8,9 +8,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { RecipesResponse } from "@hooks/recipes/useGetRecipes.ts";
-import TableView from "@components/shared/table/TableView.tsx";
-import TableManagement from "@components/shared/table/TableManagment.tsx";
-import TableCard from "@components/shared/table/TableCard";
 import { useEffect, useState } from "react";
 import IconButton from "@components/shared/common/IconButton.tsx";
 import FormInput from "@components/shared/form/FormInput.tsx";
@@ -24,6 +21,7 @@ import { Link } from "react-router-dom";
 import { toastPromise } from "utils/toast.utils";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Recipe } from "@api/models/Recipe";
+import TableOrCardLayout from "@components/shared/table/TableOrCardLayout";
 
 export interface RecipesProps {
   recipe: RecipesResponse | undefined;
@@ -137,19 +135,6 @@ const Recipes = (props: RecipesProps) => {
               }
             }}
           />
-          {localSearch && (
-            <IconButton
-              onClick={() => {
-                setLocalSearch("");
-                props.searchProps?.onClearSearch?.();
-              }}
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-gray-300"
-              title="Clear search"
-            >
-              <XMarkIcon className="h-4" />
-              <p className="text-xs">Clear</p>
-            </IconButton>
-          )}
         </div>
         <VisibleForRoles roles={["Administrator", "Moderator"]}>
           <div className="flex gap-1">
@@ -158,24 +143,21 @@ const Recipes = (props: RecipesProps) => {
               disabled={
                 !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
               }
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+              className="h-[40px] flex w-[40px] md:w-auto bg-white items-center justify-center gap-1 !hover:border-red-200"
             >
               <XMarkIcon className="h-4 " />
-              <p className="text-xs">Delete Selected</p>
+              <p className="text-xs hidden md:block">Delete Selected</p>
             </IconButton>
             <Link to="/new-recipe">
-              <IconButton className="h-[40px] flex bg-white items-center gap-1">
+              <IconButton className="h-[40px] flex w-[40px] md:w-auto bg-white justify-center  items-center gap-1">
                 <PlusIcon className="h-4" />
-                <p className="text-xs">Add new</p>
+                <p className="text-xs hidden md:block">Add new</p>
               </IconButton>
             </Link>
           </div>
         </VisibleForRoles>
       </div>
-      <TableCard className="!h-full">
-        <TableView table={table} />
-        <TableManagement table={table} />
-      </TableCard>
+      <TableOrCardLayout table={table} />
     </>
   );
 };
