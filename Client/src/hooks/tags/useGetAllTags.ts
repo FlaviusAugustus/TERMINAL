@@ -43,10 +43,17 @@ async function fetchDataTag(params: TagsRequest): Promise<TagsResponse> {
   }
 }
 
-export function useGetAllTags(params: TagsRequest) {
+export function useGetAllTags({ pageSize, pageNumber }: TagsRequest) {
   return useQuery({
-    queryKey: ["tags", "all", params],
-    queryFn: () => fetchDataTag(params),
+    queryKey: [
+      "tags",
+      "all",
+      {
+        pageSize,
+        pageNumber,
+      },
+    ],
+    queryFn: () => fetchDataTag({ pageSize, pageNumber }),
     placeholderData: keepPreviousData,
   });
 }

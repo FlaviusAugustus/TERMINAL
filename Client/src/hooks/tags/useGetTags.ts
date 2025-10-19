@@ -14,12 +14,17 @@ export type TagsResponse = {
   rowsAmount: number;
 };
 
-async function fetchDataTag(params: TagsRequest): Promise<TagsResponse> {
-  const tags = await apiClient.get("/tags", { params });
+async function fetchDataTag({
+  pageSize,
+  pageNumber,
+}: TagsRequest): Promise<TagsResponse> {
+  const tags = await apiClient.get("/tags", {
+    params: { pageSize, pageNumber },
+  });
   const amountOfTags = await apiClient.get("/tags/amount");
   return {
     rows: tags.data.tags,
-    pageAmount: Math.ceil(amountOfTags.data / params.pageSize),
+    pageAmount: Math.ceil(amountOfTags.data / pageSize),
     rowsAmount: amountOfTags.data,
   };
 }
@@ -32,10 +37,10 @@ async function fetchDataTag(params: TagsRequest): Promise<TagsResponse> {
  * @hook
  * @param {TagsRequest} params - The parameters for the tags request.
  */
-export function useGetTags(params: TagsRequest) {
+export function useGetTags({ pageSize, pageNumber }: TagsRequest) {
   return useQuery({
-    queryKey: ["tags", "all", params],
-    queryFn: () => fetchDataTag(params),
+    queryKey: ["tags", "all", { pageSize, pageNumber }],
+    queryFn: () => fetchDataTag({ pageSize, pageNumber }),
     placeholderData: keepPreviousData,
   });
 }
