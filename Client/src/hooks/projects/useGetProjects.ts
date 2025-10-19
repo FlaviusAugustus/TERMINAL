@@ -34,10 +34,10 @@ async function fetchDataProject(
  * @hook
  * @param {ProjectsRequest} params - The parameters for the project request.
  */
-export function useProjects(params: ProjectsRequest) {
+export function useProjects({ pageSize, pageNumber }: ProjectsRequest) {
   return useQuery({
-    queryKey: ["projects", params],
-    queryFn: () => fetchDataProject(params),
+    queryKey: ["projects", { pageSize, pageNumber }],
+    queryFn: () => fetchDataProject({ pageSize, pageNumber }),
     placeholderData: keepPreviousData,
   });
 }

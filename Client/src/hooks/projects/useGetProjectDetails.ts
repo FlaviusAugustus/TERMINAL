@@ -19,7 +19,7 @@ async function fetchProjectDetails(
  */
 export function useProjectDetails(id: string | null) {
   return useQuery({
-    queryKey: ["projectDetails", id],
+    queryKey: ["projectDetails", { id }],
     queryFn: () => fetchProjectDetails(id),
     placeholderData: keepPreviousData,
     enabled: id !== null,
