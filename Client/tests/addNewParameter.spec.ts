@@ -1,13 +1,5 @@
-import { expect, Page, test } from "@playwright/test";
-
-async function login(page: Page) {
-  await page.goto("/login");
-  await page
-    .getByRole("textbox", { name: "Email:" })
-    .fill("admin@terminal.com");
-  await page.getByRole("textbox", { name: "Password:" }).fill("1qaz@WSX");
-  await page.getByRole("button", { name: "Sign in" }).click();
-}
+import { expect, test } from "@playwright/test";
+import { login } from "./helpers/mocks";
 
 test.beforeEach(async ({ page }) => {
   await login(page);

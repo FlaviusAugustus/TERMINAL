@@ -1,16 +1,8 @@
-import { expect, Page, test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { Step } from "../src/api/models/Step";
+import { login } from "./helpers/mocks";
 
 type EditSampleRequest = { steps: Step[] };
-
-async function login(page: Page) {
-  await page.goto("/login");
-  await page
-    .getByRole("textbox", { name: "Email:" })
-    .fill("admin@terminal.com");
-  await page.getByRole("textbox", { name: "Password:" }).fill("1qaz@WSX");
-  await page.getByRole("button", { name: "Sign in" }).click();
-}
 
 test.beforeEach(async ({ page }) => {
   await login(page);

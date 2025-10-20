@@ -54,6 +54,15 @@ export function setCurrentData<T>(dataArray: T[], newData: T[]) {
   dataArray.push(...newData);
 }
 
+export async function login(page: Page) {
+  await page.goto("/login");
+  await page
+    .getByRole("textbox", { name: "Email:" })
+    .fill("admin@terminal.com");
+  await page.getByRole("textbox", { name: "Password:" }).fill("password");
+  await page.getByRole("button", { name: "Sign in" }).click();
+}
+
 export async function mockCount(page: Page, apiPath: string, amount: number) {
   await page.route(apiPath, async (route) => {
     await route.fulfill({

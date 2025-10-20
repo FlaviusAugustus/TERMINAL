@@ -1,12 +1,8 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { login } from "./helpers/mocks";
 
 test("dashboard basic functionality", async ({ page }) => {
-  await page.goto("/login");
-  await page
-    .getByRole("textbox", { name: "Email:" })
-    .fill("admin@terminal.com");
-  await page.getByRole("textbox", { name: "Password:" }).fill("1qaz@WSX");
-  await page.getByRole("button", { name: "Sign in" }).click();
+  await login(page);
 
   await page.getByRole("button", { name: "Add new", exact: true }).click();
   await expect(
