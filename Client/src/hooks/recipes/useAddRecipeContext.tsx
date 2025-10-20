@@ -57,11 +57,11 @@ function useAddRecipeContext(): AddRecipeContextValue {
  * @hook
  */
 const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
-  const [currentStep, setCurrentStep] = useState<number | null>(null);
+  const [currentStep, setCurrentStep] = useState<number | null>(0);
   const [recipe, setRecipe] = useState<RecipeDetailsDto>({
     id: "",
     name: "",
-    steps: [],
+    steps: [{ id: "", comment: "", parameters: [] }],
   });
 
   const addStep = () => {
@@ -75,11 +75,13 @@ const AddRecipeProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const removeStep = (index: number) => {
-    setRecipe((prevRecipe) => ({
-      ...prevRecipe,
-      steps: prevRecipe.steps.filter((_, i) => i !== index),
-    }));
-    if (index > 0) setCurrentStep(index - 1);
+    if (recipe.steps.length > 1) {
+      setRecipe((prevRecipe) => ({
+        ...prevRecipe,
+        steps: prevRecipe.steps.filter((_, i) => i !== index),
+      }));
+      if (index > 0) setCurrentStep(index - 1);
+    }
   };
 
   const updateStep = (index: number, updatedStep: Step) => {

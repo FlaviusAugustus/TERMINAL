@@ -8,22 +8,19 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { RecipesResponse } from "@hooks/recipes/useGetRecipes.ts";
-import TableView from "@components/shared/table/TableView.tsx";
-import TableManagement from "@components/shared/table/TableManagment.tsx";
-import TableCard from "@components/shared/table/TableCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IconButton from "@components/shared/common/IconButton.tsx";
 import FormInput from "@components/shared/form/FormInput.tsx";
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import {
   MagnifyingGlassIcon,
-  XMarkIcon,
   PlusIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-import { toastPromise } from "utils/toast.utils";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Recipe } from "@api/models/Recipe";
+import TableOrCardLayout from "@components/shared/table/TableOrCardLayout";
 
 export interface RecipesProps {
   recipe: RecipesResponse | undefined;
@@ -32,8 +29,13 @@ export interface RecipesProps {
   pagination: PaginationState;
   setPagination: OnChangeFn<PaginationState>;
   onEdit: (id: string) => void;
-  onDelete: (id: string) => Promise<void>;
+  onDelete: (id: string | string[]) => void;
   onDetails: (id: string) => void;
+  searchProps?: {
+    onSearch?: (phrase: string) => void;
+    searchValue?: string;
+    onClearSearch?: () => void;
+  };
 }
 
 const columnHelper = createColumnHelper<Recipe>();
@@ -55,63 +57,47 @@ const columnsDef = [
  * @component
  * @param {RecipesProps} props - The properties for the recipes component.
  */
-const Recipes = ({
-  recipe,
-  sorting,
-  setSorting,
-  pagination,
-  setPagination,
-  onEdit,
-  onDelete,
-  onDetails,
-}: RecipesProps) => {
-  const handleDelete = async (id: string) => {
-    await toastPromise(onDelete(id), {
-      success: "Recipe deleted succesfully",
-      loading: "Removing recipe...",
-      error: "Error deleting recipe",
-    });
-  };
-
+const Recipes = (props: RecipesProps) => {
   const columns = useTableColumns<Recipe>({
     columnsDef: columnsDef,
-    onEdit: onEdit,
-    onDelete: handleDelete,
-    onDetails: onDetails,
+    onEdit: props.onEdit,
+    onDelete: props.onDelete,
+    onDetails: props.onDetails,
   });
 
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+  const [localSearch, setLocalSearch] = useState(
+    props.searchProps?.searchValue || ""
+  );
+
+  useEffect(() => {
+    setLocalSearch(props.searchProps?.searchValue || "");
+  }, [props.searchProps?.searchValue]);
 
   const handleDeleteSelected = () => {
-    const tasks = table.getSelectedRowModel().rows.map((row) => {
-      onDelete(row.original.id);
-    });
-
-    toastPromise(Promise.all(tasks), {
-      success: "recipes deleted succesfully",
-      loading: "Removing recipes...",
-      error: "Error deleting recipes",
-    });
+    const ids = table.getSelectedRowModel().rows.map((row) => row.original.id);
+    if (ids.length === 0) return;
+    props.onDelete(ids);
   };
 
   const table = useReactTable({
     columns: columns,
-    data: recipe?.rows ?? [],
+    data: props.recipe?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
     defaultColumn: {
       size: "auto" as unknown as number,
     },
     state: {
-      sorting: sorting,
-      pagination: pagination,
+      sorting: props.sorting,
+      pagination: props.pagination,
       rowSelection: rowSelection,
     },
     getRowId: (row) => row.id,
     onRowSelectionChange: setRowSelection,
     enableMultiRowSelection: true,
-    rowCount: recipe?.rowsAmount ?? 0,
-    onSortingChange: setSorting,
-    onPaginationChange: setPagination,
+    rowCount: props.recipe?.rowsAmount ?? 0,
+    onSortingChange: props.setSorting,
+    onPaginationChange: props.setPagination,
     manualSorting: true,
     manualPagination: true,
   });
@@ -119,12 +105,22 @@ const Recipes = ({
   return (
     <>
       <div className="flex justify-between gap-1 items-end pb-3 h-14">
-        <FormInput
-          validate={false}
-          className="!text-sm !h-[40px]"
-          placeholder="Search"
-          icon={<MagnifyingGlassIcon className="h-4" />}
-        />
+        <div className="flex items-center gap-1">
+          <FormInput
+            validate={false}
+            className="!text-sm !h-[40px]"
+            placeholder="Search"
+            icon={<MagnifyingGlassIcon className="h-4" />}
+            value={localSearch}
+            onChange={(e) => setLocalSearch(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                props.searchProps?.onSearch?.(localSearch);
+              }
+            }}
+          />
+        </div>
         <VisibleForRoles roles={["Administrator", "Moderator"]}>
           <div className="flex gap-1">
             <IconButton
@@ -132,24 +128,21 @@ const Recipes = ({
               disabled={
                 !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
               }
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+              className="h-[40px] flex w-[40px] md:w-auto bg-white items-center justify-center gap-1 !hover:border-red-200"
             >
               <XMarkIcon className="h-4 " />
-              <p className="text-xs">Delete Selected</p>
+              <p className="text-xs hidden md:block">Delete Selected</p>
             </IconButton>
             <Link to="/new-recipe">
-              <IconButton className="h-[40px] flex bg-white items-center gap-1">
+              <IconButton className="h-[40px] flex w-[40px] md:w-auto bg-white justify-center  items-center gap-1">
                 <PlusIcon className="h-4" />
-                <p className="text-xs">Add new</p>
+                <p className="text-xs hidden md:block">Add new</p>
               </IconButton>
             </Link>
           </div>
         </VisibleForRoles>
       </div>
-      <TableCard className="!h-full">
-        <TableView table={table} />
-        <TableManagement table={table} />
-      </TableCard>
+      <TableOrCardLayout table={table} />
     </>
   );
 };

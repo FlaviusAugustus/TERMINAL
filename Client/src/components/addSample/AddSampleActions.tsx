@@ -3,7 +3,7 @@ import { useAddRecipeContext } from "@hooks/recipes/useAddRecipeContext.tsx";
 import { useState } from "react";
 import { toastPromise } from "@utils/toast.utils.tsx";
 import AddSampleDialog from "@components/addSample/AddSampleDialog.tsx";
-import { Recipe } from "@api/models/Recipe.ts";
+import { EMPTY_RECIPE, Recipe } from "@api/models/Recipe.ts";
 import useAddSample from "@hooks/samples/useAddSample.ts";
 import { CreateSample } from "@api/models/Sample.ts";
 
@@ -20,7 +20,7 @@ type AddSampleActionsProps = {
  */
 const AddSampleActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { updateRecipe, recipe } = useAddRecipeContext();
+  const { updateRecipe, recipe, setCurrentStep } = useAddRecipeContext();
   const { mutateAsync, isPending } = useAddSample();
 
   const handleSubmit = async (args: {
@@ -30,7 +30,8 @@ const AddSampleActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
     projectId: string;
     tagIds: string[];
   }) => {
-    updateRecipe({ id: "", name: "", steps: [] });
+    updateRecipe(EMPTY_RECIPE);
+    setCurrentStep(0);
     const payload: CreateSample = {
       projectId: args.projectId,
       steps: recipe.steps,
@@ -56,7 +57,8 @@ const AddSampleActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
           className="flex items-center justify-center p-2 border bg-white border-gray-200 rounded hover:bg-gray-50 hover:border-red-300 transition-colors duration-100"
           onClick={() => {
             setSelectedRecipe({ id: "", name: "" });
-            updateRecipe({ id: "", name: "", steps: [] });
+            updateRecipe(EMPTY_RECIPE);
+            setCurrentStep(0);
           }}
         >
           <ArrowPathIcon className="h-5 w-5" />

@@ -4,7 +4,7 @@ import { useUsers } from "@hooks/users/useGetUsers.ts";
 import UserDetails from "@components/users/UserDetails.tsx";
 import { useUserDetails } from "@hooks/users/useGetUserDetails.ts";
 import { useDeleteUser } from "@hooks/users/useDeleteUser.ts";
-import { toastPromise } from "@utils/toast.utils.tsx";
+import { toastError, toastPromise } from "@utils/toast.utils.tsx";
 import { useUpdateUserEmail } from "@hooks/users/useUpdateUserEmail.ts";
 import { useUpdateUserRole } from "@hooks/users/useUpdateUserRole.ts";
 import { useState } from "react";
@@ -56,20 +56,33 @@ const UsersPage = () => {
   };
 
   const handleSubmit = async (id: string, email: string, role: string) => {
-    if (dataQueryUserDetails.data?.email !== email) {
-      await toastPromise(updateEmailMutation.mutateAsync({ id, email }), {
-        success: "Email updated successfully",
-        error: "Failed to update email",
-        loading: "Updating email...",
-      });
+    const hasEmailChanged = dataQueryUserDetails.data?.email !== email;
+    const hasRoleChanged = dataQueryUserDetails.data?.role !== role;
+
+    if (!hasEmailChanged && !hasRoleChanged) return;
+
+    let errorOccurred = false;
+
+    if (hasEmailChanged) {
+      try {
+        await updateEmailMutation.mutateAsync({ id, email });
+      } catch {
+        toastError(`Error while updating email`);
+        errorOccurred = true;
+      }
     }
 
-    if (dataQueryUserDetails.data?.role !== role) {
-      await toastPromise(updateRoleMutation.mutateAsync({ id, role }), {
-        success: "Role updated successfully",
-        error: "Failed to update role",
-        loading: "Updating role...",
-      });
+    if (hasRoleChanged) {
+      try {
+        await updateRoleMutation.mutateAsync({ id, role });
+      } catch {
+        toastError(`Error while updating role`);
+        errorOccurred = true;
+      }
+    }
+
+    if (!errorOccurred) {
+      setDetailsOpen(false);
     }
   };
 
@@ -104,6 +117,9 @@ const UsersPage = () => {
           setOpen={setDetailsOpen}
           dataQuery={dataQueryUserDetails.data!}
           onSubmit={handleSubmit}
+          isSubmitting={
+            updateEmailMutation.isPending || updateRoleMutation.isPending
+          }
         />
       </ComponentOrLoader>
     </TableLayout>

@@ -6,6 +6,7 @@ export type ProjectsRequest = {
   pageNumber: number;
   pageSize: number;
   desc?: boolean;
+  searchPhrase?: string;
 };
 
 export type ProjectsResponse = {
@@ -17,13 +18,32 @@ export type ProjectsResponse = {
 async function fetchDataProject(
   params: ProjectsRequest
 ): Promise<ProjectsResponse> {
-  const projects = await apiClient.get("/projects/all", { params });
-  const amountOfProjects = await apiClient.get("/projects/amount/all");
-  return {
-    rows: projects.data.projects,
-    pageAmount: Math.ceil(amountOfProjects.data / params.pageSize),
-    rowsAmount: amountOfProjects.data,
-  };
+  let projects;
+  let rowsAmount;
+  if (params.searchPhrase) {
+    projects = await apiClient.get("/projects/search", { params });
+    rowsAmount = projects.data.totalAmount;
+    return {
+      rows: projects.data.projects,
+      pageAmount: Math.ceil(rowsAmount / params.pageSize),
+      rowsAmount,
+    };
+  } else {
+    projects = await apiClient.get("/projects/all", {
+      params: {
+        pageNumber: params.pageNumber,
+        pageSize: params.pageSize,
+        desc: params.desc,
+      },
+    });
+    const amountOfProjects = await apiClient.get("/projects/amount/all");
+    rowsAmount = amountOfProjects.data;
+    return {
+      rows: projects.data.projects,
+      pageAmount: Math.ceil(rowsAmount / params.pageSize),
+      rowsAmount,
+    };
+  }
 }
 
 /**
@@ -34,10 +54,10 @@ async function fetchDataProject(
  * @hook
  * @param {ProjectsRequest} params - The parameters for the project request.
  */
-export function useAllProjects(params: ProjectsRequest) {
+export function useAllProjects({ pageSize, pageNumber }: ProjectsRequest) {
   return useQuery({
-    queryKey: ["projects", "all", params],
-    queryFn: () => fetchDataProject(params),
+    queryKey: ["projects", "all", { pageSize, pageNumber }],
+    queryFn: () => fetchDataProject({ pageSize, pageNumber }),
     placeholderData: keepPreviousData,
   });
 }

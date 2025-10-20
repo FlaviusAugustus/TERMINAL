@@ -21,7 +21,7 @@ async function updateTagStatus({ id, isActive }: UpdateTagStatusDto) {
  * @hook
  * @param {UpdateTagStatusDto} params - The parameters for the users request.
  */
-export function useUpdateTagStatus(params: TagsRequest) {
+export function useUpdateTagStatus({ pageSize, pageNumber }: TagsRequest) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -36,7 +36,7 @@ export function useUpdateTagStatus(params: TagsRequest) {
       });
 
       queryClient.setQueryData<TagsResponse>(
-        ["tags", "all", params],
+        ["tags", "all", { pageSize, pageNumber }],
         (oldData) => {
           if (!oldData) return undefined;
           return {

@@ -49,7 +49,7 @@ public static class ParametersModule
                 ISender sender,
                 CancellationToken ct) =>
             {
-                parameterDto = parameterDto with { Id = ParameterId.Create() };
+                parameterDto = parameterDto with { Id = ParameterId.Create()};
                 await sender.Send(new DefineParameterCommand(parameterDto.AsParameter()), ct);
                 return Results.Created(ApiBaseRoute, new { parameterDto.Id });
             }).RequireAuthorization(Permission.ParameterWrite.ToString())

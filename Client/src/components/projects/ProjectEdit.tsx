@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   DialogButton,
   DialogComp,
@@ -7,12 +7,14 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import FormInput from "@components/shared/form/FormInput.tsx";
 import LabeledSwitch from "@components/shared/form/LabeledSwitch.tsx";
 import { ProjectDetailsDto } from "@api/models/Project";
+import { DialogSubmitButton } from "@components/shared/dialog/DialogSubmitButton.tsx";
 
 export interface ProjectDetailsProps {
   project: ProjectDetailsDto;
   onSubmit: (id: string, name: string, isActive: boolean) => void;
   open: boolean;
   setOpen: (arg0: boolean) => void;
+  isSubmitting: boolean;
 }
 
 /**
@@ -66,13 +68,14 @@ const ProjectEdit = (props: ProjectDetailsProps) => {
         }}
       />
       <div className="flex gap-1 mt-4">
-        <DialogButton
+        <DialogSubmitButton
           disabled={!isChanged}
           className="hover:border-blue-400 "
           onClick={() => props.onSubmit(props.project.id, name, isActive)}
+          isSubmitting={props.isSubmitting}
         >
           Submit changes
-        </DialogButton>
+        </DialogSubmitButton>
         <DialogButton
           disabled={!isChanged}
           className="!w-fit hover:border-blue-400"

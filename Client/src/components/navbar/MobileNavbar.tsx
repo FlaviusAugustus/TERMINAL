@@ -1,5 +1,9 @@
 import { CommandLineIcon } from "@heroicons/react/24/outline";
-import { Bars3Icon } from "@heroicons/react/24/outline";
+import MobileNavbarToggle from "./MobileNavbarToggle";
+
+type MobileNavbarProps = {
+  open: boolean;
+};
 
 /**
  * MobileNavbar Component
@@ -8,15 +12,15 @@ import { Bars3Icon } from "@heroicons/react/24/outline";
  *  It includes a menu toggle button and a title with an icon.
  * @component
  */
-const MobileNavbar = () => {
+const MobileNavbar = ({ open }: MobileNavbarProps) => {
   return (
-    <div className="navbar bg-base-100 shadow-sm sm:hidden p-0 sticky top-0 z-10">
+    <div className="navbar bg-base-100 shadow-sm md:hidden p-0 sticky top-0 z-10">
       <div className="flex-none">
         <label
           htmlFor="drawer"
-          className="py-4 px-3 border-none shadow-none bg-base-100 drawer-button sm:hidden"
+          className="group py-4 px-3 border-none shadow-none bg-base-100 drawer-button"
         >
-          <Bars3Icon className="h-5 w-5" />
+          <MobileNavbarToggle open={open} />
         </label>
       </div>
       <div className="absolute justify-center items-center w-full pointer-events-none">

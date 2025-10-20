@@ -8,9 +8,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ProjectsResponse } from "@hooks/projects/useGetProjects.ts";
-import TableView from "@components/shared/table/TableView.tsx";
-import TableManagement from "@components/shared/table/TableManagment.tsx";
-import TableCard from "@components/shared/table/TableCard";
 import { Color } from "utils/colorUtils";
 import Chip from "@components/shared/common/Chip.tsx";
 import { useEffect, useState } from "react";
@@ -25,6 +22,7 @@ import { Link } from "react-router-dom";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Project } from "@api/models/Project";
 import FormInput from "@components/shared/form/FormInput.tsx";
+import TableOrCardLayout from "@components/shared/table/TableOrCardLayout";
 
 export interface ProjectsProps {
   onChangeProjectDetails: (id: string) => void;
@@ -34,7 +32,7 @@ export interface ProjectsProps {
   setSorting: OnChangeFn<SortingState>;
   setPagination: OnChangeFn<PaginationState>;
   onEdit: (projectId: string) => void;
-  onDelete: (projectId: string) => void;
+  onDelete: (projectId: string | string[]) => void;
   searchProps?: {
     onSearch?: (phrase: string) => void;
     searchValue?: string;
@@ -58,7 +56,7 @@ const columnsDef = [
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("isActive", {
-    header: "Active",
+    header: "Status",
     cell: (info) => (
       <Chip
         value={getChipValue(info.getValue())}
@@ -115,14 +113,10 @@ const Projects = (props: ProjectsProps) => {
     manualPagination: true,
   });
 
-  const handleClick = (id: string | null | undefined) => {
-    props.onChangeProjectDetails?.(id?.toString() ?? "");
-  };
-
   const handleDeleteSelected = () => {
-    table.getSelectedRowModel().rows.forEach((row) => {
-      props.onDelete(row.original.id);
-    });
+    const ids = table.getSelectedRowModel().rows.map((row) => row.original.id);
+    if (ids.length === 0) return;
+    props.onDelete(ids);
   };
 
   return (
@@ -138,6 +132,7 @@ const Projects = (props: ProjectsProps) => {
             onChange={(e) => setLocalSearch(e.currentTarget.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
+                e.preventDefault();
                 props.searchProps?.onSearch?.(localSearch);
               }
             }}
@@ -163,24 +158,21 @@ const Projects = (props: ProjectsProps) => {
               disabled={
                 !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
               }
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+              className="h-[40px] flex w-[40px] md:w-auto bg-white justify-center  items-center gap-1 !hover:border-red-200"
             >
               <XMarkIcon className="h-4 " />
-              <p className="text-xs">Delete Selected</p>
+              <p className="text-xs hidden md:block">Delete Selected</p>
             </IconButton>
             <Link to="/new-project">
-              <IconButton className="h-[40px] flex bg-white items-center gap-1">
+              <IconButton className="h-[40px] flex w-[40px] md:w-auto bg-white justify-center  items-center gap-1">
                 <PlusIcon className="h-4" />
-                <p className="text-xs">Add new</p>
+                <p className="text-xs hidden md:block">Add new</p>
               </IconButton>
             </Link>
           </div>
         </VisibleForRoles>
       </div>
-      <TableCard className="!h-full">
-        <TableView<Project> table={table} handleClickRow={handleClick} />
-        <TableManagement<Project> table={table} />
-      </TableCard>
+      <TableOrCardLayout table={table} />
     </>
   );
 };

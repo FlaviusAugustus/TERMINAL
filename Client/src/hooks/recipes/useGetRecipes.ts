@@ -6,6 +6,7 @@ export type RecipesRequest = {
   pageNumber: number;
   pageSize: number;
   desc?: boolean;
+  searchPhrase?: string;
 };
 
 export type RecipesResponse = {
@@ -14,16 +15,41 @@ export type RecipesResponse = {
   rowsAmount: number;
 };
 
-async function fetchDataProject(
+async function fetchDataRecipes(
   params: RecipesRequest
 ): Promise<RecipesResponse> {
-  const recipes = await apiClient.get("/recipes", { params });
-  const amountOfProjects = await apiClient.get("/recipes/amount");
-  return {
-    rows: recipes.data.recipes,
-    pageAmount: Math.ceil(amountOfProjects.data / params.pageSize),
-    rowsAmount: amountOfProjects.data,
-  };
+  let recipes;
+  let rowsAmount;
+  if (params.searchPhrase) {
+    recipes = await apiClient.get("/recipes/search", {
+      params: {
+        searchPhrase: params.searchPhrase,
+        pageNumber: params.pageNumber,
+        pageSize: params.pageSize,
+        desc: params.desc,
+      },
+    });
+    rowsAmount = recipes.data.totalAmount;
+    return {
+      rows: recipes.data.recipes,
+      pageAmount: Math.ceil(rowsAmount / params.pageSize),
+      rowsAmount,
+    };
+  } else {
+    recipes = await apiClient.get("/recipes", {
+      params: {
+        pageSize: params.pageSize,
+        pageNumber: params.pageNumber,
+        desc: params.desc,
+      },
+    });
+    const amountOfRecipes = await apiClient.get("/recipes/amount");
+    return {
+      rows: recipes.data.recipes,
+      pageAmount: Math.ceil(amountOfRecipes.data / params.pageSize),
+      rowsAmount: amountOfRecipes.data,
+    };
+  }
 }
 
 /**
@@ -37,7 +63,7 @@ async function fetchDataProject(
 export function useRecipes(params: RecipesRequest) {
   return useQuery({
     queryKey: ["recipes", params],
-    queryFn: () => fetchDataProject(params),
+    queryFn: () => fetchDataRecipes(params),
     placeholderData: keepPreviousData,
   });
 }

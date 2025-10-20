@@ -5,12 +5,13 @@ import SampleDetails from "@components/samples/SampleDetails.tsx";
 import { useSamples } from "@hooks/samples/useGetSamples.ts";
 import { useSampleDetails } from "@hooks/samples/useGetSampleDetails.ts";
 import { useDeleteSample } from "@hooks/samples/useDeleteSample.ts";
-import { useSearchSamples } from "@hooks/samples/useSearchSamples.ts";
 import TableLayout from "./layouts/TableLayout";
 import Loader from "@components/shared/loader/Loader.tsx";
 import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
 import EditSample from "@components/samples/EditSample";
 import DialogLoader from "@components/shared/dialog/DialogLoader.tsx";
+import { toastError } from "@utils/toast.utils.tsx";
+import ConfirmDeleteDialog from "@components/shared/dialog/ConfirmDeleteDialog.tsx";
 
 const SamplesPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -25,15 +26,8 @@ const SamplesPage = () => {
     pageSize: pagination.pageSize,
     orderBy: sorting[0]?.id ?? "",
     desc: sorting[0]?.desc ?? true,
-  });
-
-  const searchSamplesQuery = useSearchSamples({
     searchPhrase,
-    pageNumber: pagination.pageIndex,
-    pageSize: pagination.pageSize,
   });
-
-  const dataQuerySamples = searchPhrase ? searchSamplesQuery : samplesQuery;
 
   const deleteMutation = useDeleteSample({
     pageNumber: pagination.pageIndex,
@@ -46,6 +40,16 @@ const SamplesPage = () => {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const dataQuerySampleDetails = useSampleDetails(sampleDetailsId);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteSamplesIds, setDeleteSamplesIds] = useState<string[] | null>(
+    null
+  );
+
+  const openDeleteDialog = (id: string | string[]) => {
+    const ids = Array.isArray(id) ? id : [id];
+    setDeleteOpen(true);
+    setDeleteSamplesIds(ids);
+  };
 
   const changeSampleDetails = (id: string) => {
     setSampleDetailsId(id);
@@ -57,24 +61,27 @@ const SamplesPage = () => {
     setEditOpen(true);
   };
 
-  const handleDelete = async (id: string | null) => {
-    if (!id) return;
-    await deleteMutation.mutateAsync(id);
+  const handleDelete = async (ids: string[] | null) => {
+    if (!ids || ids.length === 0) return;
+    try {
+      await Promise.all(ids.map((id) => deleteMutation.mutateAsync(id)));
+      setDeleteOpen(false);
+      setDeleteSamplesIds(null);
+    } catch {
+      toastError("Error deleting sample(s)");
+    }
   };
 
   return (
     <TableLayout>
-      <ComponentOrLoader
-        isLoading={dataQuerySamples.isLoading}
-        loader={<Loader />}
-      >
+      <ComponentOrLoader isLoading={samplesQuery.isLoading} loader={<Loader />}>
         <Samples
-          samples={dataQuerySamples.data}
+          samples={samplesQuery.data}
           sorting={sorting}
           pagination={pagination}
           setSorting={setSorting}
           setPagination={setPagination}
-          onDelete={handleDelete}
+          onDelete={openDeleteDialog}
           onDetails={changeSampleDetails}
           onEdit={editSampleDetails}
           searchProps={{
@@ -99,6 +106,13 @@ const SamplesPage = () => {
           sample={dataQuerySampleDetails.data}
           open={detailsOpen}
           openChange={setDetailsOpen}
+        />
+        <ConfirmDeleteDialog
+          onSubmit={() => handleDelete(deleteSamplesIds)}
+          isSubmitting={deleteMutation.isPending}
+          isOpen={deleteOpen}
+          description={`Deleting this sample(s) is irreversible and will remove all associated data. Type delete to confirm.`}
+          setIsOpen={setDeleteOpen}
         />
       </ComponentOrLoader>
     </TableLayout>

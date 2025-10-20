@@ -6,7 +6,6 @@ export type ParameterValue<T> = {
 
 export type Parameter = {
   $type: ParameterType;
-  step: number;
   id: string;
   name: string;
   order: number;
@@ -15,6 +14,7 @@ export type Parameter = {
 
 export type NumericParameter = Parameter & {
   $type: "decimal" | "integer";
+  step: number;
   unit: string;
 };
 
@@ -59,6 +59,7 @@ export type ParameterRequest = {
 
 export type NumericParameterRequest = ParameterRequest & {
   $type: "decimal" | "integer";
+  step: number;
   unit: string;
 };
 

@@ -24,7 +24,10 @@ async function updateProjectStatus({ id, isActive }: UpdateProjectStatusDto) {
  * @hook
  * @param {UpdateProjectStatusDto} params - The parameters for the users request.
  */
-export function useUpdateProjectStatus(params: ProjectsRequest) {
+export function useUpdateProjectStatus({
+  pageSize,
+  pageNumber,
+}: ProjectsRequest) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -42,7 +45,7 @@ export function useUpdateProjectStatus(params: ProjectsRequest) {
       );
 
       queryClient.setQueryData<ProjectsResponse>(
-        ["projects", "all", params],
+        ["projects", "all", { pageSize, pageNumber }],
         (oldData) => {
           if (!oldData) return undefined;
           return {

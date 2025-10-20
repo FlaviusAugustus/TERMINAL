@@ -12,6 +12,7 @@ import {
   LabeledSelect,
   SelectItem,
 } from "@components/shared/form/LabeledSelect.tsx";
+import FormInput from "@components/shared/form/FormInput.tsx";
 
 type ParameterBoxProps = {
   parameter: AllParameters;
@@ -62,6 +63,7 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
       <div className="border-b border-gray-200 rounded-t-md bg-white flex justify-between">
         <p className="p-2 text-sm">{parameter.name}</p>
         <div className="flex gap-2 px-2 items-center justify-center">
+          <DragHandle attributes={attributes} listeners={listeners} />
           <button onClick={() => moveParameterUp(currentStep, parameter.id)}>
             <ChevronUpIcon className="h-4 w-4" />
           </button>
@@ -80,7 +82,6 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
               value
             </p>
             <ParameterInput parameter={parameter} />
-            <DragHandle attributes={attributes} listeners={listeners} />
           </div>
           {(parameter.$type === "integer" || parameter.$type === "decimal") && (
             <div className="flex items-center justify-start rounded-md border border-gray-200 bg-gray-50">
@@ -132,8 +133,8 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
   return (
     <>
       {" "}
-      {parameter.$type === "text" ? (
-        <div className="rounded-md w-full h-full text-sm ms-2 focus:outline-none bg-gray-50">
+      <div className="rounded-md w-full h-full text-sm mx-2 focus:outline-none bg-gray-50">
+        {parameter.$type === "text" ? (
           <LabeledSelect
             comboboxStyles={"!py-0 !mt-0"}
             comboboxOptionsStyles={"!py-0 !mt-0"}
@@ -147,18 +148,25 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
               <SelectItem key={index} value={value} displayValue={value} />
             ))}
           </LabeledSelect>
-        </div>
-      ) : (
-        <input
-          className="rounded-md w-full text-sm ms-2 focus:outline-none bg-gray-50"
-          type="text"
-          value={parameter.value ?? 0}
-          onChange={(val) => {
-            const updatedParameter = onChangeValue(parameter, val.target.value);
-            updateParameter(currentStep, updatedParameter);
-          }}
-        />
-      )}
+        ) : (
+          <FormInput
+            className={
+              "!py-0 !mt-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            }
+            name="Step"
+            type="number"
+            step={parameter.step}
+            value={parameter.value}
+            onChange={(val) => {
+              const updatedParameter = onChangeValue(
+                parameter,
+                val.target.value
+              );
+              updateParameter(currentStep, updatedParameter);
+            }}
+          />
+        )}
+      </div>
     </>
   );
 };

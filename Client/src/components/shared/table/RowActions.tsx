@@ -1,6 +1,6 @@
 import IconButton from "@components/shared/common/IconButton.tsx";
 import {
-  EllipsisHorizontalIcon,
+  MagnifyingGlassIcon,
   PencilIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -20,7 +20,7 @@ const RowActions = ({ onEdit, onDetails, onDelete }: RowActionsProps) => {
           onClick={onDetails}
           className="hover:bg-gray-100 hover:border-blue-200"
         >
-          <EllipsisHorizontalIcon className="h-4 rounded-md" />
+          <MagnifyingGlassIcon className="h-4 rounded-md" />
         </IconButton>
       )}
       <VisibleForRoles roles={["Administrator", "Moderator"]}>
@@ -41,7 +41,6 @@ const RowActions = ({ onEdit, onDetails, onDelete }: RowActionsProps) => {
           </IconButton>
         )}
       </VisibleForRoles>
-      <div className="m-4" />
     </div>
   );
 };
