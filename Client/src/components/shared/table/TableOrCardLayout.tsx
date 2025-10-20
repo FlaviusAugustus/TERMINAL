@@ -25,16 +25,14 @@ const TableOrCardLayout = <T extends TableElement>(
 ) => {
   return (
     <>
-      <div className="hidden md:block">
-        <TableCard className="!h-full">
-          <TableView<T> table={props.table} />
-          <TableManagement<T> table={props.table} />
-        </TableCard>
-      </div>
+      <TableCard className="hidden md:block !h-full">
+        <TableView<T> table={props.table} />
+        <TableManagement<T> table={props.table} />
+      </TableCard>
       <div className="md:hidden h-full flex flex-col justify-between">
         <CardView<T> {...props} />
         <TableManagement<T>
-          className="border! bg-white rounded-md"
+          className="!border bg-white rounded-md"
           table={props.table}
         />
       </div>

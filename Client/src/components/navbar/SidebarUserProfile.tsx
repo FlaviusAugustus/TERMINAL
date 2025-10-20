@@ -54,7 +54,7 @@ const SidebarUserProfile = () => {
   if (status === "error") return <div>Error...</div>;
 
   return (
-    <div className="p-2 bg-white rounded-b-md w-full">
+    <div className="p-2 bg-white md:rounded-b-md w-full">
       <div className="flex gap-3 rounded-md p-2 hover:bg-gray-200 group hover:cursor-pointer w-full items-center">
         <div
           style={{ backgroundColor: getAvatarColor(data?.email) }}
@@ -69,7 +69,7 @@ const SidebarUserProfile = () => {
           </p>
         </div>
         <ArrowRightEndOnRectangleIcon
-          className="h-9 w-8 ml-auto group-hover:visible invisible text-gray-800 hover:bg-gray-300 p-1 rounded"
+          className="h-9 w-8 ml-auto md:group-hover:visible md:invisible text-gray-800 hover:bg-gray-300 p-1 rounded"
           onClick={handleLogout}
         />
       </div>
