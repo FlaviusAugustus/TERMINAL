@@ -1,7 +1,7 @@
 import { test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { NewTagPage } from "./pages/addNewTagPage";
-import { mockTagCreation, mockProjects, mockTags } from "./helpers/mocks";
+import { mockTagCreation, mockTags } from "./helpers/mocks";
 
 test.beforeEach(async ({ page }) => {
   const login = new LoginPage(page);

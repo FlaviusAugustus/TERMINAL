@@ -1,14 +1,14 @@
-import { test } from "@playwright/test";
+import { Page, test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { NewSamplePage } from "./pages/addNewSamplePage";
 import {
-  mockSampleCreation,
+  currentRecipes,
+  mockParameters,
+  mockRecipeDetails,
   mockRecipes,
   mockRecipesAmount,
-  mockRecipeDetails,
-  mockParameters,
+  mockSampleCreation,
   mockTags,
-  currentRecipes,
 } from "./helpers/mocks";
 import { MOCKED_RECIPE_ID } from "./constants";
 
@@ -21,7 +21,7 @@ test.beforeEach(async ({ page }) => {
   await mockSampleCreation(page);
 });
 
-async function prepareSample(page: any, sample: any) {
+async function prepareSample(page: Page, sample: NewSamplePage) {
   await sample.openAddForm();
   await sample.addStep();
   await sample.dragAndDropStep(0);

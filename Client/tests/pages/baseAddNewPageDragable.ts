@@ -1,7 +1,8 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 
 export abstract class BaseAddNewPageDragable {
   constructor(protected page: Page) {}
+
   abstract entityName: string;
   abstract sourceLocator: string;
   abstract destinationLocator: string;

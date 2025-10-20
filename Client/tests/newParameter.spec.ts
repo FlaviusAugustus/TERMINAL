@@ -1,7 +1,7 @@
 import { test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { NewParameterPage } from "./pages/addNewParameterPage";
-import { mockParameterCreation, mockParameters } from "./helpers/mocks";
+import { mockParameterCreation } from "./helpers/mocks";
 
 test.beforeEach(async ({ page }) => {
   const login = new LoginPage(page);

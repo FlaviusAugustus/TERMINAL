@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import {
   currentRecipes,
@@ -6,7 +6,6 @@ import {
   mockRecipeDetails,
   mockRecipes,
   resetRecipes,
-  setCurrentData,
 } from "./helpers/mocks";
 import { RecipePage } from "./pages/recipePage";
 import {

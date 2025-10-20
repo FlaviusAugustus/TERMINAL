@@ -1,4 +1,7 @@
 import { expect, Page, test } from "@playwright/test";
+import { Step } from "../src/api/models/Step";
+
+type EditSampleRequest = { steps: Step[] };
 
 async function login(page: Page) {
   await page.goto("/login");
@@ -104,7 +107,7 @@ test("should paginate samples", async ({ page }) => {
 test("should edit sample and send correct step parameters", async ({
   page,
 }) => {
-  let capturedRequest: any = null;
+  let capturedRequest: EditSampleRequest | null = null;
 
   await page.route("**/api/samples/*", async (route) => {
     if (route.request().method() === "PATCH") {
@@ -178,7 +181,7 @@ test("should edit sample and send correct step parameters", async ({
   await page.getByRole("button", { name: "Save" }).click();
   await page.waitForTimeout(500);
 
-  const values = capturedRequest.steps[0].parameters.map((p: any) => p.value);
+  const values = capturedRequest.steps[0].parameters.map((p) => p.value);
 
   expect(values).toEqual([
     "dip-coating", // Nucleation Method

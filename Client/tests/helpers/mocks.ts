@@ -1,24 +1,23 @@
 import { Page } from "@playwright/test";
 import {
-  samplesMock,
-  recentSamplesMock,
-  projectsMock,
-  tagsMock,
-  tagDetailsMock,
   parametersMock,
-  recipesMock,
-  recipesAmountMock,
+  projectsMock,
+  recentSamplesMock,
   recipeDetailsMock,
-  usersMock,
+  recipesAmountMock,
+  recipesMock,
+  samplesMock,
+  tagsMock,
   userDetilsMock,
+  usersMock,
 } from "./mockedData";
 
-export let currentProjects = [...projectsMock.projects];
-export let currentSamples = [...samplesMock.samples];
-export let currentTags = [...tagsMock.tags];
-export let currentParameters = [...parametersMock.parameters];
-export let currentUsers = [...usersMock.users];
-export let currentRecipes = [...recipesMock.recipes];
+export const currentProjects = [...projectsMock.projects];
+export const currentSamples = [...samplesMock.samples];
+export const currentTags = [...tagsMock.tags];
+export const currentParameters = [...parametersMock.parameters];
+export const currentUsers = [...usersMock.users];
+export const currentRecipes = [...recipesMock.recipes];
 
 export function resetProjects() {
   currentProjects.length = 0;
@@ -50,7 +49,7 @@ export function resetRecipes() {
   currentRecipes.push(...recipesMock.recipes);
 }
 
-export function setCurrentData(dataArray: any[], newData: any[]) {
+export function setCurrentData<T>(dataArray: T[], newData: T[]) {
   dataArray.length = 0;
   dataArray.push(...newData);
 }
@@ -96,10 +95,10 @@ export async function mockSamplesNextPage(
   });
 }
 
-export async function mockSearch(
+export async function mockSearch<T>(
   page: Page,
   apiPath: string,
-  items: any[],
+  items: T[],
   property = "name",
   responseKey: string
 ) {
@@ -129,11 +128,11 @@ export async function mockSearch(
   });
 }
 
-export async function mockEntityDetails(
+export async function mockEntityDetails<T extends { id: string }, D>(
   page: Page,
   path: string,
-  dataArray: any[],
-  entityDetails: any,
+  dataArray: T[],
+  entityDetails: D,
   entityName: string
 ) {
   await page.route(path, async (route) => {
@@ -244,8 +243,6 @@ export async function mockProjectDeactivation(page: Page, id: string) {
 export async function mockTagCreation(page: Page) {
   await page.route("**/api/tags", async (route) => {
     if (route.request().method() === "POST") {
-      const requestBody = JSON.parse(route.request().postData() || "{}");
-
       await route.fulfill({
         status: 201,
         contentType: "application/json",
@@ -304,8 +301,6 @@ export async function mockTagDeactivation(page: Page, id: string) {
 export async function mockParameterCreation(page: Page) {
   await page.route("**/api/parameters/define/*", async (route) => {
     if (route.request().method() === "POST") {
-      const requestBody = JSON.parse(route.request().postData() || "{}");
-
       await route.fulfill({
         status: 201,
         contentType: "application/json",

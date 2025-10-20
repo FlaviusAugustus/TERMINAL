@@ -1,15 +1,14 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { UsersPage } from "./pages/usersPage";
 import { MOCKED_USER_ID, USER_DETAILS_PATH, USER_ENTITY } from "./constants";
 import {
+  currentUsers,
+  mockEntityDetails,
   mockUserEmailModification,
   mockUserRoleModification,
   mockUsers,
-  mockUserDetails,
-  mockEntityDetails,
   resetUsers,
-  currentUsers,
   setCurrentData,
 } from "./helpers/mocks";
 import { userDetilsMock, userMock } from "./helpers/mockedData";
