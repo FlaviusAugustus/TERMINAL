@@ -69,7 +69,7 @@ const SidebarUserProfile = () => {
           </p>
         </div>
         <ArrowRightEndOnRectangleIcon
-          className="h-9 w-8 ml-auto group-hover:visible invisible text-gray-800 hover:bg-gray-300 p-1 rounded"
+          className="h-9 w-8 ml-auto md:group-hover:visible md:invisible text-gray-800 hover:bg-gray-300 p-1 rounded"
           onClick={handleLogout}
         />
       </div>
