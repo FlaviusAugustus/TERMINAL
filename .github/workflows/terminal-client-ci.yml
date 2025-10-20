@@ -44,10 +44,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node_version }}
-      - name: Start dev server
-        run: npm run dev &
       - name: Install dependencies
         run: npm ci
+      - name: Start dev server
+        run: npm run dev &
+      - name: Wait for dev server
+        run: npx wait-on https://localhost:5173 --timeout 120000
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
