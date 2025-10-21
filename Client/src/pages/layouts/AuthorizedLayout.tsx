@@ -48,7 +48,7 @@ const AuthorizedNavbarLayout = ({
             type="checkbox"
             className="drawer-toggle"
           />
-          <div className="drawer-content flex flex-col min-h-dvh max-h-dvh items-center justify-start relative md:py-2">
+          <div className="drawer-content flex flex-col min-h-dvh max-h-dvh items-center justify-start relative md:py-2 md:pr-2">
             {/* Menu - only mobile  */}
             <MobileNavbar open={checked} />
             {/* Page content */}
