@@ -5,20 +5,18 @@ namespace Terminal.Backend.Core.Entities;
 public sealed class Process
 {
     public ProcessId Id { get; private set; }
+    public Code CodeNumber { get; private set; }
     public Sample Sample { get; private set; }
     public DateTime CreatedAtUtc { get; private set; }
     public Comment Comment { get; private set; }
     public Recipe? Recipe { get; private set; }
 
-    // U¿ywamy HashSet i inicjalizujemy tylko raz
     public ICollection<Project> Projects { get; private set; } = new HashSet<Project>();
     public ICollection<SampleStep> Steps { get; private set; } = new HashSet<SampleStep>();
     public ICollection<Tag> Tags { get; private set; } = new HashSet<Tag>();
 
-    // Konstruktor dla EF Core - teraz jest pusty
     protected Process() { }
 
-    // Konstruktor dla logiki biznesowej
     public Process(ProcessId id, ICollection<Project> projects, Recipe? recipe, Comment comment, ICollection<SampleStep> steps, ICollection<Tag> tags)
     {
         Id = id;
