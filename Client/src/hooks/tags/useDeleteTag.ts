@@ -15,14 +15,16 @@ async function deleteTag(id: string | undefined): Promise<AxiosResponse> {
  * @hook
  * @param {TagsRequest} params - The parameters for the projects request.
  */
-export function useDeleteTag(params: TagsRequest) {
+export function useDeleteTag({ pageSize, pageNumber }: TagsRequest) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (id: string) => deleteTag(id),
     onSuccess: (_data, variables) => {
       queryClient.setQueryData(["tagDetails", variables], () => null);
-      queryClient.invalidateQueries({ queryKey: ["tags", "all", params] });
+      queryClient.invalidateQueries({
+        queryKey: ["tags", "all", { pageSize, pageNumber }],
+      });
     },
   });
 }
