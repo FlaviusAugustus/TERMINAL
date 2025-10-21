@@ -4,7 +4,7 @@ import Loader from "@components/shared/loader/Loader.tsx";
 import useGetParameters from "@hooks/parameters/useGetParameters.ts";
 import Parameters from "@components/parameters/Parameters.tsx";
 import ParameterDetails from "@components/parameters/ParameterDetails.tsx";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { AllParameters } from "@api/models/Parameters.ts";
 import DialogLoader from "@components/shared/dialog/DialogLoader.tsx";
 import { useDeactivateParameter } from "@hooks/parameters/useDeactivateParameter.ts";
@@ -30,13 +30,16 @@ const ParametersPage = () => {
     setDeleteParametersIds(ids);
   };
 
-  const handleParameterDetails = (id: string) => {
-    setDetailsOpen(true);
-    const paramDetails = dataParameters.data?.parameters.find(
-      (param) => param.id === id
-    );
-    setParameterDetails(paramDetails);
-  };
+  const handleParameterDetails = useCallback(
+    (id: string) => {
+      setDetailsOpen(true);
+      const paramDetails = dataParameters.data?.parameters.find(
+        (param) => param.id === id
+      );
+      setParameterDetails(paramDetails);
+    },
+    [dataParameters.data?.parameters?.length]
+  );
 
   const handleDelete = async (ids: string[] | null) => {
     if (!ids || ids.length === 0) return;
