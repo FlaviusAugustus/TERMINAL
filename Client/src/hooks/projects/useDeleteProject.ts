@@ -15,14 +15,16 @@ async function deleteProject(id: string | undefined): Promise<AxiosResponse> {
  * @hook
  * @param {ProjectsRequest} params - The parameters for the projects request.
  */
-export function useDeleteProject(params: ProjectsRequest) {
+export function useDeleteProject({ pageSize, pageNumber }: ProjectsRequest) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (id: string) => deleteProject(id),
     onSuccess: (_data, variables) => {
       queryClient.setQueryData(["projectDetails", variables], () => null);
-      queryClient.invalidateQueries({ queryKey: ["projects", "all", params] });
+      queryClient.invalidateQueries({
+        queryKey: ["projects", "all", { pageSize, pageNumber }],
+      });
     },
   });
 }
