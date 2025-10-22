@@ -57,6 +57,6 @@ export function useTableColumns<T extends { id: string }>({
         ),
       }),
     ],
-    []
+    [onDetails, onEdit, onDelete]
   );
 }
