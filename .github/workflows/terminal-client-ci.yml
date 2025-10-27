@@ -10,6 +10,9 @@ defaults:
   run:
     working-directory: ./Client
 
+env:
+  cache-name: cache-node-modules
+
 jobs:
   build-validation:
     runs-on: ubuntu-latest
@@ -23,8 +26,6 @@ jobs:
       - name: Cache node module
         id: cache-npm
         uses: actions/cache@v4
-        env:
-          cache-name: cache-node-modules
         with:
           path: Client/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
@@ -36,12 +37,6 @@ jobs:
       - name: Install dependencies
         if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm ci
-
-      - name: Archive artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: node_modules
-          path: Client/node_modules
 
       - name: Lint code
         run: npm run lint
@@ -64,9 +59,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node_version }}
-      - uses: actions/download-artifact@v4
+      - name: Cache node module
+        id: cache-npm
+        uses: actions/cache@v4
         with:
-          name: node-modules
+          path: Client/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
@@ -87,9 +93,21 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ inputs.node_version }}
-      - uses: actions/download-artifact@v4
+      - name: Cache node module
+        id: cache-npm
+        uses: actions/cache@v4
         with:
-          name: node-modules
+          path: Client/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: npm ci
+
       - name: Generate documentation
         run: npx typedoc
       - uses: actions/upload-artifact@v4
