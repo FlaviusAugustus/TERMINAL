@@ -27,10 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="DAL\Migrations\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Compile Remove="DAL\Migrations\20240311185233_DitchValueGeneratorOverIdentitySequence.cs" />
       <Compile Remove="DAL\Migrations\20240311185233_DitchValueGeneratorOverIdentitySequence.Designer.cs" />
     </ItemGroup>

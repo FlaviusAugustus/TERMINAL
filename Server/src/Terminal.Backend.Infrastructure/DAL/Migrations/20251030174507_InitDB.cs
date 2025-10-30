@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace Terminal.Backend.Infrastructure.DAL.Migrations
+namespace Terminal.Backend.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class RecipeStep : Migration
+    public partial class InitDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,16 +20,27 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    Order = table.Column<long>(type: "bigint", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    Type = table.Column<string>(type: "text", nullable: false),
+                    ParentId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Type = table.Column<string>(type: "character varying(21)", maxLength: 21, nullable: false),
                     NumericParameter_Unit = table.Column<string>(type: "text", nullable: true),
                     DecimalParameter_Step = table.Column<decimal>(type: "numeric", nullable: true),
+                    DecimalParameter_DefaultValue = table.Column<decimal>(type: "numeric", nullable: true),
                     IntegerParameter_Step = table.Column<int>(type: "integer", nullable: true),
-                    TextParameter_AllowedValues = table.Column<List<string>>(type: "text[]", nullable: true)
+                    DefaultValue = table.Column<int>(type: "integer", nullable: true),
+                    TextParameter_AllowedValues = table.Column<List<string>>(type: "text[]", nullable: true),
+                    TextParameter_DefaultValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Parameters", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Parameters_Parameters_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Parameters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -100,7 +111,7 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ParameterName = table.Column<Guid>(type: "uuid", nullable: false),
-                    Discriminator = table.Column<string>(type: "text", nullable: false),
+                    Discriminator = table.Column<string>(type: "character varying(21)", maxLength: 21, nullable: false),
                     StepId = table.Column<Guid>(type: "uuid", nullable: false),
                     DecimalParameterValue_Value = table.Column<decimal>(type: "numeric", nullable: true),
                     IntegerParameterValue_Value = table.Column<int>(type: "integer", nullable: true),
@@ -115,6 +126,28 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                         principalTable: "Parameters",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Processes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CodePrefix = table.Column<string>(type: "text", nullable: false),
+                    CodeNumber = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAtUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Comment = table.Column<string>(type: "text", nullable: false),
+                    RecipeId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Processes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Processes_Recipes_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "Recipes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -134,33 +167,6 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                         principalTable: "Recipes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Samples",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Code = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
-                    CreatedAtUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Comment = table.Column<string>(type: "text", nullable: false),
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RecipeId = table.Column<Guid>(type: "uuid", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Samples", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Samples_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Samples_Recipes_RecipeId",
-                        column: x => x.RecipeId,
-                        principalTable: "Recipes",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -209,44 +215,68 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SampleSteps",
+                name: "ProcessTag",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Comment = table.Column<string>(type: "text", nullable: false),
-                    SampleId = table.Column<Guid>(type: "uuid", nullable: false)
+                    ProcessId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TagsId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SampleSteps", x => x.Id);
+                    table.PrimaryKey("PK_ProcessTag", x => new { x.ProcessId, x.TagsId });
                     table.ForeignKey(
-                        name: "FK_SampleSteps_Samples_SampleId",
-                        column: x => x.SampleId,
-                        principalTable: "Samples",
+                        name: "FK_ProcessTag_Processes_ProcessId",
+                        column: x => x.ProcessId,
+                        principalTable: "Processes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProcessTag_Tags_TagsId",
+                        column: x => x.TagsId,
+                        principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SampleTag",
+                name: "ProjectProcess",
                 columns: table => new
                 {
-                    SampleId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TagsId = table.Column<Guid>(type: "uuid", nullable: false)
+                    ProcessId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SampleTag", x => new { x.SampleId, x.TagsId });
+                    table.PrimaryKey("PK_ProjectProcess", x => new { x.ProcessId, x.ProjectId });
                     table.ForeignKey(
-                        name: "FK_SampleTag_Samples_SampleId",
-                        column: x => x.SampleId,
-                        principalTable: "Samples",
+                        name: "FK_ProjectProcess_Processes_ProcessId",
+                        column: x => x.ProcessId,
+                        principalTable: "Processes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SampleTag_Tags_TagsId",
-                        column: x => x.TagsId,
-                        principalTable: "Tags",
+                        name: "FK_ProjectProcess_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SampleSteps",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Comment = table.Column<string>(type: "text", nullable: false),
+                    ProcessId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SampleSteps", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SampleSteps_Processes_ProcessId",
+                        column: x => x.ProcessId,
+                        principalTable: "Processes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -292,10 +322,10 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                     { 14, "TagWrite" },
                     { 15, "TagUpdate" },
                     { 16, "TagDelete" },
-                    { 17, "SampleRead" },
-                    { 18, "SampleWrite" },
-                    { 19, "SampleUpdate" },
-                    { 20, "SampleDelete" },
+                    { 17, "ProcessRead" },
+                    { 18, "ProcessWrite" },
+                    { 19, "ProcessUpdate" },
+                    { 20, "ProcessDelete" },
                     { 21, "ParameterRead" },
                     { 22, "ParameterWrite" },
                     { 23, "ParameterUpdate" },
@@ -395,6 +425,11 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Parameters_ParentId",
+                table: "Parameters",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ParameterValues_ParameterName",
                 table: "ParameterValues",
                 column: "ParameterName");
@@ -403,6 +438,34 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                 name: "IX_ParameterValues_StepId",
                 table: "ParameterValues",
                 column: "StepId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Process_CodePrefix_CodeNumber",
+                table: "Processes",
+                columns: new[] { "CodePrefix", "CodeNumber" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Processes_Comment",
+                table: "Processes",
+                column: "Comment")
+                .Annotation("Npgsql:IndexMethod", "GIN")
+                .Annotation("Npgsql:TsVectorConfig", "english");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Processes_RecipeId",
+                table: "Processes",
+                column: "RecipeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProcessTag_TagsId",
+                table: "ProcessTag",
+                column: "TagsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectProcess_ProjectId",
+                table: "ProjectProcess",
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_Name",
@@ -428,31 +491,9 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Samples_Code_Comment",
-                table: "Samples",
-                columns: new[] { "Code", "Comment" })
-                .Annotation("Npgsql:IndexMethod", "GIN")
-                .Annotation("Npgsql:TsVectorConfig", "english");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Samples_ProjectId",
-                table: "Samples",
-                column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Samples_RecipeId",
-                table: "Samples",
-                column: "RecipeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SampleSteps_SampleId",
+                name: "IX_SampleSteps_ProcessId",
                 table: "SampleSteps",
-                column: "SampleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SampleTag_TagsId",
-                table: "SampleTag",
-                column: "TagsId");
+                column: "ProcessId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tags_Name",
@@ -482,6 +523,12 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                 name: "ParameterValues");
 
             migrationBuilder.DropTable(
+                name: "ProcessTag");
+
+            migrationBuilder.DropTable(
+                name: "ProjectProcess");
+
+            migrationBuilder.DropTable(
                 name: "RecipeSteps");
 
             migrationBuilder.DropTable(
@@ -491,28 +538,25 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                 name: "SampleSteps");
 
             migrationBuilder.DropTable(
-                name: "SampleTag");
-
-            migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Parameters");
 
             migrationBuilder.DropTable(
-                name: "Permissions");
-
-            migrationBuilder.DropTable(
-                name: "Samples");
-
-            migrationBuilder.DropTable(
                 name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Projects");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "Permissions");
+
+            migrationBuilder.DropTable(
+                name: "Processes");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Recipes");

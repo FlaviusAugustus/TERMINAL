@@ -9,7 +9,7 @@ using Terminal.Backend.Infrastructure.DAL;
 
 #nullable disable
 
-namespace Terminal.Backend.Infrastructure.DAL.Migrations
+namespace Terminal.Backend.Infrastructure.Migrations
 {
     [DbContext(typeof(TerminalDbContext))]
     partial class TerminalDbContextModelSnapshot : ModelSnapshot
