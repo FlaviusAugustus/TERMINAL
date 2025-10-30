@@ -1,9 +1,10 @@
 using System.Linq.Expressions;
+using Terminal.Backend.Application.DTO.Codes;
 using Terminal.Backend.Application.DTO.Parameters;
 using Terminal.Backend.Application.DTO.ParameterValues;
+using Terminal.Backend.Application.DTO.Processes;
 using Terminal.Backend.Application.DTO.Projects;
 using Terminal.Backend.Application.DTO.Recipes;
-using Terminal.Backend.Application.DTO.Processes;
 using Terminal.Backend.Application.DTO.Tags;
 using Terminal.Backend.Application.DTO.Users;
 using Terminal.Backend.Application.DTO.Users.Invitations;
@@ -12,6 +13,7 @@ using Terminal.Backend.Application.Queries.QueryParameters;
 using Terminal.Backend.Core.Entities;
 using Terminal.Backend.Core.Entities.Parameters;
 using Terminal.Backend.Core.Entities.ParameterValues;
+using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Infrastructure.DAL.Handlers;
 
@@ -53,7 +55,7 @@ public static class Extensions
             Id = entity.Id.Value,
             Projects = entity.Projects.AsProjectsDto(),
             Recipe = entity.Recipe?.AsDto(),
-            Code = entity.Sample.Value,
+            Code = entity.Code.AsDto(),
             Comment = entity.Comment.Value,
             CreatedAtUtc = entity.CreatedAtUtc.ToString("o"),
             Steps = entity.Steps.AsStepsDto(),
@@ -161,6 +163,9 @@ public static class Extensions
     }
 
     public static GetRecipeDto AsDto(this Recipe recipe) => new(recipe.Id, recipe.RecipeName);
+
+    public static GetCodeDto AsDto(this Code code) => new(code.Prefix);
+
 
     public static GetInvitationDto AsGetInvitationDto(this Invitation invitation) =>
         new(invitation.ExpiresIn > DateTime.UtcNow, invitation.User.Email);

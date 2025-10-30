@@ -7,6 +7,7 @@ namespace Terminal.Backend.Application.Commands.Process.Create;
 
 public sealed record CreateProcessCommand(
     [property: JsonIgnore] ProcessId ProcessId,
+    Prefix Prefix,
     IEnumerable<Guid> Projects,
     Guid? RecipeId,
     IEnumerable<CreateSampleStepDto> Steps,

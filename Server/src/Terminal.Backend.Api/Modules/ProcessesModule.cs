@@ -34,6 +34,7 @@ public static class ProcessesModule
         app.MapGet(ApiRouteBase + "/example", () =>
             {
                 var process = new CreateProcessCommand(ProcessId.Create(),
+                    Prefix.Create("AX"),
                     new List<Guid>
                     {
                         ProjectId.Create(), ProjectId.Create(), ProjectId.Create()

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using Terminal.Backend.Core.Entities;
 using Terminal.Backend.Core.Entities.Parameters;
 using Terminal.Backend.Core.Entities.ParameterValues;
@@ -34,5 +35,80 @@ internal sealed class TerminalDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+    }
+
+    private void GenerateSequentialCodes()
+    {
+        var newProcesses = ChangeTracker.Entries<Process>()
+            .Where(e => e.State == EntityState.Added && e.Entity.Code == null)
+            .Select(e => e.Entity)
+            .ToList();
+
+        if (!newProcesses.Any())
+        {
+            return;
+        }
+
+        var processesByPrefix = newProcesses.GroupBy(p => p.Prefix.Value);
+
+        foreach (var group in processesByPrefix)
+        {
+            var prefixValue = group.Key;
+
+            var maxSequentialNumber = Processes
+                .IgnoreQueryFilters()
+                .Where(p => p.Prefix.Value == prefixValue)
+                .Select(p => p.Code.Number.Value)
+                .DefaultIfEmpty(0)
+                .Max();
+
+            foreach (var process in group)
+            {
+                if (process.Prefix == null)
+                {
+                    throw new InvalidOperationException("The prefix must be set on the Process entity before generating the code.");
+                }
+
+                maxSequentialNumber++;
+
+                var newPrefix = process.Prefix;
+                var newNumber = SequentialNumber.Create(maxSequentialNumber);
+                process.Code = Code.Create(newPrefix, newNumber);
+            }
+        }
+    }
+
+    public override int SaveChanges()
+    {
+        using var transaction = Database.BeginTransaction(IsolationLevel.RepeatableRead);
+        try
+        {
+            GenerateSequentialCodes();
+            var result = base.SaveChanges();
+            transaction.Commit();
+            return result;
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            throw;
+        }
+    }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        await using var transaction = await Database.BeginTransactionAsync(IsolationLevel.RepeatableRead, cancellationToken);
+        try
+        {
+            GenerateSequentialCodes();
+            var result = await base.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+            return result;
+        }
+        catch (Exception)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            throw;
+        }
     }
 }

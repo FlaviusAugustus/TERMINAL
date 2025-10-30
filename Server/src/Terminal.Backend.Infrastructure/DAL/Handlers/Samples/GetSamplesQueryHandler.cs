@@ -25,7 +25,7 @@ internal sealed class GetSamplesQueryHandler : IRequestHandler<GetProcessesQuery
             .OrderBy(request.OrderingParameters)
             .Paginate(request.Parameters)
             .Select(m => new GetProcessesDto.ProcessDto(
-                m.Id, m.Sample.Value, m.Projects.Select(p => p.Name), m.CreatedAtUtc.ToString("o"), m.Comment))
+                m.Id, m.Code, m.Projects.Select(p => p.Name), m.CreatedAtUtc.ToString("o"), m.Comment))
             .ToListAsync(ct);
 
         return new GetProcessesDto { Processes = samples };

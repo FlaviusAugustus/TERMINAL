@@ -27,7 +27,7 @@ internal sealed class CreateProcessCommandHandler : IRequestHandler<CreateProces
 
     public async Task Handle(CreateProcessCommand command, CancellationToken ct)
     {
-        var (sampleId, projectsDto, recipeId, stepsDto, tagsDto,
+        var (sampleId, prefix,  projectsDto,  recipeId, stepsDto, tagsDto,
             comment, saveAsRecipe, recipeName) = command;
 
         var steps = (await _convertService.ConvertAsync(stepsDto, ct)).ToList();
@@ -59,6 +59,7 @@ internal sealed class CreateProcessCommandHandler : IRequestHandler<CreateProces
         var tags = await _convertService.ConvertAsync(tagsDto.Select(t => new TagId(t)), ct);
         var projects = (await _convertService.ConvertAsync(projectsDto.Select(p => new ProjectId(p)), ct)).ToList();
         var process = new Core.Entities.Process(sampleId,
+            prefix,
             projects,
             recipe,
             new Comment(comment),

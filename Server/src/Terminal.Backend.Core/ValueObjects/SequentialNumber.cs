@@ -5,8 +5,8 @@ using Terminal.Backend.Core.Exceptions;
 
 public sealed record SequentialNumber
 {
-    public int Value { get; }
-
+    public int Value { get; init; }
+    private SequentialNumber() { }
     private SequentialNumber(int value)
     {
         Value = value;

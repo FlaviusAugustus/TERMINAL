@@ -28,7 +28,6 @@
 
     <ItemGroup>
         <Folder Include="DAL\Migrations\" />
-        <Folder Include="DAL\ValueGenerators\" />
     </ItemGroup>
 
     <ItemGroup>

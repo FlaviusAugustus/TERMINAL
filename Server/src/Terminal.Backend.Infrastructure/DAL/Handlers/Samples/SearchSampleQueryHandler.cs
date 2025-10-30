@@ -22,7 +22,7 @@ internal sealed class SearchSampleQueryHandler : IRequestHandler<SearchProcessQu
             .Include(m => m.Projects)
             .Include(m => m.Recipe)
             .Where(m =>
-                EF.Functions.ToTsVector("english", "AX" + m.Sample + " " + m.Comment)
+                EF.Functions.ToTsVector("english", m.Code.ToString() + " " + m.Comment)
                     .Matches(EF.Functions.PhraseToTsQuery($"{request.SearchPhrase}:*")) ||
                 m.Projects.Any(p => EF.Functions.ILike(p.Name, $"%{request.SearchPhrase}%")) ||
                 EF.Functions.ILike(m.Recipe.RecipeName, $"%{request.SearchPhrase}%"));
@@ -32,7 +32,7 @@ internal sealed class SearchSampleQueryHandler : IRequestHandler<SearchProcessQu
         var samples = await query
             .Select(m => new GetSearchedProcessesDto.ProcessDto(
                 m.Id,
-                m.Sample.Value,
+                m.Code,
                 m.Projects.Select(p => p.Name),
                 m.CreatedAtUtc.ToString("o"),
                 m.Comment))

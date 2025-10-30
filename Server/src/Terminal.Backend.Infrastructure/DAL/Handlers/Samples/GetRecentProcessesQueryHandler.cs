@@ -24,7 +24,7 @@ internal sealed class GetRecentProcessesQueryHandler :
                 .OrderByDescending(m => m.CreatedAtUtc)
                 .Take(request.Length)
                 .Select(m =>
-                    new GetProcessesDto.ProcessDto(m.Id, m.Sample.Value, m.Projects.Select(p => p.Name), m.CreatedAtUtc.ToString("o"),
+                    new GetProcessesDto.ProcessDto(m.Id, m.Code, m.Projects.Select(p => p.Name), m.CreatedAtUtc.ToString("o"),
                         m.Comment))
                 .ToListAsync(cancellationToken)
         };

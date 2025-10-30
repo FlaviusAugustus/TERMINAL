@@ -1,25 +1,11 @@
-using System.Xml.Linq;
 using Terminal.Backend.Core.Exceptions;
 
 namespace Terminal.Backend.Core.ValueObjects;
 
-using System;
-
-// Definicja Twojego w³asnego wyj¹tku dla wiêkszej przejrzystoœci
-public class InvalidPrefixException : Exception
-{
-    public InvalidPrefixException(string message, string paramName) : base(message)
-    {
-        ParamName = paramName;
-    }
-
-    public string ParamName { get; }
-}
-
 public sealed record Prefix
 {
-    public string Value { get; }
-
+    public string Value { get; init; }
+    private Prefix() { }
     private Prefix(string value)
     {
         Value = value;

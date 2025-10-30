@@ -5,9 +5,9 @@ using Terminal.Backend.Core.ValueObjects;
 
 public sealed record Code
 {
-    public Prefix Prefix { get; }
-    public SequentialNumber Number { get; }
-
+    public Prefix Prefix { get; init; }
+    public SequentialNumber Number { get; init; }
+    private Code() { }
     private Code(Prefix prefix, SequentialNumber number)
     {
         Prefix = prefix;
