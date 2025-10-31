@@ -30,10 +30,10 @@ const SubmitButton = ({
       type="submit"
       className={clsx(
         "w-full inline-flex items-center justify-center gap-2 rounded-md " +
-          "transition-colors duration-100 py-2 px-4 border focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+          "transition-colors duration-100 py-2 px-4 border focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-2",
         dark
           ? "text-base font-medium bg-black  text-white  hover:bg-black/85"
-          : "text-sm font-normal bg-gray-100 text-black focus:outline-none focus:ring-2 disabled:border-gray-300 disabled:bg-gray-200 hover:border-green-400"
+          : "text-sm font-normal bg-gray-100 text-black focus:outline-none focus:ring-1 disabled:border-gray-300 disabled:bg-gray-200 hover:border-green-400"
       )}
       disabled={isLoading}
       {...rest}
