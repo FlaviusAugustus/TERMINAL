@@ -32,6 +32,7 @@ const RecipeDetails = ({ recipe, open, openChange }: RecipeDetailsProps) => {
       setIsOpen={openChange}
       title="Recipe details"
       className="w-full lg:w-[700px]"
+      hasDynamicHeight
     >
       <div className="space-y-3 font-light text-sm text-gray-600">
         <Detail label="name">{recipe?.name}</Detail>
