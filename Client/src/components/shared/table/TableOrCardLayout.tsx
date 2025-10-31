@@ -25,7 +25,7 @@ const TableOrCardLayout = <T extends TableElement>(
 ) => {
   return (
     <>
-      <TableCard className="hidden md:block !h-full">
+      <TableCard className="hidden md:flex md:flex-col h-full">
         <TableView<T> table={props.table} />
         <TableManagement<T> table={props.table} />
       </TableCard>
