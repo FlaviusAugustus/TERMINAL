@@ -22,7 +22,7 @@ const SidebarItem = ({ onClick, icon, text, href }: NavbarItemProps) => {
       to={href}
       className={({ isActive }) =>
         clsx(
-          "focus:ring-1 focus:ring-offset-2 focus:ring-blue-500 focus-visible:outline-none rounded-md",
+          "focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:ring-blue-500 focus:outline-none rounded-md",
           isActive && "bg-gray-200/60 rounded-md"
         )
       }

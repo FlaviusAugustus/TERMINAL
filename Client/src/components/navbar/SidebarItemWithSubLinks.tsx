@@ -28,7 +28,7 @@ const SidebarItemWithSubLinks = ({
     <Disclosure>
       {({ open }) => (
         <>
-          <DisclosureButton className="w-full focus-visible:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-blue-500 rounded-md">
+          <DisclosureButton className="w-full focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:ring-blue-500 rounded-md">
             <div className="flex justify-between rounded-md p-2 hover:bg-gray-200/60 cursor-pointer">
               <div className="flex gap-2">
                 {icon}
