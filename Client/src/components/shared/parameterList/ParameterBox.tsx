@@ -13,6 +13,8 @@ import {
   SelectItem,
 } from "@components/shared/form/LabeledSelect.tsx";
 import FormInput from "@components/shared/form/FormInput.tsx";
+import { DraggableAttributes } from "@dnd-kit/core";
+import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 
 type ParameterBoxProps = {
   parameter: AllParameters;
@@ -27,8 +29,6 @@ type ParameterBoxProps = {
  * @component
  */
 const ParameterBox = ({ parameter }: ParameterBoxProps) => {
-  const { removeParameter, moveParameterUp, moveParameterDown, currentStep } =
-    useAddRecipeContext();
   const {
     listeners,
     attributes,
@@ -60,38 +60,46 @@ const ParameterBox = ({ parameter }: ParameterBoxProps) => {
         isDragging && "z-50"
       )}
     >
-      <div className="border-b border-gray-200 rounded-t-md bg-white flex justify-between">
-        <p className="p-2 text-sm">{parameter.name}</p>
-        <div className="flex gap-2 px-2 items-center justify-center">
-          <DragHandle attributes={attributes} listeners={listeners} />
-          <button onClick={() => moveParameterUp(currentStep, parameter.id)}>
-            <ChevronUpIcon className="h-4 w-4" />
-          </button>
-          <button onClick={() => moveParameterDown(currentStep, parameter.id)}>
-            <ChevronDownIcon className="h-4 w-4" />
-          </button>
-          <button onClick={() => removeParameter(currentStep, parameter.id)}>
-            <XMarkIcon className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
+      <ParameterHeader
+        parameter={parameter}
+        attributes={attributes}
+        listeners={listeners}
+      />
       <div className="p-2">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-start rounded-md border border-gray-200 bg-gray-50">
-            <p className="text-xs border-e border-gray-200 p-2 bg-white text-gray-700 rounded-l-md">
-              value
-            </p>
-            <ParameterInput parameter={parameter} />
-          </div>
-          {(parameter.$type === "integer" || parameter.$type === "decimal") && (
-            <div className="flex items-center justify-start rounded-md border border-gray-200 bg-gray-50">
-              <p className="text-xs border-e border-gray-200 p-2 bg-white text-gray-700 rounded-l-md">
-                unit
-              </p>
-              <p className="text-xs px-2 bg-gray-50">{parameter.unit}</p>
-            </div>
-          )}
-        </div>
+        <ParameterInput parameter={parameter} />
+      </div>
+    </div>
+  );
+};
+
+type ParameterHeaderProps = {
+  parameter: AllParameters;
+  attributes: DraggableAttributes;
+  listeners: SyntheticListenerMap | undefined;
+};
+
+const ParameterHeader = ({
+  parameter,
+  attributes,
+  listeners,
+}: ParameterHeaderProps) => {
+  const { currentStep, moveParameterDown, moveParameterUp, removeParameter } =
+    useAddRecipeContext();
+
+  return (
+    <div className="border-b border-gray-200 rounded-t-md bg-white flex justify-between">
+      <p className="p-2 text-sm">{parameter.name}</p>
+      <div className="flex gap-2 px-2 items-center justify-center">
+        <DragHandle attributes={attributes} listeners={listeners} />
+        <button onClick={() => moveParameterUp(currentStep, parameter.id)}>
+          <ChevronUpIcon className="h-4 w-4" />
+        </button>
+        <button onClick={() => moveParameterDown(currentStep, parameter.id)}>
+          <ChevronDownIcon className="h-4 w-4" />
+        </button>
+        <button onClick={() => removeParameter(currentStep, parameter.id)}>
+          <XMarkIcon className="h-4 w-4" />
+        </button>
       </div>
     </div>
   );
@@ -108,65 +116,41 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
     parameter: AllParameters,
     newValue: string
   ): AllParameters => {
-    if (parameter.$type === "text") {
-      return {
-        ...parameter,
-        value: newValue,
-      };
-    } else if (parameter.$type === "integer") {
-      let parsedValue = 0;
-      if (newValue !== "") parsedValue = parseInt(newValue, 10);
-      return {
-        ...parameter,
-        value: parsedValue,
-      };
-    } else {
-      let parsedValue = 0;
-      if (newValue !== "") parsedValue = parseFloat(newValue);
-      return {
-        ...parameter,
-        value: parsedValue,
-      };
-    }
+    const newParameter = { ...parameter };
+    if (parameter.$type == "text") newParameter.value = newValue;
+    if (parameter.$type == "integer") newParameter.value = parseInt(newValue);
+    if (parameter.$type == "decimal") newParameter.value = parseFloat(newValue);
+
+    return newParameter;
   };
 
   return (
     <>
-      {" "}
-      <div className="rounded-md w-full h-full text-sm mx-2 focus:outline-none bg-gray-50">
-        {parameter.$type === "text" ? (
-          <LabeledSelect
-            comboboxStyles={"!py-0 !mt-0"}
-            comboboxOptionsStyles={"!py-0 !mt-0"}
-            value={parameter.value}
-            onChange={(val: string) => {
-              const updatedParameter = onChangeValue(parameter, val);
-              updateParameter(currentStep, updatedParameter);
-            }}
-          >
-            {parameter.allowedValues.map((value: string, index: number) => (
-              <SelectItem key={index} value={value} displayValue={value} />
-            ))}
-          </LabeledSelect>
-        ) : (
-          <FormInput
-            className={
-              "!py-0 !mt-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            }
-            name="Step"
-            type="number"
-            step={parameter.step}
-            value={parameter.value}
-            onChange={(val) => {
-              const updatedParameter = onChangeValue(
-                parameter,
-                val.target.value
-              );
-              updateParameter(currentStep, updatedParameter);
-            }}
-          />
-        )}
-      </div>
+      {parameter.$type === "text" ? (
+        <LabeledSelect
+          value={parameter.value}
+          onChange={(val: string) => {
+            const updatedParameter = onChangeValue(parameter, val);
+            updateParameter(currentStep, updatedParameter);
+          }}
+        >
+          {parameter.allowedValues.map((value: string, index: number) => (
+            <SelectItem key={index} value={value} displayValue={value} />
+          ))}
+        </LabeledSelect>
+      ) : (
+        <FormInput
+          name="Step"
+          type="number"
+          validate={false}
+          step={parameter.step}
+          value={parameter.value}
+          onChange={(val) => {
+            const updatedParameter = onChangeValue(parameter, val.target.value);
+            updateParameter(currentStep, updatedParameter);
+          }}
+        />
+      )}
     </>
   );
 };
