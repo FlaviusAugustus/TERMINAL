@@ -142,6 +142,7 @@ const ParameterInput = ({ parameter }: ParameterInputProps) => {
         <FormInput
           name="Step"
           type="number"
+          unit={parameter.unit}
           validate={false}
           step={parameter.step}
           value={parameter.value}

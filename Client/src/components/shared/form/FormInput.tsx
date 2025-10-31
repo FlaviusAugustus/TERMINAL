@@ -15,6 +15,7 @@ import LabeledField from "./LabeledField.tsx";
 export type InputFieldProps = InputProps & {
   label?: string;
   icon?: ReactNode;
+  unit?: string;
   validate?: boolean;
 };
 
@@ -49,7 +50,7 @@ function getErrorMessage(input: HTMLInputElement | null): string {
  */
 // eslint-disable-next-line react/display-name
 const FormInput = forwardRef<HTMLInputElement, InputFieldProps>(
-  ({ label, icon, className, validate = true, ...rest }, ref) => {
+  ({ label, icon, unit, className, validate = true, ...rest }, ref) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [errorMessage, setErrorMessage] = useState("");
     const [focused, setFocused] = useState(false);
@@ -83,16 +84,24 @@ const FormInput = forwardRef<HTMLInputElement, InputFieldProps>(
         onInvalid={handleChange}
       >
         <div className="relative">
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-            {icon}
-          </div>
+          {icon && (
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+              {icon}
+            </div>
+          )}
+          {unit && (
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 ">
+              {unit}
+            </div>
+          )}
           <Input
             {...rest}
             ref={inputRef}
             className={clsx(
               "w-full px-3 py-2 border rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 focus:ring-offset-2",
               showErrorMessage && "border-red-500",
-              icon ? "pl-9" : "pl-3",
+              icon && "pl-9",
+              unit && "pe-6",
               className
             )}
           />
