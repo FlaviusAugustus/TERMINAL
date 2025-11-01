@@ -66,6 +66,7 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
       setIsOpen={openChange}
       title="Edit Sample"
       className="w-full lg:w-[700px]"
+      hasDynamicHeight
     >
       <div className="space-y-3 font-light text-sm text-gray-600">
         <div className="grid grid-cols-2 gap-3">

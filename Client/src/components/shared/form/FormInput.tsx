@@ -98,7 +98,7 @@ const FormInput = forwardRef<HTMLInputElement, InputFieldProps>(
             {...rest}
             ref={inputRef}
             className={clsx(
-              "w-full px-3 py-2 border rounded-md focus:ring-2 focus:outline-none focus:ring-blue-500 focus:ring-offset-2",
+              "w-full px-3 py-2 border rounded-md focus:ring-1 focus:outline-none focus:ring-blue-500 focus:ring-offset-2",
               showErrorMessage && "border-red-500",
               icon && "pl-9",
               unit && "pe-6",
