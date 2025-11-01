@@ -20,7 +20,7 @@ internal sealed class TerminalDbSeeder
         var prefixesToSeed = new[] { "AX", "BX", "CX" };
         var existingPrefixes = await _dbContext.PrefixCounters
             .Where(pc => prefixesToSeed.Contains(pc.Prefix))
-            .Select(pc => pc.Prefix.Value.ToString())
+            .Select(pc => pc.Prefix)
             .ToHashSetAsync(ct);
 
         foreach (var prefix in prefixesToSeed)

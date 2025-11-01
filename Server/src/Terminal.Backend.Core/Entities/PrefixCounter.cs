@@ -4,16 +4,20 @@ namespace Terminal.Backend.Core.Entities;
 
 public class PrefixCounter
 {
-    public Prefix Prefix { get; private set; }
+    public string Prefix { get; private set; }
 
     public int LastValue { get; private set; }
 
     private PrefixCounter() { }
 
-    public PrefixCounter(Prefix prefix)
+    public PrefixCounter(string prefix)
     {
+        if (string.IsNullOrWhiteSpace(prefix))
+        {
+            throw new ArgumentException("Prefix nie może być pusty.", nameof(prefix));
+        }
         Prefix = prefix;
-        LastValue = 0;
+        LastValue = 0; 
     }
     public int Increment()
     {
