@@ -138,14 +138,25 @@ public static class Extensions
                 dbContext.Database.Migrate();
             }
 
-            try
-            {
+            var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
+            var adminOptions = app.Configuration.GetOptions<AdministratorOptions>(AdministratorOptionsSetup.SectionName);
+            var administratorExists = dbContext.Users.Any(u => u.Role == Role.Administrator);
+
+            if(!administratorExists) {
+                var adminRole = dbContext.Attach(Role.Administrator).Entity;
+                var admin = User.CreateActiveUser(
+                    UserId.Create(),
+                    new Email(adminOptions.Email),
+                    passwordHasher.Hash(adminOptions.Password));
+
+                admin.SetRole(adminRole);
+                dbContext.Users.Add(admin);
+                await dbContext.SaveChangesAsync();
+            }
+
+            if (app.Environment.IsDevelopment()) {
                 var seeder = serviceProvider.GetRequiredService<TerminalDbSeeder>();
                 await seeder.SeedAsync();
-            }
-            catch (Exception ex)
-            {
-                throw; 
             }
         }
     }
