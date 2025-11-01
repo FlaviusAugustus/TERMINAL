@@ -7,11 +7,11 @@ using Terminal.Backend.Core.Entities;
 
 namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples;
 
-internal sealed class GetSamplesQueryHandler : IRequestHandler<GetProcessesQuery, GetProcessesDto>
+internal sealed class GetProcessesQueryHandler : IRequestHandler<GetProcessesQuery, GetProcessesDto>
 {
     private readonly DbSet<Process> _samples;
 
-    public GetSamplesQueryHandler(TerminalDbContext dbContext)
+    public GetProcessesQueryHandler(TerminalDbContext dbContext)
     {
         _samples = dbContext.Processes;
     }

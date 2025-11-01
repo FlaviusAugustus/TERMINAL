@@ -15,14 +15,17 @@ internal sealed class CreateProcessCommandHandler : IRequestHandler<CreateProces
     private readonly IRecipeRepository _recipeRepository;
     private readonly IProcessRepository _processRepository;
     private readonly IProjectRepository _projectRepository;
+    private readonly ICodeGeneratorService _codeGenerator;
 
     public CreateProcessCommandHandler(IConvertDtoService convertService,
-        IRecipeRepository recipeRepository, IProcessRepository processRepository, IProjectRepository projectRepository)
+        IRecipeRepository recipeRepository, IProcessRepository processRepository,
+        IProjectRepository projectRepository, ICodeGeneratorService codeGenerator)
     {
         _convertService = convertService;
         _recipeRepository = recipeRepository;
         _processRepository = processRepository;
         _projectRepository = projectRepository;
+        _codeGenerator = codeGenerator;
     }
 
     public async Task Handle(CreateProcessCommand command, CancellationToken ct)
@@ -58,8 +61,10 @@ internal sealed class CreateProcessCommandHandler : IRequestHandler<CreateProces
 
         var tags = await _convertService.ConvertAsync(tagsDto.Select(t => new TagId(t)), ct);
         var projects = (await _convertService.ConvertAsync(projectsDto.Select(p => new ProjectId(p)), ct)).ToList();
+        var newCode = await _codeGenerator.GenerateNextCodeAsync(prefix, ct);
+        var processId = new ProcessId(Guid.NewGuid());
         var process = new Core.Entities.Process(sampleId,
-            prefix,
+            newCode,
             projects,
             recipe,
             new Comment(comment),

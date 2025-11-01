@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Terminal.Backend.Application.Abstractions;
 using Terminal.Backend.Core.Entities;
 using Terminal.Backend.Core.Entities.Parameters;
 using Terminal.Backend.Core.Entities.ParameterValues;
@@ -9,9 +11,27 @@ namespace Terminal.Backend.Infrastructure;
 internal sealed class TerminalDbSeeder
 {
     private readonly TerminalDbContext _dbContext;
+    private readonly ICodeGeneratorService _codeGenerator;
 
-    public void Seed()
+    public async Task SeedAsync(CancellationToken ct = default)
     {
+        #region prefixes
+
+        var prefixesToSeed = new[] { "AX", "BX", "CX" };
+        var existingPrefixes = await _dbContext.PrefixCounters
+            .Where(pc => prefixesToSeed.Contains(pc.Prefix))
+            .Select(pc => pc.Prefix.Value.ToString())
+            .ToHashSetAsync(ct);
+
+        foreach (var prefix in prefixesToSeed)
+        {
+            if (!existingPrefixes.Contains(prefix))
+            {
+                _dbContext.PrefixCounters.Add(new PrefixCounter(Prefix.Create(prefix)));
+            }
+        }
+        #endregion
+
         #region tags
 
         var tag1 = new Tag(TagId.Create(), "new-sample");
@@ -275,508 +295,515 @@ internal sealed class TerminalDbSeeder
         #endregion
 
         #region samples
+        var prefixAX = "AX";
+        var prefixBX = "BX";
+        var prefixCX = "CX";
+        var prefixDX = "DX";
+        var prefixEX = "EX";
+        var prefixFX = "FX";
 
-        var sample1 = new Process(
+        var process1 = new Process(
             ProcessId.Create(),
-            Prefix.Create("AX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixAX)),
             new List<Project> { projectUpturn },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step1 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample1);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process1);
+        await _dbContext.SaveChangesAsync();
 
-        var sample2 = new Process(
+        var process2 = new Process(
             ProcessId.Create(),
-            Prefix.Create("AX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixAX)),
             new List<Project> { projectUpturn, projectBessy2 },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step2 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample2);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process2);
+        await _dbContext.SaveChangesAsync();
 
-        var sample3 = new Process(
+        var process3 = new Process(
             ProcessId.Create(),
-            Prefix.Create("AX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixAX)),
             new List<Project> { projectUpturn, projectBessy2 },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step3 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample3);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process3);
+        await _dbContext.SaveChangesAsync();
 
-        var sample4 = new Process(
+        var process4 = new Process(
             ProcessId.Create(),
-            Prefix.Create("AX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixAX)),
             new List<Project> { projectUpturn, projectBessy2 },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step4 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample4);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process4);
+        await _dbContext.SaveChangesAsync();
 
-        var sample5 = new Process(
+        var process5 = new Process(
             ProcessId.Create(),
-            Prefix.Create("AX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixAX)),
             new List<Project> { projectUpturn, projectNitro },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step5 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample5);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process5);
+        await _dbContext.SaveChangesAsync();
 
-        var sample6 = new Process(
+        var process6 = new Process(
             ProcessId.Create(),
-            Prefix.Create("AX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixAX)),
             new List<Project> { projectUpturn, projectNitro },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step6 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample6);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process6);
+        await _dbContext.SaveChangesAsync();
 
-        var sample7 = new Process(
+        var process7 = new Process(
             ProcessId.Create(),
-            Prefix.Create("AX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixAX)),
             new List<Project> { projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step7 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample7);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process7);
+        await _dbContext.SaveChangesAsync();
 
-        var sample8 = new Process(
+        var process8 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step8 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample8);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process8);
+        await _dbContext.SaveChangesAsync();
 
-        var sample9 = new Process(
+        var process9 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step9 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample9);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process9);
+        await _dbContext.SaveChangesAsync();
 
-        var sample10 = new Process(
+        var process10 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample10);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process10);
+        await _dbContext.SaveChangesAsync();
 
-        var sample11 = new Process(
+        var process11 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample11);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process11);
+        await _dbContext.SaveChangesAsync();
 
-        var sample12 = new Process(
+        var process12 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample12);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process12);
+        await _dbContext.SaveChangesAsync();
 
-        var sample13 = new Process(
+        var process13 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample13);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process13);
+        await _dbContext.SaveChangesAsync();
 
-        var sample14 = new Process(
+        var process14 = new Process(
             ProcessId.Create(),
-            Prefix.Create("CX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixCX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample14);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process14);
+        await _dbContext.SaveChangesAsync();
 
-        var sample15 = new Process(
+        var process15 = new Process(
             ProcessId.Create(),
-            Prefix.Create("CX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixCX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample15);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process15);
+        await _dbContext.SaveChangesAsync();
 
-        var sample16 = new Process(
+        var process16 = new Process(
             ProcessId.Create(),
-            Prefix.Create("CX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixCX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample16);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process16);
+        await _dbContext.SaveChangesAsync();
 
-        var sample17 = new Process(
+        var process17 = new Process(
             ProcessId.Create(),
-            Prefix.Create("CX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixCX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample17);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process17);
+        await _dbContext.SaveChangesAsync();
 
-        var sample18 = new Process(
+        var process18 = new Process(
             ProcessId.Create(),
-            Prefix.Create("CX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixCX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample18);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process18);
+        await _dbContext.SaveChangesAsync();
 
-        var sample19 = new Process(
+        var process19 = new Process(
             ProcessId.Create(),
-            Prefix.Create("CX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixCX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample19);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process19);
+        await _dbContext.SaveChangesAsync();
 
-        var sample20 = new Process(
+        var process20 = new Process(
             ProcessId.Create(),
-            Prefix.Create("AX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixAX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample20);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process20);
+        await _dbContext.SaveChangesAsync();
 
-        var sample21 = new Process(
+        var process21 = new Process(
             ProcessId.Create(),
-            Prefix.Create("AX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixAX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample21);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process21);
+        await _dbContext.SaveChangesAsync();
 
-        var sample22 = new Process(
+        var process22 = new Process(
             ProcessId.Create(),
-            Prefix.Create("CX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixCX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample22);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process22);
+        await _dbContext.SaveChangesAsync();
 
-        var sample23 = new Process(
+        var process23 = new Process(
             ProcessId.Create(),
-            Prefix.Create("DX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixDX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample23);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process23);
+        await _dbContext.SaveChangesAsync();
 
-        var sample24 = new Process(
+        var process24 = new Process(
             ProcessId.Create(),
-            Prefix.Create("DX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixDX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample24);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process24);
+        await _dbContext.SaveChangesAsync();
 
-        var sample25 = new Process(
+        var process25 = new Process(
             ProcessId.Create(),
-            Prefix.Create("EX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixEX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample25);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process25);
+        await _dbContext.SaveChangesAsync();
 
-        var sample26 = new Process(
+        var process26 = new Process(
             ProcessId.Create(),
-            Prefix.Create("EX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixEX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample26);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process26);
+        await _dbContext.SaveChangesAsync();
 
-        var sample27 = new Process(
+        var process27 = new Process(
             ProcessId.Create(),
-            Prefix.Create("EX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixEX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample27);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process27);
+        await _dbContext.SaveChangesAsync();
 
-        var sample28 = new Process(
+        var process28 = new Process(
             ProcessId.Create(),
-            Prefix.Create("FX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixFX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample28);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process28);
+        await _dbContext.SaveChangesAsync();
 
-        var sample29 = new Process(
+        var process29 = new Process(
             ProcessId.Create(),
-            Prefix.Create("AX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixAX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample29);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process29);
+        await _dbContext.SaveChangesAsync();
 
-        var sample30 = new Process(
+        var process30 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample30);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process30);
+        await _dbContext.SaveChangesAsync();
 
-        var sample31 = new Process(
+        var process31 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample31);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process31);
+        await _dbContext.SaveChangesAsync();
 
-        var sample32 = new Process(
+        var process32 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample32);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process32);
+        await _dbContext.SaveChangesAsync();
 
-        var sample33 = new Process(
+        var process33 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample33);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process33);
+        await _dbContext.SaveChangesAsync();
 
-        var sample34 = new Process(
+        var process34 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample34);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process34);
+        await _dbContext.SaveChangesAsync();
 
-        var sample35 = new Process(
+        var process35 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample35);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process35);
+        await _dbContext.SaveChangesAsync();
 
-        var sample36 = new Process(
+        var process36 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample36);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process36);
+        await _dbContext.SaveChangesAsync();
 
-        var sample37 = new Process(
+        var process37 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample37);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process37);
+        await _dbContext.SaveChangesAsync();
 
-        var sample38 = new Process(
+        var process38 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample38);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process38);
+        await _dbContext.SaveChangesAsync();
 
-        var sample39 = new Process(
+        var process39 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample39);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process39);
+        await _dbContext.SaveChangesAsync();
 
-        var sample40 = new Process(
+        var process40 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample40);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process40);
+        await _dbContext.SaveChangesAsync();
 
-        var sample41 = new Process(
+        var process41 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample41);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process41);
+        await _dbContext.SaveChangesAsync();
 
-        var sample42 = new Process(
+        var process42 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample42);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process42);
+        await _dbContext.SaveChangesAsync();
 
-        var sample43 = new Process(
+        var process43 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample43);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process43);
+        await _dbContext.SaveChangesAsync();
 
-        var sample44 = new Process(
+        var process44 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample44);
-        _dbContext.SaveChanges();
+        _dbContext.Processes.Add(process44);
+        await _dbContext.SaveChangesAsync();
 
-        var sample45 = new Process(
+        var process45 = new Process(
             ProcessId.Create(),
-            Prefix.Create("BX"),
+            await _codeGenerator.GenerateNextCodeAsync(Prefix.Create(prefixBX)),
             new List<Project> { projectUpturn, projectNitro, projectNobelium },
             null,
-            new Comment("First sample!"),
+            new Comment("First process!"),
             new List<SampleStep> { step10 },
             new List<Tag> { tag1, tag3, tag5 });
-        _dbContext.Processes.Add(sample45);
+        _dbContext.Processes.Add(process45);
 
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         #endregion
     }
 
-    public TerminalDbSeeder(TerminalDbContext dbContext)
+    public TerminalDbSeeder(TerminalDbContext dbContext, ICodeGeneratorService codeGenerator)
     {
         _dbContext = dbContext;
+        _codeGenerator = codeGenerator;
     }
 }

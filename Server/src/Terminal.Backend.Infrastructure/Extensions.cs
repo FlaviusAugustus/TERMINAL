@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using Terminal.Backend.Application.Abstractions;
@@ -16,6 +17,7 @@ using Terminal.Backend.Infrastructure.Authentication.OptionsSetup;
 using Terminal.Backend.Infrastructure.Authentication.Requirements;
 using Terminal.Backend.Infrastructure.DAL;
 using Terminal.Backend.Infrastructure.DAL.Behaviours;
+using Terminal.Backend.Infrastructure.DAL.Services;
 using Terminal.Backend.Infrastructure.Mails;
 using Terminal.Backend.Infrastructure.Middleware;
 using IAuthorizationService = Terminal.Backend.Infrastructure.Authentication.IAuthorizationService;
@@ -92,8 +94,37 @@ public static class Extensions
         services.ConfigureOptions<AdministratorOptionsSetup>();
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<IMailService, MailService>();
+        services.AddScoped<ICodeGeneratorService, CodeGeneratorService>();
 
         return services;
+    }
+
+    //public static IServiceCollection AddInfrastructure(...) { ... }
+
+
+    public static async Task UseInfrastructureAsync(this WebApplication app)
+    {
+        using (var scope = app.Services.CreateScope())
+        {
+            var serviceProvider = scope.ServiceProvider;
+            try
+            {
+                var dbContext = serviceProvider.GetRequiredService<TerminalDbContext>();
+
+                await using (var seedTransaction = await dbContext.Database.BeginTransactionAsync())
+                {
+                    var seeder = serviceProvider.GetRequiredService<TerminalDbSeeder>();
+                    await seeder.SeedAsync();
+                    await seedTransaction.CommitAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                //var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+                //logger.LogError(ex, "Wyst¹pi³ b³¹d podczas seedowania bazy danych.");
+                throw;
+            }
+        }
     }
 
     public static WebApplication UseInfrastructure(this WebApplication app)
@@ -119,6 +150,7 @@ public static class Extensions
         app.MapControllers();
 
         using var scope = app.Services.CreateScope();
+
         using var dbContext = scope.ServiceProvider.GetRequiredService<TerminalDbContext>();
 
         if (app.Environment.IsProduction())
@@ -130,43 +162,6 @@ public static class Extensions
         {
             dbContext.Database.Migrate();
         }
-
-        var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
-        var adminOptions = app.Configuration.GetOptions<AdministratorOptions>(AdministratorOptionsSetup.SectionName);
-        try
-        {
-            var administratorExists = dbContext.Users.Any(u => u.Role == Role.Administrator);
-            if (!administratorExists)
-            {
-                var adminRole = dbContext.Attach(Role.Administrator).Entity;
-                var admin = User.CreateActiveUser(UserId.Create(), new Email(adminOptions.Email),
-                    passwordHasher.Hash(adminOptions.Password));
-                admin.SetRole(adminRole);
-                dbContext.Users.Add(admin);
-
-                dbContext.SaveChanges();
-            }
-        }
-        catch (Exception)
-        {
-            // log admin already exists, skipping...
-        }
-
-        if (!app.Configuration.GetOptions<PostgresOptions>("Postgres").Seed ||
-            !app.Environment.IsDevelopment()) return app;
-
-        using var seedTransaction = dbContext.Database.BeginTransaction();
-        var seeder = new TerminalDbSeeder(dbContext);
-        try
-        {
-            seeder.Seed();
-            seedTransaction.Commit();
-        }
-        catch (Exception)
-        {
-            seedTransaction.Rollback();
-        }
-
         return app;
     }
 

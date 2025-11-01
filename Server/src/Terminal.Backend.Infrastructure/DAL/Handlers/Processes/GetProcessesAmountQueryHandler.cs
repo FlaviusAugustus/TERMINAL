@@ -5,11 +5,11 @@ using Terminal.Backend.Core.Entities;
 
 namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples;
 
-internal sealed class GetSamplesAmountQueryHandler : IRequestHandler<GetProcessesAmountQuery, int>
+internal sealed class GetProcessesAmountQueryHandler : IRequestHandler<GetProcessesAmountQuery, int>
 {
     private readonly DbSet<Process> _samples;
 
-    public GetSamplesAmountQueryHandler(TerminalDbContext dbContext)
+    public GetProcessesAmountQueryHandler(TerminalDbContext dbContext)
     {
         _samples = dbContext.Processes;
     }

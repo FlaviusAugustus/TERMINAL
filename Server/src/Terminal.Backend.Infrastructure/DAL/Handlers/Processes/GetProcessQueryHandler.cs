@@ -5,11 +5,11 @@ using Terminal.Backend.Application.Queries.Processes.Get;
 
 namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples;
 
-internal class GetSampleQueryHandler : IRequestHandler<GetProcessQuery, GetProcessDto?>
+internal class GetProcessQueryHandler : IRequestHandler<GetProcessQuery, GetProcessDto?>
 {
     private readonly TerminalDbContext _dbContext;
 
-    public GetSampleQueryHandler(TerminalDbContext dbContext)
+    public GetProcessQueryHandler(TerminalDbContext dbContext)
     {
         _dbContext = dbContext;
     }

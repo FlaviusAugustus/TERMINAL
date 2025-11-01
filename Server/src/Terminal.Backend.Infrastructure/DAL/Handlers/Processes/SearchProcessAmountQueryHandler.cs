@@ -5,11 +5,11 @@ using Terminal.Backend.Core.Entities;
 
 namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples.Search;
 
-internal sealed class SearchSampleAmountQueryHandler : IRequestHandler<SearchProcessAmountQuery, int>
+internal sealed class SearchProcessAmountQueryHandler : IRequestHandler<SearchProcessAmountQuery, int>
 {
   private readonly DbSet<Process> _samples;
 
-  public SearchSampleAmountQueryHandler(TerminalDbContext dbContext)
+  public SearchProcessAmountQueryHandler(TerminalDbContext dbContext)
   {
     _samples = dbContext.Processes;
   }

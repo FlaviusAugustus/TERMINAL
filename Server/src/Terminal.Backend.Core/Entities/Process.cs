@@ -5,7 +5,6 @@ namespace Terminal.Backend.Core.Entities;
 public sealed class Process
 {
     public ProcessId Id { get; private set; }
-    public Prefix Prefix { get; private set; }
     public Code Code { get; set; }
     public DateTime CreatedAtUtc { get; private set; }
     public Comment Comment { get; private set; }
@@ -17,10 +16,10 @@ public sealed class Process
 
     protected Process() { }
 
-    public Process(ProcessId id, Prefix prefix, ICollection<Project> projects, Recipe? recipe, Comment comment, ICollection<SampleStep> steps, ICollection<Tag> tags)
+    public Process(ProcessId id, Code code, ICollection<Project> projects, Recipe? recipe, Comment comment, ICollection<SampleStep> steps, ICollection<Tag> tags)
     {
         Id = id;
-        Prefix = prefix;
+        Code = code;
         Recipe = recipe;
         Comment = comment;
         Steps = steps;

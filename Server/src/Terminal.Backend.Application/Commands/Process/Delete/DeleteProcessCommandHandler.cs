@@ -4,24 +4,24 @@ using Terminal.Backend.Core.Abstractions.Repositories;
 
 namespace Terminal.Backend.Application.Commands.Process.Delete;
 
-internal sealed class DeleteSampleCommandHandler : IRequestHandler<DeleteProcessCommand>
+internal sealed class DeleteProcessCommandHandler : IRequestHandler<DeleteProcessCommand>
 {
-    private readonly IProcessRepository _sampleRepository;
+    private readonly IProcessRepository _processRepository;
 
-    public DeleteSampleCommandHandler(IProcessRepository sampleRepository)
+    public DeleteProcessCommandHandler(IProcessRepository processRepository)
     {
-        _sampleRepository = sampleRepository;
+        _processRepository = processRepository;
     }
 
     public async Task Handle(DeleteProcessCommand request, CancellationToken cancellationToken)
     {
         var id = request.Id;
-        var sample = await _sampleRepository.GetAsync(id, cancellationToken);
+        var sample = await _processRepository.GetAsync(id, cancellationToken);
         if (sample is null)
         {
             throw new ProcessNotFoundException();
         }
 
-        await _sampleRepository.DeleteAsync(sample, cancellationToken);
+        await _processRepository.DeleteAsync(sample, cancellationToken);
     }
 }
