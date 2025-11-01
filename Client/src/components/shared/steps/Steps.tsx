@@ -8,10 +8,20 @@ import {
 import ParameterBox from "@components/shared/parameterList/ParameterBox.tsx";
 import { useAddRecipeContext } from "@hooks/recipes/useAddRecipeContext.tsx";
 import HeaderedTextArea from "@components/shared/form/HeaderedTextArea.tsx";
+import { useEffect } from "react";
+import { useDndContext } from "@dnd-kit/core";
 
 const Steps = () => {
   const { currentStep, setCurrentStep, recipe, updateComment } =
     useAddRecipeContext();
+
+  const { measureDroppableContainers } = useDndContext();
+
+  useEffect(() => {
+    measureDroppableContainers(
+      recipe.steps[currentStep!].parameters.map((p) => p.id)
+    );
+  }, [recipe]);
 
   return (
     <>
