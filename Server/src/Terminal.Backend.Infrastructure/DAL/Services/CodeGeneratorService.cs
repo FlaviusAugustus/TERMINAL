@@ -20,7 +20,8 @@ namespace Terminal.Backend.Infrastructure.DAL.Services
 
             try
             {
-                var prefixValue = prefix;
+                var prefixValue = prefix.Value;
+
                 var counter = await _dbContext.PrefixCounters
                     .FromSqlInterpolated($"SELECT * FROM \"PrefixCounters\" WHERE \"Prefix\" = {prefixValue} FOR UPDATE")
                     .SingleOrDefaultAsync(ct);

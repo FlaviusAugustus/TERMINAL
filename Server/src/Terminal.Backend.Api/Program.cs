@@ -27,7 +27,7 @@ builder.Host.UseSerilog((context, loggerConfiguration) =>
 });
 
 var app = builder.Build();
-app.UseInfrastructure();
+await app.UseInfrastructureAsync();
 app.UsePingEndpoints();
 app.UseProjectsEndpoints();
 app.UseTagEndpoints();

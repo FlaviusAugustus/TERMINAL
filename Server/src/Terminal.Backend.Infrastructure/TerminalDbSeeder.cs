@@ -23,12 +23,19 @@ internal sealed class TerminalDbSeeder
             .Select(pc => pc.Prefix)
             .ToHashSetAsync(ct);
 
+        bool anyNewCounters = false;
         foreach (var prefix in prefixesToSeed)
         {
             if (!existingPrefixes.Contains(prefix))
             {
-                _dbContext.PrefixCounters.Add(new PrefixCounter(Prefix.Create(prefix)));
+                _dbContext.PrefixCounters.Add(new PrefixCounter(prefix));
+                anyNewCounters = true;
             }
+        }
+        if (anyNewCounters)
+        {
+
+            await _dbContext.SaveChangesAsync(ct);
         }
         #endregion
 

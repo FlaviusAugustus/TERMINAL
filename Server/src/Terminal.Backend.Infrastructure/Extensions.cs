@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -95,34 +96,56 @@ public static class Extensions
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<IMailService, MailService>();
         services.AddScoped<ICodeGeneratorService, CodeGeneratorService>();
+        services.AddScoped<TerminalDbSeeder>();
 
         return services;
     }
 
-    //public static IServiceCollection AddInfrastructure(...) { ... }
-
 
     public static async Task UseInfrastructureAsync(this WebApplication app)
     {
+        app.UseMiddleware<ExceptionMiddleware>();
+        if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.DocExpansion(DocExpansion.None);
+                c.EnableFilter();
+                c.EnableDeepLinking();
+            });
+            app.UseCors(x => x
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin());
+        }
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.MapControllers();
+
         using (var scope = app.Services.CreateScope())
         {
             var serviceProvider = scope.ServiceProvider;
+            var dbContext = serviceProvider.GetRequiredService<TerminalDbContext>();
+
+            if (app.Environment.IsProduction())
+            {
+                dbContext.Database.EnsureCreated();
+            }
+            if (app.Environment.IsDevelopment())
+            {
+                dbContext.Database.Migrate();
+            }
+
             try
             {
-                var dbContext = serviceProvider.GetRequiredService<TerminalDbContext>();
-
-                await using (var seedTransaction = await dbContext.Database.BeginTransactionAsync())
-                {
-                    var seeder = serviceProvider.GetRequiredService<TerminalDbSeeder>();
-                    await seeder.SeedAsync();
-                    await seedTransaction.CommitAsync();
-                }
+                var seeder = serviceProvider.GetRequiredService<TerminalDbSeeder>();
+                await seeder.SeedAsync();
             }
             catch (Exception ex)
             {
-                //var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-                //logger.LogError(ex, "Wyst¹pi³ b³¹d podczas seedowania bazy danych.");
-                throw;
+                throw; 
             }
         }
     }
