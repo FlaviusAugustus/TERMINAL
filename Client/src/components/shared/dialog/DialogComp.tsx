@@ -41,8 +41,8 @@ const DialogComp = ({
       onClose={() => closeDialog()}
       transition
       className={clsx(
-        "fixed inset-0 flex w-screen backdrop-blur-sm justify-center bg-black/30 p-4 transition duration-100 ease-out data-[closed]:opacity-0 z-50",
-        hasDynamicHeight ? "items-start md:pt-20" : "items-center"
+        "fixed inset-0 flex w-screen items-center backdrop-blur-sm justify-center bg-black/30 p-4 transition duration-100 ease-out data-[closed]:opacity-0 z-50",
+        hasDynamicHeight && "md:items-start md:pt-20"
       )}
     >
       <DialogPanel
