@@ -1,24 +1,50 @@
 using System;
 using System.Linq;
+using System.Globalization;
 using Terminal.Backend.Core.Exceptions;
-using Terminal.Backend.Core.ValueObjects;
 
 public sealed record Code
 {
-    public Prefix Prefix { get; init; }
-    public SequentialNumber Number { get; init; }
+    public string Prefix { get; init; }
+    public int SequentialNumber { get; init; }
+
     private Code() { }
-    private Code(Prefix prefix, SequentialNumber number)
+
+    private Code(string prefix, int number)
     {
         Prefix = prefix;
-        Number = number;
+        SequentialNumber = number;
     }
 
-    public static Code Create(Prefix prefix, SequentialNumber number)
+    public static Code Create(string prefix, int number)
     {
-        return new Code(prefix, number);
-    }
+        if (string.IsNullOrWhiteSpace(prefix))
+        {
+            throw new InvalidCodeFormatException("Prefix cannot be null or whitespace.");
+        }
 
+        string normalizedPrefix = prefix.ToUpper();
+
+        if (!normalizedPrefix.EndsWith("X"))
+        {
+            throw new InvalidCodeFormatException("Prefix must end with 'X'.");
+        }
+
+        foreach (char c in normalizedPrefix)
+        {
+            if (c < 'A' || c > 'Z')
+            {
+                throw new InvalidCodeFormatException("Prefix can only contain letters.");
+            }
+        }
+
+        if (number < 0)
+        {
+            throw new InvalidCodeFormatException("Sequential number cannot be negative.");
+        }
+
+        return new Code(normalizedPrefix, number);
+    }
     public static Code Create(string fullCode)
     {
         if (string.IsNullOrWhiteSpace(fullCode))
@@ -36,14 +62,16 @@ public sealed record Code
         string prefixPart = fullCode.Substring(0, firstDigitIndex);
         string numberPart = fullCode.Substring(firstDigitIndex);
 
-        var prefix = Prefix.Create(prefixPart);
-        var number = SequentialNumber.Create(numberPart);
+        if (!int.TryParse(numberPart, NumberStyles.Integer, CultureInfo.InvariantCulture, out int numericValue))
+        {
+            throw new InvalidCodeFormatException("Sequential number part must contain only digits.");
+        }
 
-        return Create(prefix, number);
+        return Create(prefixPart, numericValue);
     }
 
     public override string ToString()
     {
-        return $"{Prefix}{Number}";
+        return $"{Prefix}{SequentialNumber:D5}";
     }
 }

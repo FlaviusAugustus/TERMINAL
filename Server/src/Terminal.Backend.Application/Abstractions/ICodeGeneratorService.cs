@@ -4,5 +4,5 @@ namespace Terminal.Backend.Application.Abstractions;
 
 public interface ICodeGeneratorService
 {
-    Task<Code> GenerateNextCodeAsync(Prefix prefix, CancellationToken ct = default);
+    Task<Code> GenerateNextCodeAsync(string prefix, CancellationToken ct = default);
 }

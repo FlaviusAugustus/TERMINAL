@@ -31,12 +31,12 @@ namespace Terminal.Backend.Infrastructure.DAL.Handlers.Processes
                     throw new ProcessNotFoundException();
                 }
 
-                var prefixValue = process.Code.Prefix.Value;
+                var prefixValue = process.Code.Prefix;
                 var counter = await _dbContext.PrefixCounters
                     .FromSqlInterpolated($"SELECT * FROM \"PrefixCounters\" WHERE \"Prefix\" = {prefixValue} FOR UPDATE")
                     .SingleOrDefaultAsync(cancellationToken);
 
-                if (counter != null && process.Code.Number.Value == counter.LastValue)
+                if (counter != null && process.Code.SequentialNumber == counter.LastValue)
                 {
                     counter.Decrement();
                 }

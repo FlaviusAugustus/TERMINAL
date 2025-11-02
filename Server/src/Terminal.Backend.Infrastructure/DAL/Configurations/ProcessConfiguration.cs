@@ -13,22 +13,16 @@ internal sealed class ProcessConfiguration : IEntityTypeConfiguration<Process>
         builder.OwnsOne(p => p.Code, codeBuilder =>
         {
             codeBuilder.Property(c => c.Prefix)
-                .HasConversion(
-                    prefix => prefix.Value,
-                    value => Prefix.Create(value))
                 .HasColumnName("CodePrefix")
                 .IsRequired();
 
-            codeBuilder.Property(c => c.Number)
-                .HasConversion(
-                    number => number.Value,
-                    value => SequentialNumber.Create(value))
+            codeBuilder.Property(c => c.SequentialNumber)
                 .HasColumnName("CodeNumber")
                 .IsRequired();
 
-            codeBuilder.HasIndex("Prefix", "Number")
-                       .IsUnique()
-                       .HasDatabaseName("IX_Process_CodePrefix_CodeNumber");
+            codeBuilder.HasIndex("Prefix", "SequentialNumber")
+                .IsUnique()
+                .HasDatabaseName("IX_Process_CodePrefix_CodeNumber");
         });
 
         builder.HasKey(m => m.Id);
