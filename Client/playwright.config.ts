@@ -66,11 +66,10 @@ export default defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: "npm run dev",
-  //   url: "https://localhost:5173",
-  //   ignoreHTTPSErrors: true,
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  webServer: {
+    command: "npm run dev",
+    url: "https://localhost:5173",
+    ignoreHTTPSErrors: true,
+    reuseExistingServer: !process.env.CI,
+  },
 });

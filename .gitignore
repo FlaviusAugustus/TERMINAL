@@ -1,3 +1,6 @@
+# old config directory
+Config/
+
 # ansible inventory
 inventory.ini
 

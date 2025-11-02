@@ -50,6 +50,7 @@ const editableColumn: Partial<ColumnDef<AllParameters>> = {
         type="number"
         className="bg-transparent p-1 border rounded w-full"
         value={value as number}
+        step={parameterOrigin?.step}
         onChange={(e) => setValue(e.target.value)}
         onBlur={onBlur}
       />

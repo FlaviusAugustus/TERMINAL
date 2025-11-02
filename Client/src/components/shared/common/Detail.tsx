@@ -13,7 +13,7 @@ const Detail = ({ label, children }: DetailProps) => {
       <p className="flex items-center text-xs text-gray-500 uppercase">
         {label}
       </p>
-      <Comp className="text-base w-full">{children} </Comp>
+      <Comp className="text-base w-full">{children ? children : "-"}</Comp>
     </div>
   );
 };
