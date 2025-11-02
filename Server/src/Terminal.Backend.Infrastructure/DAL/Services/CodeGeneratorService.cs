@@ -42,19 +42,21 @@ namespace Terminal.Backend.Infrastructure.DAL.Services
             {
                 var prefixValue = normalizedPrefix;
 
-                var counter = await _dbContext.PrefixCounters
-                    .FromSqlInterpolated($"SELECT * FROM \"PrefixCounters\" WHERE \"Prefix\" = {prefixValue} FOR UPDATE")
-                    .SingleOrDefaultAsync(ct);
+                var counter = _dbContext.PrefixCounters.Local
+                                    .SingleOrDefault(pc => pc.Prefix == prefixValue);
 
+                if (counter == null)
+                {
+                    counter = await _dbContext.PrefixCounters
+                        .FromSqlInterpolated($"SELECT * FROM \"PrefixCounters\" WHERE \"Prefix\" = {prefixValue} FOR UPDATE")
+                        .SingleOrDefaultAsync(ct);
+                }
                 if (counter == null)
                 {
                     counter = new PrefixCounter(prefixValue);
                     _dbContext.PrefixCounters.Add(counter);
                 }
                 var nextValue = counter.Increment();
-                await _dbContext.SaveChangesAsync(ct);
-                await transaction.CommitAsync(ct);
-
                 return Code.Create(normalizedPrefix, nextValue);
             }
             catch (Exception)
