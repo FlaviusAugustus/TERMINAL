@@ -50,13 +50,19 @@ jobs:
         run: npm run lint:test
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Start services
-        run: docker compose -f ../compose.yaml -f ../compose.override.yaml up -d --wait
+      - name: Prepare .env file
+        working-directory: .
+        run: cp .env.sample.local .env
+      - name: Start server
+        working-directory: .
+        run: |
+          docker compose -f compose.yaml -f compose.override.yaml up --build -d --wait server database
       - name: Run Playwright tests
         run: npx playwright test
-      - name: Stop services
+      - name: Stop server
         if: always()
-        run: docker compose -f ../compose.yaml -f ../compose.override.yaml down
+        working-directory: .
+        run: docker compose -f compose.yaml -f compose.override.yaml down
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
