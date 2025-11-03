@@ -52,7 +52,9 @@ jobs:
         run: npx playwright install --with-deps
       - name: Prepare .env file
         working-directory: .
-        run: cp .env.sample.local .env
+        run: |
+          cp .env.sample.local .env
+          cp .env.sample.local ./Client/.env
       - name: Start server
         working-directory: .
         run: |
