@@ -13,7 +13,7 @@ export class RecipePage extends BasePage {
   async deleteRow(n: number) {
     const row = await this.getRow(n);
     await row.getByRole("button").nth(2).click();
-    await expect(this.page.getByText(this.deleteSuccessText)).toBeVisible();
+    await this.confirmDeletion();
   }
 
   async checkIfToastVisibleForMultipleDeletions() {

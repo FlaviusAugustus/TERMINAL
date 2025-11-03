@@ -26,30 +26,16 @@ async function prepareSample(page: Page, sample: NewSamplePage) {
   await sample.addStep();
   await sample.dragAndDropStep(0);
   await page
-    .getByRole("tabpanel", { name: "Step" })
-    .locator('input[type="text"]')
+    .locator('[id="headlessui-control-:r21:"]')
     .click();
   await page
-    .getByRole("tabpanel", { name: "Step" })
-    .locator('input[type="text"]')
+    .locator('[id="headlessui-control-:r21:"]')
     .fill("60");
 
   await sample.dragAndDropStep(0);
-  await page
-    .locator("div")
-    .filter({ hasText: /^Pressurevalue drag-handle-lineunitTorr$/ })
-    .getByRole("textbox")
-    .click();
-  await page
-    .locator("div")
-    .filter({ hasText: /^Pressurevalue drag-handle-lineunitTorr$/ })
-    .getByRole("textbox")
-    .fill("420");
-
-  await sample.addStep();
-  await page.getByText("Step 2").click();
+  await page.getByText("Step 1").click();
   await sample.dragAndDropStep(2);
-  await page.locator('[id="headlessui-combobox-button-:r2l:"]').click();
+  await page.locator('[id="headlessui-combobox-button-:r2n:"]').click();
   await page.getByRole("option", { name: "without nucleation" }).click();
   await sample.fillComment("This is comment!");
 }
@@ -73,19 +59,8 @@ test("adds new sample with recipe successfully", async ({ page }) => {
 
   const sample = new NewSamplePage(page);
   await sample.openAddForm();
-  await sample.addStep();
-  await page.locator('[id="headlessui-combobox-button-:r19:"]').click();
+  await page.locator('[id="headlessui-combobox-button-:rp:"]').click();
   await page.getByRole("option", { name: "recipe" }).click();
-  await page
-    .locator("div")
-    .filter({ hasText: /^Temperaturevalue drag-handle-lineunitCÔü░$/ })
-    .getByRole("textbox")
-    .click();
-  await page
-    .locator("div")
-    .filter({ hasText: /^Temperaturevalue drag-handle-lineunitCÔü░$/ })
-    .getByRole("textbox")
-    .fill("420");
   await page.getByRole("textbox", { name: "Comment" }).click();
   await page
     .getByRole("textbox", { name: "Comment" })

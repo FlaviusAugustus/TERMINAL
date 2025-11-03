@@ -137,7 +137,7 @@ export async function mockSearch<T>(
   });
 }
 
-export async function mockEntityDetails<T extends { id: string }, D>(
+export async function mockEntityDetails<T extends { id: string; name?: string; isActive?: boolean }, D>(
   page: Page,
   path: string,
   dataArray: T[],
@@ -165,10 +165,15 @@ export async function mockEntityDetails<T extends { id: string }, D>(
       });
       return;
     } else if (route.request().method() === "PATCH") {
+      const requestBody = JSON.parse(route.request().postData() || "{}");
+      const item = dataArray.find((item) => item.id === id);
+      if (item?.name) {
+        item.name = requestBody.name;
+      }
       await route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify("Mocked success"),
+        body: JSON.stringify(item),
       });
       return;
     }
@@ -236,13 +241,18 @@ export async function mockProjectsAll(page: Page) {
   });
 }
 
-export async function mockProjectDeactivation(page: Page, id: string) {
+export async function mockProjectDeactivation(page: Page, id: string, dataArray = currentProjects) {
   await page.route(`**/api/projects/${id}/deactivate`, async (route) => {
     if (route.request().method() === "POST") {
+      const requestBody = JSON.parse(route.request().postData() || "{}");
+      const item = dataArray.find((item) => item.id === id);
+      if (item?.isActive !== undefined) {
+        item.isActive = requestBody.isActive;
+      }
       return route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({ message: "Mocked success" }),
+        body: JSON.stringify({item}),
       });
     }
     return route.continue();
@@ -408,7 +418,7 @@ export async function mockSampleCreation(page: Page) {
 export async function mockRecipes(
   page: Page,
   dataArray = currentRecipes,
-  path = "**/api/recipes?pageNumber=0&pageSize=10&desc=true"
+  path = "**/api/recipes?pageSize=10&pageNumber=0&desc=true"
 ) {
   await page.route(path, async (route) => {
     if (route.request().method() === "GET") {

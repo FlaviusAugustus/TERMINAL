@@ -22,7 +22,9 @@ export class TagsPage extends BasePage {
 
   async deleteRow(n: number) {
     const row = await this.getRow(n);
+    const firstRowContent = (await row.textContent())?.trim() ?? "";
     await row.getByRole("button").nth(2).click();
-    await expect(this.page.getByText(this.deleteSuccessText)).toBeVisible();
+    await this.confirmDeletion();
+    await expect(this.page.getByText(firstRowContent).nth(1)).not.toBeVisible();
   }
 }

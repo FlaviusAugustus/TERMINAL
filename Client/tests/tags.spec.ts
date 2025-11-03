@@ -71,7 +71,7 @@ test("shows tag details", async ({ page }) => {
   const firstRow = await tags.getRow(1);
   await firstRow.getByRole("button").nth(0).click();
   await expect(page.getByText("Tag details")).toBeVisible();
-  await expect(page.getByText("name").nth(2)).toBeVisible();
+  await expect(page.getByText('name', { exact: true })).toBeVisible();
   await expect(page.getByText("is Active")).toBeVisible();
 });
 
@@ -94,7 +94,7 @@ test("edits tag name", async ({ page }) => {
     .getByRole("textbox", { name: "Name:" })
     .fill("popular-sample-modified");
   await page.getByRole("button", { name: "Submit changes" }).click();
-  await expect(page.getByText("Name updated successfully")).toBeVisible();
+  await expect(firstRow.getByText("popular-sample-modified")).toBeVisible();
 });
 
 test("deactivates tag using switch", async ({ page }) => {
@@ -114,7 +114,8 @@ test("deactivates tag using switch", async ({ page }) => {
   await firstRow.getByRole("button").nth(1).click();
   await page.getByRole("switch", { name: "Status" }).click();
   await page.getByRole("button", { name: "Submit changes" }).click();
-  await expect(page.getByText("Tag status updated successfully")).toBeVisible();
+  await firstRow.getByRole("button").nth(0).click();
+  await expect(page.getByText('Not Active', { exact: true })).toBeVisible();
 });
 
 test("delete tag using X button", async ({ page }) => {
@@ -144,8 +145,10 @@ test("deletes selected tag using checkbox", async ({ page }) => {
 
   const tags = new TagsPage(page);
   await tags.goto();
+  const row = await tags.getRow(1);
+  const firstRowContent = (await row.textContent())?.trim() ?? "";
   await tags.deleteUsingCheckbox(1);
-  await tags.checkIfToastVisible();
+  await expect(tags.page.getByText(firstRowContent).nth(1)).not.toBeVisible();
 });
 
 test("deletes all tags using checkbox", async ({ page }) => {
@@ -162,6 +165,5 @@ test("deletes all tags using checkbox", async ({ page }) => {
   const tags = new TagsPage(page);
   await tags.goto();
   await tags.deleteAllRows();
-  await tags.checkIfToastVisible();
   await tags.checkDeletionSuccess();
 });

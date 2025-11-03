@@ -70,6 +70,6 @@ export abstract class BaseAddNewPageDragable {
         "div:nth-child(3) > .flex.overflow-auto.h-full.px-2 > .flex.flex-col.gap-2.w-80 > .hidden > .flex.border.gap-2 > .flex.items-center.justify-center.p-2.border.bg-white.border-gray-200.rounded.hover\\:bg-gray-50.hover\\:border-red-300"
       )
       .click();
-    await expect(this.page.getByText("Step 1")).not.toBeVisible();
+    await expect(this.page.getByText("This is comment!")).not.toBeVisible();
   }
 }

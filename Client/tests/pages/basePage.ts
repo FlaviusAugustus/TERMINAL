@@ -61,16 +61,19 @@ export abstract class BasePage {
   async deleteRow(n: number) {
     const row = await this.getRow(n);
     await row.getByRole("button").nth(1).click();
+    await this.confirmDeletion();
   }
 
   async deleteUsingCheckbox(n: number) {
     const row = await this.getRow(n);
     await row.getByRole("checkbox").click();
     await this.page.getByRole("button", { name: /delete selected/i }).click();
+    await this.confirmDeletion();
   }
 
   async deleteAllRows() {
     await this.page.getByRole("row").nth(0).getByRole("checkbox").click();
     await this.page.getByRole("button", { name: /delete selected/i }).click();
+    await this.confirmDeletion();
   }
 }

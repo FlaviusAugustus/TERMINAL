@@ -59,7 +59,7 @@ test("validates email input while editing user", async ({ page }) => {
   await page.getByRole("textbox", { name: "Email:" }).fill("inavlid-email");
   await page.getByRole("button", { name: "Submit changes" }).click();
   await expect(page.getByText("please enter a valid email")).toBeVisible();
-  await expect(page.getByText("Failed to update email")).toBeVisible();
+  await expect(page.getByText("Error while updating email")).toBeVisible();
 });
 
 test("restores user details while updating", async ({ page }) => {
@@ -107,11 +107,12 @@ test("edits user email and role", async ({ page }) => {
   await expect(page.getByText("Edit user")).toBeVisible();
   await page.getByRole("textbox", { name: "Email:" }).fill("modified@test.com");
   await page.getByRole("button", { name: "Submit changes" }).click();
-  await expect(page.getByText("Email updated successfully")).toBeVisible();
+  await expect(page.getByText("modified@test.com").first()).toBeVisible();
+  await secondRow.getByRole("button").nth(0).click();
   await page.getByRole("combobox", { name: "Role:" }).click();
   await page.getByRole("option", { name: "Guest" }).click();
   await page.getByRole("button", { name: "Submit changes" }).click();
-  await expect(page.getByText("Role updated successfully")).toBeVisible();
+  await expect(secondRow.getByText("Guest").first()).toBeVisible();
 });
 
 test("deletes user using X button", async ({ page }) => {
@@ -127,6 +128,7 @@ test("deletes user using X button", async ({ page }) => {
   const users = new UsersPage(page);
   await users.goto();
   await users.deleteRow(2);
+  await users.checkIfToastVisible();
 });
 
 test("deletes selected user using checkbox", async ({ page }) => {
@@ -159,4 +161,5 @@ test("deletes all projects using checkbox", async ({ page }) => {
   const users = new UsersPage(page);
   await users.goto();
   await users.deleteAllRows();
+  await users.checkIfToastVisible();
 });

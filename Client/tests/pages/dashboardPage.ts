@@ -23,14 +23,12 @@ export class DashboardPage {
 
   async verifyCountCard(
     title: string,
-    expectedValue: number,
-    columnIndex: number
+    expectedValue: number
   ) {
-    await expect(this.page.getByText(title).nth(1)).toBeVisible();
+    await expect(this.page.getByText(title)).toBeVisible();
     await expect(
       this.page
         .getByText(String(expectedValue), { exact: true })
-        .nth(columnIndex)
     ).toBeVisible();
   }
 

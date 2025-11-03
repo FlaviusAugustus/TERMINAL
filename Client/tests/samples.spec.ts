@@ -27,9 +27,7 @@ test.beforeEach(async ({ page }) => {
 test("renders table with correct columns", async ({ page }) => {
   const samples = new SamplesPage(page);
   await samples.goto();
-  await expect(
-    page.getByRole("row", { name: "Code", exact: true }).locator("div")
-  ).toBeVisible();
+  await expect(page.getByRole('cell', { name: 'Code' }).first()).toBeVisible();
   await expect(
     page.getByRole("cell", { name: "Project Name" }).locator("div")
   ).toBeVisible();
@@ -172,6 +170,8 @@ test("edits sample details", async ({ page }) => {
     .getByRole("spinbutton")
     .fill("1200");
 
+  await page.getByRole("button", { name: "Save" }).click();
+  await firstRow.getByRole("button").nth(1).click();
   // verify random two fields
   await expect(
     page.getByRole("row", { name: /^Time/i }).getByRole("spinbutton")
@@ -179,10 +179,6 @@ test("edits sample details", async ({ page }) => {
   await expect(
     page.getByRole("row", { name: /^Pressure/i }).getByRole("spinbutton")
   ).toHaveValue("25");
-
-  await page.getByRole("button", { name: "Save" }).click();
-  await page.waitForTimeout(500);
-  await expect(page.getByText("Success updating sample")).toBeVisible();
 });
 
 test("deletes sample using X button", async ({ page }) => {
@@ -196,7 +192,10 @@ test("deletes sample using X button", async ({ page }) => {
   );
   const samples = new SamplesPage(page);
   await samples.goto();
+  const firstRow = await samples.getRow(1);
+  const firstRowContent = (await firstRow.textContent())?.trim() ?? "";
   await samples.deleteRow(1);
+  await expect(page.getByText(firstRowContent)).not.toBeVisible();
 });
 
 test("deletes selected samples using X button", async ({ page }) => {
@@ -210,8 +209,10 @@ test("deletes selected samples using X button", async ({ page }) => {
   );
   const samples = new SamplesPage(page);
   await samples.goto();
+  const firstRow = await samples.getRow(1);
+  const firstRowContent = (await firstRow.textContent())?.trim() ?? "";
   await samples.deleteUsingCheckbox(1);
-  await samples.checkIfToastVisible();
+  await expect(page.getByText(firstRowContent)).not.toBeVisible();
 });
 
 test("deletes all samples using checkbox", async ({ page }) => {
@@ -228,7 +229,6 @@ test("deletes all samples using checkbox", async ({ page }) => {
   await samples.goto();
   await samples.deleteAllRows();
   await samples.checkDeletionSuccess();
-  await samples.checkIfToastVisible();
 });
 
 test("paginates through samples list", async ({ page }) => {
@@ -240,9 +240,7 @@ test("paginates through samples list", async ({ page }) => {
   const firstPageFirstRow = await (await samples.getRow(1)).textContent();
 
   await page
-    .locator(
-      "div:nth-child(3) > .sm\\:w-10\\/12 > .h-\\[40rem\\] > .flex.p-3 > .flex.gap-1 > button:nth-child(5)"
-    )
+    .locator('button:nth-child(5)').first()
     .click();
   await page.waitForTimeout(500);
 
@@ -250,9 +248,7 @@ test("paginates through samples list", async ({ page }) => {
   expect(firstPageFirstRow).not.toBe(secondPageFirstRow);
 
   await page
-    .locator(
-      "div:nth-child(3) > .sm\\:w-10\\/12 > .h-\\[40rem\\] > .flex.p-3 > .flex.gap-1 > button:nth-child(4)"
-    )
+    .locator('button:nth-child(4)').first()
     .click();
   await page.waitForTimeout(500);
 

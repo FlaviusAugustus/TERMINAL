@@ -29,8 +29,6 @@ test("renders table with correct columns", async ({ page }) => {
   await expect(page.getByRole("cell", { name: "Actions" })).toBeVisible();
 });
 
-// TODO: add tests for searching recipes when the functionality is implemented
-
 test("redirects to Add New Recipe page", async ({ page }) => {
   const recipes = new RecipePage(page);
   await recipes.goto();
@@ -77,10 +75,11 @@ test("edits a recipe", async ({ page }) => {
   await page.getByRole("spinbutton").fill("1339");
   await page.getByText("SaveReset").click();
   await page.getByRole("button", { name: "Save" }).click();
-  await expect(page.getByText("Success updating sample")).toBeVisible();
+  await firstRow.getByRole("button").nth(1).click();
+  await expect(page.getByRole("spinbutton")).toHaveValue("1339");
 });
 
-test("restes while editing a recipe", async ({ page }) => {
+test("resets while editing a recipe", async ({ page }) => {
   mockRecipes(page);
   mockRecipeDetails(page, MOCKED_RECIPE_ID);
   mockEntityDetails(
@@ -119,7 +118,10 @@ test("delete recipe using X button", async ({ page }) => {
 
   const recipes = new RecipePage(page);
   await recipes.goto();
+  const firstRow = await recipes.getRow(1);
+  const firstRowContent = (await firstRow.textContent())?.trim() ?? "";
   await recipes.deleteRow(1);
+  await expect(page.getByText(firstRowContent).first()).not.toBeVisible();
 });
 
 test("delete recipe using checkbox", async ({ page }) => {
@@ -135,8 +137,10 @@ test("delete recipe using checkbox", async ({ page }) => {
 
   const recipes = new RecipePage(page);
   await recipes.goto();
+  const firstRow = await recipes.getRow(1);
+  const firstRowContent = (await firstRow.textContent())?.trim() ?? "";
   await recipes.deleteUsingCheckbox(1);
-  await recipes.checkIfToastVisibleForMultipleDeletions();
+  await expect(page.getByText(firstRowContent)).not.toBeVisible();
 });
 
 test("deletes all recipes using checkbox", async ({ page }) => {
@@ -152,5 +156,5 @@ test("deletes all recipes using checkbox", async ({ page }) => {
   const recipes = new RecipePage(page);
   await recipes.goto();
   await recipes.deleteAllRows();
-  await recipes.checkIfToastVisibleForMultipleDeletions();
+  await recipes.checkDeletionSuccess();
 });

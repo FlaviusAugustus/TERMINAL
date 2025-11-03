@@ -28,10 +28,9 @@ test("renders table with correct columns", async ({ page }) => {
   await projects.goto();
   await expect(page.getByRole("cell", { name: "Name" })).toBeVisible();
   await expect(
-    page.getByRole("cell", { name: "Active" }).locator("div")
-  ).toBeVisible();
+    page.getByRole('cell', { name: 'Status' })).toBeVisible();
   await expect(
-    page.getByRole("cell", { name: "Actions" }).locator("div")
+    page.getByRole("cell", { name: "Actions" })
   ).toBeVisible();
 });
 
@@ -102,17 +101,10 @@ test("edits project name and status", async ({ page }) => {
   await expect(page.getByText("Edit project")).toBeVisible();
 
   await page.getByRole("textbox", { name: "Name" }).fill("EditedProjectName");
-  await page.getByRole("button", { name: "Submit changes" }).click();
-  await expect(page.getByText("Name updated successfully")).toBeVisible();
-
-  await projects.closeEditModal();
-  await firstRow.getByRole("button").nth(0).click();
-
   await page.getByRole("switch", { name: "Status" }).click();
   await page.getByRole("button", { name: "Submit changes" }).click();
-  await expect(
-    page.getByText("Project status updated successfully")
-  ).toBeVisible();
+  await expect(firstRow.getByText("EditedProjectName")).toBeVisible();
+  await expect(firstRow.getByText("Active")).toBeVisible();
 });
 
 test("deletes project using X button", async ({ page }) => {
@@ -128,7 +120,6 @@ test("deletes project using X button", async ({ page }) => {
   const projects = new ProjectsPage(page);
   await projects.goto();
   await projects.deleteRow(1);
-  await projects.confirmDeletion();
   await projects.checkDeletionSuccess();
 });
 
@@ -145,7 +136,6 @@ test("deletes selected projects using X button", async ({ page }) => {
   const projects = new ProjectsPage(page);
   await projects.goto();
   await projects.deleteUsingCheckbox(1);
-  await projects.confirmDeletion();
   await projects.checkDeletionSuccess();
 });
 
@@ -162,6 +152,5 @@ test("deletes all projects using checkbox", async ({ page }) => {
   const projects = new ProjectsPage(page);
   await projects.goto();
   await projects.deleteAllRows();
-  await projects.confirmDeletion();
   await projects.checkDeletionSuccess();
 });

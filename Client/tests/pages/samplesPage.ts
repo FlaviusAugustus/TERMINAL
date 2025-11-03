@@ -24,11 +24,6 @@ export class SamplesPage extends BasePage {
     const firstRow = await this.getRow(n);
     const content = await firstRow.textContent();
     await firstRow.getByRole("button").nth(2).click();
-    await expect(
-      this.page.getByText("Sample deleted successfully")
-    ).toBeVisible();
-    await expect(
-      this.page.getByRole("row", { name: content || "" })
-    ).not.toBeVisible();
+    await this.confirmDeletion();
   }
 }

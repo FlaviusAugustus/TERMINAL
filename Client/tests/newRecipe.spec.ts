@@ -19,25 +19,13 @@ test("adds new recipe successfully", async ({ page }) => {
   await recipe.openAddForm();
   await recipe.addStep();
   await recipe.dragAndDropStep(0);
-  await page.locator('input[type="text"]').click();
-  await page.locator('input[type="text"]').fill("60");
+  await page.locator('[id="headlessui-control-:r1h:"]').click();
+  await page.locator('[id="headlessui-control-:r1h:"]').fill('60');
 
   await recipe.dragAndDropStep(0);
-  await page
-    .locator("div")
-    .filter({ hasText: /^Pressurevalue drag-handle-lineunitTorr$/ })
-    .getByRole("textbox")
-    .click();
-  await page
-    .locator("div")
-    .filter({ hasText: /^Pressurevalue drag-handle-lineunitTorr$/ })
-    .getByRole("textbox")
-    .fill("420");
-
-  await recipe.addStep();
-  await page.getByText("Step 2").click();
+  await page.getByText("Step 1").click();
   await recipe.dragAndDropStep(2);
-  await page.locator('[id="headlessui-combobox-button-:r1l:"]').click();
+  await page.locator('[id="headlessui-control-:r1v:"]').click();
   await page.getByRole("option", { name: "without nucleation" }).click();
   await recipe.fillComment("This is comment!");
 

@@ -40,7 +40,7 @@ test("shows failure toast for duplicate project name", async ({ page }) => {
   await mockProjects(page);
   const project = new NewProjectPage(page);
   await project.openAddForm();
-  await project.fillName("Alpha");
+  await project.fillName("Upturn");
   await project.submit();
   await project.expectFailureToast();
 });

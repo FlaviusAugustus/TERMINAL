@@ -38,7 +38,7 @@ test("shows failure toast for duplicate tag name", async ({ page }) => {
   await mockTags(page);
   const tag = new NewTagPage(page);
   await tag.openAddForm();
-  await tag.fillName("Alpha");
+  await tag.fillName("new-sample");
   await tag.submit();
   await tag.expectFailureToast();
 });

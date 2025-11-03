@@ -13,25 +13,25 @@ test.beforeEach(async ({ page }) => {
 test("displays correct project count", async ({ page }) => {
   const dashboard = new DashboardPage(page);
   await mockCount(page, "**/api/projects/amount", 7);
-  await dashboard.verifyCountCard("Total projects", 7, 1);
+  await dashboard.verifyCountCard("Total projects", 7);
 });
 
 test("displays correct sample count", async ({ page }) => {
   const dashboard = new DashboardPage(page);
   await mockCount(page, "**/api/samples/amount", 15);
-  await dashboard.verifyCountCard("Total samples", 15, 1);
+  await dashboard.verifyCountCard("Total samples", 15);
 });
 
 test("displays correct recipe count", async ({ page }) => {
   const dashboard = new DashboardPage(page);
   await mockCount(page, "**/api/recipes/amount", 5);
-  await dashboard.verifyCountCard("Total recipes", 5, 1);
+  await dashboard.verifyCountCard("Total recipes", 5);
 });
 
 test("displays correct user count", async ({ page }) => {
   const dashboard = new DashboardPage(page);
   await mockCount(page, "**/api/users/amount", 12);
-  await dashboard.verifyCountCard("Total users", 12, 1);
+  await dashboard.verifyCountCard("Total users", 12);
 });
 
 test("redirects to Projects on Browse All", async ({ page }) => {
