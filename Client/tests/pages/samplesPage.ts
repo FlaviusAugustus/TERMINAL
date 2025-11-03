@@ -1,4 +1,4 @@
-import { Locator, Page, expect } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./basePage";
 
 export class SamplesPage extends BasePage {
@@ -22,7 +22,6 @@ export class SamplesPage extends BasePage {
 
   async deleteRow(n: number) {
     const firstRow = await this.getRow(n);
-    const content = await firstRow.textContent();
     await firstRow.getByRole("button").nth(2).click();
     await this.confirmDeletion();
   }
