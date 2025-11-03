@@ -25,12 +25,8 @@ async function prepareSample(page: Page, sample: NewSamplePage) {
   await sample.openAddForm();
   await sample.addStep();
   await sample.dragAndDropStep(0);
-  await page
-    .locator('[id="headlessui-control-:r21:"]')
-    .click();
-  await page
-    .locator('[id="headlessui-control-:r21:"]')
-    .fill("60");
+  await page.locator('[id="headlessui-control-:r21:"]').click();
+  await page.locator('[id="headlessui-control-:r21:"]').fill("60");
 
   await sample.dragAndDropStep(0);
   await page.getByText("Step 1").click();

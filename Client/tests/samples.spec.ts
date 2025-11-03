@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { SamplesPage } from "./pages/samplesPage";
 import { SAMPLE_DETAILS_PATH, SAMPLE_ENTITY } from "./constants";
@@ -27,7 +27,7 @@ test.beforeEach(async ({ page }) => {
 test("renders table with correct columns", async ({ page }) => {
   const samples = new SamplesPage(page);
   await samples.goto();
-  await expect(page.getByRole('cell', { name: 'Code' }).first()).toBeVisible();
+  await expect(page.getByRole("cell", { name: "Code" }).first()).toBeVisible();
   await expect(
     page.getByRole("cell", { name: "Project Name" }).locator("div")
   ).toBeVisible();
@@ -239,17 +239,13 @@ test("paginates through samples list", async ({ page }) => {
   await samples.goto();
   const firstPageFirstRow = await (await samples.getRow(1)).textContent();
 
-  await page
-    .locator('button:nth-child(5)').first()
-    .click();
+  await page.locator("button:nth-child(5)").first().click();
   await page.waitForTimeout(500);
 
   const secondPageFirstRow = await (await samples.getRow(1)).textContent();
   expect(firstPageFirstRow).not.toBe(secondPageFirstRow);
 
-  await page
-    .locator('button:nth-child(4)').first()
-    .click();
+  await page.locator("button:nth-child(4)").first().click();
   await page.waitForTimeout(500);
 
   const firstPageFirstRowBack = await (await samples.getRow(1)).textContent();

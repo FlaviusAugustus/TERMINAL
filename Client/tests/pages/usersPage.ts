@@ -1,4 +1,4 @@
-import { Locator, Page, expect } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./basePage";
 
 export class UsersPage extends BasePage {
@@ -25,12 +25,10 @@ export class UsersPage extends BasePage {
     const row = await this.getRow(n);
     await row.getByRole("checkbox").click();
     await this.page.getByRole("button", { name: /delete selected/i }).click();
-
   }
 
   async deleteAllRows() {
     await this.page.getByRole("row").nth(0).getByRole("checkbox").click();
     await this.page.getByRole("button", { name: /delete selected/i }).click();
-    
   }
 }

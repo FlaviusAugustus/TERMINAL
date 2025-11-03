@@ -137,7 +137,10 @@ export async function mockSearch<T>(
   });
 }
 
-export async function mockEntityDetails<T extends { id: string; name?: string; isActive?: boolean }, D>(
+export async function mockEntityDetails<
+  T extends { id: string; name?: string; isActive?: boolean },
+  D,
+>(
   page: Page,
   path: string,
   dataArray: T[],
@@ -241,7 +244,11 @@ export async function mockProjectsAll(page: Page) {
   });
 }
 
-export async function mockProjectDeactivation(page: Page, id: string, dataArray = currentProjects) {
+export async function mockProjectDeactivation(
+  page: Page,
+  id: string,
+  dataArray = currentProjects
+) {
   await page.route(`**/api/projects/${id}/deactivate`, async (route) => {
     if (route.request().method() === "POST") {
       const requestBody = JSON.parse(route.request().postData() || "{}");
@@ -252,7 +259,7 @@ export async function mockProjectDeactivation(page: Page, id: string, dataArray 
       return route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({item}),
+        body: JSON.stringify({ item }),
       });
     }
     return route.continue();

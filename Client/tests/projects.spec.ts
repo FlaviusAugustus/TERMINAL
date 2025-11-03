@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { ProjectsPage } from "./pages/projectPage";
 import {
@@ -7,12 +7,12 @@ import {
   PROJECT_ENTITY,
 } from "./constants";
 import {
-  resetProjects,
+  currentProjects,
+  mockEntityDetails,
+  mockProjectDeactivation,
   mockProjectsAll,
   mockSearch,
-  mockProjectDeactivation,
-  mockEntityDetails,
-  currentProjects,
+  resetProjects,
 } from "./helpers/mocks";
 import { projectDetailsMock, projectsMock } from "./helpers/mockedData";
 
@@ -27,11 +27,8 @@ test("renders table with correct columns", async ({ page }) => {
   const projects = new ProjectsPage(page);
   await projects.goto();
   await expect(page.getByRole("cell", { name: "Name" })).toBeVisible();
-  await expect(
-    page.getByRole('cell', { name: 'Status' })).toBeVisible();
-  await expect(
-    page.getByRole("cell", { name: "Actions" })
-  ).toBeVisible();
+  await expect(page.getByRole("cell", { name: "Status" })).toBeVisible();
+  await expect(page.getByRole("cell", { name: "Actions" })).toBeVisible();
 });
 
 test("searches for existing project", async ({ page }) => {

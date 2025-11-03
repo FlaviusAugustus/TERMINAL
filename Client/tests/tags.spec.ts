@@ -1,17 +1,17 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { TagsPage } from "./pages/tagPage";
 import {
+  currentTags,
   mockAllTags,
   mockEntityDetails,
-  mockTagDeactivation,
   mockSearch,
+  mockTagDeactivation,
   resetTags,
-  currentTags,
   setCurrentData,
 } from "./helpers/mocks";
 import { MOCKED_TAG_ID, TAG_DETAILS_PATH, TAG_ENTITY } from "./constants";
-import { tagDetailsMock, tagsMock, tagMock } from "./helpers/mockedData";
+import { tagDetailsMock, tagMock, tagsMock } from "./helpers/mockedData";
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -71,7 +71,7 @@ test("shows tag details", async ({ page }) => {
   const firstRow = await tags.getRow(1);
   await firstRow.getByRole("button").nth(0).click();
   await expect(page.getByText("Tag details")).toBeVisible();
-  await expect(page.getByText('name', { exact: true })).toBeVisible();
+  await expect(page.getByText("name", { exact: true })).toBeVisible();
   await expect(page.getByText("is Active")).toBeVisible();
 });
 
@@ -115,7 +115,7 @@ test("deactivates tag using switch", async ({ page }) => {
   await page.getByRole("switch", { name: "Status" }).click();
   await page.getByRole("button", { name: "Submit changes" }).click();
   await firstRow.getByRole("button").nth(0).click();
-  await expect(page.getByText('Not Active', { exact: true })).toBeVisible();
+  await expect(page.getByText("Not Active", { exact: true })).toBeVisible();
 });
 
 test("delete tag using X button", async ({ page }) => {

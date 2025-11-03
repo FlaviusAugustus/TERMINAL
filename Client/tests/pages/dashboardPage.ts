@@ -1,4 +1,4 @@
-import { Page, expect } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 
 export class DashboardPage {
   constructor(private page: Page) {}
@@ -21,14 +21,10 @@ export class DashboardPage {
       .click();
   }
 
-  async verifyCountCard(
-    title: string,
-    expectedValue: number
-  ) {
+  async verifyCountCard(title: string, expectedValue: number) {
     await expect(this.page.getByText(title)).toBeVisible();
     await expect(
-      this.page
-        .getByText(String(expectedValue), { exact: true })
+      this.page.getByText(String(expectedValue), { exact: true })
     ).toBeVisible();
   }
 

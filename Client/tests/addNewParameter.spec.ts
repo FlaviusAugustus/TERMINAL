@@ -49,11 +49,13 @@ test("should add new Text parameter successfully", async ({ page }) => {
   await page.getByRole("combobox", { name: "Type:" }).click();
   await page.getByRole("option", { name: "Text" }).click();
   await page.locator('[id="headlessui-control-:r1r:"]').click();
-  await page.locator('[id="headlessui-control-:r1r:"]').fill('test-value-1');
-  await page.getByRole('button', { name: 'Add Parameter' }).click();
-  const createResponse = await page.waitForResponse(resp =>
-    resp.url().includes("/api/parameters/define/text") && resp.request().method() === "POST"
+  await page.locator('[id="headlessui-control-:r1r:"]').fill("test-value-1");
+  await page.getByRole("button", { name: "Add Parameter" }).click();
+  const createResponse = await page.waitForResponse(
+    (resp) =>
+      resp.url().includes("/api/parameters/define/text") &&
+      resp.request().method() === "POST"
   );
-  await page.getByRole('button', { name: 'Add Parameter' }).click();
+  await page.getByRole("button", { name: "Add Parameter" }).click();
   expect(createResponse.status()).toBe(201);
 });
