@@ -14,6 +14,10 @@ import {
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import { CalculatorIcon } from "@heroicons/react/16/solid";
 
+type TerminalSidebarContentProps = {
+  onAfterNavigate: () => void;
+};
+
 /**
  * TerminalSidebarContent Component
  *
@@ -23,11 +27,14 @@ import { CalculatorIcon } from "@heroicons/react/16/solid";
  *
  * @component
  */
-const TerminalSidebarContent = () => {
+const TerminalSidebarContent = ({
+  onAfterNavigate,
+}: TerminalSidebarContentProps) => {
   return (
     <div className="flex flex-col p-4 gap-5 bg-white">
       <SidebarLinkGroup text="General">
         <SidebarItem
+          onClick={onAfterNavigate}
           text="Dashboard"
           href="/"
           icon={<Squares2X2Icon className="h-5 w-5" />}
@@ -36,39 +43,60 @@ const TerminalSidebarContent = () => {
           text="Add new"
           icon={<PlusCircleIcon className="h-5 w-5" />}
         >
-          <SidebarItem text="Recipe" href="/new-recipe" />
-          <SidebarItem text="Sample" href="/new-sample" />
+          <SidebarItem
+            onClick={onAfterNavigate}
+            text="Recipe"
+            href="/new-recipe"
+          />
+          <SidebarItem
+            onClick={onAfterNavigate}
+            text="Sample"
+            href="/new-sample"
+          />
           <VisibleForRoles roles={["Administrator", "Moderator"]}>
-            <SidebarItem text="Project" href="/new-project" />
+            <SidebarItem
+              onClick={onAfterNavigate}
+              text="Project"
+              href="/new-project"
+            />
           </VisibleForRoles>
           <VisibleForRoles roles={["Administrator", "Moderator"]}>
-            <SidebarItem text="Parameter" href="/new-parameter" />
+            <SidebarItem
+              onClick={onAfterNavigate}
+              text="Parameter"
+              href="/new-parameter"
+            />
           </VisibleForRoles>
-          <SidebarItem text="Tag" href="/new-tag" />
+          <SidebarItem onClick={onAfterNavigate} text="Tag" href="/new-tag" />
         </SidebarItemWithSubLinks>
       </SidebarLinkGroup>
       <SidebarLinkGroup text="Manage">
         <SidebarItem
+          onClick={onAfterNavigate}
           text="Recipes"
           href="/recipes"
           icon={<LightBulbIcon className="h-5 w-5" />}
         />
         <SidebarItem
+          onClick={onAfterNavigate}
           text="Samples"
           href="/samples"
           icon={<EyeDropperIcon className="h-5 w-5" />}
         />
         <SidebarItem
+          onClick={onAfterNavigate}
           text="Projects"
           href="/projects"
           icon={<ListBulletIcon className="h-5 w-5" />}
         />
         <SidebarItem
+          onClick={onAfterNavigate}
           text="Parameters"
           href="/parameters"
           icon={<CalculatorIcon className="h-5 w-5" />}
         />
         <SidebarItem
+          onClick={onAfterNavigate}
           text="Tags"
           href="/tags"
           icon={<TagIcon className="h-5 w-5" />}
@@ -77,12 +105,14 @@ const TerminalSidebarContent = () => {
       <VisibleForRoles roles={["Administrator", "Moderator"]}>
         <SidebarLinkGroup text="Users">
           <SidebarItem
+            onClick={onAfterNavigate}
             text="Browse"
             href="/users"
             icon={<UserIcon className="h-5 w-5" />}
           />
           <VisibleForRoles roles={["Administrator"]}>
             <SidebarItem
+              onClick={onAfterNavigate}
               text="Invite"
               href="/invitations"
               icon={<EnvelopeIcon className="h-5 w-5" />}

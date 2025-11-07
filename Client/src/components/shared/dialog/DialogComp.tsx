@@ -13,6 +13,7 @@ export type DialogProps = {
   description?: string;
   children?: ReactNode | ReactNode[];
   showTitle?: boolean;
+  hasDynamicHeight?: boolean;
 };
 
 /**
@@ -30,6 +31,7 @@ const DialogComp = ({
   title,
   children,
   showTitle = true,
+  hasDynamicHeight = false,
 }: DialogProps) => {
   const closeDialog = handleClose ?? (() => setIsOpen(false));
 
@@ -38,7 +40,10 @@ const DialogComp = ({
       open={isOpen}
       onClose={() => closeDialog()}
       transition
-      className="fixed inset-0 flex w-screen backdrop-blur-sm items-center justify-center bg-black/30 p-4 transition duration-100 ease-out data-[closed]:opacity-0 z-50"
+      className={clsx(
+        "fixed inset-0 flex w-screen items-center backdrop-blur-sm justify-center bg-black/30 p-4 transition duration-100 ease-out data-[closed]:opacity-0 z-50",
+        hasDynamicHeight && "md:items-start md:pt-20"
+      )}
     >
       <DialogPanel
         className={clsx(

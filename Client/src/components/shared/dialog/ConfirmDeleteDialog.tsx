@@ -57,6 +57,7 @@ const ConfirmDeleteDialog = ({
     >
       {description && <p className="text-sm text-gray-700">{description}</p>}
       <FormInput
+        autoFocus
         ref={inputRef}
         label="Confirmation"
         required

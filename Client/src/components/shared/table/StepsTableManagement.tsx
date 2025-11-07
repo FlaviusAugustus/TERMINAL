@@ -13,7 +13,7 @@ const StepsTableManagement = ({
   activeIndexChange,
 }: StepsTableManagementProps) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 max-h-full overflow-scroll">
       {steps?.map((_, i) => (
         <button
           className={clsx(

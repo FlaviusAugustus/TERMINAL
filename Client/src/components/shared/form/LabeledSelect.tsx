@@ -48,7 +48,7 @@ const LabeledSelect = <T, Multiple extends boolean>({
       <Combobox immediate {...rest}>
         <div
           className={clsx(
-            "relative w-full bg-white px-3 border-[1px] rounded-md py-2",
+            "relative w-full bg-white px-3 border-[1px] rounded-md py-2 focus-within:ring-1 focus-within:ring-blue-500 focus-within:ring-offset-2",
             comboboxStyles
           )}
         >
@@ -57,7 +57,7 @@ const LabeledSelect = <T, Multiple extends boolean>({
           )}
           <ComboboxInput
             displayValue={displayValue}
-            className={"w-full h-full focus:outline-none"}
+            className="w-full h-full focus:outline-none"
           />
 
           <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">

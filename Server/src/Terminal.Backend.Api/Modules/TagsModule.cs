@@ -71,13 +71,10 @@ public static class TagsModule
             }).RequireAuthorization(Permission.TagUpdate.ToString())
             .WithTags(SwaggerSetup.TagTag);
 
-        app.MapGet(ApiBaseRoute + "/search", async (
-                [FromQuery] string searchPhrase,
-                ISender sender,
-                CancellationToken ct
-            ) =>
+        app.MapGet(ApiBaseRoute + "/search", async ([FromQuery] string searchPhrase, [FromQuery] int pageNumber,
+        [FromQuery] int pageSize, ISender sender, CancellationToken ct) =>
             {
-                var query = new SearchTagQuery(searchPhrase);
+                var query = new SearchTagQuery(searchPhrase, pageNumber, pageSize);
                 var tags = await sender.Send(query, ct);
                 return Results.Ok(tags);
             }).RequireAuthorization(Permission.TagRead.ToString())

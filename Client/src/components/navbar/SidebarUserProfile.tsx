@@ -1,6 +1,9 @@
 import { ArrowRightEndOnRectangleIcon } from "@heroicons/react/20/solid";
-import useLogout from "@hooks/users/auth/useLogout.ts";
 import useUserData from "@hooks/users/useUserData.ts";
+import { toastPromise } from "@utils/toast.utils.tsx";
+import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "@hooks/users/auth/useLogoutMutation.ts";
 
 function getUserRoleDisplayValue(role: string): string {
   if (role === "Administrator") return "Administrator";
@@ -35,13 +38,23 @@ function getAvatarColor(email: string): string {
  */
 const SidebarUserProfile = () => {
   const { data, status } = useUserData();
-  const logout = useLogout();
+  const navigate = useNavigate();
+  const logoutMutation = useLogoutMutation();
+
+  const handleLogout = useCallback(async () => {
+    await toastPromise(logoutMutation.mutateAsync(), {
+      loading: "Logging out...",
+      success: "Logout successful",
+      error: "Logout failed",
+    });
+    navigate("/login");
+  }, [navigate]);
 
   if (status === "pending") return <div>Loading...</div>;
   if (status === "error") return <div>Error...</div>;
 
   return (
-    <div className="p-2 bg-white rounded-b-md w-full">
+    <div className="p-2 bg-white md:rounded-b-md w-full">
       <div className="flex gap-3 rounded-md p-2 hover:bg-gray-200 group hover:cursor-pointer w-full items-center">
         <div
           style={{ backgroundColor: getAvatarColor(data?.email) }}
@@ -56,8 +69,8 @@ const SidebarUserProfile = () => {
           </p>
         </div>
         <ArrowRightEndOnRectangleIcon
-          className="h-9 w-8 ml-auto group-hover:visible invisible text-gray-800 hover:bg-gray-300 p-1 rounded"
-          onClick={logout}
+          className="h-9 w-8 ml-auto md:group-hover:visible md:invisible text-gray-800 hover:bg-gray-300 p-1 rounded"
+          onClick={handleLogout}
         />
       </div>
     </div>

@@ -28,6 +28,7 @@ internal sealed class TerminalDbContext : DbContext
     public DbSet<Invitation> Invitations { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<Permission> Permissions { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 
     public TerminalDbContext(DbContextOptions<TerminalDbContext> options) : base(options)
     {

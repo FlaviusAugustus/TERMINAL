@@ -12,6 +12,7 @@ const NewParameterForm = () => {
       $type: "integer",
       name: "",
       unit: "",
+      step: 1,
     });
 
   const addAllowedValue = () => {
@@ -41,7 +42,7 @@ const NewParameterForm = () => {
   };
   const { mutateAsync, isPending } = useAddParameter();
 
-  const handleChangeValue = (attr: string, value: string) => {
+  const handleChangeValue = (attr: string, value: string | number) => {
     setParameterRequest({
       ...parameterRequest,
       [attr]: value,
@@ -56,11 +57,19 @@ const NewParameterForm = () => {
         name: parameterRequest.name,
         allowedValues: [""],
       });
+    else if (value === "integer")
+      setParameterRequest({
+        $type: value,
+        name: parameterRequest.name,
+        unit: "",
+        step: 1,
+      });
     else
       setParameterRequest({
         $type: value,
         name: parameterRequest.name,
         unit: "",
+        step: 0.1,
       });
   };
 
@@ -74,6 +83,7 @@ const NewParameterForm = () => {
       $type: "integer",
       name: "",
       unit: "",
+      step: 1,
     });
   };
 

@@ -11,7 +11,8 @@ import TableView from "@components/shared/table/TableView";
 import useUpdateSample from "@hooks/samples/useUpdateSample";
 import { useEditableStepTable } from "@hooks/steps/useEditableStepsTable.tsx";
 import useEditableForm from "@hooks/steps/useStepsForm.tsx";
-import { toastPromise } from "utils/toast.utils";
+import { DialogSubmitButton } from "@components/shared/dialog/DialogSubmitButton.tsx";
+import { toastError } from "@utils/toast.utils.tsx";
 
 export interface SampleDetailsProps {
   sample: SampleDetailsDto | undefined;
@@ -51,11 +52,12 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
   const handleUpdate = async () => {
     if (!newSample) return;
 
-    await toastPromise(mutation.mutateAsync(newSample), {
-      success: "Success updating sample",
-      loading: "Updating sample...",
-      error: "Error updating sample",
-    });
+    try {
+      await mutation.mutateAsync(newSample);
+      openChange(false);
+    } catch {
+      toastError(`Error while updating sample`);
+    }
   };
 
   return (
@@ -64,6 +66,7 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
       setIsOpen={openChange}
       title="Edit Sample"
       className="w-full lg:w-[700px]"
+      hasDynamicHeight
     >
       <div className="space-y-3 font-light text-sm text-gray-600">
         <div className="grid grid-cols-2 gap-3">
@@ -96,13 +99,14 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
           )}
         </div>
         <div className="flex gap-2">
-          <DialogButton
+          <DialogSubmitButton
             disabled={!valueChanged}
             className="!w-fit hover:border-green-400"
             onClick={handleUpdate}
+            isSubmitting={mutation.isPending}
           >
             Save
-          </DialogButton>
+          </DialogSubmitButton>
           <DialogButton
             disabled={!valueChanged}
             className="!w-fit hover:border-red-400"

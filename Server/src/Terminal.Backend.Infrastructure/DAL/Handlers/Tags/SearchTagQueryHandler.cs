@@ -25,6 +25,7 @@ internal sealed class SearchTagQueryHandler : IRequestHandler<SearchTagQuery, Ge
 
         var tags = await query
             .Select(p => new GetSearchedTagsDto.TagDto(p.Id, p.Name, p.IsActive))
+            .Paginate(request.Parameters)
             .ToListAsync(cancellationToken);
 
         return new GetSearchedTagsDto(tags, amount);

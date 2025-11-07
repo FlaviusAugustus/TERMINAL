@@ -11,12 +11,11 @@ public sealed class IntegerParameter : NumericParameter
         ParameterName name,
         string unit,
         int step,
-        int defaultValue = 0,
         uint order = 0,
         bool isActive = true) :
         base(id, name, unit, order, isActive)
     {
         Step = step;
-        DefaultValue = defaultValue;
+        DefaultValue = step;
     }
 }

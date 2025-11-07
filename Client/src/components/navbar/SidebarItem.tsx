@@ -1,9 +1,11 @@
+import clsx from "clsx";
 import { NavLink } from "react-router-dom";
 
 export type NavbarItemProps = {
   icon?: React.ReactNode;
   text: string;
   href: string;
+  onClick: () => void;
 };
 
 /**
@@ -13,12 +15,16 @@ export type NavbarItemProps = {
  *
  * @component
  */
-const SidebarItem = ({ icon, text, href }: NavbarItemProps) => {
+const SidebarItem = ({ onClick, icon, text, href }: NavbarItemProps) => {
   return (
     <NavLink
+      onClick={onClick}
       to={href}
       className={({ isActive }) =>
-        isActive ? "bg-gray-200/60 rounded-md" : ""
+        clsx(
+          "focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:ring-blue-500 focus:outline-none rounded-md",
+          isActive && "bg-gray-200/60 rounded-md"
+        )
       }
     >
       <div className="flex gap-2 rounded-md p-2 hover:bg-gray-200/60 cursor-pointer">

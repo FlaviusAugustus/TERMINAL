@@ -2,18 +2,17 @@
   hosts: all
 
   tasks:
-    - name: Create project directory
-      ansible.builtin.file:
-        path: ~/terminal
-        state: directory
-    - name: Deploy Compose file
-      template:
-        src: templates/compose.j2
-        dest: ~/terminal/compose.yaml
+    - name: Check if .env file exists
+      stat:
+        path: .env
+      register: file_check
+    - name: Fail if .env does not exist
+      fail:
+        msg: "Create .env file! For reference see https://github.com/FlaviusAugustus/TERMINAL/blob/main/.env.sample.local"
+      when: not file_check.stat.exists
+    - name: Docker compose down
+      shell: docker compose --env-file .env -f oci://ghcr.io/flaviusaugustus/terminal/compose:latest down
     - name: Docker compose pull
-      shell: docker compose pull
-      args:
-        chdir: ~/terminal
-    - name: Create and start services
-      community.docker.docker_compose_v2:
-        project_src: ~/terminal
+      shell: docker compose --env-file .env -f oci://ghcr.io/flaviusaugustus/terminal/compose:latest pull
+    - name: Docker compose up
+      shell: docker compose --env-file .env -f oci://ghcr.io/flaviusaugustus/terminal/compose:latest up -yd

@@ -11,12 +11,11 @@ public sealed class DecimalParameter : NumericParameter
         ParameterName name,
         string unit,
         decimal step,
-        decimal defaultValue = 0,
         uint order = 0,
         bool isActive = true) :
         base(id, name, unit, order, isActive)
     {
         Step = step;
-        DefaultValue = defaultValue;
+        DefaultValue = step;
     }
 }

@@ -17,14 +17,11 @@ import {
 } from "@heroicons/react/24/outline";
 import IconButton from "@components/shared/common/IconButton.tsx";
 import FormInput from "@components/shared/form/FormInput.tsx";
-import TableCard from "@components/shared/table/TableCard";
-import TableManagement from "@components/shared/table/TableManagment";
-import TableView from "@components/shared/table/TableView";
 import { Link } from "react-router-dom";
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
-import { toastPromise } from "utils/toast.utils";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Sample } from "@api/models/Sample";
+import TableOrCardLayout from "@components/shared/table/TableOrCardLayout";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
@@ -34,7 +31,7 @@ export interface SamplesProps {
   setSorting: OnChangeFn<SortingState>;
   setPagination: OnChangeFn<PaginationState>;
   onEdit: (sampleId: string) => void;
-  onDelete: (sampleId: string) => Promise<void>;
+  onDelete: (sampleId: string | string[]) => void;
   onDetails: (sampleId: string) => void;
   searchProps?: {
     onSearch?: (phrase: string) => void;
@@ -71,17 +68,9 @@ const columnsDef = [
  * @param {SamplesProps} props - The properties for the samples component.
  */
 const Samples = (props: SamplesProps) => {
-  const handleDelete = async (id: string) => {
-    await toastPromise(props.onDelete(id), {
-      success: "Sample deleted successfully",
-      loading: "Removing sample...",
-      error: "Error deleting sample",
-    });
-  };
-
   const columns = useTableColumns<Sample>({
     columnsDef: columnsDef,
-    onDelete: handleDelete,
+    onDelete: props.onDelete,
     onEdit: props.onEdit,
     onDetails: props.onDetails,
   });
@@ -117,15 +106,9 @@ const Samples = (props: SamplesProps) => {
   });
 
   const handleDeleteSelected = () => {
-    const tasks = table.getSelectedRowModel().rows.map((row) => {
-      props.onDelete(row.original.id);
-    });
-
-    toastPromise(Promise.all(tasks), {
-      success: "samples deleted succesfully",
-      loading: "Removing samples...",
-      error: "Error deleting samples",
-    });
+    const ids = table.getSelectedRowModel().rows.map((row) => row.original.id);
+    if (ids.length === 0) return;
+    props.onDelete(ids);
   };
 
   return (
@@ -134,30 +117,18 @@ const Samples = (props: SamplesProps) => {
         <div className="flex items-center gap-1">
           <FormInput
             validate={false}
-            className="!text-sm !h-[40px]"
+            className="!text-sm !h-[40px] focus:!ring-0 focus:!ring-offset-0"
             placeholder="Search"
             icon={<MagnifyingGlassIcon className="h-4" />}
             value={localSearch}
             onChange={(e) => setLocalSearch(e.currentTarget.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
+                e.preventDefault();
                 props.searchProps?.onSearch?.(localSearch);
               }
             }}
           />
-          {localSearch && (
-            <IconButton
-              onClick={() => {
-                setLocalSearch("");
-                props.searchProps?.onClearSearch?.();
-              }}
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-gray-300"
-              title="Clear search"
-            >
-              <XMarkIcon className="h-4" />
-              <p className="text-xs">Clear</p>
-            </IconButton>
-          )}
         </div>
         <VisibleForRoles roles={["Administrator", "Moderator"]}>
           <div className="flex gap-1">
@@ -166,24 +137,21 @@ const Samples = (props: SamplesProps) => {
               disabled={
                 !(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected())
               }
-              className="h-[40px] flex bg-white items-center gap-1 !hover:border-red-200"
+              className="h-[40px] w-[40px] md:w-auto flex justify-center bg-white items-center gap-1 !hover:border-red-200"
             >
               <XMarkIcon className="h-4 " />
-              <p className="text-xs">Delete Selected</p>
+              <p className="text-xs hidden md:block">Delete Selected</p>
             </IconButton>
             <Link to="/new-sample">
-              <IconButton className="h-[40px] flex bg-white items-center gap-1">
+              <IconButton className="h-[40px] w-[40px] md:w-auto flex justify-center bg-white items-center gap-1">
                 <PlusIcon className="h-4" />
-                <p className="text-xs">Add new</p>
+                <p className="text-xs hidden md:block">Add new</p>
               </IconButton>
             </Link>
           </div>
         </VisibleForRoles>
       </div>
-      <TableCard className="!h-full">
-        <TableView<Sample> table={table} />
-        <TableManagement<Sample> table={table} />
-      </TableCard>
+      <TableOrCardLayout table={table} />
     </>
   );
 };

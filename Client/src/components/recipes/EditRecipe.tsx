@@ -10,7 +10,8 @@ import TableView from "@components/shared/table/TableView";
 import useUpdateRecipe from "@hooks/recipes/useUpdateRecipe";
 import { useEditableStepTable } from "@hooks/steps/useEditableStepsTable.tsx";
 import useEditableForm from "@hooks/steps/useStepsForm.tsx";
-import { toastPromise } from "utils/toast.utils";
+import { DialogSubmitButton } from "@components/shared/dialog/DialogSubmitButton.tsx";
+import { toastError } from "@utils/toast.utils.tsx";
 
 export interface RecipeDetailsDtoProps {
   recipe: RecipeDetailsDto | undefined;
@@ -50,11 +51,12 @@ const EditRecipe = ({ recipe, open, openChange }: RecipeDetailsDtoProps) => {
   const handleUpdate = async () => {
     if (!newRecipe) return;
 
-    await toastPromise(mutation.mutateAsync(newRecipe), {
-      success: "Success updating sample",
-      loading: "Updating sample...",
-      error: "Error updating sample",
-    });
+    try {
+      await mutation.mutateAsync(newRecipe);
+      openChange(false);
+    } catch {
+      toastError(`Error while updating recipe`);
+    }
   };
 
   return (
@@ -63,6 +65,7 @@ const EditRecipe = ({ recipe, open, openChange }: RecipeDetailsDtoProps) => {
       setIsOpen={openChange}
       title="Recipe details"
       className="w-full lg:w-[700px]"
+      hasDynamicHeight
     >
       <div className="space-y-3 font-light text-sm text-gray-600">
         <Detail label="name">{newRecipe?.name}</Detail>
@@ -83,13 +86,14 @@ const EditRecipe = ({ recipe, open, openChange }: RecipeDetailsDtoProps) => {
           )}
         </div>
         <div className="flex gap-2">
-          <DialogButton
+          <DialogSubmitButton
             disabled={!valueChanged}
             className="!w-fit hover:border-green-400"
             onClick={handleUpdate}
+            isSubmitting={mutation.isPending}
           >
             Save
-          </DialogButton>
+          </DialogSubmitButton>
           <DialogButton
             disabled={!valueChanged}
             className="!w-fit hover:border-red-400"

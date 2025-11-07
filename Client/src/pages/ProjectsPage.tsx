@@ -2,7 +2,6 @@ import Projects from "@components/projects/Projects.tsx";
 import { useState } from "react";
 import { PaginationState, SortingState } from "@tanstack/react-table";
 import { useAllProjects } from "@hooks/projects/useGetAllProjects.ts";
-import { toastPromise } from "@utils/toast.utils.tsx";
 import { useDeleteProject } from "@hooks/projects/useDeleteProject.ts";
 import TableLayout from "./layouts/TableLayout";
 import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
@@ -11,8 +10,8 @@ import { useProjectDetails } from "@hooks/projects/useGetProjectDetails.ts";
 import ProjectEdit from "@components/projects/ProjectEdit.tsx";
 import { useUpdateProjectName } from "@hooks/projects/useUpdateProjectName.ts";
 import { useUpdateProjectStatus } from "@hooks/projects/useUpdateProjectStatus.ts";
-import { useSearchProjects } from "@hooks/projects/useSearchProjects.ts";
 import ConfirmDeleteDialog from "@components/shared/dialog/ConfirmDeleteDialog";
+import { toastError } from "@utils/toast.utils.tsx";
 
 const ProjectsPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -24,21 +23,16 @@ const ProjectsPage = () => {
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [projectDetailsId, setProjectDetailsId] = useState<string | null>(null);
-  const [deleteProjectId, setDeleteProjectId] = useState<string | null>(null);
+  const [deleteProjectIds, setDeleteProjectIds] = useState<string[] | null>(
+    null
+  );
 
   const queryProjects = useAllProjects({
     pageNumber: pagination.pageIndex,
     pageSize: pagination.pageSize,
     desc: sorting[0]?.desc ?? true,
-  });
-
-  const searchProjectsQuery = useSearchProjects({
     searchPhrase,
-    pageNumber: pagination.pageIndex,
-    pageSize: pagination.pageSize,
   });
-
-  const dataQueryProjects = searchPhrase ? searchProjectsQuery : queryProjects;
 
   const queryProjectDetails = useProjectDetails(projectDetailsId);
 
@@ -60,15 +54,21 @@ const ProjectsPage = () => {
     desc: sorting[0]?.desc ?? true,
   });
 
-  const handleDelete = async (id: string | null) => {
-    if (!id) return;
-    await deleteMutation.mutateAsync(id);
-    if (deleteMutation.isSuccess) setDeleteOpen(false);
+  const handleDelete = async (ids: string[] | null) => {
+    if (!ids || ids.length === 0) return;
+    try {
+      await Promise.all(ids.map((id) => deleteMutation.mutateAsync(id)));
+      setDeleteOpen(false);
+      setDeleteProjectIds(null);
+    } catch {
+      toastError("Error deleting project(s)");
+    }
   };
 
-  const openDeleteDialog = (id: string) => {
+  const openDeleteDialog = (ids: string | string[]) => {
+    const id = Array.isArray(ids) ? ids : [ids];
     setDeleteOpen(true);
-    setDeleteProjectId(id);
+    setDeleteProjectIds(id);
   };
 
   const handleEdit = async (id: string | null) => {
@@ -77,31 +77,44 @@ const ProjectsPage = () => {
   };
 
   const handleSubmit = async (id: string, name: string, isActive: boolean) => {
-    if (queryProjectDetails.data?.name !== name) {
-      await toastPromise(updateNameMutation.mutateAsync({ id, name }), {
-        success: "Name updated successfully",
-        error: "Failed to update name",
-        loading: "Updating name...",
-      });
+    const hasNameChanged = queryProjectDetails.data?.name !== name;
+    const hasStatusChanged = queryProjectDetails.data?.isActive !== isActive;
+
+    if (!hasNameChanged && !hasStatusChanged) return;
+
+    let errorOccurred = false;
+
+    if (hasNameChanged) {
+      try {
+        await updateNameMutation.mutateAsync({ id, name });
+      } catch {
+        toastError(`Error while updating name`);
+        errorOccurred = true;
+      }
     }
 
-    if (queryProjectDetails.data?.isActive !== isActive) {
-      await toastPromise(updateActivityMutation.mutateAsync({ id, isActive }), {
-        success: "Project status updated successfully",
-        error: "Failed to update project status",
-        loading: "Updating project status...",
-      });
+    if (hasStatusChanged) {
+      try {
+        await updateActivityMutation.mutateAsync({ id, isActive });
+      } catch {
+        toastError(`Error while updating status`);
+        errorOccurred = true;
+      }
+    }
+
+    if (!errorOccurred) {
+      setEditOpen(false);
     }
   };
 
   return (
     <TableLayout>
       <ComponentOrLoader
-        isLoading={dataQueryProjects.isLoading}
+        isLoading={queryProjects.isLoading}
         loader={<Loader />}
       >
         <Projects
-          projects={dataQueryProjects.data}
+          projects={queryProjects.data}
           sorting={sorting}
           setSorting={setSorting}
           pagination={pagination}
@@ -125,9 +138,12 @@ const ProjectsPage = () => {
           onSubmit={handleSubmit}
           open={editOpen}
           setOpen={setEditOpen}
+          isSubmitting={
+            updateNameMutation.isPending || updateActivityMutation.isPending
+          }
         />
         <ConfirmDeleteDialog
-          onSubmit={() => handleDelete(deleteProjectId)}
+          onSubmit={() => handleDelete(deleteProjectIds)}
           isSubmitting={deleteMutation.isPending}
           isOpen={deleteOpen}
           description={`Deleting the project will remove all associated samples. Type the word delete to confirm`}
