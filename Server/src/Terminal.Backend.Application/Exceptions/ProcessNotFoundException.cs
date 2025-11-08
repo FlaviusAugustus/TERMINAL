@@ -4,7 +4,7 @@ namespace Terminal.Backend.Application.Exceptions;
 
 public class ProcessNotFoundException : TerminalException
 {
-    public ProcessNotFoundException() : base("Sample not found!")
+    public ProcessNotFoundException() : base("Process not found!")
     {
     }
 }

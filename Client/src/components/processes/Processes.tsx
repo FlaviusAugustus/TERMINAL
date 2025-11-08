@@ -7,9 +7,8 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { SamplesResponse } from "@hooks/samples/useGetSamples.ts";
+import { ProcessesResponse } from "@hooks/processes/useGetProcesses.ts";
 import { useEffect, useState } from "react";
-import Chip from "@components/shared/common/Chip.tsx";
 import {
   MagnifyingGlassIcon,
   PlusIcon,
@@ -20,12 +19,12 @@ import FormInput from "@components/shared/form/FormInput.tsx";
 import { Link } from "react-router-dom";
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
-import { Sample } from "@api/models/Sample";
+import { Process } from "@api/models/Process.ts";
 import TableOrCardLayout from "@components/shared/table/TableOrCardLayout";
 
 export interface SamplesProps {
   onChangeSampleDetails?: (code: string) => void;
-  samples: SamplesResponse | undefined;
+  processes: ProcessesResponse | undefined;
   sorting: SortingState;
   pagination: PaginationState;
   setSorting: OnChangeFn<SortingState>;
@@ -40,35 +39,31 @@ export interface SamplesProps {
   };
 }
 
-const columnHelper = createColumnHelper<Sample>();
+const columnHelper = createColumnHelper<Process>();
 
 const columnsDef = [
   columnHelper.accessor("code", {
     header: "Code",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("project", {
-    header: "Project Name",
-    cell: (info) => <Chip value={info.getValue()} />,
+    cell: (info) => info.getValue().prefix + info.getValue().sequentialNumber,
   }),
   columnHelper.accessor("createdAtUtc", {
     header: "Created At",
     cell: (info) => new Date(info.getValue()).toDateString(),
   }),
-] as Array<ColumnDef<Sample, unknown>>;
+] as Array<ColumnDef<Process, unknown>>;
 
 /**
- * samples Component
+ * processes Component
  *
- * A component that displays a list of samples in a table format.
+ * A component that displays a list of processes in a table format.
  * It allows for sorting and pagination of the sample data.
  * It also provides a way to handle row clicks to view sample details.
  *
  * @component
- * @param {SamplesProps} props - The properties for the samples component.
+ * @param {SamplesProps} props - The properties for the processes component.
  */
-const Samples = (props: SamplesProps) => {
-  const columns = useTableColumns<Sample>({
+const Processes = (props: SamplesProps) => {
+  const columns = useTableColumns<Process>({
     columnsDef: columnsDef,
     onDelete: props.onDelete,
     onEdit: props.onEdit,
@@ -85,7 +80,7 @@ const Samples = (props: SamplesProps) => {
 
   const table = useReactTable({
     columns: columns,
-    data: props.samples?.rows ?? [],
+    data: props.processes?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
     defaultColumn: {
       size: "auto" as unknown as number,
@@ -98,7 +93,7 @@ const Samples = (props: SamplesProps) => {
     getRowId: (row) => row.id,
     onRowSelectionChange: setRowSelection,
     enableMultiRowSelection: true,
-    rowCount: props.samples?.rowsAmount ?? 0,
+    rowCount: props.processes?.rowsAmount ?? 0,
     onSortingChange: props.setSorting,
     onPaginationChange: props.setPagination,
     manualSorting: true,
@@ -156,4 +151,4 @@ const Samples = (props: SamplesProps) => {
   );
 };
 
-export default Samples;
+export default Processes;

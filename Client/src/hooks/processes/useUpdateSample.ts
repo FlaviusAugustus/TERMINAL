@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
 import { AxiosResponse } from "axios";
 import { sampleToUpdateRequest } from "utils/mapUtils";
-import { SampleDetailsDto, UpdateSample } from "@api/models/Sample";
+import { ProcessDetailsDto, UpdateSample } from "@api/models/Process.ts";
 
 async function editSample(sample: UpdateSample): Promise<AxiosResponse> {
   return await apiClient.patch(`samples/${sample.id}`, { ...sample });
@@ -19,13 +19,13 @@ export function useEditSample() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (sample: SampleDetailsDto) =>
+    mutationFn: (sample: ProcessDetailsDto) =>
       editSample(sampleToUpdateRequest(sample)),
     onSuccess: (_data, variables) => {
       queryClient.setQueryData(["sampleDetails", variables.id], () => {
         return {
           ...variables,
-        } satisfies SampleDetailsDto;
+        } satisfies ProcessDetailsDto;
       });
     },
   });

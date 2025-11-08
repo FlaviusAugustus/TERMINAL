@@ -55,7 +55,7 @@ public static class Extensions
             Id = entity.Id.Value,
             Projects = entity.Projects.AsProjectsDto(),
             Recipe = entity.Recipe?.AsDto(),
-            Code = entity.Code.AsDto(),
+            Code = entity.Code,
             Comment = entity.Comment.Value,
             CreatedAtUtc = entity.CreatedAtUtc.ToString("o"),
             Steps = entity.Steps.AsStepsDto(),

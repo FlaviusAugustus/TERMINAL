@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Terminal.Backend.Application.Queries.Processes.Get;
 using Terminal.Backend.Core.Entities;
 
-namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples;
+namespace Terminal.Backend.Infrastructure.DAL.Handlers.Processes;
 
 internal sealed class GetProcessesAmountQueryHandler : IRequestHandler<GetProcessesAmountQuery, int>
 {

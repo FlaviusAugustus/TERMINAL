@@ -1,9 +1,9 @@
 import apiClient from "@api/apiClient";
-import { Sample } from "@api/models/Sample";
+import { Process } from "@api/models/Process.ts";
 import { useQuery } from "@tanstack/react-query";
 
 export type RecentSamplesResponse = {
-  recentSamples: Sample[];
+  recentSamples: Process[];
 };
 
 async function fetchRecentSamples(length: number) {
@@ -15,7 +15,7 @@ async function fetchRecentSamples(length: number) {
 /**
  * useGetRecentSamples Hook
  *
- * A custom hook that fetches recent samples from the API.
+ * A custom hook that fetches recent processes from the API.
  *
  * @hook
  */

@@ -20,7 +20,7 @@ internal sealed class GetProjectQueryHandler : IRequestHandler<GetProjectQuery, 
         var projectId = query.ProjectId;
         var project = (await _projects
             .AsNoTracking()
-            // FIXME: .Include(p => p.Samples)
+            // FIXME: .Include(p => p.Processes)
             .SingleOrDefaultAsync(p => p.Id.Equals(projectId), ct))?.AsGetProjectDto();
 
         if (project is null) return project;

@@ -1,17 +1,23 @@
 import { Step, UpdateStep } from "./Step";
 import { Tag } from "./Tag";
+import { Project } from "@playwright/test";
 
-export type Sample = {
+export type Process = {
   id: string;
-  code: string;
-  project: string;
+  code: Code;
+  projects: string[];
   createdAtUtc: Date;
   comment: string;
 };
 
-export type SampleDetailsDto = Omit<Sample, "project"> & {
+export type Code = {
+  prefix: string;
+  sequentialNumber: number;
+};
+
+export type ProcessDetailsDto = Omit<Process, "projects"> & {
   recipe?: string;
-  projectId: string;
+  projects: Project[];
   steps: Step[];
   tags: Tag[];
 };

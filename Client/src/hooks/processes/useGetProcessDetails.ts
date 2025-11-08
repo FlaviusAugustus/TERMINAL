@@ -1,11 +1,11 @@
 import apiClient from "@api/apiClient.ts";
-import { SampleDetailsDto } from "@api/models/Sample";
+import { ProcessDetailsDto } from "@api/models/Process.ts";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 async function fetchDataSampleDetails(
   id: string | null
-): Promise<SampleDetailsDto> {
-  return (await apiClient.get(`/samples/${id}`)).data;
+): Promise<ProcessDetailsDto> {
+  return (await apiClient.get(`/process/${id}`)).data;
 }
 
 /**
@@ -17,7 +17,7 @@ async function fetchDataSampleDetails(
  */
 export function useSampleDetails(id: string | null) {
   return useQuery({
-    queryKey: ["sampleDetails", id],
+    queryKey: ["processDetails", id],
     queryFn: () => fetchDataSampleDetails(id),
     placeholderData: keepPreviousData,
     enabled: id !== null,

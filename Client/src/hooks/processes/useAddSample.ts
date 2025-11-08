@@ -1,6 +1,6 @@
 import apiClient from "@api/apiClient";
 import { useMutation } from "@tanstack/react-query";
-import { CreateSample } from "@api/models/Sample.ts";
+import { CreateSample } from "@api/models/Process.ts";
 
 async function addSample(sample: CreateSample) {
   return await apiClient.post("/samples", sample);

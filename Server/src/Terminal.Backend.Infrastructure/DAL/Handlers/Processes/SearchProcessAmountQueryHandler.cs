@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Terminal.Backend.Application.Queries.Processes.Search;
 using Terminal.Backend.Core.Entities;
 
-namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples.Search;
+namespace Terminal.Backend.Infrastructure.DAL.Handlers.Processes.Search;
 
 internal sealed class SearchProcessAmountQueryHandler : IRequestHandler<SearchProcessAmountQuery, int>
 {

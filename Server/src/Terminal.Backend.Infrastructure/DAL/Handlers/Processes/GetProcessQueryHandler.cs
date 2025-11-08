@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Terminal.Backend.Application.DTO.Processes;
 using Terminal.Backend.Application.Queries.Processes.Get;
 
-namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples;
+namespace Terminal.Backend.Infrastructure.DAL.Handlers.Processes;
 
 internal class GetProcessQueryHandler : IRequestHandler<GetProcessQuery, GetProcessDto?>
 {

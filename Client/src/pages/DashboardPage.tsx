@@ -1,4 +1,4 @@
-import { Sample } from "@api/models/Sample";
+import { Process } from "@api/models/Process.ts";
 import {
   EntityAmountCard,
   EntityAmountCardButton,
@@ -10,8 +10,8 @@ import TableView from "@components/shared/table/TableView";
 import { TagIcon } from "@heroicons/react/24/outline";
 import { useGetProjectAmount } from "@hooks/projects/useGetProjectAmount";
 import { useGetRecipeAmount } from "@hooks/recipes/useGetRecipeAmount";
-import useGetRecentSamples from "@hooks/samples/useGetRecentSamples";
-import { useGetSampleAmount } from "@hooks/samples/useSampleAmount";
+import useGetRecentSamples from "@hooks/processes/useGetRecentSamples";
+import { useGetSampleAmount } from "@hooks/processes/useSampleAmount";
 import { useGetUserAmount } from "@hooks/users/useUserAmount";
 import {
   createColumnHelper,
@@ -20,7 +20,7 @@ import {
 } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
 
-const columnHelper = createColumnHelper<Sample>();
+const columnHelper = createColumnHelper<Process>();
 
 const recipeColumns = [
   columnHelper.accessor("code", {
@@ -137,14 +137,14 @@ const DashboardPage = () => {
         <div className="col-span-2">
           <p className="p-2 text-md">Recent Samples</p>
           <TableCard>
-            <TableView<Sample> table={table} handleClickRow={() => {}} />
+            <TableView<Process> table={table} handleClickRow={() => {}} />
           </TableCard>
         </div>
 
         <div className="col-span-1 flex-1">
           <p className="p-2 text-md">Pinned Recipes</p>
           <TableCard>
-            <TableView<Sample> table={recipeTable} handleClickRow={() => {}} />
+            <TableView<Process> table={recipeTable} handleClickRow={() => {}} />
           </TableCard>
         </div>
       </div>

@@ -4,7 +4,7 @@ using Terminal.Backend.Application.DTO.Processes;
 using Terminal.Backend.Application.Queries.Processes.Search;
 using Terminal.Backend.Core.Entities;
 
-namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples;
+namespace Terminal.Backend.Infrastructure.DAL.Handlers.Processes;
 
 internal sealed class SearchProcessQueryHandler : IRequestHandler<SearchProcessQuery, GetSearchedProcessesDto>
 {

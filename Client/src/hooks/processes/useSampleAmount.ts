@@ -9,7 +9,7 @@ const queryArg = {
 /**
  * useGetSampleAmount Hook
  *
- * Fetches the total number of samples from the API.
+ * Fetches the total number of processes from the API.
  *
  * @hook
  */
@@ -20,7 +20,7 @@ function useGetSampleAmount() {
 /**
  * usePrefetchSampleAmount Hook
  *
- * Prefetches the total number of samples from the API.
+ * Prefetches the total number of processes from the API.
  *
  * @hook
  */

@@ -9,7 +9,7 @@ import NoNavbarLayout from "@pages/layouts/NoNavbarLayout";
 import { toastOptions } from "@utils/toast.utils.tsx";
 import ProjectsPage from "@pages/ProjectsPage.tsx";
 import RecipesPage from "@pages/RecipesPage.tsx";
-import SamplesPage from "@pages/SamplesPage";
+import ProcessPage from "@pages/ProcessPage.tsx";
 import UsersPage from "@pages/UsersPage.tsx";
 import AddRecipeWithContexts from "@pages/AddRecipe.tsx";
 import DashboardPage from "@pages/DashboardPage.tsx";
@@ -58,8 +58,8 @@ export default function App() {
           <Route element={<AuthorizedLayout pageName="Invitate new user" />}>
             <Route path="/invitations" element={<></>} />
           </Route>
-          <Route element={<AuthorizedLayout pageName="Samples" />}>
-            <Route path="/samples" element={<SamplesPage />} />
+          <Route element={<AuthorizedLayout pageName="Processes" />}>
+            <Route path="/samples" element={<ProcessPage />} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Parameters" />}>
             <Route path="/parameters" element={<ParametersPage />} />

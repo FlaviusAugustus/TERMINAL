@@ -1,8 +1,8 @@
 import { StepParameterValueDto } from "@api/models/Parameters";
-import { SampleDetailsDto, UpdateSample } from "@api/models/Sample";
+import { ProcessDetailsDto, UpdateSample } from "@api/models/Process.ts";
 import { UpdateStep } from "@api/models/Step";
 
-function sampleToUpdateRequest(sample: SampleDetailsDto): UpdateSample {
+function sampleToUpdateRequest(sample: ProcessDetailsDto): UpdateSample {
   return {
     id: sample.id,
     projectId: sample.projectId,

@@ -5,7 +5,7 @@ using Terminal.Backend.Application.DTO.Processes;
 using Terminal.Backend.Application.Queries.Processes.Get;
 using Terminal.Backend.Core.Entities;
 
-namespace Terminal.Backend.Infrastructure.DAL.Handlers.Samples;
+namespace Terminal.Backend.Infrastructure.DAL.Handlers.Processes;
 
 internal sealed class GetProcessesQueryHandler : IRequestHandler<GetProcessesQuery, GetProcessesDto>
 {

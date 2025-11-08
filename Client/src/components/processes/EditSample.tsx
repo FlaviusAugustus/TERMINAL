@@ -1,4 +1,4 @@
-import { SampleDetailsDto } from "@api/models/Sample";
+import { ProcessDetailsDto } from "@api/models/Process.ts";
 import ChipSet from "@components/shared/common/ChipSet.tsx";
 import Detail from "@components/shared/common/Detail.tsx";
 import {
@@ -8,14 +8,14 @@ import {
 import StepsTableManagement from "@components/shared/table/StepsTableManagement";
 import TableCard from "@components/shared/table/TableCard";
 import TableView from "@components/shared/table/TableView";
-import useUpdateSample from "@hooks/samples/useUpdateSample";
+import useUpdateSample from "@hooks/processes/useUpdateSample";
 import { useEditableStepTable } from "@hooks/steps/useEditableStepsTable.tsx";
 import useEditableForm from "@hooks/steps/useStepsForm.tsx";
 import { DialogSubmitButton } from "@components/shared/dialog/DialogSubmitButton.tsx";
 import { toastError } from "@utils/toast.utils.tsx";
 
 export interface SampleDetailsProps {
-  sample: SampleDetailsDto | undefined;
+  sample: ProcessDetailsDto | undefined;
   open: boolean;
   openChange: (arg0: boolean) => void;
 }
@@ -35,12 +35,12 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
     setData: setNewSample,
     hasChanges: valueChanged,
     resetForm,
-  } = useEditableForm<SampleDetailsDto>(sample);
+  } = useEditableForm<ProcessDetailsDto>(sample);
 
   const { index, setIndex, table } = useEditableStepTable({
     steps: newSample?.steps ?? [],
     updateData: (rowIndex: number, _: string, value: unknown) => {
-      const nsample = structuredClone(newSample) as SampleDetailsDto;
+      const nsample = structuredClone(newSample) as ProcessDetailsDto;
       nsample.steps![index].parameters![rowIndex].value = value as
         | string
         | number;
@@ -64,7 +64,7 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
     <DialogComp
       isOpen={open}
       setIsOpen={openChange}
-      title="Edit Sample"
+      title="Edit Process"
       className="w-full lg:w-[700px]"
       hasDynamicHeight
     >

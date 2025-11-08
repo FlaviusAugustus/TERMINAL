@@ -1,4 +1,4 @@
-import { SampleDetailsDto } from "@api/models/Sample";
+import { ProcessDetailsDto } from "@api/models/Process.ts";
 import ChipSet from "@components/shared/common/ChipSet.tsx";
 import Detail from "@components/shared/common/Detail.tsx";
 import { DialogComp } from "@components/shared/dialog/DialogComp.tsx";
@@ -8,7 +8,7 @@ import TableView from "@components/shared/table/TableView";
 import { useEditableStepTable } from "@hooks/steps/useEditableStepsTable.tsx";
 
 export interface SampleDetailsProps {
-  sample: SampleDetailsDto | undefined;
+  sample: ProcessDetailsDto | undefined;
   open: boolean;
   openChange: (arg0: boolean) => void;
 }
@@ -33,13 +33,16 @@ const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
     <DialogComp
       isOpen={open}
       setIsOpen={openChange}
-      title="Sample Details"
+      title="Process Details"
       className="w-full lg:w-[700px]"
       hasDynamicHeight
     >
       <div className="space-y-3 font-light text-sm text-gray-600">
         <div className="grid grid-cols-2 gap-3">
-          <Detail label="code">{sample?.code}</Detail>
+          <Detail label="code">
+            {sample?.code?.prefix}
+            {sample?.code?.sequentialNumber}
+          </Detail>
           <Detail label="step count">{sample?.steps?.length ?? 0}</Detail>
           <Detail label="creation date">{date}</Detail>
           <Detail label="comment">{sample?.comment}</Detail>

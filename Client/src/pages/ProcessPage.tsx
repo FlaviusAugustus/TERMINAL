@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { PaginationState, SortingState } from "@tanstack/react-table";
-import Samples from "@components/samples/Samples.tsx";
-import SampleDetails from "@components/samples/SampleDetails.tsx";
-import { useSamples } from "@hooks/samples/useGetSamples.ts";
-import { useSampleDetails } from "@hooks/samples/useGetSampleDetails.ts";
-import { useDeleteSample } from "@hooks/samples/useDeleteSample.ts";
+import Processes from "@components/processes/Processes.tsx";
+import SampleDetails from "@components/processes/SampleDetails.tsx";
+import { useProcesses } from "@hooks/processes/useGetProcesses.ts";
+import { useSampleDetails } from "@hooks/processes/useGetProcessDetails.ts";
+import { useDeleteSample } from "@hooks/processes/useDeleteSample.ts";
 import TableLayout from "./layouts/TableLayout";
 import Loader from "@components/shared/loader/Loader.tsx";
 import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
-import EditSample from "@components/samples/EditSample";
+import EditSample from "@components/processes/EditSample";
 import DialogLoader from "@components/shared/dialog/DialogLoader.tsx";
 import { toastError } from "@utils/toast.utils.tsx";
 import ConfirmDeleteDialog from "@components/shared/dialog/ConfirmDeleteDialog.tsx";
 
-const SamplesPage = () => {
+const ProcessPage = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -21,7 +21,7 @@ const SamplesPage = () => {
   });
   const [searchPhrase, setSearchPhrase] = useState("");
 
-  const samplesQuery = useSamples({
+  const samplesQuery = useProcesses({
     pageNumber: pagination.pageIndex,
     pageSize: pagination.pageSize,
     orderBy: sorting[0]?.id ?? "",
@@ -75,8 +75,8 @@ const SamplesPage = () => {
   return (
     <TableLayout>
       <ComponentOrLoader isLoading={samplesQuery.isLoading} loader={<Loader />}>
-        <Samples
-          samples={samplesQuery.data}
+        <Processes
+          processes={samplesQuery.data}
           sorting={sorting}
           pagination={pagination}
           setSorting={setSorting}
@@ -119,4 +119,4 @@ const SamplesPage = () => {
   );
 };
 
-export default SamplesPage;
+export default ProcessPage;

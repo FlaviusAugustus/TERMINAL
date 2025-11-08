@@ -1,8 +1,8 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
-import { Sample } from "@api/models/Sample";
+import { Process } from "@api/models/Process.ts";
 
-export type SamplesRequest = {
+export type ProcessesRequest = {
   pageNumber: number;
   pageSize: number;
   orderBy?: string;
@@ -10,13 +10,13 @@ export type SamplesRequest = {
   searchPhrase?: string;
 };
 
-export type SamplesResponse = {
-  rows: Sample[];
+export type ProcessesResponse = {
+  rows: Process[];
   pageAmount: number;
   rowsAmount: number;
 };
 
-function correctParams(params: SamplesRequest): SamplesRequest {
+function correctParams(params: ProcessesRequest): ProcessesRequest {
   function capitalizeFirstLetter(val: string | undefined) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
   }
@@ -37,14 +37,14 @@ function correctParams(params: SamplesRequest): SamplesRequest {
   }
 }
 
-async function fetchDataSamples(
-  params: SamplesRequest
-): Promise<SamplesResponse> {
-  let samples;
+async function fetchDataProcesses(
+  params: ProcessesRequest
+): Promise<ProcessesResponse> {
+  let processes;
   let rowsAmount;
   params = correctParams(params);
   if (params.searchPhrase) {
-    samples = await apiClient.get("/samples/search", {
+    processes = await apiClient.get("/process/search", {
       params: {
         searchPhrase: params.searchPhrase,
         pageNumber: params.pageNumber,
@@ -52,23 +52,23 @@ async function fetchDataSamples(
         desc: params.desc,
       },
     });
-    rowsAmount = samples.data.totalAmount;
+    rowsAmount = processes.data.totalAmount;
     return {
-      rows: samples.data.samples,
+      rows: processes.data.samples,
       pageAmount: Math.ceil(rowsAmount / params.pageSize),
       rowsAmount,
     };
   } else {
-    samples = await apiClient.get("/samples", {
+    processes = await apiClient.get("/process", {
       params: {
         pageNumber: params.pageNumber,
         pageSize: params.pageSize,
         desc: params.desc,
       },
     });
-    const amountOfSamples = await apiClient.get("/samples/amount");
+    const amountOfSamples = await apiClient.get("/process/amount");
     return {
-      rows: samples.data.samples,
+      rows: processes.data.processes,
       pageAmount: Math.ceil(amountOfSamples.data / params.pageSize),
       rowsAmount: amountOfSamples.data,
     };
@@ -78,16 +78,16 @@ async function fetchDataSamples(
 /**
  * useSamples Hook
  *
- * A custom hook that fetches samples data from the API.
- * It returns the samples data for the given parameters, or keeps previous data while loading new data.
+ * A custom hook that fetches processes data from the API.
+ * It returns the processes data for the given parameters, or keeps previous data while loading new data.
  *
  * @hook
- * @param {SamplesRequest} params - The parameters for the samples request.
+ * @param {ProcessesRequest} params - The parameters for the processes request.
  */
-export function useSamples(params: SamplesRequest) {
+export function useProcesses(params: ProcessesRequest) {
   return useQuery({
-    queryKey: ["samples", params],
-    queryFn: () => fetchDataSamples(params),
+    queryKey: ["processes", params],
+    queryFn: () => fetchDataProcesses(params),
     placeholderData: keepPreviousData,
   });
 }

@@ -4,8 +4,8 @@ import { useState } from "react";
 import { toastPromise } from "@utils/toast.utils.tsx";
 import AddSampleDialog from "@components/addSample/AddSampleDialog.tsx";
 import { EMPTY_RECIPE, Recipe } from "@api/models/Recipe.ts";
-import useAddSample from "@hooks/samples/useAddSample.ts";
-import { CreateSample } from "@api/models/Sample.ts";
+import useAddSample from "@hooks/processes/useAddSample.ts";
+import { CreateSample } from "@api/models/Process.ts";
 
 type AddSampleActionsProps = {
   setSelectedRecipe: (recipe: Recipe) => void;
@@ -45,7 +45,7 @@ const AddSampleActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
     }
     toastPromise(mutateAsync(payload), {
       loading: "loading",
-      success: "Sample added successfully",
+      success: "Process added successfully",
       error: "Error while adding a sample",
     });
   };

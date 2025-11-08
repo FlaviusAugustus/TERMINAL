@@ -8,7 +8,7 @@ namespace Terminal.Backend.Application.DTO.Processes;
 public class GetProcessDto
 {
     public Guid Id { get; set; }
-    public GetCodeDto Code { get; set; }
+    public Code Code { get; set; }
     public GetRecipeDto? Recipe { get; set; }
     public string CreatedAtUtc { get; set; }
     public string? Comment { get; set; }

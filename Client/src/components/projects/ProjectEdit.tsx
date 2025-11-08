@@ -20,7 +20,7 @@ export interface ProjectDetailsProps {
 /**
  * ProjectEdit Component
  *
- * Displays details of a project including name, samples and activity.
+ * Displays details of a project including name, processes and activity.
  * Provides functionality to reset changes, submit changes, change activity and name.
  *
  * @component
