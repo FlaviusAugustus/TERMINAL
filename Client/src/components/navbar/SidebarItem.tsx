@@ -1,3 +1,4 @@
+import useIsOnline from "@hooks/useIsOnline";
 import clsx from "clsx";
 import { NavLink } from "react-router-dom";
 
@@ -6,6 +7,7 @@ export type NavbarItemProps = {
   text: string;
   href: string;
   onClick: () => void;
+  onlineOnly?: boolean;
 };
 
 /**
@@ -15,23 +17,34 @@ export type NavbarItemProps = {
  *
  * @component
  */
-const SidebarItem = ({ onClick, icon, text, href }: NavbarItemProps) => {
+const SidebarItem = ({
+  onClick,
+  icon,
+  text,
+  href,
+  onlineOnly = false,
+}: NavbarItemProps) => {
+  const online = useIsOnline();
+  const showLink = (onlineOnly && online) || !onlineOnly;
+
   return (
-    <NavLink
-      onClick={onClick}
-      to={href}
-      className={({ isActive }) =>
-        clsx(
-          "focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:ring-blue-500 focus:outline-none rounded-md",
-          isActive && "bg-gray-200/60 rounded-md"
-        )
-      }
-    >
-      <div className="flex gap-2 rounded-md p-2 hover:bg-gray-200/60 cursor-pointer">
-        {icon}
-        <p className="text-sm">{text}</p>
-      </div>
-    </NavLink>
+    showLink && (
+      <NavLink
+        onClick={onClick}
+        to={href}
+        className={({ isActive }) =>
+          clsx(
+            "focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:ring-blue-500 focus:outline-none rounded-md",
+            isActive && "bg-gray-200/60 rounded-md"
+          )
+        }
+      >
+        <div className="flex gap-2 rounded-md p-2 hover:bg-gray-200/60 cursor-pointer">
+          {icon}
+          <p className="text-sm">{text}</p>
+        </div>
+      </NavLink>
+    )
   );
 };
 

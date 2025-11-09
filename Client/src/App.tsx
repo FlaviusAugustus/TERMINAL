@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "@pages/LoginPage";
 import AddProject from "@pages/AddProject.tsx";
@@ -19,8 +19,10 @@ import AddTag from "@pages/AddTag.tsx";
 import AddSampleWithContexts from "@pages/AddSample.tsx";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { persister, queryClient } from "@utils/queryClient";
+import useIsOnline from "@hooks/useIsOnline";
 
 export default function App() {
+  const online = useIsOnline();
   return (
     <PersistQueryClientProvider
       client={queryClient}
@@ -31,21 +33,27 @@ export default function App() {
       <Toaster toastOptions={toastOptions} />
       <BrowserRouter>
         <Routes>
-          <Route element={<AuthorizedLayout pageName="Add new recipe" />}>
-            <Route path="/new-recipe" element={<AddRecipeWithContexts />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Add new project" />}>
-            <Route path="/new-project" element={<AddProject />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Add new sample" />}>
-            <Route path="/new-sample" element={<AddSampleWithContexts />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Add new parameter" />}>
-            <Route path="/new-parameter" element={<AddParameter />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Add new tag" />}>
-            <Route path="/new-tag" element={<AddTag />} />
-          </Route>
+          {online && (
+            <>
+              <Route element={<AuthorizedLayout pageName="Add new recipe" />}>
+                <Route path="/new-recipe" element={<AddRecipeWithContexts />} />
+              </Route>
+              <Route element={<AuthorizedLayout pageName="Add new project" />}>
+                <Route path="/new-project" element={<AddProject />} />
+              </Route>
+              <Route element={<AuthorizedLayout pageName="Add new sample" />}>
+                <Route path="/new-sample" element={<AddSampleWithContexts />} />
+              </Route>
+              <Route
+                element={<AuthorizedLayout pageName="Add new parameter" />}
+              >
+                <Route path="/new-parameter" element={<AddParameter />} />
+              </Route>
+              <Route element={<AuthorizedLayout pageName="Add new tag" />}>
+                <Route path="/new-tag" element={<AddTag />} />
+              </Route>
+            </>
+          )}
           <Route element={<AuthorizedLayout pageName="Dashboard" />}>
             <Route path="/" element={<DashboardPage />} />
           </Route>

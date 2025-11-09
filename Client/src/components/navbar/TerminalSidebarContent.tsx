@@ -40,21 +40,25 @@ const TerminalSidebarContent = ({
           icon={<Squares2X2Icon className="h-5 w-5" />}
         />
         <SidebarItemWithSubLinks
+          onlineOnly
           text="Add new"
           icon={<PlusCircleIcon className="h-5 w-5" />}
         >
           <SidebarItem
+            onlineOnly
             onClick={onAfterNavigate}
             text="Recipe"
             href="/new-recipe"
           />
           <SidebarItem
+            onlineOnly
             onClick={onAfterNavigate}
             text="Sample"
             href="/new-sample"
           />
           <VisibleForRoles roles={["Administrator", "Moderator"]}>
             <SidebarItem
+              onlineOnly
               onClick={onAfterNavigate}
               text="Project"
               href="/new-project"
@@ -62,12 +66,18 @@ const TerminalSidebarContent = ({
           </VisibleForRoles>
           <VisibleForRoles roles={["Administrator", "Moderator"]}>
             <SidebarItem
+              onlineOnly
               onClick={onAfterNavigate}
               text="Parameter"
               href="/new-parameter"
             />
           </VisibleForRoles>
-          <SidebarItem onClick={onAfterNavigate} text="Tag" href="/new-tag" />
+          <SidebarItem
+            onlineOnly
+            onClick={onAfterNavigate}
+            text="Tag"
+            href="/new-tag"
+          />
         </SidebarItemWithSubLinks>
       </SidebarLinkGroup>
       <SidebarLinkGroup text="Manage">
