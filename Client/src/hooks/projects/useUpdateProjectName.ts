@@ -18,7 +18,7 @@ async function updateProjectName({ id, name }: UpdateProjectNameDto) {
 /**
  * useUpdateProjectName Hook
  *
- * A custom hook that provides functionality to update a project's name.
+ * A custom hook that provides functionality to update a projects's name.
  *
  * @hook
  * @param {UpdateProjectNameDto} params - The parameters for the users request.

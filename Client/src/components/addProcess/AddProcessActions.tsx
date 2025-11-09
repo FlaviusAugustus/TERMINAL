@@ -2,38 +2,40 @@ import { ArrowPathIcon, CheckIcon } from "@heroicons/react/24/outline";
 import { useAddRecipeContext } from "@hooks/recipes/useAddRecipeContext.tsx";
 import { useState } from "react";
 import { toastPromise } from "@utils/toast.utils.tsx";
-import AddSampleDialog from "@components/addSample/AddSampleDialog.tsx";
+import AddProcessDialog from "@components/addProcess/AddProcessDialog.tsx";
 import { EMPTY_RECIPE, Recipe } from "@api/models/Recipe.ts";
-import useAddSample from "@hooks/processes/useAddSample.ts";
-import { CreateSample } from "@api/models/Process.ts";
+import useAddSample from "@hooks/processes/useAddProcess.ts";
+import { CreateProcess } from "@api/models/Process.ts";
 
 type AddSampleActionsProps = {
   setSelectedRecipe: (recipe: Recipe) => void;
 };
 
 /**
- * AddSampleActions Component
+ * AddProcessActions Component
  *
  * Provides actions for adding a recipe, including resetting the form and submitting the recipe.
  *
  * @component
  */
-const AddSampleActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
+const AddProcessActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { updateRecipe, recipe, setCurrentStep } = useAddRecipeContext();
   const { mutateAsync, isPending } = useAddSample();
 
   const handleSubmit = async (args: {
+    prefix: string;
     recipeName: string;
     saveAsRecipe: boolean;
     comment: string;
-    projectId: string;
+    projects: string[];
     tagIds: string[];
   }) => {
     updateRecipe(EMPTY_RECIPE);
     setCurrentStep(0);
-    const payload: CreateSample = {
-      projectId: args.projectId,
+    const payload: CreateProcess = {
+      prefix: args.prefix,
+      projects: args.projects,
       steps: recipe.steps,
       tagIds: args.tagIds,
       comment: args.comment,
@@ -70,7 +72,7 @@ const AddSampleActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
           <CheckIcon className="h-5 w-5" />
         </button>
       </div>
-      <AddSampleDialog
+      <AddProcessDialog
         isOpen={dialogOpen}
         setIsOpen={setDialogOpen}
         onSubmit={handleSubmit}
@@ -80,4 +82,4 @@ const AddSampleActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
   );
 };
 
-export default AddSampleActions;
+export default AddProcessActions;

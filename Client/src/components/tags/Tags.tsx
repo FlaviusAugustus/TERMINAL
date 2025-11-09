@@ -51,7 +51,7 @@ const columnsDef = [
  * Tag Component
  *
  * A component that displays a list of tags in a table format.
- * It allows sorting and pagination of the tag data.
+ * It allows sorting and pagination of the tags data.
  *
  * @component
  */

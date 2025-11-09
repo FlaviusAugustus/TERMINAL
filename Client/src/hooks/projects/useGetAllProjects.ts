@@ -52,7 +52,7 @@ async function fetchDataProject(
  * Fetches a list of projects based on the provided parameters.
  *
  * @hook
- * @param {ProjectsRequest} params - The parameters for the project request.
+ * @param {ProjectsRequest} params - The parameters for the projects request.
  */
 export function useAllProjects({ pageSize, pageNumber }: ProjectsRequest) {
   return useQuery({

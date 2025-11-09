@@ -20,7 +20,7 @@ export interface ProjectDetailsProps {
 /**
  * ProjectEdit Component
  *
- * Displays details of a project including name, processes and activity.
+ * Displays details of a projects including name, processes and activity.
  * Provides functionality to reset changes, submit changes, change activity and name.
  *
  * @component
@@ -46,7 +46,7 @@ const ProjectEdit = (props: ProjectDetailsProps) => {
     <DialogComp
       isOpen={props.open}
       setIsOpen={props.setOpen}
-      title={"Edit project"}
+      title={"Edit projects"}
     >
       <FormInput
         label="Name"

@@ -18,7 +18,7 @@ import ParametersPage from "@pages/ParametersPage.tsx";
 import AddParameter from "@pages/AddParameter.tsx";
 import TagsPage from "@pages/TagsPage.tsx";
 import AddTag from "@pages/AddTag.tsx";
-import AddSampleWithContexts from "@pages/AddSample.tsx";
+import AddSampleWithContexts from "@pages/AddProcess.tsx";
 
 const queryClient = new QueryClient();
 

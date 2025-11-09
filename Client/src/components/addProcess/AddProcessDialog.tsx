@@ -6,74 +6,63 @@ import {
 } from "@components/shared/dialog/DialogComp.tsx";
 import FormInput from "@components/shared/form/FormInput.tsx";
 import LabeledCheckbox from "@components/shared/form/LabeledCheckbox.tsx";
-import {
-  SelectItem,
-  LabeledSelect,
-} from "@components/shared/form/LabeledSelect.tsx";
-import { useProjects } from "@hooks/projects/useGetProjects";
-import { useEffect, useState } from "react";
-import LabeledTagInput from "@components/shared/tag/LabeledTagInput.tsx";
+import { useState } from "react";
+import LabeledTagInput from "@components/shared/tags/LabeledTagInput.tsx";
 import { Tag } from "@api/models/Tag.ts";
 import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 import Form from "@components/shared/form/Form.tsx";
 import LabeledTextArea from "@components/shared/form/LabeledTextArea";
+import LabeledProjectInput from "@components/shared/projects/LabeledProjectInput.tsx";
 
-function validateProject(project: Project | null) {
-  return project !== null;
+function validateProject(projects: Project[]) {
+  return projects.length > 0;
 }
 
 type AddSampleDialogProps = Omit<DialogProps, "title"> & {
   onSubmit: (args: {
+    prefix: string;
     recipeName: string;
-    projectId: string;
     saveAsRecipe: boolean;
     comment: string;
+    projects: string[];
     tagIds: string[];
   }) => Promise<void>;
   isPending: boolean;
 };
 
-const AddSampleDialog = ({
+const AddProcessDialog = ({
   onSubmit,
   setIsOpen,
   isPending,
   ...rest
 }: AddSampleDialogProps) => {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [prefix, setPrefix] = useState("");
   const [saveAsRecipe, setSaveAsRecipe] = useState(false);
   const [recipeName, setRecipeName] = useState("");
   const [comment, setComment] = useState("");
   const [tags, setTags] = useState<Tag[]>([]);
-
-  const { data, isLoading } = useProjects({ pageSize: 999, pageNumber: 0 });
-
-  useEffect(() => {
-    if (!selectedProject && data?.rows?.length) {
-      setSelectedProject(data.rows[0]);
-    }
-  }, [data?.rows, selectedProject]);
+  const [projects, setProjects] = useState<Project[]>([]);
 
   const handleClose = () => {
-    setSelectedProject(null);
+    setProjects([]);
     setIsOpen(false);
   };
 
   const handleSubmit = async () => {
-    if (!validateProject(selectedProject)) {
+    if (!validateProject(projects)) {
       return;
     }
     await onSubmit({
+      prefix: prefix,
       recipeName: recipeName,
       saveAsRecipe: saveAsRecipe,
-      projectId: selectedProject.id,
+      projects: projects.map((p) => p.id),
       comment: comment,
       tagIds: tags.map((tag) => tag.id),
     });
 
     handleClose();
   };
-
-  if (isLoading) return <div></div>;
 
   return (
     <DialogComp
@@ -84,20 +73,18 @@ const AddSampleDialog = ({
     >
       <Form handleSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
-          <LabeledSelect
-            label="Project"
-            value={selectedProject}
-            displayValue={(project) => project?.name ?? ""}
-            onChange={(project: Project) => setSelectedProject(project)}
-          >
-            {data?.rows.map((project) => (
-              <SelectItem<Project>
-                key={project.id}
-                value={project}
-                displayValue={project.name}
-              />
-            ))}
-          </LabeledSelect>
+          <FormInput
+            label="Prefix"
+            required={true}
+            minLength={1}
+            maxLength={50}
+            value={prefix}
+            onChange={(e) => setPrefix(e.currentTarget.value.toUpperCase())}
+          />
+          <LabeledProjectInput
+            projects={projects ?? []}
+            setPojects={setProjects}
+          />
           <LabeledCheckbox
             label="Save as recipe"
             checked={saveAsRecipe}
@@ -130,4 +117,4 @@ const AddSampleDialog = ({
   );
 };
 
-export default AddSampleDialog;
+export default AddProcessDialog;

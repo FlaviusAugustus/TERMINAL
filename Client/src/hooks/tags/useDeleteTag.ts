@@ -10,7 +10,7 @@ async function deleteTag(id: string | undefined): Promise<AxiosResponse> {
 /**
  * useDeleteTag Hook
  *
- * A custom hook that provides functionality to delete a tag.
+ * A custom hook that provides functionality to delete a tags.
  *
  * @hook
  * @param {TagsRequest} params - The parameters for the projects request.

@@ -12,9 +12,9 @@ import { useEditableStepTable } from "@hooks/steps/useEditableStepsTable.tsx";
 import useEditableForm from "@hooks/steps/useStepsForm.tsx";
 import { DialogSubmitButton } from "@components/shared/dialog/DialogSubmitButton.tsx";
 import { toastError } from "@utils/toast.utils.tsx";
-import LabeledTagInput from "@components/shared/tag/LabeledTagInput.tsx";
+import LabeledTagInput from "@components/shared/tags/LabeledTagInput.tsx";
 import { Tag } from "@api/models/Tag.ts";
-import LabeledProjectInput from "@components/shared/project/LabeledProjectInput.tsx";
+import LabeledProjectInput from "@components/shared/projects/LabeledProjectInput.tsx";
 import { Project } from "@api/models/Project.ts";
 
 export interface SampleDetailsProps {

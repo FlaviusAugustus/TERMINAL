@@ -35,35 +35,25 @@ namespace Terminal.Backend.Infrastructure.DAL.Services
                     throw new InvalidCodeFormatException("Prefix can only contain letters.");
                 }
             }
+            
+            var prefixValue = normalizedPrefix;
 
-            await using var transaction = await _dbContext.Database.BeginTransactionAsync(ct);
+            var counter = _dbContext.PrefixCounters.Local
+                                .SingleOrDefault(pc => pc.Prefix == prefixValue);
 
-            try
+            if (counter == null)
             {
-                var prefixValue = normalizedPrefix;
-
-                var counter = _dbContext.PrefixCounters.Local
-                                    .SingleOrDefault(pc => pc.Prefix == prefixValue);
-
-                if (counter == null)
-                {
-                    counter = await _dbContext.PrefixCounters
-                        .FromSqlInterpolated($"SELECT * FROM \"PrefixCounters\" WHERE \"Prefix\" = {prefixValue} FOR UPDATE")
-                        .SingleOrDefaultAsync(ct);
-                }
-                if (counter == null)
-                {
-                    counter = new PrefixCounter(prefixValue);
-                    _dbContext.PrefixCounters.Add(counter);
-                }
-                var nextValue = counter.Increment();
-                return Code.Create(normalizedPrefix, nextValue);
+                counter = await _dbContext.PrefixCounters
+                    .FromSqlInterpolated($"SELECT * FROM \"PrefixCounters\" WHERE \"Prefix\" = {prefixValue} FOR UPDATE")
+                    .SingleOrDefaultAsync(ct);
             }
-            catch (Exception)
+            if (counter == null)
             {
-                await transaction.RollbackAsync(ct);
-                throw;
+                counter = new PrefixCounter(prefixValue);
+                _dbContext.PrefixCounters.Add(counter);
             }
+            var nextValue = counter.Increment();
+            return Code.Create(normalizedPrefix, nextValue);
         }
     }
 }

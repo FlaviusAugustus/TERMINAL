@@ -4,8 +4,8 @@ import { RecipeDragProvider } from "@hooks/recipes/useRecipeDragContext.tsx";
 import useGetParameters from "@hooks/parameters/useGetParameters.ts";
 import ParameterSelectList from "@components/shared/parameterList/ParameterSelectList.tsx";
 import Steps from "@components/shared/steps/Steps.tsx";
-import SelectRecipe from "@components/addSample/SelectRecipe.tsx";
-import AddSampleActions from "@components/addSample/AddSampleActions.tsx";
+import SelectRecipe from "@components/addProcess/SelectRecipe.tsx";
+import AddProcessActions from "@components/addProcess/AddProcessActions.tsx";
 import { Recipe } from "@api/models/Recipe.ts";
 
 const AddSampleWithContexts = () => {
@@ -18,13 +18,13 @@ const AddSampleWithContexts = () => {
   return (
     <AddRecipeProvider>
       <RecipeDragProvider parameters={parameters.parameters}>
-        <AddSample />
+        <AddProcess />
       </RecipeDragProvider>
     </AddRecipeProvider>
   );
 };
 
-const AddSample = () => {
+const AddProcess = () => {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe>({
     id: "",
     name: "",
@@ -39,14 +39,14 @@ const AddSample = () => {
           />
           <ParameterSelectList />
           <div className="hidden sm:block">
-            <AddSampleActions setSelectedRecipe={setSelectedRecipe} />
+            <AddProcessActions setSelectedRecipe={setSelectedRecipe} />
           </div>
         </div>
         <div className="flex flex-col border border-gray-200 rounded-md bg-white w-full overflow-hidden">
           <Steps />
         </div>
         <div className="w-full sm:hidden">
-          <AddSampleActions setSelectedRecipe={setSelectedRecipe} />
+          <AddProcessActions setSelectedRecipe={setSelectedRecipe} />
         </div>
       </div>
     </div>

@@ -22,8 +22,9 @@ export type ProcessDetailsDto = Omit<Process, "projects"> & {
   tags: Tag[];
 };
 
-export type CreateSample = {
-  projectId: string;
+export type CreateProcess = {
+  prefix: string;
+  projects: string[];
   recipeId?: string;
   steps: Step[];
   tagIds: string[];
