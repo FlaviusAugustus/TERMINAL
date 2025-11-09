@@ -1,5 +1,4 @@
 import { ProcessDetailsDto } from "@api/models/Process.ts";
-import ChipSet from "@components/shared/common/ChipSet.tsx";
 import Detail from "@components/shared/common/Detail.tsx";
 import {
   DialogButton,
@@ -15,6 +14,8 @@ import { DialogSubmitButton } from "@components/shared/dialog/DialogSubmitButton
 import { toastError } from "@utils/toast.utils.tsx";
 import LabeledTagInput from "@components/shared/tag/LabeledTagInput.tsx";
 import { Tag } from "@api/models/Tag.ts";
+import LabeledProjectInput from "@components/shared/project/LabeledProjectInput.tsx";
+import { Project } from "@api/models/Project.ts";
 
 export interface SampleDetailsProps {
   process: ProcessDetailsDto | undefined;
@@ -58,6 +59,13 @@ const EditProcess = ({ process, open, openChange }: SampleDetailsProps) => {
     setNewProcess(updated);
   };
 
+  const handleEditProjects = (newProjects: Project[]) => {
+    if (!newProcess) return;
+    const updated = structuredClone(newProcess) as ProcessDetailsDto;
+    updated.projects = newProjects;
+    setNewProcess(updated);
+  };
+
   const handleUpdate = async () => {
     if (!newProcess) return;
     try {
@@ -92,13 +100,10 @@ const EditProcess = ({ process, open, openChange }: SampleDetailsProps) => {
           tags={newProcess?.tags ?? []}
           setTags={handleEditTags}
         />
-        <div className="flex flex-col gap-1 items-start w-full justify-center">
-          <Detail label="projects">
-            <ChipSet
-              values={process?.projects?.map((p) => p.name ?? "") ?? []}
-            />
-          </Detail>
-        </div>
+        <LabeledProjectInput
+          projects={newProcess?.projects ?? []}
+          setPojects={handleEditProjects}
+        />
         <div className="w-full">
           {newProcess?.steps?.length !== 0 && (
             <Detail label="steps">
