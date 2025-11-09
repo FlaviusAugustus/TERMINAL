@@ -82,7 +82,7 @@ public static class Extensions
             }), s.Comment));
 
     public static IEnumerable<ProjectDto> AsProjectsDto(this IEnumerable<Project> projects)
-        => projects.Select(p => new ProjectDto());
+        => projects.Select(p => p.AsGetProjectDto());
 
     // public static IEnumerable<GetSampleStepsDto> AsStepsDto(this IEnumerable<RecipeStep> steps)
     //     => steps.Select(s => new GetSampleStepsDto(
