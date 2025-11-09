@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PaginationState, SortingState } from "@tanstack/react-table";
 import Processes from "@components/processes/Processes.tsx";
-import SampleDetails from "@components/processes/SampleDetails.tsx";
+import ProcessDetails from "@components/processes/ProcessDetails.tsx";
 import { useProcesses } from "@hooks/processes/useGetProcesses.ts";
 import { useSampleDetails } from "@hooks/processes/useGetProcessDetails.ts";
 import { useDeleteSample } from "@hooks/processes/useDeleteSample.ts";
@@ -102,7 +102,7 @@ const ProcessPage = () => {
           open={editOpen}
           openChange={setEditOpen}
         />
-        <SampleDetails
+        <ProcessDetails
           sample={dataQuerySampleDetails.data}
           open={detailsOpen}
           openChange={setDetailsOpen}

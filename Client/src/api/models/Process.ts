@@ -1,6 +1,6 @@
 import { Step, UpdateStep } from "./Step";
 import { Tag } from "./Tag";
-import { Project } from "@playwright/test";
+import { Project } from "@api/models/Project.ts";
 
 export type Process = {
   id: string;

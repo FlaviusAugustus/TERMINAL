@@ -14,7 +14,7 @@ export interface SampleDetailsProps {
 }
 
 /**
- * SampleDetails Component
+ * ProcessDetails Component
  *
  * Displays details of a sample including code, creation date, tags, comment, and number of steps.
  *
@@ -22,7 +22,7 @@ export interface SampleDetailsProps {
  * @component
  * @param {SampleDetailsProps} - The properties for the component.
  */
-const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
+const ProcessDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
   const { index, setIndex, table } = useEditableStepTable({
     steps: sample?.steps ?? [],
   });
@@ -52,6 +52,13 @@ const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
             <ChipSet values={sample?.tags?.map((t) => t.name ?? "") ?? []} />
           </Detail>
         </div>
+        <div className="flex flex-col gap-1 items-start w-full justify-center">
+          <Detail label="projects">
+            <ChipSet
+              values={sample?.projects?.map((p) => p.name ?? "") ?? []}
+            />
+          </Detail>
+        </div>
         <div className="w-full">
           {sample?.steps?.length !== 0 && (
             <Detail label="steps">
@@ -74,4 +81,4 @@ const SampleDetails = ({ sample, open, openChange }: SampleDetailsProps) => {
   );
 };
 
-export default SampleDetails;
+export default ProcessDetails;
