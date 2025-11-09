@@ -19,37 +19,27 @@ namespace Terminal.Backend.Infrastructure.DAL.Handlers.Processes
         public async Task Handle(DeleteProcessCommand request, CancellationToken cancellationToken)
         {
             var processId = request.Id;
-            await using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
 
-            try
+            var process = await _dbContext.Processes
+                .FirstOrDefaultAsync(p => p.Id == processId, cancellationToken);
+
+            if (process is null)
             {
-                var process = await _dbContext.Processes
-                    .FirstOrDefaultAsync(p => p.Id == processId, cancellationToken);
-
-                if (process is null)
-                {
-                    throw new ProcessNotFoundException();
-                }
-
-                var prefixValue = process.Code.Prefix;
-                var counter = await _dbContext.PrefixCounters
-                    .FromSqlInterpolated($"SELECT * FROM \"PrefixCounters\" WHERE \"Prefix\" = {prefixValue} FOR UPDATE")
-                    .SingleOrDefaultAsync(cancellationToken);
-
-                if (counter != null && process.Code.SequentialNumber == counter.LastValue)
-                {
-                    counter.Decrement();
-                }
-
-                _dbContext.Processes.Remove(process);
-                await _dbContext.SaveChangesAsync(cancellationToken);
-                await transaction.CommitAsync(cancellationToken);
+                throw new ProcessNotFoundException();
             }
-            catch (Exception ex)
+
+            var prefixValue = process.Code.Prefix;
+            var counter = await _dbContext.PrefixCounters
+                .FromSqlInterpolated($"SELECT * FROM \"PrefixCounters\" WHERE \"Prefix\" = {prefixValue} FOR UPDATE")
+                .SingleOrDefaultAsync(cancellationToken);
+
+            if (counter != null && process.Code.SequentialNumber == counter.LastValue)
             {
-                await transaction.RollbackAsync(cancellationToken);
-                throw;
+                counter.Decrement();
             }
+
+            _dbContext.Processes.Remove(process);
+            await _dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
