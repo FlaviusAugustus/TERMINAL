@@ -3,7 +3,6 @@ import {
   EntityAmountCard,
   EntityAmountCardButton,
 } from "@components/dashboard/EntityAmountCard";
-import Chip from "@components/shared/common/Chip.tsx";
 import IconButton from "@components/shared/common/IconButton.tsx";
 import TableCard from "@components/shared/table/TableCard";
 import TableView from "@components/shared/table/TableView";
@@ -27,7 +26,7 @@ const recipeColumns = [
     header: "Code",
     cell: (info) => (
       <div className="flex items-center justify-between">
-        {info.getValue()}
+        {info.getValue().prefix + info.getValue().sequentialNumber}
         <div className="relative">
           <div className="flex items-center justify-center absolute top-0 right-1 -translate-y-1/2">
             <IconButton className="!p-1 border-none hover:bg-gray-200 flex items-center justify-center">
@@ -44,10 +43,6 @@ const columns = [
   columnHelper.accessor("code", {
     header: "Code",
     cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("project", {
-    header: "Project Name",
-    cell: (info) => <Chip value={info.getValue()} />,
   }),
   columnHelper.accessor("createdAtUtc", {
     header: "Created At",
@@ -107,11 +102,11 @@ const DashboardPage = () => {
         >
           <EntityAmountCardButton
             title="Browse All"
-            onClick={() => navigate("/samples")}
+            onClick={() => navigate("/processes")}
           />
           <EntityAmountCardButton
             title="Add New"
-            onClick={() => navigate("/new-sample")}
+            onClick={() => navigate("/new-process")}
           />
         </EntityAmountCard>
 

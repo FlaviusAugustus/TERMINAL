@@ -34,8 +34,8 @@ export default function App() {
           <Route element={<AuthorizedLayout pageName="Add new project" />}>
             <Route path="/new-project" element={<AddProject />} />
           </Route>
-          <Route element={<AuthorizedLayout pageName="Add new sample" />}>
-            <Route path="/new-sample" element={<AddSampleWithContexts />} />
+          <Route element={<AuthorizedLayout pageName="Add new process" />}>
+            <Route path="/new-process" element={<AddSampleWithContexts />} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Add new parameter" />}>
             <Route path="/new-parameter" element={<AddParameter />} />
@@ -59,7 +59,7 @@ export default function App() {
             <Route path="/invitations" element={<></>} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Processes" />}>
-            <Route path="/samples" element={<ProcessPage />} />
+            <Route path="/processes" element={<ProcessPage />} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Parameters" />}>
             <Route path="/parameters" element={<ParametersPage />} />

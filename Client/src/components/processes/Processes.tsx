@@ -137,7 +137,7 @@ const Processes = (props: SamplesProps) => {
               <XMarkIcon className="h-4 " />
               <p className="text-xs hidden md:block">Delete Selected</p>
             </IconButton>
-            <Link to="/new-sample">
+            <Link to="/new-process">
               <IconButton className="h-[40px] w-[40px] md:w-auto flex justify-center bg-white items-center gap-1">
                 <PlusIcon className="h-4" />
                 <p className="text-xs hidden md:block">Add new</p>
