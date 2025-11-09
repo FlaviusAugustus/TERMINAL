@@ -13,6 +13,7 @@ type UseTableColumnsProps<T> = {
   onDetails?: (id: string) => void;
   onEdit?: (id: string) => void;
   onDelete?: (id: string) => void;
+  actionsDisabled: boolean;
 };
 
 export function useTableColumns<T extends { id: string }>({
@@ -20,6 +21,7 @@ export function useTableColumns<T extends { id: string }>({
   onDetails,
   onEdit,
   onDelete,
+  actionsDisabled,
 }: UseTableColumnsProps<T>) {
   const columnHelper = createColumnHelper<T>();
 
@@ -50,6 +52,7 @@ export function useTableColumns<T extends { id: string }>({
         size: 0,
         cell: ({ row }) => (
           <RowActions
+            disabled={actionsDisabled}
             onDetails={onDetails ? () => onDetails(row.original.id) : undefined}
             onEdit={onEdit ? () => onEdit(row.original.id) : undefined}
             onDelete={onDelete ? () => onDelete(row.original.id) : undefined}

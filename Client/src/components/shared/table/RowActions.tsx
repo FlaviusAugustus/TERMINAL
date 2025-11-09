@@ -10,14 +10,21 @@ type RowActionsProps = {
   onEdit?: () => void;
   onDelete?: () => void;
   onDetails?: () => void;
+  disabled: boolean;
 };
 
-const RowActions = ({ onEdit, onDetails, onDelete }: RowActionsProps) => {
+const RowActions = ({
+  onEdit,
+  onDetails,
+  onDelete,
+  disabled = false,
+}: RowActionsProps) => {
   return (
     <div className="flex gap-1">
       {onDetails && (
         <IconButton
           onClick={onDetails}
+          disabled={disabled}
           className="hover:bg-gray-100 hover:border-blue-200"
         >
           <MagnifyingGlassIcon className="h-4 rounded-md" />
@@ -27,6 +34,7 @@ const RowActions = ({ onEdit, onDetails, onDelete }: RowActionsProps) => {
         {onEdit && (
           <IconButton
             onClick={onEdit}
+            disabled={disabled}
             className="hover:bg-gray-100 hover:border-blue-200"
           >
             <PencilIcon className="h-4 rounded-md" />
@@ -35,6 +43,7 @@ const RowActions = ({ onEdit, onDetails, onDelete }: RowActionsProps) => {
         {onDelete && (
           <IconButton
             onClick={onDelete}
+            disabled={disabled}
             className="hover:bg-gray-100 hover:border-red-200"
           >
             <XMarkIcon className="h-4 rounded-md" />

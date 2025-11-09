@@ -23,7 +23,7 @@ export interface RecipeDetailsProps {
  */
 const RecipeDetails = ({ recipe, open, openChange }: RecipeDetailsProps) => {
   const { index, setIndex, table } = useEditableStepTable({
-    steps: recipe?.steps ?? [],
+    steps: recipe != undefined ? recipe.steps : [],
   });
 
   return (

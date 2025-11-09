@@ -1,5 +1,3 @@
-import { QueryClient } from "@tanstack/react-query";
-import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "@pages/LoginPage";
@@ -19,12 +17,17 @@ import AddParameter from "@pages/AddParameter.tsx";
 import TagsPage from "@pages/TagsPage.tsx";
 import AddTag from "@pages/AddTag.tsx";
 import AddSampleWithContexts from "@pages/AddSample.tsx";
-
-const queryClient = new QueryClient();
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { persister, queryClient } from "@utils/queryClient";
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{
+        persister: persister,
+      }}
+    >
       <Toaster toastOptions={toastOptions} />
       <BrowserRouter>
         <Routes>
@@ -80,6 +83,6 @@ export default function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </QueryClientProvider>
+    </PersistQueryClientProvider>
   );
 }

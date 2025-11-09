@@ -1,6 +1,7 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
 import { Recipe } from "@api/models/Recipe";
+import useIsOnline from "@hooks/useIsOnline";
 
 export type RecipesRequest = {
   pageNumber: number;
@@ -61,9 +62,11 @@ async function fetchDataRecipes(
  * @param {RecipesRequest} params - The parameters for fetching recipes.
  */
 export function useRecipes(params: RecipesRequest) {
+  const online = useIsOnline();
   return useQuery({
     queryKey: ["recipes", params],
     queryFn: () => fetchDataRecipes(params),
     placeholderData: keepPreviousData,
+    enabled: online,
   });
 }
