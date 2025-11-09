@@ -10,8 +10,8 @@ import TableView from "@components/shared/table/TableView";
 import { TagIcon } from "@heroicons/react/24/outline";
 import { useGetProjectAmount } from "@hooks/projects/useGetProjectAmount";
 import { useGetRecipeAmount } from "@hooks/recipes/useGetRecipeAmount";
-import useGetRecentSamples from "@hooks/processes/useGetRecentSamples";
-import { useGetSampleAmount } from "@hooks/processes/useSampleAmount";
+import useGetRecentProcesses from "@hooks/processes/useGetRecentProcesses.ts";
+import { useGetProcessAmount } from "@hooks/processes/useProcessAmount.ts";
 import { useGetUserAmount } from "@hooks/users/useUserAmount";
 import {
   createColumnHelper,
@@ -56,10 +56,10 @@ const columns = [
 ];
 const DashboardPage = () => {
   const { data: projectAmount } = useGetProjectAmount();
-  const { data: sampleAmount } = useGetSampleAmount();
+  const { data: sampleAmount } = useGetProcessAmount();
   const { data: recipesAmount } = useGetRecipeAmount();
   const { data: userAmount } = useGetUserAmount();
-  const { data: recentSamples } = useGetRecentSamples(14);
+  const { data: recentSamples } = useGetRecentProcesses(14);
 
   const navigate = useNavigate();
 

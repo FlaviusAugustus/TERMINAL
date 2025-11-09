@@ -2,12 +2,12 @@ import apiClient from "@api/apiClient";
 import { Process } from "@api/models/Process.ts";
 import { useQuery } from "@tanstack/react-query";
 
-export type RecentSamplesResponse = {
+export type RecentProcessesResponse = {
   recentSamples: Process[];
 };
 
-async function fetchRecentSamples(length: number) {
-  return await apiClient.get<RecentSamplesResponse>("samples/recent", {
+async function fetchRecentProcesses(length: number) {
+  return await apiClient.get<RecentProcessesResponse>("process/recent", {
     params: { length: length },
   });
 }
@@ -19,11 +19,11 @@ async function fetchRecentSamples(length: number) {
  *
  * @hook
  */
-function useGetRecentSamples(length: number) {
+function useGetRecentProcesses(length: number) {
   return useQuery({
-    queryKey: ["recent", "samples"],
-    queryFn: () => fetchRecentSamples(length),
+    queryKey: ["recent", "processes"],
+    queryFn: () => fetchRecentProcesses(length),
   });
 }
 
-export default useGetRecentSamples;
+export default useGetRecentProcesses;

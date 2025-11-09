@@ -4,7 +4,7 @@ import Processes from "@components/processes/Processes.tsx";
 import ProcessDetails from "@components/processes/ProcessDetails.tsx";
 import { useProcesses } from "@hooks/processes/useGetProcesses.ts";
 import { useSampleDetails } from "@hooks/processes/useGetProcessDetails.ts";
-import { useDeleteSample } from "@hooks/processes/useDeleteSample.ts";
+import { useDeleteProcess } from "@hooks/processes/useDeleteProcess.ts";
 import TableLayout from "./layouts/TableLayout";
 import Loader from "@components/shared/loader/Loader.tsx";
 import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
@@ -29,7 +29,7 @@ const ProcessPage = () => {
     searchPhrase,
   });
 
-  const deleteMutation = useDeleteSample({
+  const deleteMutation = useDeleteProcess({
     pageNumber: pagination.pageIndex,
     pageSize: pagination.pageSize,
     orderBy: sorting[0]?.id ?? "",

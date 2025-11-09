@@ -3,8 +3,8 @@ import { ProcessesRequest } from "@hooks/processes/useGetProcesses.ts";
 import apiClient from "@api/apiClient.ts";
 import { AxiosResponse } from "axios";
 
-async function deleteSample(id: string | undefined): Promise<AxiosResponse> {
-  return await apiClient.delete(`samples/${id}`);
+async function deleteProcess(id: string | undefined): Promise<AxiosResponse> {
+  return await apiClient.delete(`process/${id}`);
 }
 
 /**
@@ -15,14 +15,14 @@ async function deleteSample(id: string | undefined): Promise<AxiosResponse> {
  * @hook
  * @param {ProcessesRequest} params - The parameters for the processes request.
  */
-export function useDeleteSample(params: ProcessesRequest) {
+export function useDeleteProcess(params: ProcessesRequest) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => deleteSample(id),
+    mutationFn: (id: string) => deleteProcess(id),
     onSuccess: (_data, variables) => {
-      queryClient.setQueryData(["sampleDetails", variables], () => null);
-      queryClient.invalidateQueries({ queryKey: ["samples", params] });
+      queryClient.setQueryData(["processDetails", variables], () => null);
+      queryClient.invalidateQueries({ queryKey: ["processes", params] });
     },
   });
 }

@@ -2,8 +2,8 @@ import apiClient from "@api/apiClient";
 import { usePrefetchQuery, useQuery } from "@tanstack/react-query";
 
 const queryArg = {
-  queryKey: ["amount", "samples"],
-  queryFn: async () => await apiClient.get<number>("/samples/amount"),
+  queryKey: ["amount", "processes"],
+  queryFn: async () => await apiClient.get<number>("/process/amount"),
 };
 
 /**
@@ -13,7 +13,7 @@ const queryArg = {
  *
  * @hook
  */
-function useGetSampleAmount() {
+function useGetProcessAmount() {
   return useQuery(queryArg);
 }
 
@@ -24,7 +24,8 @@ function useGetSampleAmount() {
  *
  * @hook
  */
-function usePrefetchSampleAmount() {
+function usePrefetchProcessAmount() {
   return usePrefetchQuery(queryArg);
 }
-export { useGetSampleAmount, usePrefetchSampleAmount };
+
+export { useGetProcessAmount, usePrefetchProcessAmount };

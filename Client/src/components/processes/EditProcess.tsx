@@ -7,7 +7,7 @@ import {
 import StepsTableManagement from "@components/shared/table/StepsTableManagement";
 import TableCard from "@components/shared/table/TableCard";
 import TableView from "@components/shared/table/TableView";
-import useUpdateSample from "@hooks/processes/useUpdateSample";
+import useUpdateSample from "@hooks/processes/useUpdateProcess.ts";
 import { useEditableStepTable } from "@hooks/steps/useEditableStepsTable.tsx";
 import useEditableForm from "@hooks/steps/useStepsForm.tsx";
 import { DialogSubmitButton } from "@components/shared/dialog/DialogSubmitButton.tsx";
