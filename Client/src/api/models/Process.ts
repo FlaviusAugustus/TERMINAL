@@ -32,8 +32,8 @@ export type CreateSample = {
   recipeName?: string;
 };
 
-export type UpdateSample = {
-  projectId: string;
+export type UpdateProcess = {
+  projects: string[];
   id: string;
   recipeId?: string;
   steps: UpdateStep[];

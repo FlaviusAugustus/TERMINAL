@@ -13,15 +13,17 @@ import { useEditableStepTable } from "@hooks/steps/useEditableStepsTable.tsx";
 import useEditableForm from "@hooks/steps/useStepsForm.tsx";
 import { DialogSubmitButton } from "@components/shared/dialog/DialogSubmitButton.tsx";
 import { toastError } from "@utils/toast.utils.tsx";
+import LabeledTagInput from "@components/shared/tag/LabeledTagInput.tsx";
+import { Tag } from "@api/models/Tag.ts";
 
 export interface SampleDetailsProps {
-  sample: ProcessDetailsDto | undefined;
+  process: ProcessDetailsDto | undefined;
   open: boolean;
   openChange: (arg0: boolean) => void;
 }
 
 /**
- * EditSample Component
+ * EditProcess Component
  *
  * Displays details of a sample including code, creation date, tags, comment, and number of steps.
  * Allows for editing parameter values.
@@ -29,31 +31,37 @@ export interface SampleDetailsProps {
  * @component
  * @param {SampleDetailsProps} - The properties for the component.
  */
-const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
+const EditProcess = ({ process, open, openChange }: SampleDetailsProps) => {
   const {
-    data: newSample,
-    setData: setNewSample,
+    data: newProcess,
+    setData: setNewProcess,
     hasChanges: valueChanged,
     resetForm,
-  } = useEditableForm<ProcessDetailsDto>(sample);
+  } = useEditableForm<ProcessDetailsDto>(process);
 
   const { index, setIndex, table } = useEditableStepTable({
-    steps: newSample?.steps ?? [],
+    steps: newProcess?.steps ?? [],
     updateData: (rowIndex: number, _: string, value: unknown) => {
-      const nsample = structuredClone(newSample) as ProcessDetailsDto;
+      const nsample = structuredClone(newProcess) as ProcessDetailsDto;
       nsample.steps![index].parameters![rowIndex].value = value as
         | string
         | number;
-      setNewSample(nsample);
+      setNewProcess(nsample);
     },
   });
   const mutation = useUpdateSample();
 
-  const handleUpdate = async () => {
-    if (!newSample) return;
+  const handleEditTags = (newTags: Tag[]) => {
+    if (!newProcess) return;
+    const updated = structuredClone(newProcess) as ProcessDetailsDto;
+    updated.tags = newTags;
+    setNewProcess(updated);
+  };
 
+  const handleUpdate = async () => {
+    if (!newProcess) return;
     try {
-      await mutation.mutateAsync(newSample);
+      await mutation.mutateAsync(newProcess);
       openChange(false);
     } catch {
       toastError(`Error while updating sample`);
@@ -70,26 +78,35 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
     >
       <div className="space-y-3 font-light text-sm text-gray-600">
         <div className="grid grid-cols-2 gap-3">
-          <Detail label="code">{sample?.code}</Detail>
-          <Detail label="step count">{sample?.steps?.length ?? 0}</Detail>
-          <Detail label="creation date">
-            {new Date(sample?.createdAtUtc ?? "").toDateString()}
+          <Detail label="code">
+            {process?.code?.prefix}
+            {process?.code?.sequentialNumber}
           </Detail>
-          <Detail label="comment">{sample?.comment}</Detail>
+          <Detail label="step count">{process?.steps?.length ?? 0}</Detail>
+          <Detail label="creation date">
+            {new Date(process?.createdAtUtc ?? "").toDateString()}
+          </Detail>
+          <Detail label="comment">{process?.comment}</Detail>
         </div>
+        <LabeledTagInput
+          tags={newProcess?.tags ?? []}
+          setTags={handleEditTags}
+        />
         <div className="flex flex-col gap-1 items-start w-full justify-center">
-          <Detail label="tags">
-            <ChipSet values={sample?.tags?.map((t) => t.name ?? "") ?? []} />
+          <Detail label="projects">
+            <ChipSet
+              values={process?.projects?.map((p) => p.name ?? "") ?? []}
+            />
           </Detail>
         </div>
         <div className="w-full">
-          {newSample?.steps?.length !== 0 && (
+          {newProcess?.steps?.length !== 0 && (
             <Detail label="steps">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 z-[-1]">
                 <StepsTableManagement
                   activeIndex={index}
                   activeIndexChange={setIndex}
-                  steps={sample?.steps ?? []}
+                  steps={process?.steps ?? []}
                 />
                 <TableCard className="!h-full !shadow-none">
                   <TableView table={table} />
@@ -120,4 +137,4 @@ const EditSample = ({ sample, open, openChange }: SampleDetailsProps) => {
   );
 };
 
-export default EditSample;
+export default EditProcess;

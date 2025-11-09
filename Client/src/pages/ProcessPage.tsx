@@ -8,7 +8,7 @@ import { useDeleteSample } from "@hooks/processes/useDeleteSample.ts";
 import TableLayout from "./layouts/TableLayout";
 import Loader from "@components/shared/loader/Loader.tsx";
 import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
-import EditSample from "@components/processes/EditSample";
+import EditProcess from "@components/processes/EditProcess.tsx";
 import DialogLoader from "@components/shared/dialog/DialogLoader.tsx";
 import { toastError } from "@utils/toast.utils.tsx";
 import ConfirmDeleteDialog from "@components/shared/dialog/ConfirmDeleteDialog.tsx";
@@ -97,8 +97,8 @@ const ProcessPage = () => {
         }
         loader={<DialogLoader />}
       >
-        <EditSample
-          sample={dataQuerySampleDetails.data}
+        <EditProcess
+          process={dataQuerySampleDetails.data}
           open={editOpen}
           openChange={setEditOpen}
         />

@@ -12,7 +12,7 @@ import {
 } from "@components/shared/form/LabeledSelect.tsx";
 import { useProjects } from "@hooks/projects/useGetProjects";
 import { useEffect, useState } from "react";
-import LabeledTagInput from "@components/addSample/LabeledTagInput.tsx";
+import LabeledTagInput from "@components/shared/tag/LabeledTagInput.tsx";
 import { Tag } from "@api/models/Tag.ts";
 import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 import Form from "@components/shared/form/Form.tsx";

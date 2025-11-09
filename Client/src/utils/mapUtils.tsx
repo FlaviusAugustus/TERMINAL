@@ -1,11 +1,11 @@
 import { StepParameterValueDto } from "@api/models/Parameters";
-import { ProcessDetailsDto, UpdateSample } from "@api/models/Process.ts";
+import { ProcessDetailsDto, UpdateProcess } from "@api/models/Process.ts";
 import { UpdateStep } from "@api/models/Step";
 
-function sampleToUpdateRequest(sample: ProcessDetailsDto): UpdateSample {
+function sampleToUpdateRequest(sample: ProcessDetailsDto): UpdateProcess {
   return {
     id: sample.id,
-    projectId: sample.projectId,
+    projects: sample.projects.map((p) => p.id),
     recipeId: sample.recipe,
     tagIds: sample.tags?.filter((t) => t.id !== undefined).map((t) => t.id!),
     comment: sample.comment,
