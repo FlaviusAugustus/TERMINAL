@@ -29,7 +29,7 @@ export function useTableColumns<T extends { id: string }>({
   const online = useIsOnline();
   const queryClient = useQueryClient();
 
-  const editDisabled = (id: string) => {
+  const allowEdit = (id: string) => {
     if (online) return true;
     if (!online && !detailsQueryKeyBuilder) return true;
     if (
@@ -67,7 +67,7 @@ export function useTableColumns<T extends { id: string }>({
         size: 0,
         cell: ({ row }) => (
           <RowActions
-            disabled={!editDisabled(row.original.id)}
+            disabled={!allowEdit(row.original.id)}
             onDetails={onDetails ? () => onDetails(row.original.id) : undefined}
             onEdit={onEdit ? () => onEdit(row.original.id) : undefined}
             onDelete={onDelete ? () => onDelete(row.original.id) : undefined}
