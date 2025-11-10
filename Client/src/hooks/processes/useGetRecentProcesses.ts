@@ -1,5 +1,6 @@
 import apiClient from "@api/apiClient";
 import { Process } from "@api/models/Process.ts";
+import useIsOnline from "@hooks/useIsOnline";
 import { useQuery } from "@tanstack/react-query";
 
 export type RecentProcessesResponse = {
@@ -20,9 +21,11 @@ async function fetchRecentProcesses(length: number) {
  * @hook
  */
 function useGetRecentProcesses(length: number) {
+  const online = useIsOnline();
   return useQuery({
     queryKey: ["recent", "processes"],
     queryFn: () => fetchRecentProcesses(length),
+    enabled: online,
   });
 }
 

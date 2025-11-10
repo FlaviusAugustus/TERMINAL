@@ -63,6 +63,7 @@ const Recipes = (props: RecipesProps) => {
     onEdit: props.onEdit,
     onDelete: props.onDelete,
     onDetails: props.onDetails,
+    detailsQueryKeyBuilder: (id) => ["recipeDetails", id],
   });
 
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});

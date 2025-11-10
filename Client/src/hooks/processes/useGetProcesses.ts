@@ -1,5 +1,6 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
+import useIsOnline from "@hooks/useIsOnline";
 import { Process } from "@api/models/Process.ts";
 
 export type ProcessesRequest = {
@@ -85,9 +86,11 @@ async function fetchDataProcesses(
  * @param {ProcessesRequest} params - The parameters for the processes request.
  */
 export function useProcesses(params: ProcessesRequest) {
+  const online = useIsOnline();
   return useQuery({
     queryKey: ["processes", params],
     queryFn: () => fetchDataProcesses(params),
     placeholderData: keepPreviousData,
+    enabled: online,
   });
 }

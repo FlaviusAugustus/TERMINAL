@@ -6,25 +6,30 @@ import { useUserRoles } from "@hooks/users/useUserRoles.ts";
 import { Role } from "@api/models/Role.ts";
 import FullScreenLoader from "@components/shared/loader/FullScreenLoader.tsx";
 import { useState } from "react";
+import useIsOnline from "@hooks/useIsOnline";
 
 type AuthorizedNavbarLayoutProps = {
   pageName: string;
   roles?: Array<Role>;
+  onlineOnly?: boolean;
 };
 
 const AuthorizedNavbarLayout = ({
   pageName,
   roles,
+  onlineOnly = false,
 }: AuthorizedNavbarLayoutProps) => {
   const isAuthenticated = useIsAuthenticated();
   const userRole = useUserRoles();
+  const online = useIsOnline();
+  const checkOnlineOnly = (onlineOnly && online) || !onlineOnly;
   const [checked, setChecked] = useState(false);
 
   if (isAuthenticated === false) {
     return <Navigate to="/login" />;
   }
 
-  if (roles && userRole && !roles.includes(userRole))
+  if (roles && userRole && !roles.includes(userRole) && checkOnlineOnly)
     return <Navigate to="/" />;
 
   const closeSidebar = () => {

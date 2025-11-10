@@ -18,7 +18,7 @@ function validateProject(projects: Project[]) {
   return projects.length > 0;
 }
 
-type AddSampleDialogProps = Omit<DialogProps, "title"> & {
+type AddProcessDialogProps = Omit<DialogProps, "title"> & {
   onSubmit: (args: {
     prefix: string;
     recipeName: string;
@@ -35,7 +35,7 @@ const AddProcessDialog = ({
   setIsOpen,
   isPending,
   ...rest
-}: AddSampleDialogProps) => {
+}: AddProcessDialogProps) => {
   const [prefix, setPrefix] = useState("");
   const [saveAsRecipe, setSaveAsRecipe] = useState(false);
   const [recipeName, setRecipeName] = useState("");

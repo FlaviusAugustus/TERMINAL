@@ -68,6 +68,7 @@ const Processes = (props: SamplesProps) => {
     onDelete: props.onDelete,
     onEdit: props.onEdit,
     onDetails: props.onDetails,
+    detailsQueryKeyBuilder: (id) => ["processDetails", id],
   });
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const [localSearch, setLocalSearch] = useState(

@@ -1,7 +1,6 @@
 import { AllParametersRequest } from "@api/models/Parameters.ts";
 import apiClient from "@api/apiClient.ts";
-import { useMutation } from "@tanstack/react-query";
-import { queryClient } from "@utils/queryClient.tsx";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 async function addParameter(parameterRequest: AllParametersRequest) {
   if (parameterRequest.$type == "text")
@@ -31,6 +30,8 @@ async function addParameter(parameterRequest: AllParametersRequest) {
  * @hook
  */
 export function useAddParameter() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ["addParameter"],
     mutationFn: (parameterRequest: AllParametersRequest) =>

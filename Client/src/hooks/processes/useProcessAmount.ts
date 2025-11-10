@@ -1,10 +1,6 @@
 import apiClient from "@api/apiClient";
-import { usePrefetchQuery, useQuery } from "@tanstack/react-query";
-
-const queryArg = {
-  queryKey: ["amount", "processes"],
-  queryFn: async () => await apiClient.get<number>("/process/amount"),
-};
+import useIsOnline from "@hooks/useIsOnline";
+import { useQuery } from "@tanstack/react-query";
 
 /**
  * useGetSampleAmount Hook
@@ -13,19 +9,11 @@ const queryArg = {
  *
  * @hook
  */
-function useGetProcessAmount() {
-  return useQuery(queryArg);
+export function useGetProcessAmount() {
+  const online = useIsOnline();
+  return useQuery({
+    queryKey: ["amount", "processes"],
+    queryFn: async () => await apiClient.get<number>("/process/amount"),
+    enabled: online,
+  });
 }
-
-/**
- * usePrefetchSampleAmount Hook
- *
- * Prefetches the total number of processes from the API.
- *
- * @hook
- */
-function usePrefetchProcessAmount() {
-  return usePrefetchQuery(queryArg);
-}
-
-export { useGetProcessAmount, usePrefetchProcessAmount };

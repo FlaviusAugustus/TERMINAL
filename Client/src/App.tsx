@@ -1,5 +1,3 @@
-import { QueryClient } from "@tanstack/react-query";
-import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "@pages/LoginPage";
@@ -18,31 +16,47 @@ import ParametersPage from "@pages/ParametersPage.tsx";
 import AddParameter from "@pages/AddParameter.tsx";
 import TagsPage from "@pages/TagsPage.tsx";
 import AddTag from "@pages/AddTag.tsx";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { persister, queryClient } from "@utils/queryClient";
+import useIsOnline from "@hooks/useIsOnline";
 import AddSampleWithContexts from "@pages/AddProcess.tsx";
 
-const queryClient = new QueryClient();
-
 export default function App() {
+  const online = useIsOnline();
   return (
-    <QueryClientProvider client={queryClient}>
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{
+        persister: persister,
+      }}
+    >
       <Toaster toastOptions={toastOptions} />
       <BrowserRouter>
         <Routes>
-          <Route element={<AuthorizedLayout pageName="Add new recipe" />}>
-            <Route path="/new-recipe" element={<AddRecipeWithContexts />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Add new project" />}>
-            <Route path="/new-project" element={<AddProject />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Add new process" />}>
-            <Route path="/new-process" element={<AddSampleWithContexts />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Add new parameter" />}>
-            <Route path="/new-parameter" element={<AddParameter />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Add new tag" />}>
-            <Route path="/new-tag" element={<AddTag />} />
-          </Route>
+          {online && (
+            <>
+              <Route element={<AuthorizedLayout pageName="Add new recipe" />}>
+                <Route path="/new-recipe" element={<AddRecipeWithContexts />} />
+              </Route>
+              <Route element={<AuthorizedLayout pageName="Add new project" />}>
+                <Route path="/new-project" element={<AddProject />} />
+              </Route>
+              <Route element={<AuthorizedLayout pageName="Add new process" />}>
+                <Route
+                  path="/new-process"
+                  element={<AddSampleWithContexts />}
+                />
+              </Route>
+              <Route
+                element={<AuthorizedLayout pageName="Add new parameter" />}
+              >
+                <Route path="/new-parameter" element={<AddParameter />} />
+              </Route>
+              <Route element={<AuthorizedLayout pageName="Add new tag" />}>
+                <Route path="/new-tag" element={<AddTag />} />
+              </Route>
+            </>
+          )}
           <Route element={<AuthorizedLayout pageName="Dashboard" />}>
             <Route path="/" element={<DashboardPage />} />
           </Route>
@@ -54,9 +68,6 @@ export default function App() {
           </Route>
           <Route element={<AuthorizedLayout pageName="Recipes" />}>
             <Route path="/recipes" element={<RecipesPage />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Invitate new user" />}>
-            <Route path="/invitations" element={<></>} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Processes" />}>
             <Route path="/processes" element={<ProcessPage />} />
@@ -80,6 +91,6 @@ export default function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </QueryClientProvider>
+    </PersistQueryClientProvider>
   );
 }

@@ -65,6 +65,7 @@ const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
     columnsDef: columnsDef,
     onDetails: onDetails,
     onDelete: onDelete,
+    detailsQueryKeyBuilder: () => ["parameters"],
   });
 
   const table = useReactTable({

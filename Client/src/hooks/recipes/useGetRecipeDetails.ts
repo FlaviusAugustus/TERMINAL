@@ -1,6 +1,7 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
 import { RecipeDetailsDto } from "@api/models/Recipe";
+import useIsOnline from "@hooks/useIsOnline";
 
 async function fetchRecipeDetails(
   id: string | null
@@ -16,10 +17,10 @@ async function fetchRecipeDetails(
  * @hook
  */
 export function useRecipeDetails(id: string | null) {
+  const online = useIsOnline();
   return useQuery({
     queryKey: ["recipeDetails", id],
     queryFn: () => fetchRecipeDetails(id),
-    placeholderData: keepPreviousData,
-    enabled: id !== null && id !== "",
+    enabled: id !== null && id !== "" && online,
   });
 }

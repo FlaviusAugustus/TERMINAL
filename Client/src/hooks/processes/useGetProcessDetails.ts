@@ -1,4 +1,5 @@
 import apiClient from "@api/apiClient.ts";
+import useIsOnline from "@hooks/useIsOnline";
 import { ProcessDetailsDto } from "@api/models/Process.ts";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
@@ -16,10 +17,11 @@ async function fetchDataSampleDetails(
  * @hook
  */
 export function useSampleDetails(id: string | null) {
+  const online = useIsOnline();
   return useQuery({
     queryKey: ["processDetails", id],
     queryFn: () => fetchDataSampleDetails(id),
     placeholderData: keepPreviousData,
-    enabled: id !== null,
+    enabled: id !== null && online,
   });
 }

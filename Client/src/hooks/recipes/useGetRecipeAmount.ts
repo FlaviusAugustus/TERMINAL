@@ -1,4 +1,5 @@
 import apiClient from "@api/apiClient";
+import useIsOnline from "@hooks/useIsOnline";
 import { usePrefetchQuery, useQuery } from "@tanstack/react-query";
 
 const queryArg = {
@@ -14,7 +15,8 @@ const queryArg = {
  * @hook
  */
 function useGetRecipeAmount() {
-  return useQuery(queryArg);
+  const online = useIsOnline();
+  return useQuery({ ...queryArg, enabled: online });
 }
 
 /**

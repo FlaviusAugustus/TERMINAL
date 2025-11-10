@@ -5,7 +5,6 @@ import {
   Squares2X2Icon,
   PlusCircleIcon,
   EyeDropperIcon,
-  EnvelopeIcon,
   LightBulbIcon,
   ListBulletIcon,
   UserIcon,
@@ -40,21 +39,25 @@ const TerminalSidebarContent = ({
           icon={<Squares2X2Icon className="h-5 w-5" />}
         />
         <SidebarItemWithSubLinks
+          onlineOnly
           text="Add new"
           icon={<PlusCircleIcon className="h-5 w-5" />}
         >
           <SidebarItem
+            onlineOnly
             onClick={onAfterNavigate}
             text="Recipe"
             href="/new-recipe"
           />
           <SidebarItem
+            onlineOnly
             onClick={onAfterNavigate}
             text="Process"
             href="/new-process"
           />
           <VisibleForRoles roles={["Administrator", "Moderator"]}>
             <SidebarItem
+              onlineOnly
               onClick={onAfterNavigate}
               text="Project"
               href="/new-project"
@@ -62,12 +65,18 @@ const TerminalSidebarContent = ({
           </VisibleForRoles>
           <VisibleForRoles roles={["Administrator", "Moderator"]}>
             <SidebarItem
+              onlineOnly
               onClick={onAfterNavigate}
               text="Parameter"
               href="/new-parameter"
             />
           </VisibleForRoles>
-          <SidebarItem onClick={onAfterNavigate} text="Tag" href="/new-tag" />
+          <SidebarItem
+            onlineOnly
+            onClick={onAfterNavigate}
+            text="Tag"
+            href="/new-tag"
+          />
         </SidebarItemWithSubLinks>
       </SidebarLinkGroup>
       <SidebarLinkGroup text="Manage">
@@ -110,14 +119,6 @@ const TerminalSidebarContent = ({
             href="/users"
             icon={<UserIcon className="h-5 w-5" />}
           />
-          <VisibleForRoles roles={["Administrator"]}>
-            <SidebarItem
-              onClick={onAfterNavigate}
-              text="Invite"
-              href="/invitations"
-              icon={<EnvelopeIcon className="h-5 w-5" />}
-            />
-          </VisibleForRoles>
         </SidebarLinkGroup>
       </VisibleForRoles>
     </div>

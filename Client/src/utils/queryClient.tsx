@@ -1,12 +1,20 @@
-import { QueryClient, QueryCache } from "@tanstack/react-query";
-import { toastNotify } from "./toast.utils.tsx";
+import { QueryClient } from "@tanstack/react-query";
+import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 
 export const queryClient = new QueryClient({
-  queryCache: new QueryCache({
-    onError: (err) => {
-      const errorMessage =
-        err instanceof Error ? err.message : "An error occurred";
-      toastNotify.error(errorMessage);
+  defaultOptions: {
+    queries: {
+      networkMode: "offlineFirst",
+      gcTime: 1000 * 60 * 60 * 24,
+      refetchOnReconnect: true,
     },
-  }),
+    mutations: {
+      networkMode: "offlineFirst",
+      gcTime: 1000 * 60 * 60 * 24,
+    },
+  },
+});
+
+export const persister = createAsyncStoragePersister({
+  storage: window.localStorage,
 });
