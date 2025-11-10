@@ -31,6 +31,7 @@ apiClient.interceptors.response.use(
       originalRequest.url.includes("/users/refresh")
     ) {
       localStorage.removeItem("refresh-token");
+      sessionStorage.removeItem("token");
     }
 
     if (
@@ -54,6 +55,8 @@ apiClient.interceptors.response.use(
       sessionStorage.setItem("token", token);
       localStorage.setItem("refresh-token", refreshToken);
     } catch {
+      localStorage.removeItem("refresh-token");
+      sessionStorage.removeItem("token");
       return Promise.reject(error);
     }
   }
