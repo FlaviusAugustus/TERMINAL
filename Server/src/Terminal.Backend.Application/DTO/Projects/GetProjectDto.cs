@@ -1,6 +1,6 @@
 namespace Terminal.Backend.Application.DTO.Projects;
 
-public class GetProjectDto
+public class ProjectDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

@@ -70,8 +70,8 @@ const columnsDef = [
  * projects Component
  *
  * A component that displays a list of projects in a table format.
- * It allows sorting and pagination of the project data.
- * It also provides a way to change the project details view when a project is clicked.
+ * It allows sorting and pagination of the projects data.
+ * It also provides a way to change the projects details view when a projects is clicked.
  *
  * @component
  */

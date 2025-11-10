@@ -27,13 +27,13 @@ builder.Host.UseSerilog((context, loggerConfiguration) =>
 });
 
 var app = builder.Build();
-app.UseInfrastructure();
+await app.UseInfrastructureAsync();
 app.UsePingEndpoints();
 app.UseProjectsEndpoints();
 app.UseTagEndpoints();
 app.UseRecipesEndpoints();
 app.UseParametersEndpoints();
-app.UseSamplesEndpoints();
+app.UseProcessesEndpoints();
 app.UseUsersEndpoints();
 app.Run();
 

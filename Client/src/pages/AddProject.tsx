@@ -8,7 +8,7 @@ import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 /**
  * AddProject Component
  *
- * A form component that allows users to add a new project.
+ * A form component that allows users to add a new projects.
  *
  * @component
  */
@@ -19,8 +19,8 @@ const AddProject = () => {
   const handleSubmit = async () => {
     await toastPromise(mutateAsync({ name: projectName }), {
       success: "Project added succesfully",
-      loading: "Adding project...",
-      error: "Failed adding project",
+      loading: "Adding projects...",
+      error: "Failed adding projects",
     });
 
     setProjectName("");

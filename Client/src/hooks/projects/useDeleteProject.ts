@@ -10,7 +10,7 @@ async function deleteProject(id: string | undefined): Promise<AxiosResponse> {
 /**
  * useDeleteProject Hook
  *
- * A custom hook that provides functionality to delete a project.
+ * A custom hook that provides functionality to delete a projects.
  *
  * @hook
  * @param {ProjectsRequest} params - The parameters for the projects request.

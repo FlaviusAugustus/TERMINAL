@@ -9,7 +9,7 @@ import NoNavbarLayout from "@pages/layouts/NoNavbarLayout";
 import { toastOptions } from "@utils/toast.utils.tsx";
 import ProjectsPage from "@pages/ProjectsPage.tsx";
 import RecipesPage from "@pages/RecipesPage.tsx";
-import SamplesPage from "@pages/SamplesPage";
+import ProcessPage from "@pages/ProcessPage.tsx";
 import UsersPage from "@pages/UsersPage.tsx";
 import AddRecipeWithContexts from "@pages/AddRecipe.tsx";
 import DashboardPage from "@pages/DashboardPage.tsx";
@@ -18,7 +18,7 @@ import ParametersPage from "@pages/ParametersPage.tsx";
 import AddParameter from "@pages/AddParameter.tsx";
 import TagsPage from "@pages/TagsPage.tsx";
 import AddTag from "@pages/AddTag.tsx";
-import AddSampleWithContexts from "@pages/AddSample.tsx";
+import AddSampleWithContexts from "@pages/AddProcess.tsx";
 
 const queryClient = new QueryClient();
 
@@ -34,8 +34,8 @@ export default function App() {
           <Route element={<AuthorizedLayout pageName="Add new project" />}>
             <Route path="/new-project" element={<AddProject />} />
           </Route>
-          <Route element={<AuthorizedLayout pageName="Add new sample" />}>
-            <Route path="/new-sample" element={<AddSampleWithContexts />} />
+          <Route element={<AuthorizedLayout pageName="Add new process" />}>
+            <Route path="/new-process" element={<AddSampleWithContexts />} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Add new parameter" />}>
             <Route path="/new-parameter" element={<AddParameter />} />
@@ -58,8 +58,8 @@ export default function App() {
           <Route element={<AuthorizedLayout pageName="Invitate new user" />}>
             <Route path="/invitations" element={<></>} />
           </Route>
-          <Route element={<AuthorizedLayout pageName="Samples" />}>
-            <Route path="/samples" element={<SamplesPage />} />
+          <Route element={<AuthorizedLayout pageName="Processes" />}>
+            <Route path="/processes" element={<ProcessPage />} />
           </Route>
           <Route element={<AuthorizedLayout pageName="Parameters" />}>
             <Route path="/parameters" element={<ParametersPage />} />

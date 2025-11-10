@@ -15,7 +15,7 @@ async function updateTagName({ id, name }: UpdateTagNameDto) {
 /**
  * useUpdateTagName Hook
  *
- * A custom hook that provides functionality to update a tag's name.
+ * A custom hook that provides functionality to update a tags's name.
  *
  * @hook
  * @param {UpdateTagNameDto} params - The parameters for the users request.

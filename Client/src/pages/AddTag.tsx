@@ -12,8 +12,8 @@ const AddTag = () => {
   const handleSubmit = async () => {
     await toastPromise(mutateAsync({ name: tagName }), {
       success: "Tag added succesfully",
-      loading: "Adding tag...",
-      error: "Failed adding tag",
+      loading: "Adding tags...",
+      error: "Failed adding tags",
     });
 
     setTagName("");

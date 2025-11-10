@@ -50,8 +50,8 @@ const TerminalSidebarContent = ({
           />
           <SidebarItem
             onClick={onAfterNavigate}
-            text="Sample"
-            href="/new-sample"
+            text="Process"
+            href="/new-process"
           />
           <VisibleForRoles roles={["Administrator", "Moderator"]}>
             <SidebarItem
@@ -79,8 +79,8 @@ const TerminalSidebarContent = ({
         />
         <SidebarItem
           onClick={onAfterNavigate}
-          text="Samples"
-          href="/samples"
+          text="Processes"
+          href="/processes"
           icon={<EyeDropperIcon className="h-5 w-5" />}
         />
         <SidebarItem
