@@ -1,10 +1,6 @@
 import apiClient from "@api/apiClient.ts";
-<<<<<<< HEAD:Client/src/hooks/samples/useGetSampleDetails.ts
-import { SampleDetailsDto } from "@api/models/Sample";
 import useIsOnline from "@hooks/useIsOnline";
-=======
 import { ProcessDetailsDto } from "@api/models/Process.ts";
->>>>>>> origin/main:Client/src/hooks/processes/useGetProcessDetails.ts
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 async function fetchDataSampleDetails(

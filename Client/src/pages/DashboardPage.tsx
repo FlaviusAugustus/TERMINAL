@@ -3,10 +3,8 @@ import {
   EntityAmountCard,
   EntityAmountCardButton,
 } from "@components/dashboard/EntityAmountCard";
-import IconButton from "@components/shared/common/IconButton.tsx";
 import TableCard from "@components/shared/table/TableCard";
 import TableView from "@components/shared/table/TableView";
-import { TagIcon } from "@heroicons/react/24/outline";
 import { useGetProjectAmount } from "@hooks/projects/useGetProjectAmount";
 import { useGetRecipeAmount } from "@hooks/recipes/useGetRecipeAmount";
 import useGetRecentProcesses from "@hooks/processes/useGetRecentProcesses.ts";
@@ -20,24 +18,6 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const columnHelper = createColumnHelper<Process>();
-
-const recipeColumns = [
-  columnHelper.accessor("code", {
-    header: "Code",
-    cell: (info) => (
-      <div className="flex items-center justify-between">
-        {info.getValue().prefix + info.getValue().sequentialNumber}
-        <div className="relative">
-          <div className="flex items-center justify-center absolute top-0 right-1 -translate-y-1/2">
-            <IconButton className="!p-1 border-none hover:bg-gray-200 flex items-center justify-center">
-              <TagIcon className="h-4" />
-            </IconButton>
-          </div>
-        </div>
-      </div>
-    ),
-  }),
-];
 
 const columns = [
   columnHelper.accessor("code", {
@@ -57,15 +37,6 @@ const DashboardPage = () => {
   const { data: recentSamples } = useGetRecentProcesses(14);
 
   const navigate = useNavigate();
-
-  const recipeTable = useReactTable({
-    columns: recipeColumns,
-    data: recentSamples?.data.recentSamples ?? [],
-    getCoreRowModel: getCoreRowModel(),
-    rowCount: recentSamples?.data.recentSamples.length,
-    manualSorting: true,
-    manualPagination: true,
-  });
 
   const table = useReactTable({
     columns: columns,
@@ -130,16 +101,9 @@ const DashboardPage = () => {
         </EntityAmountCard>
 
         <div className="col-span-2">
-          <p className="p-2 text-md">Recent Samples</p>
+          <p className="p-2 text-md">Recent Processes</p>
           <TableCard>
             <TableView<Process> table={table} handleClickRow={() => {}} />
-          </TableCard>
-        </div>
-
-        <div className="col-span-1 flex-1">
-          <p className="p-2 text-md">Pinned Recipes</p>
-          <TableCard>
-            <TableView<Process> table={recipeTable} handleClickRow={() => {}} />
           </TableCard>
         </div>
       </div>

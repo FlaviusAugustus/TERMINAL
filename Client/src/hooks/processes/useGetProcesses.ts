@@ -1,11 +1,7 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
-<<<<<<< HEAD:Client/src/hooks/samples/useGetSamples.ts
-import { Sample } from "@api/models/Sample";
 import useIsOnline from "@hooks/useIsOnline";
-=======
 import { Process } from "@api/models/Process.ts";
->>>>>>> origin/main:Client/src/hooks/processes/useGetProcesses.ts
 
 export type ProcessesRequest = {
   pageNumber: number;
@@ -89,12 +85,8 @@ async function fetchDataProcesses(
  * @hook
  * @param {ProcessesRequest} params - The parameters for the processes request.
  */
-<<<<<<< HEAD:Client/src/hooks/samples/useGetSamples.ts
-export function useSamples(params: SamplesRequest) {
-  const online = useIsOnline();
-=======
 export function useProcesses(params: ProcessesRequest) {
->>>>>>> origin/main:Client/src/hooks/processes/useGetProcesses.ts
+  const online = useIsOnline();
   return useQuery({
     queryKey: ["processes", params],
     queryFn: () => fetchDataProcesses(params),

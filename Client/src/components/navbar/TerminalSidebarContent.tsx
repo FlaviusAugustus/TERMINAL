@@ -5,7 +5,6 @@ import {
   Squares2X2Icon,
   PlusCircleIcon,
   EyeDropperIcon,
-  EnvelopeIcon,
   LightBulbIcon,
   ListBulletIcon,
   UserIcon,
@@ -120,14 +119,6 @@ const TerminalSidebarContent = ({
             href="/users"
             icon={<UserIcon className="h-5 w-5" />}
           />
-          <VisibleForRoles roles={["Administrator"]}>
-            <SidebarItem
-              onClick={onAfterNavigate}
-              text="Invite"
-              href="/invitations"
-              icon={<EnvelopeIcon className="h-5 w-5" />}
-            />
-          </VisibleForRoles>
         </SidebarLinkGroup>
       </VisibleForRoles>
     </div>

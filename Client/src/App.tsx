@@ -42,7 +42,10 @@ export default function App() {
                 <Route path="/new-project" element={<AddProject />} />
               </Route>
               <Route element={<AuthorizedLayout pageName="Add new process" />}>
-                <Route path="/new-sample" element={<AddSampleWithContexts />} />
+                <Route
+                  path="/new-process"
+                  element={<AddSampleWithContexts />}
+                />
               </Route>
               <Route
                 element={<AuthorizedLayout pageName="Add new parameter" />}
