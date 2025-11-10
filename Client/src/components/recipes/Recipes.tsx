@@ -21,7 +21,6 @@ import { Link } from "react-router-dom";
 import { useTableColumns } from "@hooks/useTableColumns.tsx";
 import { Recipe } from "@api/models/Recipe";
 import TableOrCardLayout from "@components/shared/table/TableOrCardLayout";
-import useIsOnline from "@hooks/useIsOnline";
 
 export interface RecipesProps {
   recipe: RecipesResponse | undefined;
@@ -59,13 +58,12 @@ const columnsDef = [
  * @param {RecipesProps} props - The properties for the recipes component.
  */
 const Recipes = (props: RecipesProps) => {
-  const online = useIsOnline();
   const columns = useTableColumns<Recipe>({
     columnsDef: columnsDef,
     onEdit: props.onEdit,
     onDelete: props.onDelete,
     onDetails: props.onDetails,
-    actionsDisabled: !online,
+    detailsQueryKeyBuilder: (id) => ["recipeDetails", id],
   });
 
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});

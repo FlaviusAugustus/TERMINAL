@@ -1,6 +1,7 @@
 import apiClient from "@api/apiClient.ts";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { TagDetailsDto } from "@api/models/Tag.ts";
+import useIsOnline from "@hooks/useIsOnline";
 
 async function fetchTagDetails(id: string | null): Promise<TagDetailsDto> {
   return (await apiClient.get(`/tags/${id}`)).data;
@@ -14,10 +15,11 @@ async function fetchTagDetails(id: string | null): Promise<TagDetailsDto> {
  * @hook
  */
 export function useGetTagDetails(id: string | null) {
+  const online = useIsOnline();
   return useQuery({
     queryKey: ["tagDetails", id],
     queryFn: () => fetchTagDetails(id),
     placeholderData: keepPreviousData,
-    enabled: id !== null,
+    enabled: id !== null && online,
   });
 }

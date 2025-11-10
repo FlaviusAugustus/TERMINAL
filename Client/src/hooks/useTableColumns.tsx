@@ -7,13 +7,15 @@ import {
   Row,
 } from "@tanstack/react-table";
 import RowActions from "@components/shared/table/RowActions.tsx";
+import useIsOnline from "./useIsOnline";
+import { QueryKey, useQueryClient } from "@tanstack/react-query";
 
 type UseTableColumnsProps<T> = {
   columnsDef: ColumnDef<T>[];
   onDetails?: (id: string) => void;
   onEdit?: (id: string) => void;
   onDelete?: (id: string) => void;
-  actionsDisabled: boolean;
+  detailsQueryKeyBuilder?: (id: string) => QueryKey;
 };
 
 export function useTableColumns<T extends { id: string }>({
@@ -21,9 +23,22 @@ export function useTableColumns<T extends { id: string }>({
   onDetails,
   onEdit,
   onDelete,
-  actionsDisabled,
+  detailsQueryKeyBuilder,
 }: UseTableColumnsProps<T>) {
   const columnHelper = createColumnHelper<T>();
+  const online = useIsOnline();
+  const queryClient = useQueryClient();
+
+  const editDisabled = (id: string) => {
+    if (online) return true;
+    if (!online && !detailsQueryKeyBuilder) return true;
+    if (
+      !online &&
+      queryClient.getQueryData(detailsQueryKeyBuilder!(id)) !== undefined
+    )
+      return true;
+    return false;
+  };
 
   return useMemo(
     () => [
@@ -52,7 +67,7 @@ export function useTableColumns<T extends { id: string }>({
         size: 0,
         cell: ({ row }) => (
           <RowActions
-            disabled={actionsDisabled}
+            disabled={!editDisabled(row.original.id)}
             onDetails={onDetails ? () => onDetails(row.original.id) : undefined}
             onEdit={onEdit ? () => onEdit(row.original.id) : undefined}
             onDelete={onDelete ? () => onDelete(row.original.id) : undefined}

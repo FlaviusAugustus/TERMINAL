@@ -1,10 +1,6 @@
 import apiClient from "@api/apiClient";
-import { usePrefetchQuery, useQuery } from "@tanstack/react-query";
-
-const queryArg = {
-  queryKey: ["amount", "samples"],
-  queryFn: async () => await apiClient.get<number>("/samples/amount"),
-};
+import useIsOnline from "@hooks/useIsOnline";
+import { useQuery } from "@tanstack/react-query";
 
 /**
  * useGetSampleAmount Hook
@@ -14,17 +10,12 @@ const queryArg = {
  * @hook
  */
 function useGetSampleAmount() {
-  return useQuery(queryArg);
+  const online = useIsOnline();
+  return useQuery({
+    queryKey: ["amount", "samples"],
+    queryFn: async () => await apiClient.get<number>("/samples/amount"),
+    enabled: online,
+  });
 }
 
-/**
- * usePrefetchSampleAmount Hook
- *
- * Prefetches the total number of samples from the API.
- *
- * @hook
- */
-function usePrefetchSampleAmount() {
-  return usePrefetchQuery(queryArg);
-}
-export { useGetSampleAmount, usePrefetchSampleAmount };
+export { useGetSampleAmount };

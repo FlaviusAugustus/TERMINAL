@@ -1,6 +1,7 @@
 import apiClient from "@api/apiClient.ts";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Tag } from "@api/models/Tag.ts";
+import useIsOnline from "@hooks/useIsOnline";
 
 export type TagsRequest = {
   pageNumber: number;
@@ -38,9 +39,11 @@ async function fetchDataTag({
  * @param {TagsRequest} params - The parameters for the tags request.
  */
 export function useGetTags({ pageSize, pageNumber }: TagsRequest) {
+  const online = useIsOnline();
   return useQuery({
     queryKey: ["tags", "all", { pageSize, pageNumber }],
     queryFn: () => fetchDataTag({ pageSize, pageNumber }),
     placeholderData: keepPreviousData,
+    enabled: online,
   });
 }

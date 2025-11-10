@@ -1,6 +1,7 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
 import { Sample } from "@api/models/Sample";
+import useIsOnline from "@hooks/useIsOnline";
 
 export type SamplesRequest = {
   pageNumber: number;
@@ -85,9 +86,11 @@ async function fetchDataSamples(
  * @param {SamplesRequest} params - The parameters for the samples request.
  */
 export function useSamples(params: SamplesRequest) {
+  const online = useIsOnline();
   return useQuery({
     queryKey: ["samples", params],
     queryFn: () => fetchDataSamples(params),
     placeholderData: keepPreviousData,
+    enabled: online,
   });
 }

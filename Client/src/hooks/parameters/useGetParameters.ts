@@ -1,5 +1,6 @@
 import apiClient from "@api/apiClient.ts";
 import { ParameterResponse } from "@api/models/Parameters.ts";
+import useIsOnline from "@hooks/useIsOnline";
 import { useQuery } from "@tanstack/react-query";
 
 async function fetchParameters(): Promise<ParameterResponse> {
@@ -15,9 +16,11 @@ async function fetchParameters(): Promise<ParameterResponse> {
  * @hook
  */
 function useGetParameters() {
+  const online = useIsOnline();
   return useQuery({
     queryKey: ["parameters"],
     queryFn: fetchParameters,
+    enabled: online,
   });
 }
 

@@ -1,5 +1,6 @@
 import apiClient from "@api/apiClient.ts";
 import { SampleDetailsDto } from "@api/models/Sample";
+import useIsOnline from "@hooks/useIsOnline";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 async function fetchDataSampleDetails(
@@ -16,10 +17,11 @@ async function fetchDataSampleDetails(
  * @hook
  */
 export function useSampleDetails(id: string | null) {
+  const online = useIsOnline();
   return useQuery({
     queryKey: ["sampleDetails", id],
     queryFn: () => fetchDataSampleDetails(id),
     placeholderData: keepPreviousData,
-    enabled: id !== null,
+    enabled: id !== null && online,
   });
 }

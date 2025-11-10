@@ -70,6 +70,7 @@ const Tags = (props: TagProps) => {
     onDetails: props.onDetails,
     onDelete: props.onDelete,
     onEdit: props.onEdit,
+    detailsQueryKeyBuilder: (id) => ["tagDetails", id],
   });
 
   const table = useReactTable({

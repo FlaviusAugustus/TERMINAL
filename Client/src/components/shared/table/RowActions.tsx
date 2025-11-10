@@ -5,6 +5,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import VisibleForRoles from "@components/shared/common/VisibleForRoles.tsx";
+import useIsOnline from "@hooks/useIsOnline";
 
 type RowActionsProps = {
   onEdit?: () => void;
@@ -19,6 +20,7 @@ const RowActions = ({
   onDelete,
   disabled = false,
 }: RowActionsProps) => {
+  const online = useIsOnline();
   return (
     <div className="flex gap-1">
       {onDetails && (
@@ -31,7 +33,7 @@ const RowActions = ({
         </IconButton>
       )}
       <VisibleForRoles roles={["Administrator", "Moderator"]}>
-        {onEdit && (
+        {onEdit && online && (
           <IconButton
             onClick={onEdit}
             disabled={disabled}
@@ -40,7 +42,7 @@ const RowActions = ({
             <PencilIcon className="h-4 rounded-md" />
           </IconButton>
         )}
-        {onDelete && (
+        {onDelete && online && (
           <IconButton
             onClick={onDelete}
             disabled={disabled}
