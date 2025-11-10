@@ -9,10 +9,10 @@ async function fetchProjectDetails(
 }
 
 /**
- * Custom hook to fetch project details by ID.
+ * Custom hook to fetch projects details by ID.
  *
- * This hook uses React Query to manage the fetching state and caching of project details.
- * It will return the project details for the given ID, or keep previous data while loading new data.
+ * This hook uses React Query to manage the fetching state and caching of projects details.
+ * It will return the projects details for the given ID, or keep previous data while loading new data.
  * It is enabled only when the ID is not null.
  *
  * @hook

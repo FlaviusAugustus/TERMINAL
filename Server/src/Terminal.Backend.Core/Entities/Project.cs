@@ -7,8 +7,8 @@ public sealed class Project
     public ProjectId Id { get; private set; }
     public string Name { get; private set; }
     public bool IsActive { get; private set; }
+    public ICollection<Process> Processes { get; set; } = new HashSet<Process>();
 
-    public ICollection<Sample> Samples { get; private set; } = new List<Sample>();
 
     public Project(ProjectId id, string name, bool isActive = true)
     {

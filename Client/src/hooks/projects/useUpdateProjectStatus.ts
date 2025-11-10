@@ -19,7 +19,7 @@ async function updateProjectStatus({ id, isActive }: UpdateProjectStatusDto) {
 /**
  * useUpdateProjectStatus Hook
  *
- * A custom hook that provides functionality to update a project's status.
+ * A custom hook that provides functionality to update a projects's status.
  *
  * @hook
  * @param {UpdateProjectStatusDto} params - The parameters for the users request.

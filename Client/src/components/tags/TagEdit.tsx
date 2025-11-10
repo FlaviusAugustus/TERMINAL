@@ -38,7 +38,7 @@ const TagEdit = (props: TagDetailsProps) => {
     <DialogComp
       isOpen={props.open}
       setIsOpen={props.setOpen}
-      title={"Edit tag"}
+      title={"Edit tags"}
     >
       <FormInput
         label="Name"

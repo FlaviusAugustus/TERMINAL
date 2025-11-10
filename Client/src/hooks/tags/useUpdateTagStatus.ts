@@ -16,7 +16,7 @@ async function updateTagStatus({ id, isActive }: UpdateTagStatusDto) {
 /**
  * useUpdateTagStatus Hook
  *
- * A custom hook that provides functionality to update a tag's status.
+ * A custom hook that provides functionality to update a tags's status.
  *
  * @hook
  * @param {UpdateTagStatusDto} params - The parameters for the users request.

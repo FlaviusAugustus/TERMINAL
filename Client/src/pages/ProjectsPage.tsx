@@ -61,7 +61,7 @@ const ProjectsPage = () => {
       setDeleteOpen(false);
       setDeleteProjectIds(null);
     } catch {
-      toastError("Error deleting project(s)");
+      toastError("Error deleting projects(s)");
     }
   };
 

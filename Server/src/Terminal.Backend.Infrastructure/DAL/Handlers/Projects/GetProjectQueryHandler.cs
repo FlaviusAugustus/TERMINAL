@@ -6,7 +6,7 @@ using Terminal.Backend.Core.Entities;
 
 namespace Terminal.Backend.Infrastructure.DAL.Handlers.Projects;
 
-internal sealed class GetProjectQueryHandler : IRequestHandler<GetProjectQuery, GetProjectDto?>
+internal sealed class GetProjectQueryHandler : IRequestHandler<GetProjectQuery, ProjectDto?>
 {
     private readonly DbSet<Project> _projects;
 
@@ -15,12 +15,12 @@ internal sealed class GetProjectQueryHandler : IRequestHandler<GetProjectQuery, 
         _projects = dbContext.Projects;
     }
 
-    public async Task<GetProjectDto?> Handle(GetProjectQuery query, CancellationToken ct)
+    public async Task<ProjectDto?> Handle(GetProjectQuery query, CancellationToken ct)
     {
         var projectId = query.ProjectId;
         var project = (await _projects
             .AsNoTracking()
-            // FIXME: .Include(p => p.Samples)
+            // FIXME: .Include(p => p.Processes)
             .SingleOrDefaultAsync(p => p.Id.Equals(projectId), ct))?.AsGetProjectDto();
 
         if (project is null) return project;
@@ -28,7 +28,7 @@ internal sealed class GetProjectQueryHandler : IRequestHandler<GetProjectQuery, 
         var sampleIds = await _projects
             .AsNoTracking()
             .Where(p => p.Id.Equals(projectId))
-            .SelectMany(p => p.Samples)
+            .SelectMany(p => p.Processes)
             .Select(m => m.Id.Value)
             .ToListAsync(ct);
 

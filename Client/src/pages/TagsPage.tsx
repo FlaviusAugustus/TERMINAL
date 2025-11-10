@@ -62,7 +62,7 @@ const TagsPage = () => {
       setDeleteOpen(false);
       setDeleteTagsIds(null);
     } catch {
-      toastError("Error deleting tag(s)");
+      toastError("Error deleting tags(s)");
     }
   };
 

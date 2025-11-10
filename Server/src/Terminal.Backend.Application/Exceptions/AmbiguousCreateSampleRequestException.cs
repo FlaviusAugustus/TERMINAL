@@ -1,4 +1,4 @@
-using Terminal.Backend.Application.DTO.Samples;
+using Terminal.Backend.Application.DTO.Processes;
 using Terminal.Backend.Core.Exceptions;
 using Terminal.Backend.Core.ValueObjects;
 

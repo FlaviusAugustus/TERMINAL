@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 using MediatR;
-using Terminal.Backend.Application.DTO.Samples;
+using Terminal.Backend.Application.DTO.Processes;
 using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Application.Commands.Recipe.Create;

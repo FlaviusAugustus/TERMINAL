@@ -9,7 +9,7 @@ using Terminal.Backend.Infrastructure.DAL;
 
 #nullable disable
 
-namespace Terminal.Backend.Infrastructure.DAL.Migrations
+namespace Terminal.Backend.Infrastructure.Migrations
 {
     [DbContext(typeof(TerminalDbContext))]
     partial class TerminalDbContextModelSnapshot : ModelSnapshot
@@ -23,19 +23,34 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("SampleTag", b =>
+            modelBuilder.Entity("ProcessTag", b =>
                 {
-                    b.Property<Guid>("SampleId")
+                    b.Property<Guid>("ProcessId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("TagsId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("SampleId", "TagsId");
+                    b.HasKey("ProcessId", "TagsId");
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("SampleTag");
+                    b.ToTable("ProcessTag");
+                });
+
+            modelBuilder.Entity("ProjectProcess", b =>
+                {
+                    b.Property<Guid>("ProcessId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ProcessId", "ProjectId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectProcess");
                 });
 
             modelBuilder.Entity("Terminal.Backend.Core.Entities.Invitation", b =>
@@ -220,22 +235,22 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                         new
                         {
                             Id = 17,
-                            Name = "SampleRead"
+                            Name = "ProcessRead"
                         },
                         new
                         {
                             Id = 18,
-                            Name = "SampleWrite"
+                            Name = "ProcessWrite"
                         },
                         new
                         {
                             Id = 19,
-                            Name = "SampleUpdate"
+                            Name = "ProcessUpdate"
                         },
                         new
                         {
                             Id = 20,
-                            Name = "SampleDelete"
+                            Name = "ProcessDelete"
                         },
                         new
                         {
@@ -279,6 +294,46 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Terminal.Backend.Core.Entities.PrefixCounter", b =>
+                {
+                    b.Property<string>("Prefix")
+                        .HasColumnType("text");
+
+                    b.Property<int>("LastValue")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Prefix");
+
+                    b.ToTable("PrefixCounters");
+                });
+
+            modelBuilder.Entity("Terminal.Backend.Core.Entities.Process", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("RecipeId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Comment")
+                        .HasAnnotation("Npgsql:TsVectorConfig", "english");
+
+                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Comment"), "GIN");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("Processes");
+                });
+
             modelBuilder.Entity("Terminal.Backend.Core.Entities.Project", b =>
                 {
                     b.Property<Guid>("Id")
@@ -316,35 +371,6 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                     NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("RecipeName"), "GIN");
 
                     b.ToTable("Recipes");
-                });
-
-            modelBuilder.Entity("Terminal.Backend.Core.Entities.RefreshToken", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("ExpiresOnUtc")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsValid")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Token")
-                        .IsUnique();
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("Terminal.Backend.Core.Entities.Role", b =>
@@ -725,41 +751,6 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Terminal.Backend.Core.Entities.Sample", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<decimal>("Code")
-                        .HasColumnType("numeric(20,0)");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("RecipeId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.HasIndex("RecipeId");
-
-                    b.HasIndex("Code", "Comment")
-                        .HasAnnotation("Npgsql:TsVectorConfig", "english");
-
-                    NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Code", "Comment"), "GIN");
-
-                    b.ToTable("Samples");
-                });
-
             modelBuilder.Entity("Terminal.Backend.Core.Entities.Step", b =>
                 {
                     b.Property<Guid>("Id")
@@ -909,10 +900,10 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                 {
                     b.HasBaseType("Terminal.Backend.Core.Entities.Step");
 
-                    b.Property<Guid>("SampleId")
+                    b.Property<Guid>("ProcessId")
                         .HasColumnType("uuid");
 
-                    b.HasIndex("SampleId");
+                    b.HasIndex("ProcessId");
 
                     b.ToTable("SampleSteps");
                 });
@@ -951,17 +942,32 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                     b.HasDiscriminator().HasValue("IntegerParameter");
                 });
 
-            modelBuilder.Entity("SampleTag", b =>
+            modelBuilder.Entity("ProcessTag", b =>
                 {
-                    b.HasOne("Terminal.Backend.Core.Entities.Sample", null)
+                    b.HasOne("Terminal.Backend.Core.Entities.Process", null)
                         .WithMany()
-                        .HasForeignKey("SampleId")
+                        .HasForeignKey("ProcessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Terminal.Backend.Core.Entities.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjectProcess", b =>
+                {
+                    b.HasOne("Terminal.Backend.Core.Entities.Process", null)
+                        .WithMany()
+                        .HasForeignKey("ProcessId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Terminal.Backend.Core.Entities.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1004,15 +1010,43 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("Terminal.Backend.Core.Entities.RefreshToken", b =>
+            modelBuilder.Entity("Terminal.Backend.Core.Entities.Process", b =>
                 {
-                    b.HasOne("Terminal.Backend.Core.Entities.User", "User")
+                    b.HasOne("Terminal.Backend.Core.Entities.Recipe", "Recipe")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.OwnsOne("Code", "Code", b1 =>
+                        {
+                            b1.Property<Guid>("ProcessId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Number")
+                                .HasColumnType("integer")
+                                .HasColumnName("CodeNumber");
+
+                            b1.Property<string>("Prefix")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("CodePrefix");
+
+                            b1.HasKey("ProcessId");
+
+                            b1.HasIndex("Prefix", "Number")
+                                .IsUnique()
+                                .HasDatabaseName("IX_Process_CodePrefix_CodeNumber");
+
+                            b1.ToTable("Processes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ProcessId");
+                        });
+
+                    b.Navigation("Code")
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("Terminal.Backend.Core.Entities.RolePermission", b =>
@@ -1028,24 +1062,6 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Terminal.Backend.Core.Entities.Sample", b =>
-                {
-                    b.HasOne("Terminal.Backend.Core.Entities.Project", "Project")
-                        .WithMany("Samples")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Terminal.Backend.Core.Entities.Recipe", "Recipe")
-                        .WithMany()
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Project");
-
-                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("Terminal.Backend.Core.Entities.User", b =>
@@ -1072,16 +1088,16 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
 
             modelBuilder.Entity("Terminal.Backend.Core.Entities.SampleStep", b =>
                 {
-                    b.HasOne("Terminal.Backend.Core.Entities.Sample", null)
+                    b.HasOne("Terminal.Backend.Core.Entities.Process", null)
                         .WithMany("Steps")
-                        .HasForeignKey("SampleId")
+                        .HasForeignKey("ProcessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Terminal.Backend.Core.Entities.Project", b =>
+            modelBuilder.Entity("Terminal.Backend.Core.Entities.Process", b =>
                 {
-                    b.Navigation("Samples");
+                    b.Navigation("Steps");
                 });
 
             modelBuilder.Entity("Terminal.Backend.Core.Entities.Recipe", b =>
@@ -1092,11 +1108,6 @@ namespace Terminal.Backend.Infrastructure.DAL.Migrations
             modelBuilder.Entity("Terminal.Backend.Core.Entities.Role", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("Terminal.Backend.Core.Entities.Sample", b =>
-                {
-                    b.Navigation("Steps");
                 });
 
             modelBuilder.Entity("Terminal.Backend.Core.Entities.Step", b =>

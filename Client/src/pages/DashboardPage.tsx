@@ -1,17 +1,16 @@
-import { Sample } from "@api/models/Sample";
+import { Process } from "@api/models/Process.ts";
 import {
   EntityAmountCard,
   EntityAmountCardButton,
 } from "@components/dashboard/EntityAmountCard";
-import Chip from "@components/shared/common/Chip.tsx";
 import IconButton from "@components/shared/common/IconButton.tsx";
 import TableCard from "@components/shared/table/TableCard";
 import TableView from "@components/shared/table/TableView";
 import { TagIcon } from "@heroicons/react/24/outline";
 import { useGetProjectAmount } from "@hooks/projects/useGetProjectAmount";
 import { useGetRecipeAmount } from "@hooks/recipes/useGetRecipeAmount";
-import useGetRecentSamples from "@hooks/samples/useGetRecentSamples";
-import { useGetSampleAmount } from "@hooks/samples/useSampleAmount";
+import useGetRecentProcesses from "@hooks/processes/useGetRecentProcesses.ts";
+import { useGetProcessAmount } from "@hooks/processes/useProcessAmount.ts";
 import { useGetUserAmount } from "@hooks/users/useUserAmount";
 import {
   createColumnHelper,
@@ -20,14 +19,14 @@ import {
 } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
 
-const columnHelper = createColumnHelper<Sample>();
+const columnHelper = createColumnHelper<Process>();
 
 const recipeColumns = [
   columnHelper.accessor("code", {
     header: "Code",
     cell: (info) => (
       <div className="flex items-center justify-between">
-        {info.getValue()}
+        {info.getValue().prefix + info.getValue().sequentialNumber}
         <div className="relative">
           <div className="flex items-center justify-center absolute top-0 right-1 -translate-y-1/2">
             <IconButton className="!p-1 border-none hover:bg-gray-200 flex items-center justify-center">
@@ -45,10 +44,6 @@ const columns = [
     header: "Code",
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("project", {
-    header: "Project Name",
-    cell: (info) => <Chip value={info.getValue()} />,
-  }),
   columnHelper.accessor("createdAtUtc", {
     header: "Created At",
     cell: (info) => new Date(info.getValue()).toDateString(),
@@ -56,10 +51,10 @@ const columns = [
 ];
 const DashboardPage = () => {
   const { data: projectAmount } = useGetProjectAmount();
-  const { data: sampleAmount } = useGetSampleAmount();
+  const { data: sampleAmount } = useGetProcessAmount();
   const { data: recipesAmount } = useGetRecipeAmount();
   const { data: userAmount } = useGetUserAmount();
-  const { data: recentSamples } = useGetRecentSamples(14);
+  const { data: recentSamples } = useGetRecentProcesses(14);
 
   const navigate = useNavigate();
 
@@ -107,11 +102,11 @@ const DashboardPage = () => {
         >
           <EntityAmountCardButton
             title="Browse All"
-            onClick={() => navigate("/samples")}
+            onClick={() => navigate("/processes")}
           />
           <EntityAmountCardButton
             title="Add New"
-            onClick={() => navigate("/new-sample")}
+            onClick={() => navigate("/new-process")}
           />
         </EntityAmountCard>
 
@@ -137,14 +132,14 @@ const DashboardPage = () => {
         <div className="col-span-2">
           <p className="p-2 text-md">Recent Samples</p>
           <TableCard>
-            <TableView<Sample> table={table} handleClickRow={() => {}} />
+            <TableView<Process> table={table} handleClickRow={() => {}} />
           </TableCard>
         </div>
 
         <div className="col-span-1 flex-1">
           <p className="p-2 text-md">Pinned Recipes</p>
           <TableCard>
-            <TableView<Sample> table={recipeTable} handleClickRow={() => {}} />
+            <TableView<Process> table={recipeTable} handleClickRow={() => {}} />
           </TableCard>
         </div>
       </div>

@@ -85,7 +85,7 @@ type SelectItemProps<T> = ComboboxOptionProps<"div", T> & {
 const SelectItem = <T,>({ displayValue, ...rest }: SelectItemProps<T>) => {
   return (
     <ComboboxOption
-      className="w-full p-2 text-sm hover:bg-gray-100 hover:cursor-pointer rounded-md"
+      className="sticky w-full p-2 text-sm bg-white hover:bg-gray-100 hover:cursor-pointer rounded-md z-[1]"
       {...rest}
     >
       {displayValue}
