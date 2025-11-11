@@ -43,7 +43,7 @@ public static class Extensions
     public static GetTagsDto AsGetTagsDto(this IEnumerable<Tag> entities)
         => new()
         {
-            Tags = entities.Select(t => new GetTagsDto.TagDto(t.Id, t.Name))
+            Tags = entities.Select(t => new GetTagsDto.TagDto(t.Id, t.Name, t.IsActive))
         };
 
     public static GetTagDto AsGetTagDto(this Tag entity)
@@ -59,7 +59,7 @@ public static class Extensions
             Comment = entity.Comment.Value,
             CreatedAtUtc = entity.CreatedAtUtc.ToString("o"),
             Steps = entity.Steps.AsStepsDto(),
-            Tags = entity.Tags.Select(t => new GetTagsDto.TagDto(t.Id, t.Name))
+            Tags = entity.Tags.Select(t => new GetTagsDto.TagDto(t.Id, t.Name, t.IsActive))
         };
 
     public static IEnumerable<GetSampleStepsDto> AsStepsDto<TStep>(this IEnumerable<TStep> steps)

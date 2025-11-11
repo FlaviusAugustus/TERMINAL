@@ -1,9 +1,9 @@
 import apiClient from "@api/apiClient.ts";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { TagDetailsDto } from "@api/models/Tag.ts";
+import { Tag } from "@api/models/Tag.ts";
 import useIsOnline from "@hooks/useIsOnline";
 
-async function fetchTagDetails(id: string | null): Promise<TagDetailsDto> {
+async function fetchTagDetails(id: string | null): Promise<Tag> {
   return (await apiClient.get(`/tags/${id}`)).data;
 }
 

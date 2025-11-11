@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TagDetailsDto } from "@api/models/Tag.ts";
+import { Tag } from "@api/models/Tag.ts";
 import {
   DialogButton,
   DialogComp,
@@ -10,7 +10,7 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { DialogSubmitButton } from "@components/shared/dialog/DialogSubmitButton.tsx";
 
 export interface TagDetailsProps {
-  tag: TagDetailsDto;
+  tag: Tag;
   onSubmit: (id: string, name: string, isActive: boolean) => void;
   open: boolean;
   setOpen: (arg0: boolean) => void;
