@@ -118,12 +118,12 @@ public static class Extensions
     {
         return parameter switch
         {
-            IntegerParameter i => new GetIntegerParameterDto(i.Id, i.Name, i.Unit, i.Step, i.Order, i.DefaultValue,
-                i.Parent?.Id.Value),
+            IntegerParameter i => new GetIntegerParameterDto(i.Id, i.Name, i.Unit, i.Step, i.Order, i.DefaultValue, 
+                i.IsActive, i.Parent?.Id.Value),
             DecimalParameter d => new GetDecimalParameterDto(d.Id, d.Name, d.Unit, d.Step, d.Order, d.DefaultValue,
-                d.Parent?.Id.Value),
+                d.IsActive, d.Parent?.Id.Value),
             TextParameter t => new GetTextParameterDto(t.Id, t.Name, t.AllowedValues, t.Order, t.DefaultValue,
-                t.Parent?.Id.Value),
+                t.IsActive, t.Parent?.Id.Value),
             _ => throw new ArgumentOutOfRangeException(nameof(parameter))
         };
     }

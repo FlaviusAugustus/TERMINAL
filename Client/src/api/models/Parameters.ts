@@ -10,6 +10,7 @@ export type Parameter = {
   name: string;
   order: number;
   parentId: string;
+  isActive: boolean;
 };
 
 export type NumericParameter = Parameter & {

@@ -21,11 +21,20 @@ import IconButton from "@components/shared/common/IconButton.tsx";
 import { Link } from "react-router-dom";
 import FormInput from "@components/shared/form/FormInput.tsx";
 import TableOrCardLayout from "@components/shared/table/TableOrCardLayout";
+import { Color } from "@utils/colorUtils.tsx";
 
 interface ParametersProps {
   parameters: Array<AllParameters>;
   onDetails: (parameterId: string) => void;
   onDelete: (parameterId: string | string[]) => void;
+}
+
+function getChipColors(isActive: boolean): Color {
+  return isActive ? "green" : "red";
+}
+
+function getChipValue(isActive: boolean): string {
+  return isActive ? "Active" : "Not Active";
 }
 
 const columnHelper = createColumnHelper<AllParameters>();
@@ -34,6 +43,16 @@ const columnsDef = [
   columnHelper.accessor("name", {
     header: "Name",
     cell: (info) => info.getValue(),
+    sortingFn: "alphanumeric",
+  }),
+  columnHelper.accessor("isActive", {
+    header: "Status",
+    cell: (info) => (
+      <Chip
+        value={getChipValue(info.getValue())}
+        getColorValue={() => getChipColors(info.getValue())}
+      />
+    ),
     sortingFn: "alphanumeric",
   }),
   columnHelper.accessor("$type", {

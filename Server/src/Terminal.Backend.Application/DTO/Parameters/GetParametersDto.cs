@@ -10,7 +10,7 @@ public class GetParametersDto
 [JsonDerivedType(typeof(GetTextParameterDto), "text")]
 [JsonDerivedType(typeof(GetDecimalParameterDto), typeDiscriminator: "decimal")]
 [JsonDerivedType(typeof(GetIntegerParameterDto), typeDiscriminator: "integer")]
-public abstract record GetParameterDto(Guid Id, string Name, uint Order, Guid? ParentId = null);
+public abstract record GetParameterDto(Guid Id, string Name, uint Order, bool IsActive, Guid? ParentId = null);
 
 public sealed record GetTextParameterDto(
     Guid Id,
@@ -18,11 +18,12 @@ public sealed record GetTextParameterDto(
     IEnumerable<string> AllowedValues,
     uint Order,
     string DefaultValue,
+    bool IsActive,
     Guid? ParentId = null)
-    : GetParameterDto(Id, Name, Order, ParentId);
+    : GetParameterDto(Id, Name, Order, IsActive, ParentId);
 
-public abstract record GetNumericParameterDto(Guid Id, string Name, string Unit, uint Order, Guid? ParentId = null)
-    : GetParameterDto(Id, Name, Order, ParentId);
+public abstract record GetNumericParameterDto(Guid Id, string Name, string Unit, uint Order, bool IsActive, Guid? ParentId = null)
+    : GetParameterDto(Id, Name, Order, IsActive, ParentId);
 
 public sealed record GetDecimalParameterDto(
     Guid Id,
@@ -31,8 +32,9 @@ public sealed record GetDecimalParameterDto(
     decimal Step,
     uint Order,
     decimal DefaultValue,
+    bool IsActive,
     Guid? ParentId = null)
-    : GetNumericParameterDto(Id, Name, Unit, Order, ParentId);
+    : GetNumericParameterDto(Id, Name, Unit, Order, IsActive,ParentId);
 
 public sealed record GetIntegerParameterDto(
     Guid Id,
@@ -41,5 +43,6 @@ public sealed record GetIntegerParameterDto(
     int Step,
     uint Order,
     int DefaultValue,
+    bool IsActive,
     Guid? ParentId = null)
-    : GetNumericParameterDto(Id, Name, Unit, Order, ParentId);
+    : GetNumericParameterDto(Id, Name, Unit, Order, IsActive, ParentId);

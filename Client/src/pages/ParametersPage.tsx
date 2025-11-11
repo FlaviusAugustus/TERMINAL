@@ -1,7 +1,6 @@
 import TableLayout from "./layouts/TableLayout";
 import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
 import Loader from "@components/shared/loader/Loader.tsx";
-import useGetParameters from "@hooks/parameters/useGetParameters.ts";
 import Parameters from "@components/parameters/Parameters.tsx";
 import ParameterDetails from "@components/parameters/ParameterDetails.tsx";
 import { useCallback, useState } from "react";
@@ -10,9 +9,10 @@ import DialogLoader from "@components/shared/dialog/DialogLoader.tsx";
 import { useDeactivateParameter } from "@hooks/parameters/useDeactivateParameter.ts";
 import { toastError } from "@utils/toast.utils.tsx";
 import ConfirmDeleteDialog from "@components/shared/dialog/ConfirmDeleteDialog.tsx";
+import useGetAllParameters from "@hooks/parameters/useGetAllParameters.ts";
 
 const ParametersPage = () => {
-  const dataParameters = useGetParameters();
+  const dataParameters = useGetAllParameters();
   const mutation = useDeactivateParameter();
 
   const [parameterDetails, setParameterDetails] = useState<
