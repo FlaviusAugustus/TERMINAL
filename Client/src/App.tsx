@@ -18,79 +18,86 @@ import TagsPage from "@pages/TagsPage.tsx";
 import AddTag from "@pages/AddTag.tsx";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { persister, queryClient } from "@utils/queryClient";
-import useIsOnline from "@hooks/useIsOnline";
+import useIsOnline, { OnlineStatusProvider } from "@hooks/useIsOnline";
 import AddSampleWithContexts from "@pages/AddProcess.tsx";
 
-export default function App() {
+const App = () => {
+  return (
+    <>
+      <Toaster toastOptions={toastOptions} />
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{
+          persister: persister,
+        }}
+      >
+        <OnlineStatusProvider>
+          <Router />
+        </OnlineStatusProvider>
+      </PersistQueryClientProvider>
+    </>
+  );
+};
+
+export function Router() {
   const online = useIsOnline();
   return (
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={{
-        persister: persister,
-      }}
-    >
-      <Toaster toastOptions={toastOptions} />
-      <BrowserRouter>
-        <Routes>
-          {online && (
-            <>
-              <Route element={<AuthorizedLayout pageName="Add new recipe" />}>
-                <Route path="/new-recipe" element={<AddRecipeWithContexts />} />
-              </Route>
-              <Route element={<AuthorizedLayout pageName="Add new project" />}>
-                <Route path="/new-project" element={<AddProject />} />
-              </Route>
-              <Route element={<AuthorizedLayout pageName="Add new process" />}>
-                <Route
-                  path="/new-process"
-                  element={<AddSampleWithContexts />}
-                />
-              </Route>
-              <Route
-                element={<AuthorizedLayout pageName="Add new parameter" />}
-              >
-                <Route path="/new-parameter" element={<AddParameter />} />
-              </Route>
-              <Route element={<AuthorizedLayout pageName="Add new tag" />}>
-                <Route path="/new-tag" element={<AddTag />} />
-              </Route>
-            </>
-          )}
-          <Route element={<AuthorizedLayout pageName="Dashboard" />}>
-            <Route path="/" element={<DashboardPage />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Projects" />}>
-            <Route path="/projects" element={<ProjectsPage />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Tags" />}>
-            <Route path="/tags" element={<TagsPage />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Recipes" />}>
-            <Route path="/recipes" element={<RecipesPage />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Processes" />}>
-            <Route path="/processes" element={<ProcessPage />} />
-          </Route>
-          <Route element={<AuthorizedLayout pageName="Parameters" />}>
-            <Route path="/parameters" element={<ParametersPage />} />
-          </Route>
-          <Route
-            element={
-              <AuthorizedLayout
-                pageName="Users"
-                roles={["Administrator", "Moderator"]}
-              />
-            }
-          >
-            <Route path="/users" element={<UsersPage />} />
-          </Route>
-          <Route element={<NoNavbarLayout />}>
-            <Route path="*" element={<LoginOrNotFound />} />
-            <Route path="/login" element={<LoginPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </PersistQueryClientProvider>
+    <BrowserRouter>
+      <Routes>
+        {online && (
+          <>
+            <Route element={<AuthorizedLayout pageName="Add new recipe" />}>
+              <Route path="/new-recipe" element={<AddRecipeWithContexts />} />
+            </Route>
+            <Route element={<AuthorizedLayout pageName="Add new project" />}>
+              <Route path="/new-project" element={<AddProject />} />
+            </Route>
+            <Route element={<AuthorizedLayout pageName="Add new process" />}>
+              <Route path="/new-process" element={<AddSampleWithContexts />} />
+            </Route>
+            <Route element={<AuthorizedLayout pageName="Add new parameter" />}>
+              <Route path="/new-parameter" element={<AddParameter />} />
+            </Route>
+            <Route element={<AuthorizedLayout pageName="Add new tag" />}>
+              <Route path="/new-tag" element={<AddTag />} />
+            </Route>
+          </>
+        )}
+        <Route element={<AuthorizedLayout pageName="Dashboard" />}>
+          <Route path="/" element={<DashboardPage />} />
+        </Route>
+        <Route element={<AuthorizedLayout pageName="Projects" />}>
+          <Route path="/projects" element={<ProjectsPage />} />
+        </Route>
+        <Route element={<AuthorizedLayout pageName="Tags" />}>
+          <Route path="/tags" element={<TagsPage />} />
+        </Route>
+        <Route element={<AuthorizedLayout pageName="Recipes" />}>
+          <Route path="/recipes" element={<RecipesPage />} />
+        </Route>
+        <Route element={<AuthorizedLayout pageName="Processes" />}>
+          <Route path="/processes" element={<ProcessPage />} />
+        </Route>
+        <Route element={<AuthorizedLayout pageName="Parameters" />}>
+          <Route path="/parameters" element={<ParametersPage />} />
+        </Route>
+        <Route
+          element={
+            <AuthorizedLayout
+              pageName="Users"
+              roles={["Administrator", "Moderator"]}
+            />
+          }
+        >
+          <Route path="/users" element={<UsersPage />} />
+        </Route>
+        <Route element={<NoNavbarLayout />}>
+          <Route path="*" element={<LoginOrNotFound />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
+
+export default App;
