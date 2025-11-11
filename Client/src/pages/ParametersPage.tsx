@@ -10,25 +10,23 @@ import { useDeactivateParameter } from "@hooks/parameters/useDeactivateParameter
 import { toastError } from "@utils/toast.utils.tsx";
 import ConfirmDeleteDialog from "@components/shared/dialog/ConfirmDeleteDialog.tsx";
 import useGetAllParameters from "@hooks/parameters/useGetAllParameters.ts";
+import ParameterEdit from "@components/parameters/ParameterEdit.tsx";
+import { useActivateParameter } from "@hooks/parameters/useActivateParameter.ts";
 
 const ParametersPage = () => {
   const dataParameters = useGetAllParameters();
-  const mutation = useDeactivateParameter();
+  const deactivateParameter = useDeactivateParameter();
+  const activateParameter = useActivateParameter();
 
   const [parameterDetails, setParameterDetails] = useState<
     AllParameters | undefined
   >(undefined);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteParametersIds, setDeleteParametersIds] = useState<
     string[] | null
   >(null);
-
-  const openDeleteDialog = (id: string | string[]) => {
-    const ids = Array.isArray(id) ? id : [id];
-    setDeleteOpen(true);
-    setDeleteParametersIds(ids);
-  };
 
   const handleParameterDetails = useCallback(
     (id: string) => {
@@ -41,14 +39,44 @@ const ParametersPage = () => {
     [dataParameters.data?.parameters?.length]
   );
 
+  const handleEdit = useCallback(
+    (id: string) => {
+      setEditOpen(true);
+      const paramDetails = dataParameters.data?.parameters.find(
+        (param) => param.id === id
+      );
+      setParameterDetails(paramDetails);
+    },
+    [dataParameters.data?.parameters?.length]
+  );
+
+  const openDeleteDialog = (id: string | string[]) => {
+    const ids = Array.isArray(id) ? id : [id];
+    setDeleteOpen(true);
+    setDeleteParametersIds(ids);
+  };
+
   const handleDelete = async (ids: string[] | null) => {
     if (!ids || ids.length === 0) return;
     try {
-      await Promise.all(ids.map((id) => mutation.mutateAsync(id)));
+      await Promise.all(ids.map((id) => deactivateParameter.mutateAsync(id)));
       setDeleteOpen(false);
       setDeleteParametersIds(null);
     } catch {
       toastError("Error deleting parameter(s)");
+    }
+  };
+
+  const handleSubmit = async (id: string, isActive: boolean) => {
+    try {
+      if (isActive) {
+        await activateParameter.mutateAsync(id);
+      } else {
+        await deactivateParameter.mutateAsync(id);
+      }
+      setEditOpen(false);
+    } catch {
+      toastError("Error changing status");
     }
   };
 
@@ -61,6 +89,7 @@ const ParametersPage = () => {
         <Parameters
           parameters={dataParameters?.data?.parameters || []}
           onDetails={handleParameterDetails}
+          onEdit={handleEdit}
           onDelete={openDeleteDialog}
         />
       </ComponentOrLoader>
@@ -73,9 +102,18 @@ const ParametersPage = () => {
           open={detailsOpen}
           openChange={setDetailsOpen}
         />
+        <ParameterEdit
+          parameter={parameterDetails}
+          onSubmit={handleSubmit}
+          open={editOpen}
+          setOpen={setEditOpen}
+          isSubmitting={
+            activateParameter.isPending || deactivateParameter.isPending
+          }
+        />
         <ConfirmDeleteDialog
           onSubmit={() => handleDelete(deleteParametersIds)}
-          isSubmitting={mutation.isPending}
+          isSubmitting={deactivateParameter.isPending}
           isOpen={deleteOpen}
           description={`Disabling this parameter will deactivate it — associated data will not be permanently deleted and the parameter can be re-enabled later. Type 'delete' to confirm.`}
           setIsOpen={setDeleteOpen}

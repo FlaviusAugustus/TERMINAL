@@ -20,6 +20,14 @@ const colors = [
 
 export type Color = (typeof colors)[number];
 
+export function getChipStatusColors(isActive: boolean): Color {
+  return isActive ? "green" : "red";
+}
+
+export function getChipValue(isActive: boolean): string {
+  return isActive ? "Active" : "Not Active";
+}
+
 function tailwindColorFrom(seed: string): Color {
   const hash = seed
     .split("")

@@ -18,7 +18,7 @@ async function fetchAllParameters(): Promise<ParameterResponse> {
 function useGetAllParameters() {
   const online = useIsOnline();
   return useQuery({
-    queryKey: ["allParameters"],
+    queryKey: ["parameters"],
     queryFn: fetchAllParameters,
     enabled: online,
   });

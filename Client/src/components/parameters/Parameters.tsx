@@ -26,6 +26,7 @@ import { Color } from "@utils/colorUtils.tsx";
 interface ParametersProps {
   parameters: Array<AllParameters>;
   onDetails: (parameterId: string) => void;
+  onEdit: (parameterId: string) => void;
   onDelete: (parameterId: string | string[]) => void;
 }
 
@@ -62,7 +63,12 @@ const columnsDef = [
   }),
 ] as Array<ColumnDef<AllParameters, unknown>>;
 
-const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
+const Parameters = ({
+  parameters,
+  onDetails,
+  onEdit,
+  onDelete,
+}: ParametersProps) => {
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -83,6 +89,7 @@ const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
   const columns = useTableColumns<AllParameters>({
     columnsDef: columnsDef,
     onDetails: onDetails,
+    onEdit: onEdit,
     onDelete: onDelete,
     detailsQueryKeyBuilder: () => ["parameters"],
   });
