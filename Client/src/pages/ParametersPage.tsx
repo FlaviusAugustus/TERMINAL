@@ -3,7 +3,7 @@ import ComponentOrLoader from "@components/shared/loader/ComponentOrLoader.tsx";
 import Loader from "@components/shared/loader/Loader.tsx";
 import Parameters from "@components/parameters/Parameters.tsx";
 import ParameterDetails from "@components/parameters/ParameterDetails.tsx";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { AllParameters } from "@api/models/Parameters.ts";
 import DialogLoader from "@components/shared/dialog/DialogLoader.tsx";
 import { useDeactivateParameter } from "@hooks/parameters/useDeactivateParameter.ts";
@@ -28,27 +28,21 @@ const ParametersPage = () => {
     string[] | null
   >(null);
 
-  const handleParameterDetails = useCallback(
-    (id: string) => {
-      setDetailsOpen(true);
-      const paramDetails = dataParameters.data?.parameters.find(
-        (param) => param.id === id
-      );
-      setParameterDetails(paramDetails);
-    },
-    [dataParameters.data?.parameters?.length]
-  );
+  const handleParameterDetails = (id: string) => {
+    setDetailsOpen(true);
+    const paramDetails = dataParameters.data?.parameters.find(
+      (param) => param.id === id
+    );
+    setParameterDetails(paramDetails);
+  };
 
-  const handleEdit = useCallback(
-    (id: string) => {
-      setEditOpen(true);
-      const paramDetails = dataParameters.data?.parameters.find(
-        (param) => param.id === id
-      );
-      setParameterDetails(paramDetails);
-    },
-    [dataParameters.data?.parameters?.length]
-  );
+  const handleEdit = (id: string) => {
+    setEditOpen(true);
+    const paramDetails = dataParameters.data?.parameters.find(
+      (param) => param.id === id
+    );
+    setParameterDetails(paramDetails);
+  };
 
   const openDeleteDialog = (id: string | string[]) => {
     const ids = Array.isArray(id) ? id : [id];
