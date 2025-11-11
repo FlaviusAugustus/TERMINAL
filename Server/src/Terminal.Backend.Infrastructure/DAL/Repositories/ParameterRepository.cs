@@ -28,4 +28,7 @@ internal sealed class ParameterRepository : IParameterRepository
         _parameters.Update(parameter);
         return Task.CompletedTask;
     }
+    
+    public Task<bool> IsNameUniqueAsync(ParameterName name, CancellationToken cancellationToken) 
+        => _parameters.AllAsync(p => !p.Name.Equals(name), cancellationToken);
 }

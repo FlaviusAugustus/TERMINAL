@@ -1,5 +1,6 @@
 using MediatR;
 using Terminal.Backend.Core.Abstractions.Repositories;
+using Terminal.Backend.Core.Exceptions;
 
 namespace Terminal.Backend.Application.Commands.Parameter.Define;
 
@@ -12,10 +13,15 @@ internal sealed class DefineParameterCommandHandler : IRequestHandler<DefinePara
         _parameterRepository = parameterRepository;
     }
 
-    public Task Handle(DefineParameterCommand command, CancellationToken ct)
+    public async Task Handle(DefineParameterCommand command, CancellationToken ct)
     {
         var parameter = command.Parameter;
 
-        return _parameterRepository.AddAsync(parameter, ct);
+        if (!await _parameterRepository.IsNameUniqueAsync(parameter.Name, ct))
+        {
+            throw new InvalidParameterNameException(parameter.Name);
+        }
+
+        await _parameterRepository.AddAsync(parameter, ct);
     }
 }
