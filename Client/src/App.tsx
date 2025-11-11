@@ -18,10 +18,25 @@ import TagsPage from "@pages/TagsPage.tsx";
 import AddTag from "@pages/AddTag.tsx";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { persister, queryClient } from "@utils/queryClient";
-import useIsOnline from "@hooks/useIsOnline";
+import useIsOnline, { OnlineStatusProvider } from "@hooks/useIsOnline";
 import AddSampleWithContexts from "@pages/AddProcess.tsx";
 
-export default function App() {
+const App = () => {
+  return (
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{
+        persister: persister,
+      }}
+    >
+      <OnlineStatusProvider>
+        <AppA />
+      </OnlineStatusProvider>
+    </PersistQueryClientProvider>
+  );
+};
+
+export function AppA() {
   const online = useIsOnline();
   return (
     <PersistQueryClientProvider
@@ -94,3 +109,5 @@ export default function App() {
     </PersistQueryClientProvider>
   );
 }
+
+export default App;
