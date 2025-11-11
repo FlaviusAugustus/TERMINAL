@@ -2,6 +2,7 @@ import {
   ColumnDef,
   createColumnHelper,
   getCoreRowModel,
+  getSortedRowModel,
   OnChangeFn,
   PaginationState,
   SortingState,
@@ -88,6 +89,7 @@ const Tags = (props: TagProps) => {
     columns: columns,
     data: props.tags?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     defaultColumn: {
       size: "auto" as unknown as number,
     },
@@ -102,7 +104,6 @@ const Tags = (props: TagProps) => {
     rowCount: props.tags?.rowsAmount ?? 0,
     onSortingChange: props.setSorting,
     onPaginationChange: props.setPagination,
-    manualSorting: true,
     manualPagination: true,
   });
 

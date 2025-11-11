@@ -2,6 +2,7 @@ import {
   ColumnDef,
   createColumnHelper,
   getCoreRowModel,
+  getSortedRowModel,
   OnChangeFn,
   PaginationState,
   SortingState,
@@ -95,6 +96,7 @@ const Projects = (props: ProjectsProps) => {
     columns: columns,
     data: props.projects?.rows ?? [],
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     defaultColumn: {
       size: "auto" as unknown as number,
     },
@@ -109,7 +111,6 @@ const Projects = (props: ProjectsProps) => {
     rowCount: props.projects?.rowsAmount ?? 0,
     onSortingChange: props.setSorting,
     onPaginationChange: props.setPagination,
-    manualSorting: true,
     manualPagination: true,
   });
 
