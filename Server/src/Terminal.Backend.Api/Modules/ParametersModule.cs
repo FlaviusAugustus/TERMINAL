@@ -21,6 +21,13 @@ public static class ParametersModule
                 return Results.Ok(parameters);
             }).RequireAuthorization(Permission.ParameterRead.ToString())
             .WithTags(SwaggerSetup.ParameterTag);
+        
+        app.MapGet(ApiBaseRoute+ "/all", async (ISender sender, CancellationToken ct) =>
+            {
+                var parameters = await sender.Send(new GetParametersQuery(onlyActive: false), ct);
+                return Results.Ok(parameters);
+            }).RequireAuthorization(Permission.ParameterRead.ToString())
+            .WithTags(SwaggerSetup.ParameterTag);
 
         app.MapPost(ApiBaseRoute + "/define/text", async (
                 CreateTextParameterDto parameterDto,

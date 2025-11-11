@@ -1,7 +1,11 @@
 import { DialogComp } from "@components/shared/dialog/DialogComp.tsx";
 import Detail from "@components/shared/common/Detail.tsx";
 import Chip from "@components/shared/common/Chip.tsx";
-import { Color } from "@utils/colorUtils.tsx";
+import {
+  Color,
+  getChipStatusColors,
+  getChipValue,
+} from "@utils/colorUtils.tsx";
 import { AllParameters } from "@api/models/Parameters.ts";
 
 export interface ParameterDetailsProps {
@@ -36,6 +40,14 @@ const ParameterDetails = ({
               <Detail label="unit">{parameter?.unit}</Detail>
             </>
           )}
+          <Detail label="is Active">
+            <Chip
+              value={getChipValue(parameter?.isActive || false)}
+              getColorValue={() =>
+                getChipStatusColors(parameter?.isActive || false)
+              }
+            />
+          </Detail>
         </div>
         {parameter?.$type === "text" && (
           <div className="flex flex-col gap-1 items-start w-full justify-center">

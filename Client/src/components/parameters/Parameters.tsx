@@ -21,11 +21,21 @@ import IconButton from "@components/shared/common/IconButton.tsx";
 import { Link } from "react-router-dom";
 import FormInput from "@components/shared/form/FormInput.tsx";
 import TableOrCardLayout from "@components/shared/table/TableOrCardLayout";
+import { Color } from "@utils/colorUtils.tsx";
 
 interface ParametersProps {
   parameters: Array<AllParameters>;
   onDetails: (parameterId: string) => void;
+  onEdit: (parameterId: string) => void;
   onDelete: (parameterId: string | string[]) => void;
+}
+
+function getChipColors(isActive: boolean): Color {
+  return isActive ? "green" : "red";
+}
+
+function getChipValue(isActive: boolean): string {
+  return isActive ? "Active" : "Not Active";
 }
 
 const columnHelper = createColumnHelper<AllParameters>();
@@ -36,6 +46,16 @@ const columnsDef = [
     cell: (info) => info.getValue(),
     sortingFn: "alphanumeric",
   }),
+  columnHelper.accessor("isActive", {
+    header: "Status",
+    cell: (info) => (
+      <Chip
+        value={getChipValue(info.getValue())}
+        getColorValue={() => getChipColors(info.getValue())}
+      />
+    ),
+    sortingFn: "alphanumeric",
+  }),
   columnHelper.accessor("$type", {
     header: "Type",
     cell: (info) => <Chip value={info.getValue()} />,
@@ -43,7 +63,12 @@ const columnsDef = [
   }),
 ] as Array<ColumnDef<AllParameters, unknown>>;
 
-const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
+const Parameters = ({
+  parameters,
+  onDetails,
+  onEdit,
+  onDelete,
+}: ParametersProps) => {
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -64,6 +89,7 @@ const Parameters = ({ parameters, onDetails, onDelete }: ParametersProps) => {
   const columns = useTableColumns<AllParameters>({
     columnsDef: columnsDef,
     onDetails: onDetails,
+    onEdit: onEdit,
     onDelete: onDelete,
     detailsQueryKeyBuilder: () => ["parameters"],
   });
