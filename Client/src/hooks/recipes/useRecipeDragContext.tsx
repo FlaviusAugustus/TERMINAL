@@ -213,6 +213,7 @@ const RecipeDragProvider = ({
                 order: 0,
                 parentId: "",
                 defaultValue: 0,
+                isActive: true,
               }}
             />
           )}
