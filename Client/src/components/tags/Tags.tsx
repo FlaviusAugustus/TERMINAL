@@ -21,6 +21,8 @@ import { TagsResponse } from "@hooks/tags/useGetAllTags.ts";
 import { Link } from "react-router-dom";
 import FormInput from "@components/shared/form/FormInput.tsx";
 import TableOrCardLayout from "@components/shared/table/TableOrCardLayout";
+import Chip from "@components/shared/common/Chip.tsx";
+import { getChipStatusColors, getChipValue } from "@utils/colorUtils.tsx";
 
 export interface TagProps {
   tags: TagsResponse | undefined;
@@ -44,6 +46,15 @@ const columnsDef = [
   columnHelper.accessor("name", {
     header: "Name",
     cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("isActive", {
+    header: "Status",
+    cell: (info) => (
+      <Chip
+        value={getChipValue(info.getValue())}
+        getColorValue={() => getChipStatusColors(info.getValue())}
+      />
+    ),
   }),
 ] as Array<ColumnDef<Tag, unknown>>;
 

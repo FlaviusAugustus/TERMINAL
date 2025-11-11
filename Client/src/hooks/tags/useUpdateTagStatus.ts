@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@api/apiClient.ts";
 import { TagsRequest, TagsResponse } from "@hooks/tags/useGetAllTags.ts";
-import { TagDetailsDto } from "@api/models/Tag.ts";
+import { Tag } from "@api/models/Tag.ts";
 
 interface UpdateTagStatusDto {
   id: string;
@@ -27,7 +27,7 @@ export function useUpdateTagStatus({ pageSize, pageNumber }: TagsRequest) {
   return useMutation({
     mutationFn: (data: UpdateTagStatusDto) => updateTagStatus(data),
     onSuccess: (_data, { id, isActive }) => {
-      queryClient.setQueryData<TagDetailsDto>(["tagDetails", id], (oldData) => {
+      queryClient.setQueryData<Tag>(["tagDetails", id], (oldData) => {
         if (!oldData) return undefined;
         return {
           ...oldData,

@@ -1,11 +1,11 @@
 import { DialogComp } from "@components/shared/dialog/DialogComp.tsx";
-import { TagDetailsDto } from "@api/models/Tag.ts";
+import { Tag } from "@api/models/Tag.ts";
 import Detail from "@components/shared/common/Detail.tsx";
 import { Color } from "@utils/colorUtils.tsx";
 import Chip from "@components/shared/common/Chip.tsx";
 
 export interface TagDetailsProps {
-  tag: TagDetailsDto | undefined;
+  tag: Tag | undefined;
   open: boolean;
   openChange: (arg0: boolean) => void;
 }
