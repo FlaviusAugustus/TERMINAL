@@ -7,8 +7,10 @@ import {
 } from "react";
 import apiClient from "@api/apiClient";
 
-async function pingBackend(): Promise<number> {
-  const result = await apiClient.get<string>("ping");
+async function pingBackend(): Promise<number | undefined> {
+  const result = await apiClient.get<string>("ping", {
+    validateStatus: () => true,
+  });
   return result.status;
 }
 

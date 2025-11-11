@@ -27,7 +27,7 @@ apiClient.interceptors.response.use(
     const originalRequest = error.config;
 
     if (
-      error.response.status === 401 &&
+      error.response?.status === 401 &&
       originalRequest.url.includes("/users/refresh")
     ) {
       localStorage.removeItem("refresh-token");
@@ -35,7 +35,7 @@ apiClient.interceptors.response.use(
     }
 
     if (
-      error.response.status !== 401 ||
+      error.response?.status !== 401 ||
       originalRequest._retry ||
       originalRequest.url.includes("/users/refresh") ||
       (sessionStorage.getItem("token") === null &&
