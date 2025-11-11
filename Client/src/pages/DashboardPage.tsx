@@ -22,7 +22,7 @@ const columnHelper = createColumnHelper<Process>();
 const columns = [
   columnHelper.accessor("code", {
     header: "Code",
-    cell: (info) => info.getValue(),
+    cell: (info) => info.getValue().prefix + info.getValue().sequentialNumber,
   }),
   columnHelper.accessor("createdAtUtc", {
     header: "Created At",

@@ -21,6 +21,7 @@ internal sealed class GetRecentProcessesQueryHandler :
         => new()
         {
             RecentSamples = await _processes
+                .AsNoTracking()
                 .OrderByDescending(m => m.CreatedAtUtc)
                 .Take(request.Length)
                 .Select(m =>
