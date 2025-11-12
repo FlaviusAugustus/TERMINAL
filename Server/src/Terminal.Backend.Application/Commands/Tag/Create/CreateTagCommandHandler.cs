@@ -1,5 +1,6 @@
 using MediatR;
 using Terminal.Backend.Core.Abstractions.Repositories;
+using Terminal.Backend.Core.Exceptions;
 
 namespace Terminal.Backend.Application.Commands.Tag.Create;
 
@@ -12,9 +13,13 @@ internal sealed class CreateTagCommandHandler : IRequestHandler<CreateTagCommand
         _tagRepository = tagRepository;
     }
 
-    public Task Handle(CreateTagCommand command, CancellationToken ct)
+    public async Task Handle(CreateTagCommand command, CancellationToken ct)
     {
+        if (!await _tagRepository.IsNameUniqueAsync(command.Name, ct))
+        {
+            throw new InvalidTagException(command.Name);
+        }
         var newTag = new Core.Entities.Tag(command.Id, command.Name);
-        return _tagRepository.AddAsync(newTag, ct);
+        await _tagRepository.AddAsync(newTag, ct);
     }
 }

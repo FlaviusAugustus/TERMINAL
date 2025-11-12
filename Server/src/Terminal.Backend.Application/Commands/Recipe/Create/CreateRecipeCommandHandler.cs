@@ -2,6 +2,7 @@ using MediatR;
 using Terminal.Backend.Application.Abstractions;
 using Terminal.Backend.Core.Abstractions.Repositories;
 using Terminal.Backend.Core.Entities;
+using Terminal.Backend.Core.Exceptions;
 using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Application.Commands.Recipe.Create;
@@ -20,6 +21,11 @@ internal sealed class CreateRecipeCommandHandler : IRequestHandler<CreateRecipeC
     public async Task Handle(CreateRecipeCommand request, CancellationToken cancellationToken)
     {
         var (id, name, steps) = request;
+
+        if (!await _recipeRepository.IsNameUniqueAsync(name, cancellationToken))
+        {
+            throw new InvalidRecipeNameException(name);
+        }
 
         var recipe = new Core.Entities.Recipe(id, name);
         foreach (var step in await _convertDtoService.ConvertAsync(steps, cancellationToken))

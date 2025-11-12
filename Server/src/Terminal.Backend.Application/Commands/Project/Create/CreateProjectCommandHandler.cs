@@ -1,5 +1,6 @@
 using MediatR;
 using Terminal.Backend.Core.Abstractions.Repositories;
+using Terminal.Backend.Core.Exceptions;
 
 namespace Terminal.Backend.Application.Commands.Project.Create;
 
@@ -12,9 +13,13 @@ internal sealed class CreateProjectCommandHandler : IRequestHandler<CreateProjec
         _projectRepository = projectRepository;
     }
 
-    public Task Handle(CreateProjectCommand request, CancellationToken ct)
+    public async Task Handle(CreateProjectCommand request, CancellationToken ct)
     {
+        if (!await _projectRepository.IsNameUniqueAsync(request.Name, ct))
+        {
+            throw new InvalidProjectNameException(request.Name);
+        }
         var newProject = new Core.Entities.Project(request.Id, request.Name);
-        return _projectRepository.AddAsync(newProject, ct);
+        await _projectRepository.AddAsync(newProject, ct);
     }
 }
