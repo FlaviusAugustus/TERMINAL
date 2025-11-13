@@ -1,5 +1,5 @@
 import { AllParameters } from "@api/models/Parameters";
-import useGetParameters from "@hooks/parameters/useGetParameters.ts";
+import useGetAllParameters from "@hooks/parameters/useGetAllParameters";
 import { RowData, ColumnDef } from "@tanstack/react-table";
 import { useState, useEffect } from "react";
 
@@ -14,7 +14,7 @@ declare module "@tanstack/react-table" {
 const editableColumn: Partial<ColumnDef<AllParameters>> = {
   cell: ({ getValue, row: { index, original }, column: { id }, table }) => {
     const initialValue = getValue();
-    const parameters = useGetParameters();
+    const parameters = useGetAllParameters();
 
     const parameterOrigin = parameters.data?.parameters.find(
       (p) => p.name === original.name
