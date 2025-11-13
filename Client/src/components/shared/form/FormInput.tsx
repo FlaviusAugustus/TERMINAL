@@ -90,7 +90,7 @@ const FormInput = forwardRef<HTMLInputElement, InputFieldProps>(
             </div>
           )}
           {unit && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 ">
+            <div className="absolute right-9 top-1/2 transform -translate-y-1/2 text-gray-500 ">
               {unit}
             </div>
           )}
@@ -101,7 +101,7 @@ const FormInput = forwardRef<HTMLInputElement, InputFieldProps>(
               "w-full px-3 py-2 border rounded-md focus:ring-1 focus:outline-none focus:ring-blue-500 focus:ring-offset-2",
               showErrorMessage && "border-red-500",
               icon && "pl-9",
-              unit && "pe-6",
+              unit && "pe-3",
               className
             )}
           />
