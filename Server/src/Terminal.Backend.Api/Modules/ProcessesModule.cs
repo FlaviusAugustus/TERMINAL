@@ -74,6 +74,21 @@ public static class ProcessesModule
                 return Results.Ok(recentProcesses);
             }).RequireAuthorization(Permission.ProcessRead.ToString())
             .WithTags(SwaggerSetup.ProcessTag);
+        
+        app.MapGet(ApiRouteBase + "/grouped-by-days", async (
+                [FromQuery] int days,
+                ISender sender,
+                CancellationToken ct) =>
+            {
+                if (days <= 0)
+                {
+                    return Results.BadRequest();
+                }
+
+                var groupedProcesses = await sender.Send(new GetGroupedByDaysProcessesQuery(days), ct);
+                return Results.Ok(groupedProcesses.GroupedByDaysProcesses);
+            }).RequireAuthorization(Permission.ProcessRead.ToString())
+            .WithTags(SwaggerSetup.ProcessTag);
 
         app.MapGet(ApiRouteBase + "/{id:guid}", async (Guid id, ISender sender, CancellationToken ct) =>
             {
