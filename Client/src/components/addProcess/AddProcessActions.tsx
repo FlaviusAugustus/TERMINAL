@@ -42,7 +42,6 @@ const AddProcessActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
       saveAsRecipe: args.saveAsRecipe,
     };
     if (args.saveAsRecipe) {
-      payload.recipeId = recipe.id;
       payload.recipeName = args.recipeName;
     }
     toastPromise(mutateAsync(payload), {

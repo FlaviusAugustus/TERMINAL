@@ -6,7 +6,6 @@ function sampleToUpdateRequest(sample: ProcessDetailsDto): UpdateProcess {
   return {
     id: sample.id,
     projects: sample.projects.map((p) => p.id),
-    recipeId: sample.recipe,
     tagIds: sample.tags?.filter((t) => t.id !== undefined).map((t) => t.id!),
     comment: sample.comment,
     steps: sample.steps?.map((s) => {

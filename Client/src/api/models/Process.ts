@@ -25,7 +25,6 @@ export type ProcessDetailsDto = Omit<Process, "projects"> & {
 export type CreateProcess = {
   prefix: string;
   projects: string[];
-  recipeId?: string;
   steps: Step[];
   tagIds: string[];
   comment: string;
@@ -36,7 +35,6 @@ export type CreateProcess = {
 export type UpdateProcess = {
   projects: string[];
   id: string;
-  recipeId?: string;
   steps: UpdateStep[];
   tagIds: string[];
   comment?: string | null;
