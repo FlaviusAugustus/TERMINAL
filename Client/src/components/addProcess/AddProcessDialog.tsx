@@ -52,6 +52,12 @@ const AddProcessDialog = ({
     if (!validateProject(projects)) {
       return;
     }
+    setPrefix("");
+    setSaveAsRecipe(false);
+    setRecipeName("");
+    setComment("");
+    setTags([]);
+    setProjects([]);
     await onSubmit({
       prefix: prefix,
       recipeName: recipeName,
