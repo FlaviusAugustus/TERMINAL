@@ -16,6 +16,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
+import ProcessChart from "@components/dashboard/ProcessChart";
 
 const columnHelper = createColumnHelper<Process>();
 
@@ -104,6 +105,12 @@ const DashboardPage = () => {
           <p className="p-2 text-md">Recent Processes</p>
           <TableCard>
             <TableView<Process> table={table} handleClickRow={() => {}} />
+          </TableCard>
+        </div>
+        <div className="col-span-2">
+          <p className="p-2 text-md">Last 30 days</p>
+          <TableCard>
+            <ProcessChart />
           </TableCard>
         </div>
       </div>
