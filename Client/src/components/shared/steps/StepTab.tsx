@@ -32,7 +32,10 @@ const StepTab = ({ index }: StepTabProps) => {
             <DocumentDuplicateIcon className="h-5 w-5" />
           </button>
           <button
-            onClick={() => removeStep(index)}
+            onClick={(e) => {
+              e.stopPropagation();
+              removeStep(index);
+            }}
             className="group-hover:block rounded p-px hidden hover:bg-gray-100 bg-white"
           >
             <XMarkIcon className="h-5 w-5" />
