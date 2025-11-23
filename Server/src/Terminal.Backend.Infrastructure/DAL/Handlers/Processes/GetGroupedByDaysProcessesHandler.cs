@@ -1,4 +1,3 @@
-using System.Collections;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Terminal.Backend.Application.DTO.Processes;
@@ -20,23 +19,24 @@ internal sealed class GetGroupedByDaysProcessesHandler:
     public async Task<GetGroupedByDaysProcessesDto> Handle(GetGroupedByDaysProcessesQuery request,
         CancellationToken cancellationToken)
     {
-        Dictionary<string, List<GetGroupedByDaysProcessesDto.ProcessDto>> dictionary = Enumerable
-            .Range(0, request.Days)
-            .Select(offset => DateTime.UtcNow.AddDays(-offset).ToShortDateString())
-            .ToDictionary(date => date, _ => new List<GetGroupedByDaysProcessesDto.ProcessDto>());
+        var dateLimit = DateTime.UtcNow.AddDays(-request.Days).Date;
         
+        var processes = _processes
+            .AsNoTracking()
+            .Where(p => dateLimit <= p.CreatedAtUtc.Date)
+            .Select(p => new GetGroupedByDaysProcessesDto.ProcessDto(
+                p.Id, 
+                p.Code,
+                p.Projects.Select(p => p.Name),
+                p.CreatedAtUtc.ToString("MM/dd/yyyy"),
+                p.Comment));
         
-        await _processes
-            .Where(p => DateTime.UtcNow.AddDays(-request.Days).Date <= p.CreatedAtUtc.Date)
-            .ForEachAsync(p =>
-                {
-                    dictionary.TryGetValue(p.CreatedAtUtc.Date.ToShortDateString(), out var list);
-                    list?.Add(new GetGroupedByDaysProcessesDto.ProcessDto(p.Id, p.Code, p.Projects.Select(p => p.Name), p.CreatedAtUtc.ToString("o"),
-                        p.Comment));
-                }, cancellationToken);
         return new ()
         {
-            GroupedByDaysProcesses = dictionary 
+            GroupedByDaysProcesses = processes
+                .ToList()
+                .GroupBy(p => p.CreatedAtUtc)
+                .ToDictionary(p => p.Key, p=> p.ToList())
         };
     }
     
