@@ -18,7 +18,6 @@ async function getUserData(): Promise<UserDetailsDto> {
 function useUserData() {
   return useQuery({
     queryKey: ["user"],
-    staleTime: Infinity,
     queryFn: getUserData,
   });
 }

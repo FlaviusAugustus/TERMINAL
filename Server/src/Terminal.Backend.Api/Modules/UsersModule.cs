@@ -60,13 +60,23 @@ public static class UsersModule
             }).RequireAuthorization(Role.Moderator)
             .WithTags(SwaggerSetup.UserTag);
 
-        app.MapPost(ApiBaseRoute, async (
-                [FromBody] CreateUserCommand command,
+        app.MapPost(ApiBaseRoute + "/invite", async (
+                [FromBody] InviteUserCommand command,
                 ISender sender,
                 CancellationToken ct) =>
             {
                 var invitation = await sender.Send(command, ct);
                 return Results.Created($"{ApiBaseRoute}/invitations", invitation);
+            }).RequireAuthorization(Role.Administrator)
+            .WithTags(SwaggerSetup.UserTag);
+        
+        app.MapPost(ApiBaseRoute, async (
+                [FromBody] CreateUserCommand command,
+                ISender sender,
+                CancellationToken ct) =>
+            {
+                await sender.Send(command, ct);
+                return Results.Ok();
             }).RequireAuthorization(Role.Administrator)
             .WithTags(SwaggerSetup.UserTag);
 
