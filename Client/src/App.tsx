@@ -20,6 +20,7 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import { persister, queryClient } from "@utils/queryClient";
 import useIsOnline, { OnlineStatusProvider } from "@hooks/useIsOnline";
 import AddSampleWithContexts from "@pages/AddProcess.tsx";
+import AddUser from "@pages/AddUser.tsx";
 
 const App = () => {
   return (
@@ -60,6 +61,16 @@ export function Router() {
             </Route>
             <Route element={<AuthorizedLayout pageName="Add new tag" />}>
               <Route path="/new-tag" element={<AddTag />} />
+            </Route>
+            <Route
+              element={
+                <AuthorizedLayout
+                  pageName="Add new user"
+                  roles={["Administrator"]}
+                />
+              }
+            >
+              <Route path="/new-user" element={<AddUser />} />
             </Route>
           </>
         )}

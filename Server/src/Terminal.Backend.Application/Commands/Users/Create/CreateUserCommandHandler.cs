@@ -8,51 +8,34 @@ using Terminal.Backend.Core.ValueObjects;
 
 namespace Terminal.Backend.Application.Commands.Users.Create;
 
-internal sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, InvitationDto>
+internal sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IInvitationFactory _invitationFactory;
-    private readonly IMailService _mailService;
     private readonly IRoleRepository _roleRepository;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public CreateUserCommandHandler(IUserRepository userRepository, IInvitationFactory invitationFactory,
-        IMailService mailService, IRoleRepository roleRepository)
+    public CreateUserCommandHandler(
+        IUserRepository userRepository,
+        IRoleRepository roleRepository, 
+        IPasswordHasher passwordHasher)
     {
         _userRepository = userRepository;
-        _invitationFactory = invitationFactory;
-        _mailService = mailService;
         _roleRepository = roleRepository;
+        _passwordHasher = passwordHasher;
     }
 
-    public async Task<InvitationDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var (email, role) = request;
+        var (email, password,  role) = request;
         var user = await _userRepository.GetUserByEmailAsync(email, cancellationToken);
 
         if (user is null)
         {
-            user = User.CreateInactiveUser(UserId.Create(), email);
+            user = User.CreateActiveUser(UserId.Create(), email, _passwordHasher.Hash(password));
             var newUserRole = await _roleRepository.GetByNameAsync(role, cancellationToken)
                               ?? throw new RoleNotFoundException(role);
             user.SetRole(newUserRole);
             await _userRepository.AddUserAsync(user, cancellationToken);
         }
-
-        if (user.Activated)
-        {
-            throw new UserAlreadyExistsException(email);
-        }
-
-        var invitation = await _invitationFactory.CrateAsync(user, cancellationToken);
-        await _mailService.SendInvitation(invitation);
-
-        return new InvitationDto(invitation.Link, invitation.ExpiresIn.ToString("d"));
-    }
-}
-
-public class UserAlreadyExistsException : TerminalException
-{
-    public UserAlreadyExistsException(string email) : base("User already exists")
-    {
     }
 }

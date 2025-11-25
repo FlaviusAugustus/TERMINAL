@@ -77,6 +77,14 @@ const TerminalSidebarContent = ({
             text="Tag"
             href="/new-tag"
           />
+          <VisibleForRoles roles={["Administrator"]}>
+            <SidebarItem
+              onlineOnly
+              onClick={onAfterNavigate}
+              text="User"
+              href="/new-user"
+            />
+          </VisibleForRoles>
         </SidebarItemWithSubLinks>
       </SidebarLinkGroup>
       <SidebarLinkGroup text="Manage">
