@@ -1,11 +1,15 @@
-import { ArrowRightEndOnRectangleIcon } from "@heroicons/react/20/solid";
+import {
+  ArrowRightEndOnRectangleIcon,
+  Cog8ToothIcon,
+} from "@heroicons/react/16/solid";
 import useUserData from "@hooks/users/useUserData.ts";
 import { toastPromise } from "@utils/toast.utils.tsx";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "@hooks/users/auth/useLogoutMutation.ts";
 import useIsOnline from "@hooks/useIsOnline";
 import clsx from "clsx";
+import ChangePasswordDialog from "@components/users/ChangePasswordDialog.tsx";
 
 function getUserRoleDisplayValue(role: string): string {
   if (role === "Administrator") return "Administrator";
@@ -41,6 +45,7 @@ function getAvatarColor(email: string): string {
 const SidebarUserProfile = () => {
   const { data, status } = useUserData();
   const navigate = useNavigate();
+  const [isDialogOpen, setDialogOpen] = useState(false);
   const logoutMutation = useLogoutMutation();
   const online = useIsOnline();
 
@@ -58,7 +63,7 @@ const SidebarUserProfile = () => {
 
   return (
     <div className="p-2 bg-white md:rounded-b-md w-full">
-      <div className="flex gap-3 rounded-md p-2 hover:bg-gray-200 group hover:cursor-pointer w-full items-center">
+      <div className="flex gap-1 rounded-md p-2 hover:bg-gray-200 group hover:cursor-pointer w-full items-center">
         <div className="relative">
           <div
             style={{ backgroundColor: getAvatarColor(data?.email) }}
@@ -73,17 +78,32 @@ const SidebarUserProfile = () => {
             )}
           ></div>
         </div>
-        <div className="flex flex-col justify-start">
+        <div className="flex flex-col justify-start pl-1">
           <p className="text-sm w-full text-left">{data?.email}</p>
           <p className="text-xs text-gray-500 w-full text-left">
             {getUserRoleDisplayValue(data?.role)}
           </p>
         </div>
+        <Cog8ToothIcon
+          className="h-8 w-6 ml-auto md:group-hover:visible md:invisible text-gray-800 hover:bg-gray-300 rounded"
+          onClick={() => setDialogOpen(true)}
+        />
         <ArrowRightEndOnRectangleIcon
-          className="h-9 w-8 ml-auto md:group-hover:visible md:invisible text-gray-800 hover:bg-gray-300 p-1 rounded"
-          onClick={handleLogout}
+          className="h-8 w-6 ml-auto md:group-hover:visible md:invisible text-gray-800 hover:bg-gray-300 rounded"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleLogout();
+          }}
         />
       </div>
+      <ChangePasswordDialog
+        open={isDialogOpen}
+        setOpen={setDialogOpen}
+        onClose={() => {
+          setDialogOpen(false);
+        }}
+        userId={data.id}
+      />
     </div>
   );
 };

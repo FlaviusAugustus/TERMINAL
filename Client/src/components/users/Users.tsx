@@ -132,7 +132,7 @@ const Users = (props: UsersProps) => {
               <XMarkIcon className="h-4 " />
               <p className="text-xs hidden md:block">Delete Selected</p>
             </IconButton>
-            <Link to="/settings">
+            <Link to="/new-user">
               <IconButton className="h-[40px] w-[40px] md:w-auto flex bg-white justify-center  items-center gap-1">
                 <PlusIcon className="h-4 " />
                 <p className="text-xs hidden md:block">Add new</p>
