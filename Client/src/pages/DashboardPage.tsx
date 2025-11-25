@@ -1,5 +1,4 @@
 import { Process } from "@api/models/Process.ts";
-import TableCard from "@components/shared/table/TableCard";
 import TableView from "@components/shared/table/TableView";
 import useGetRecentProcesses from "@hooks/processes/useGetRecentProcesses.ts";
 import {
@@ -35,22 +34,24 @@ const DashboardPage = () => {
   });
 
   return (
-    <div className="md:grid md:grid-cols-4 flex flex-col gap-3 p-3 overflow-auto">
-      <div className="col-span-4">
-        <p className="px-2 text-md">Stats</p>
-      </div>
-      <Stats />
-      <div className="col-span-2">
-        <p className="p-2 text-md">Recent Processes</p>
-        <TableCard>
-          <TableView<Process> table={table} handleClickRow={() => {}} />
-        </TableCard>
-      </div>
-      <div className="col-span-2">
-        <p className="p-2 text-md">Last 30 days</p>
-        <TableCard>
-          <ProcessChart />
-        </TableCard>
+    <div className="flex flex-1 overflow-auto">
+      <div className="h-full w-full md:grid md:grid-cols-4 md:grid-rows-[auto_auto_1fr] gap-3 p-3">
+        <div className="col-span-4">
+          <p className="px-2 text-md">Stats</p>
+        </div>
+        <Stats />
+        <div className="col-span-2 flex flex-col overflow-auto">
+          <p className="p-2 text-md flex-shrink-0">Recent Processes</p>
+          <div className="h-full overflow-auto rounded-lg border border-gray-200 bg-white shadow-sm flex-1">
+            <TableView<Process> table={table} handleClickRow={() => {}} />
+          </div>
+        </div>
+        <div className="col-span-2 flex flex-col overflow-auto">
+          <p className="p-2 text-md flex-shrink-0">Recent Processes</p>
+          <div className="h-full overflow-auto rounded-lg border border-gray-200 bg-white shadow-sm flex-1">
+            <ProcessChart />
+          </div>
+        </div>
       </div>
     </div>
   );
