@@ -20,27 +20,32 @@ internal sealed class GetGroupedByDaysProcessesHandler:
         CancellationToken cancellationToken)
     {
         var dateLimit = DateTime.UtcNow.AddDays(-request.Days).Date;
+        var today = DateTime.UtcNow.Date;
 
         var processes = await _processes
             .AsNoTracking()
             .Where(p => dateLimit <= p.CreatedAtUtc.Date)
             .GroupBy(p => p.CreatedAtUtc.Date)
             .Select(g =>
-                new GetGroupedByDaysProcessesDto.GroupedAmount
-                (
-                    g.Key.Date.ToString("MM/dd/yyyy"),
-                    g.Select(p =>
-                        new {
-                            p.Id,
-                            p.Code,
-                            p.Comment
-                        }).Count()
-                ))
-            .ToListAsync(cancellationToken);
+                new
+                {
+                    Date = g.Key,
+                    Count = g.Count()
+                })
+            .ToDictionaryAsync(x => x.Date, x => x.Count, cancellationToken);
 
-    return new ()
+        var result = Enumerable.Range(0, (today - dateLimit).Days + 1)
+            .Select(offset => dateLimit.AddDays(offset))
+            .Select(date =>
+                new GetGroupedByDaysProcessesDto.GroupedAmount(
+                    date.ToString("MM/dd/yyyy"),
+                    processes.TryGetValue(date, out var count) ? count : 0
+                )
+            ).ToList();
+
+        return new GetGroupedByDaysProcessesDto
         {
-            GroupedByDaysProcesses =  processes
+            GroupedByDaysProcesses = result
         };
     }
     
