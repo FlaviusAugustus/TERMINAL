@@ -2,9 +2,14 @@ import apiClient from "@api/apiClient.ts";
 import useIsOnline from "@hooks/useIsOnline";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-async function fetchGroupedProcesses(days: number) {
+export type Grouped = {
+  date: string;
+  amount: number;
+};
+
+async function fetchGroupedProcesses(days: number): Promise<Grouped[]> {
   return (
-    await apiClient.get(`/processes/grouped-by-days`, {
+    await apiClient.get(`/process/grouped-by-days`, {
       params: { days: days },
     })
   ).data;
