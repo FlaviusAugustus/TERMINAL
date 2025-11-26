@@ -26,27 +26,21 @@ internal sealed class GetGroupedByDaysProcessesHandler:
             .Where(p => dateLimit <= p.CreatedAtUtc.Date)
             .GroupBy(p => p.CreatedAtUtc.Date)
             .Select(g =>
-                new
-                {
-                    Key = g.Key.Date.ToString("MM/dd/yyyy"),
-                    Items = g.Select(p =>
-                        new GetGroupedByDaysProcessesDto.ProcessDto(
+                new GetGroupedByDaysProcessesDto.GroupedAmount
+                (
+                    g.Key.Date.ToString("MM/dd/yyyy"),
+                    g.Select(p =>
+                        new {
                             p.Id,
                             p.Code,
-                            p.Projects.Select(p => p.Name),
                             p.Comment
-                        ))
-                })
-            .ToDictionaryAsync(
-                g => g.Key,
-                g => g.Items.LongCount(),
-                cancellationToken
-            );
-            
+                        }).Count()
+                ))
+            .ToListAsync(cancellationToken);
 
     return new ()
         {
-            GroupedByDaysProcesses = processes
+            GroupedByDaysProcesses =  processes
         };
     }
     
