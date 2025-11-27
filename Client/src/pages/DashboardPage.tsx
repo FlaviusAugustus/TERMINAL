@@ -47,7 +47,9 @@ const DashboardPage = () => {
           </div>
         </div>
         <div className="col-span-2 flex flex-col overflow-auto">
-          <p className="p-2 text-md flex-shrink-0">Recent Processes</p>
+          <p className="p-2 text-md flex-shrink-0">
+            Number of new Processes in the last 30 days
+          </p>
           <div className="h-full overflow-auto rounded-lg border border-gray-200 bg-white shadow-sm flex-1">
             <ProcessChart />
           </div>
