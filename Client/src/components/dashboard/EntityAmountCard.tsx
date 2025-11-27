@@ -31,7 +31,7 @@ const EntityAmountCard = ({
   return (
     <div className="border border-gray-200 rounded-lg bg-white shadow-sm">
       <div className="flex items-center justify-between border-b ">
-        <div className="text-sm items-center font-medium border-gray-200 h-[40.5px] p-2 flex">
+        <div className="text-sm items-center font-semibold border-gray-200 h-[40.5px] p-2 flex text-[#74767f]">
           {title}
         </div>
       </div>
