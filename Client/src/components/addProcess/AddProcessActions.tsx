@@ -47,7 +47,7 @@ const AddProcessActions = ({ setSelectedRecipe }: AddSampleActionsProps) => {
     toastPromise(mutateAsync(payload), {
       loading: "loading",
       success: "Process added successfully",
-      error: "Error while adding a sample",
+      error: "Error while adding a process",
     });
   };
 
