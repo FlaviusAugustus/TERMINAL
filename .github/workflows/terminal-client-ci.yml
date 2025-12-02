@@ -50,17 +50,15 @@ jobs:
         run: npm run lint:test
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Prepare .env file
-        working-directory: .
-        run: |
-          cp .env.sample.local .env
-          cp .env.sample.local ./Client/.env
       - name: Start server
         working-directory: .
         run: |
-          docker compose -f compose.yaml -f compose.override.yaml up --build -d --wait server database
+          docker compose --env-file .env.sample.local up --build -d --wait server database
+      - name: Test API
+        run: |
+          curl -v http://localhost:5006/api/ping
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test loginTest.spec.ts --reporter=list
       - name: Stop server
         if: always()
         working-directory: .
