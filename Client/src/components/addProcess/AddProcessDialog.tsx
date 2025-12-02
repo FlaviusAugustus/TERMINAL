@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { Project } from "@api/models/Project";
 import {
   DialogButton,
@@ -6,17 +7,14 @@ import {
 } from "@components/shared/dialog/DialogComp.tsx";
 import FormInput from "@components/shared/form/FormInput.tsx";
 import LabeledCheckbox from "@components/shared/form/LabeledCheckbox.tsx";
-import { useEffect, useState } from "react";
 import LabeledTagInput from "@components/shared/tags/LabeledTagInput.tsx";
 import { Tag } from "@api/models/Tag.ts";
 import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 import Form from "@components/shared/form/Form.tsx";
 import LabeledTextArea from "@components/shared/form/LabeledTextArea";
-import LabeledProjectInput from "@components/shared/projects/LabeledProjectInput.tsx";
-
-function validateProject(projects: Project[]) {
-  return projects.length > 0;
-}
+import LabeledProjectInput, {
+  LabeledProjectInputHandle,
+} from "@components/shared/projects/LabeledProjectInput.tsx";
 
 type AddProcessDialogProps = Omit<DialogProps, "title"> & {
   onSubmit: (args: {
@@ -42,26 +40,20 @@ const AddProcessDialog = ({
   const [comment, setComment] = useState("");
   const [tags, setTags] = useState<Tag[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
-  const [projectsError, setProjectsError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (validateProject(projects)) {
-      setProjectsError(null);
-    }
-  }, [projects]);
+  const projectInputRef = useRef<LabeledProjectInputHandle | null>(null);
 
   const handleClose = () => {
     setProjects([]);
     setIsOpen(false);
-    setProjectsError(null);
+    projectInputRef.current?.markTouched(false);
   };
 
   const handleSubmit = async () => {
-    if (!validateProject(projects)) {
-      setProjectsError("At lest one project must be selected.");
+    if (projectInputRef.current && !projectInputRef.current.isValid()) {
+      projectInputRef.current.markTouched(true);
       return;
     }
-    setProjectsError(null);
 
     const payload = {
       prefix: prefix,
@@ -104,14 +96,11 @@ const AddProcessDialog = ({
             onChange={(e) => setPrefix(e.currentTarget.value.toUpperCase())}
           />
           <LabeledProjectInput
+            ref={projectInputRef}
             projects={projects ?? []}
             setPojects={setProjects}
+            required={true}
           />
-          {projectsError && (
-            <div className="text-red-600 text-sm" role="alert">
-              {projectsError}
-            </div>
-          )}
           <LabeledCheckbox
             label="Save as recipe"
             checked={saveAsRecipe}
