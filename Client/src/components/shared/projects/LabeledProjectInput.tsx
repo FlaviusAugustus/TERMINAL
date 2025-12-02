@@ -24,6 +24,7 @@ type ProjectInputProps = {
   required?: boolean;
 };
 
+// eslint-disable-next-line react/display-name
 const LabeledProjectInput = forwardRef<
   LabeledProjectInputHandle,
   ProjectInputProps
