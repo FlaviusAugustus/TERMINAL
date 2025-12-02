@@ -54,11 +54,8 @@ jobs:
         working-directory: .
         run: |
           docker compose --env-file .env.sample.local up --build -d --wait server database
-      - name: Test API
-        run: |
-          curl -v http://localhost:5006/api/ping
       - name: Run Playwright tests
-        run: npx playwright test loginTest.spec.ts --reporter=list
+        run: npx playwright test
       - name: Stop server
         if: always()
         working-directory: .
