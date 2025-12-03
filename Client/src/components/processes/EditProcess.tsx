@@ -72,7 +72,7 @@ const EditProcess = ({ process, open, openChange }: SampleDetailsProps) => {
       await mutation.mutateAsync(newProcess);
       openChange(false);
     } catch {
-      toastError(`Error while updating sample`);
+      toastError(`Error while updating a process`);
     }
   };
 

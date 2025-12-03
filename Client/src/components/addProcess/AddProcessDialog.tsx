@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { Project } from "@api/models/Project";
 import {
   DialogButton,
@@ -6,17 +7,14 @@ import {
 } from "@components/shared/dialog/DialogComp.tsx";
 import FormInput from "@components/shared/form/FormInput.tsx";
 import LabeledCheckbox from "@components/shared/form/LabeledCheckbox.tsx";
-import { useState } from "react";
 import LabeledTagInput from "@components/shared/tags/LabeledTagInput.tsx";
 import { Tag } from "@api/models/Tag.ts";
 import SubmitButton from "@components/shared/form/SubmitButton.tsx";
 import Form from "@components/shared/form/Form.tsx";
 import LabeledTextArea from "@components/shared/form/LabeledTextArea";
-import LabeledProjectInput from "@components/shared/projects/LabeledProjectInput.tsx";
-
-function validateProject(projects: Project[]) {
-  return projects.length > 0;
-}
+import LabeledProjectInput, {
+  LabeledProjectInputHandle,
+} from "@components/shared/projects/LabeledProjectInput.tsx";
 
 type AddProcessDialogProps = Omit<DialogProps, "title"> & {
   onSubmit: (args: {
@@ -43,37 +41,47 @@ const AddProcessDialog = ({
   const [tags, setTags] = useState<Tag[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
 
+  const projectInputRef = useRef<LabeledProjectInputHandle | null>(null);
+
   const handleClose = () => {
     setProjects([]);
     setIsOpen(false);
+    projectInputRef.current?.markTouched(false);
   };
 
   const handleSubmit = async () => {
-    if (!validateProject(projects)) {
+    if (projectInputRef.current && !projectInputRef.current.isValid()) {
+      projectInputRef.current.markTouched(true);
       return;
     }
-    setPrefix("");
-    setSaveAsRecipe(false);
-    setRecipeName("");
-    setComment("");
-    setTags([]);
-    setProjects([]);
-    await onSubmit({
+
+    const payload = {
       prefix: prefix,
       recipeName: recipeName,
       saveAsRecipe: saveAsRecipe,
       projects: projects.map((p) => p.id),
       comment: comment,
       tagIds: tags.map((tag) => tag.id),
-    });
+    };
 
-    handleClose();
+    try {
+      await onSubmit(payload);
+      setPrefix("");
+      setSaveAsRecipe(false);
+      setRecipeName("");
+      setComment("");
+      setTags([]);
+      setProjects([]);
+      handleClose();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
     <DialogComp
       {...rest}
-      title="Add sample"
+      title="Add process"
       setIsOpen={setIsOpen}
       handleClose={handleClose}
     >
@@ -88,8 +96,10 @@ const AddProcessDialog = ({
             onChange={(e) => setPrefix(e.currentTarget.value.toUpperCase())}
           />
           <LabeledProjectInput
+            ref={projectInputRef}
             projects={projects ?? []}
             setPojects={setProjects}
+            required={true}
           />
           <LabeledCheckbox
             label="Save as recipe"
@@ -113,7 +123,7 @@ const AddProcessDialog = ({
             label={"Comment"}
           />
 
-          <SubmitButton label="Add sample" isLoading={isPending} />
+          <SubmitButton label="Add process" isLoading={isPending} />
           <DialogButton className="hover:border-red-400" onClick={handleClose}>
             Cancel
           </DialogButton>
