@@ -8,6 +8,8 @@ import { Project } from "@api/models/Project.ts";
 import { useGetProjectAmount } from "@hooks/projects/useGetProjectAmount.ts";
 import { useAllProjects } from "@hooks/projects/useGetAllProjects.ts";
 
+export type LabeledProjectInputHandle = LabeledSelectHandle;
+
 type ProjectInputProps = {
   projects: Project[];
   setPojects: (newProjects: Project[]) => void;
