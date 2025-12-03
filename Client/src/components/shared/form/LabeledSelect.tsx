@@ -1,17 +1,30 @@
-import { ReactNode } from "react";
+import {
+  ForwardedRef,
+  forwardRef,
+  ReactElement,
+  ReactNode,
+  useImperativeHandle,
+  useState,
+} from "react";
 import {
   Combobox,
-  ComboboxInput,
-  ComboboxOptions,
-  ComboboxOption,
   ComboboxButton,
-  ComboboxProps,
+  ComboboxInput,
+  ComboboxOption,
   ComboboxOptionProps,
+  ComboboxOptions,
+  ComboboxProps,
 } from "@headlessui/react";
 import clsx from "clsx";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import SelectedValues from "@components/shared/form/SelectedValues.tsx";
 import LabeledField from "./LabeledField.tsx";
+
+export type LabeledSelectHandle = {
+  isValid: () => boolean;
+  markTouched: (v?: boolean) => void;
+  focus: () => void;
+};
 
 type LabeledSelectProps<T, Multiple extends boolean> = ComboboxProps<
   T,
@@ -23,41 +36,78 @@ type LabeledSelectProps<T, Multiple extends boolean> = ComboboxProps<
   comboboxStyles?: string;
   comboboxOptionsStyles?: string;
   label?: string;
+  required?: boolean;
+  errorMessage?: string;
 };
 
-/**
- * Reusable Select field.
- *
- * @component
- * @param {LabeledSelectProps} props - The props for the LabeledSelect component
- */
-const LabeledSelect = <T, Multiple extends boolean>({
-  label,
-  children,
-  displayValue,
-  handleRemoveValue,
-  comboboxStyles = "",
-  comboboxOptionsStyles = "",
-  ...rest
-}: LabeledSelectProps<T, Multiple>) => {
+const LabeledSelectInner = <T, Multiple extends boolean>(
+  {
+    label,
+    children,
+    displayValue,
+    handleRemoveValue,
+    comboboxStyles = "",
+    comboboxOptionsStyles = "",
+    required = false,
+    errorMessage = "This field is required",
+    ...rest
+  }: LabeledSelectProps<T, Multiple>,
+  ref: ForwardedRef<LabeledSelectHandle>
+) => {
   const value = rest.value;
   const multiple = rest.multiple;
+  const [touched, setTouched] = useState(false);
+
+  const isEmpty = multiple
+    ? !Array.isArray(value) || value.length === 0
+    : !value;
+
+  const showErrorMessage = required && touched && isEmpty;
+
+  useImperativeHandle(ref, () => ({
+    isValid: () => {
+      if (!required) return true;
+      return !isEmpty;
+    },
+    markTouched: (v = true) => setTouched(v),
+    focus: () => {},
+  }));
+
+  const handleInteraction = () => {
+    setTouched(true);
+  };
 
   return (
     <LabeledField label={label}>
-      <Combobox immediate {...rest}>
+      <Combobox
+        immediate
+        {...rest}
+        onChange={(val) => {
+          handleInteraction();
+          if (rest.onChange) rest.onChange(val);
+        }}
+      >
         <div
           className={clsx(
             "relative w-full bg-white px-3 border-[1px] rounded-md py-2 focus-within:ring-1 focus-within:ring-blue-500 focus-within:ring-offset-2",
+            showErrorMessage && "border-red-500",
             comboboxStyles
           )}
+          onClick={handleInteraction}
         >
           {multiple && Array.isArray(value) && value.length > 0 && (
-            <SelectedValues values={value} handleRemove={handleRemoveValue} />
+            <SelectedValues
+              values={value}
+              handleRemove={(v) => {
+                handleInteraction();
+                if (handleRemoveValue) handleRemoveValue(v);
+              }}
+            />
           )}
           <ComboboxInput
             displayValue={displayValue}
             className="w-full h-full focus:outline-none"
+            onBlur={() => setTouched(true)}
           />
 
           <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
@@ -74,9 +124,24 @@ const LabeledSelect = <T, Multiple extends boolean>({
           <div className="max-h-[25vh]">{children}</div>
         </ComboboxOptions>
       </Combobox>
+
+      <div className={clsx(!showErrorMessage && "invisible", "h-5")}>
+        <p role="alert" className="text-xs text-red-500">
+          {errorMessage}
+        </p>
+      </div>
     </LabeledField>
   );
 };
+
+const LabeledSelect = forwardRef(LabeledSelectInner) as <
+  T,
+  Multiple extends boolean,
+>(
+  props: LabeledSelectProps<T, Multiple> & {
+    ref?: ForwardedRef<LabeledSelectHandle>;
+  }
+) => ReactElement;
 
 type SelectItemProps<T> = ComboboxOptionProps<"div", T> & {
   displayValue: string;
