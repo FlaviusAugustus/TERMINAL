@@ -40,13 +40,20 @@ export class DashboardPage {
     }
   }
 
-  async verifyRecentSamples(recentSamples: { code: string }[]) {
+  async verifyRecentSamples(recentSamples: { code: string | { prefix: string; sequentialNumber: number } }[]) {
     await expect(
-      this.page.getByRole("paragraph").filter({ hasText: "Recent Samples" })
+      this.page.getByRole("paragraph").filter({ hasText: "Recent Processes" })
     ).toBeVisible();
+
     for (const sample of recentSamples) {
+      const code = sample.code;
+      const codeStr =
+        typeof code === "string"
+          ? code
+          : `${code.prefix}${code.sequentialNumber}`;
+
       await expect(
-        this.page.getByRole("cell", { name: sample.code }).first()
+        this.page.getByRole("cell", { name: codeStr }).first()
       ).toBeVisible();
     }
   }

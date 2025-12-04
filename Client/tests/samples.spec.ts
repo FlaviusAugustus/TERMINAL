@@ -3,25 +3,25 @@ import { LoginPage } from "./pages/loginPage";
 import { SamplesPage } from "./pages/samplesPage";
 import { SAMPLE_DETAILS_PATH, SAMPLE_ENTITY } from "./constants";
 import {
-  currentSamples,
+  currentProcesses,
   mockEntityDetails,
-  mockSamples,
-  mockSamplesNextPage,
+  mockProcesses,
+  mockProcessesNextPage,
   mockSearch,
-  resetSamples,
+  resetProcesses,
   setCurrentData,
 } from "./helpers/mocks";
 import {
+  processesMock,
+  processMock,
   sampleDetailsMock,
-  sampleMock,
-  samplesMock,
 } from "./helpers/mockedData";
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
   await loginPage.goto();
   await loginPage.login();
-  resetSamples();
+  resetProcesses();
 });
 
 test("renders table with correct columns", async ({ page }) => {
@@ -40,11 +40,11 @@ test("renders table with correct columns", async ({ page }) => {
 });
 
 test("searches for existing sample", async ({ page }) => {
-  await mockSamples(page);
+  await mockProcesses(page);
   await mockSearch(
     page,
     "**/api/samples/search**",
-    samplesMock.samples,
+    processesMock.processes,
     "code",
     "samples"
   );
@@ -56,11 +56,11 @@ test("searches for existing sample", async ({ page }) => {
 });
 
 test("shows nothing when no results found", async ({ page }) => {
-  await mockSamples(page);
+  await mockProcesses(page);
   await mockSearch(
     page,
     "**/api/samples/search**",
-    samplesMock.samples,
+    processesMock.processes,
     "code",
     "samples"
   );
@@ -88,11 +88,11 @@ test("redirects to Add New Project page", async ({ page }) => {
 });
 
 test("should show sample details", async ({ page }) => {
-  await mockSamples(page);
+  await mockProcesses(page);
   await mockEntityDetails(
     page,
     SAMPLE_DETAILS_PATH,
-    currentSamples,
+    currentProcesses,
     sampleDetailsMock,
     SAMPLE_ENTITY
   );
@@ -110,11 +110,11 @@ test("should show sample details", async ({ page }) => {
 });
 
 test("edits sample details", async ({ page }) => {
-  await mockSamples(page);
+  await mockProcesses(page);
   await mockEntityDetails(
     page,
     SAMPLE_DETAILS_PATH,
-    currentSamples,
+    currentProcesses,
     sampleDetailsMock,
     SAMPLE_ENTITY
   );
@@ -182,11 +182,11 @@ test("edits sample details", async ({ page }) => {
 });
 
 test("deletes sample using X button", async ({ page }) => {
-  await mockSamples(page);
+  await mockProcesses(page);
   await mockEntityDetails(
     page,
     SAMPLE_DETAILS_PATH,
-    currentSamples,
+    currentProcesses,
     sampleDetailsMock,
     SAMPLE_ENTITY
   );
@@ -199,11 +199,11 @@ test("deletes sample using X button", async ({ page }) => {
 });
 
 test("deletes selected samples using X button", async ({ page }) => {
-  await mockSamples(page);
+  await mockProcesses(page);
   await mockEntityDetails(
     page,
     SAMPLE_DETAILS_PATH,
-    currentSamples,
+    currentProcesses,
     sampleDetailsMock,
     SAMPLE_ENTITY
   );
@@ -216,12 +216,12 @@ test("deletes selected samples using X button", async ({ page }) => {
 });
 
 test("deletes all samples using checkbox", async ({ page }) => {
-  setCurrentData(currentSamples, sampleMock.samples);
-  await mockSamples(page);
+  setCurrentData(currentProcesses, processMock.processes);
+  await mockProcesses(page);
   await mockEntityDetails(
     page,
     SAMPLE_DETAILS_PATH,
-    currentSamples,
+    currentProcesses,
     sampleDetailsMock,
     SAMPLE_ENTITY
   );
@@ -232,8 +232,8 @@ test("deletes all samples using checkbox", async ({ page }) => {
 });
 
 test("paginates through samples list", async ({ page }) => {
-  await mockSamples(page);
-  await mockSamplesNextPage(page, sampleMock.samples);
+  await mockProcesses(page);
+  await mockProcessesNextPage(page, processMock.processes);
 
   const samples = new SamplesPage(page);
   await samples.goto();

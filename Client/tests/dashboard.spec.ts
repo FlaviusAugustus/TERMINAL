@@ -1,8 +1,8 @@
 import { test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { DashboardPage } from "./pages/dashboardPage";
-import { mockCount, mockRecentSamples } from "./helpers/mocks";
-import { recentSamplesMock } from "./helpers/mockedData";
+import { mockCount, mockRecentProcesess } from "./helpers/mocks";
+import { recentProcessesMock } from "./helpers/mockedData";
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -16,10 +16,10 @@ test("displays correct project count", async ({ page }) => {
   await dashboard.verifyCountCard("Total projects", 7);
 });
 
-test("displays correct sample count", async ({ page }) => {
+test("displays correct processes count", async ({ page }) => {
   const dashboard = new DashboardPage(page);
-  await mockCount(page, "**/api/samples/amount", 15);
-  await dashboard.verifyCountCard("Total samples", 15);
+  await mockCount(page, "**/api/process/amount", 15);
+  await dashboard.verifyCountCard("Total processes", 15);
 });
 
 test("displays correct recipe count", async ({ page }) => {
@@ -46,16 +46,16 @@ test("redirects to Add new Project", async ({ page }) => {
   await dashboard.expectNavigationTo(/\/new-project$/, "Add new project", 1);
 });
 
-test("redirects to Samples on Browse All", async ({ page }) => {
+test("redirects to Processes on Browse All", async ({ page }) => {
   const dashboard = new DashboardPage(page);
   await dashboard.clickBrowseAll(1);
-  await dashboard.expectNavigationTo(/\/samples$/, "Samples");
+  await dashboard.expectNavigationTo(/\/processes$/, "Processes");
 });
 
-test("redirects to Add new Sample", async ({ page }) => {
+test("redirects to Add new Process", async ({ page }) => {
   const dashboard = new DashboardPage(page);
   await dashboard.clickAddNew(1);
-  await dashboard.expectNavigationTo(/\/new-sample$/, "Add new sample");
+  await dashboard.expectNavigationTo(/\/new-process$/, "Add new process");
 });
 
 test("redirects to Recipes on Browse All", async ({ page }) => {
@@ -70,18 +70,9 @@ test("redirects to Add new Recipe", async ({ page }) => {
   await dashboard.expectNavigationTo(/\/new-recipe$/, "Add new recipe");
 });
 
-// Uncomment when implemented
-// test("redirects to Users on Browse All", async ({ page }) => {
-//   const dashboard = new DashboardPage(page);
-//   await dashboard.clickBrowseAll(3);
-//   await dashboard.expectNavigationTo(/\/users$/, "Users", 1);
-// });
-
-test("displays recent samples correctly", async ({ page }) => {
-  await mockRecentSamples(page);
+test("displays recent processes correctly", async ({ page }) => {
+  await mockRecentProcesess(page);
   const dashboard = new DashboardPage(page);
 
-  await dashboard.verifyRecentSamples(recentSamplesMock.recentSamples);
+  await dashboard.verifyRecentSamples(recentProcessesMock.recentSamples);
 });
-
-// To DO: Add tests to Pinned Receipes once the feature is implemented

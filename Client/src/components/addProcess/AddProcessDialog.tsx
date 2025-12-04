@@ -73,7 +73,7 @@ const AddProcessDialog = ({
   return (
     <DialogComp
       {...rest}
-      title="Add sample"
+      title="Add process"
       setIsOpen={setIsOpen}
       handleClose={handleClose}
     >
@@ -113,7 +113,7 @@ const AddProcessDialog = ({
             label={"Comment"}
           />
 
-          <SubmitButton label="Add sample" isLoading={isPending} />
+          <SubmitButton label="Add process" isLoading={isPending} />
           <DialogButton className="hover:border-red-400" onClick={handleClose}>
             Cancel
           </DialogButton>

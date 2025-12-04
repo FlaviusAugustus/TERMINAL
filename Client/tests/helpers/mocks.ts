@@ -1,19 +1,19 @@
 import { Page } from "@playwright/test";
 import {
   parametersMock,
+  processesMock,
   projectsMock,
-  recentSamplesMock,
+  recentProcessesMock,
   recipeDetailsMock,
   recipesAmountMock,
   recipesMock,
-  samplesMock,
   tagsMock,
   userDetilsMock,
   usersMock,
 } from "./mockedData";
 
 export const currentProjects = [...projectsMock.projects];
-export const currentSamples = [...samplesMock.samples];
+export const currentProcesses = [...processesMock.processes];
 export const currentTags = [...tagsMock.tags];
 export const currentParameters = [...parametersMock.parameters];
 export const currentUsers = [...usersMock.users];
@@ -24,9 +24,9 @@ export function resetProjects() {
   currentProjects.push(...projectsMock.projects);
 }
 
-export function resetSamples() {
-  currentSamples.length = 0;
-  currentSamples.push(...samplesMock.samples);
+export function resetProcesses() {
+  currentProcesses.length = 0;
+  currentProcesses.push(...processesMock.processes);
 }
 
 export function resetTags() {
@@ -73,13 +73,13 @@ export async function mockCount(page: Page, apiPath: string, amount: number) {
   });
 }
 
-export async function mockSamples(page: Page, dataArray = currentSamples) {
-  await page.route("**/api/samples?pageNumber=0&pageSize=10", async (route) => {
+export async function mockProcesses(page: Page, dataArray = currentProcesses) {
+  await page.route("**/api/process?pageNumber=0&pageSize=10", async (route) => {
     if (route.request().method() === "GET") {
       await route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({ samples: dataArray }),
+        body: JSON.stringify({ processes: dataArray }),
       });
       return;
     }
@@ -87,16 +87,16 @@ export async function mockSamples(page: Page, dataArray = currentSamples) {
   });
 }
 
-export async function mockSamplesNextPage(
+export async function mockProcessesNextPage(
   page: Page,
-  dataArray = currentSamples
+  dataArray = currentProcesses
 ) {
-  await page.route("**/api/samples?pageNumber=1&pageSize=10", async (route) => {
+  await page.route("**/api/process?pageNumber=1&pageSize=10", async (route) => {
     if (route.request().method() === "GET") {
       await route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({ samples: dataArray }),
+        body: JSON.stringify({ processes: dataArray }),
       });
       return;
     }
@@ -184,12 +184,12 @@ export async function mockEntityDetails<
   });
 }
 
-export async function mockRecentSamples(page: Page) {
-  await page.route("**/api/samples/recent?length=*", async (route) => {
+export async function mockRecentProcesess(page: Page) {
+  await page.route("**/api/process/recent?length=*", async (route) => {
     await route.fulfill({
       status: 200,
       contentType: "application/json",
-      body: JSON.stringify(recentSamplesMock),
+      body: JSON.stringify(recentProcessesMock),
     });
   });
 }
@@ -217,7 +217,7 @@ export async function mockProjectCreation(page: Page) {
 }
 
 export async function mockProjects(page: Page) {
-  await page.route("**/api/projects", async (route) => {
+  await page.route("**/api/projects/all?pageNumber=0&pageSize=6&desc=true", async (route) => {
     if (route.request().method() === "GET") {
       await route.fulfill({
         status: 200,
@@ -398,7 +398,7 @@ export async function mockRecipeCreation(page: Page) {
 }
 
 export async function mockSampleCreation(page: Page) {
-  await page.route("**/api/samples", async (route) => {
+  await page.route("**/api/process", async (route) => {
     if (route.request().method() === "POST") {
       const requestBody = JSON.parse(route.request().postData() || "{}");
 
@@ -406,7 +406,8 @@ export async function mockSampleCreation(page: Page) {
         status: 201,
         contentType: "application/json",
         body: JSON.stringify({
-          projectId: requestBody.projectId,
+          prefix: requestBody.prefix,
+          projects: requestBody.projects,
           recipeId: requestBody.recipeId,
           steps: Array.isArray(requestBody.steps) ? requestBody.steps : [],
           tagIds: requestBody.tagIds,

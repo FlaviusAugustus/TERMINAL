@@ -18,103 +18,122 @@ export const projectDetailsMock = {
   ],
 };
 
-export const samplesMock = {
-  samples: [
+export const processesMock = {
+  processes: [
     {
-      id: "6a88a51d-88cf-4a63-ab59-b4da32d6c777",
-      code: "AX45",
-      project: "Nitro",
-      createdAtUtc: "2025-10-07T20:22:34.8386110Z",
-      comment: "First sample!",
+      id: "c382820c-accf-4bae-8b76-04207ebc3777",
+      code: {
+        prefix: "ZX",
+        sequentialNumber: 2,
+      },
+      projects: ["Nobelium"],
+      createdAtUtc: "2025-12-03T08:31:00.3092960Z",
+      comment: "",
     },
     {
-      id: "4222c66d-f2f0-478a-8a2e-61a421af2777",
-      code: "AX44",
-      project: "Nitro",
-      createdAtUtc: "2025-10-07T20:22:34.82576777",
-      comment: "First sample!",
+      id: "6552bcb6-91c7-4f49-8b9f-818479c48777",
+      code: {
+        prefix: "CX",
+        sequentialNumber: 5,
+      },
+      projects: ["Nitro"],
+      createdAtUtc: "2025-12-03T08:29:20.0512670Z",
+      comment: "",
     },
     {
-      id: "b21560c4-7760-4207-a389-d19206412777",
-      code: "AX43",
-      project: "Nitro",
-      createdAtUtc: "2025-10-07T20:22:34.81394777",
-      comment: "First sample!",
+      id: "ec7a210b-077c-4725-8242-1c6f056d8777",
+      code: {
+        prefix: "CX",
+        sequentialNumber: 4,
+      },
+      projects: ["Nobelium"],
+      createdAtUtc: "2025-12-03T08:29:07.6017050Z",
+      comment: "",
     },
     {
-      id: "5825f3f3-73f2-486c-a3bf-706a9297a777",
-      code: "AX42",
-      project: "Nitro",
-      createdAtUtc: "2025-10-07T20:22:34.8002620Z",
-      comment: "First sample!",
+      id: "849d1dcd-6780-4198-8aa2-5a341e4e0777",
+      code: {
+        prefix: "CX",
+        sequentialNumber: 3,
+      },
+      projects: ["Nitro"],
+      createdAtUtc: "2025-12-02T09:11:18.6964730Z",
+      comment: "TEST",
     },
     {
-      id: "5dbce5fa-1fc5-44dd-be66-92cade332777",
-      code: "AX41",
-      project: "Nitro",
-      createdAtUtc: "2025-10-07T20:22:34.7826600Z",
-      comment: "First sample!",
+      id: "450af56c-4b8d-4dce-a58c-43c32b5d2777",
+      code: {
+        prefix: "ZX",
+        sequentialNumber: 1,
+      },
+      projects: ["Nitro"],
+      createdAtUtc: "2025-11-28T21:23:33.5691770Z",
+      comment: "TEST",
     },
     {
-      id: "e3dbc0e6-1e48-4425-8d7a-dce56b951777",
-      code: "AX40",
-      project: "Nitro",
-      createdAtUtc: "2025-10-07T20:22:34.7660710Z",
-      comment: "First sample!",
+      id: "49e1dc00-ecd3-465c-a817-d65ff3d62777",
+      code: {
+        prefix: "CX",
+        sequentialNumber: 2,
+      },
+      projects: ["Nobelium"],
+      createdAtUtc: "2025-11-28T21:18:23.0884950Z",
+      comment: "",
     },
     {
-      id: "d4ce7736-d597-45c7-8e11-6a431e9fe777",
-      code: "AX39",
-      project: "Nitro",
-      createdAtUtc: "2025-10-07T20:22:34.7412850Z",
-      comment: "First sample!",
+      id: "6eb9f14c-64b6-4025-baea-70369e793777",
+      code: {
+        prefix: "BX",
+        sequentialNumber: 9,
+      },
+      projects: ["Upturn"],
+      createdAtUtc: "2025-11-28T21:17:51.8386630Z",
+      comment: "test",
     },
     {
-      id: "3842d12c-3556-4903-8461-0a6d13223777",
-      code: "AX38",
-      project: "Nitro",
-      createdAtUtc: "2025-10-07T20:22:34.7216540Z",
-      comment: "First sample!",
+      id: "09dca856-f2ba-419b-8f8f-f995251df777",
+      code: {
+        prefix: "BX",
+        sequentialNumber: 8,
+      },
+      projects: ["Nobelium"],
+      createdAtUtc: "2025-11-28T21:12:35.7787600Z",
+      comment: "",
     },
     {
-      id: "3dc4113e-90c8-4b65-8b4a-bf5280be3777",
-      code: "AX37",
-      project: "Nitro",
-      createdAtUtc: "2025-10-07T20:22:34.6994550Z",
-      comment: "First sample!",
+      id: "557b6f33-f767-4969-989d-260ef7db6777",
+      code: {
+        prefix: "BX",
+        sequentialNumber: 7,
+      },
+      projects: ["Nitro", "Upturn", "Nobelium"],
+      createdAtUtc: "2025-11-28T20:52:46.8620480Z",
+      comment: "Process 45",
     },
     {
-      id: "35f75b43-7ad8-4bca-b8f7-c8763a7e6777",
-      code: "AX36",
-      project: "Nitro",
-      createdAtUtc: "2025-10-07T20:22:34.6635000Z",
-      comment: "First sample!",
-    },
-    {
-      id: "c113a2a5-294b-4a81-a757-3586f655f777",
-      code: "AX35",
-      project: "Nitro",
-      createdAtUtc: "2025-10-07T20:22:34.6386130Z",
-      comment: "First sample!",
-    },
-    {
-      id: "c4160064-d7a6-4f5b-aa5d-2607e24d3777",
-      code: "AX34",
-      project: "Nitro",
-      createdAtUtc: "2025-10-07T20:22:34.6030140Z",
-      comment: "First sample!",
+      id: "b315d3ec-bd53-4d6b-8fe2-6768f839a777",
+      code: {
+        prefix: "CX",
+        sequentialNumber: 1,
+      },
+      projects: ["Nitro", "Upturn", "Nobelium"],
+      createdAtUtc: "2025-11-28T20:52:46.8203000Z",
+      comment: "Process 14",
     },
   ],
 };
 
-export const sampleMock = {
-  samples: [
+export const processMock = {
+  processes: [
     {
-      id: "6a88a51d-88cf-4a63-ab59-b4da32d6c777",
-      code: "AX46",
-      project: "Nitro",
-      createdAtUtc: "2025-10-07T20:22:34.8386110Z",
-      comment: "First sample!",
+      id: "b315d3ec-bd53-4d6b-8fe2-6768f839a777",
+      code: {
+        prefix: "CX",
+        sequentialNumber: 1,
+      },
+      projects: ["Nitro", "Upturn", "Nobelium"],
+      createdAtUtc: "2025-11-28T20:52:46.8203000Z",
+      comment: "Process 14",
     },
   ],
 };
@@ -267,21 +286,37 @@ export const tagDetailsMock = {
   isActive: true,
 };
 
-export const recentSamplesMock = {
+export const recentProcessesMock = {
   recentSamples: [
     {
-      id: "edd5c7be-70db-4efe-a789-2750d9d27a5b",
-      code: "AX45",
-      project: "Nitro",
-      createdAtUtc: "2025-05-16T10:04:00.0687470Z",
-      comment: "First sample!",
+      id: "c382820c-accf-4bae-8b76-04207ebc3777",
+      code: {
+        prefix: "ZX",
+        sequentialNumber: 2,
+      },
+      projects: ["Nobelium"],
+      createdAtUtc: "2025-12-03T08:31:00.3092960Z",
+      comment: "",
     },
     {
-      id: "e774a026-18e9-4f38-9e41-8f524a5bf43b",
-      code: "AX44",
-      project: "Nitro",
-      createdAtUtc: "2025-05-16T10:04:00.0562750Z",
-      comment: "Second sample!",
+      id: "6552bcb6-91c7-4f49-8b9f-818479c48777",
+      code: {
+        prefix: "CX",
+        sequentialNumber: 5,
+      },
+      projects: ["Nitro"],
+      createdAtUtc: "2025-12-03T08:29:20.0512670Z",
+      comment: "",
+    },
+    {
+      id: "ec7a210b-077c-4725-8242-1c6f056d8777",
+      code: {
+        prefix: "CX",
+        sequentialNumber: 4,
+      },
+      projects: ["Nobelium"],
+      createdAtUtc: "2025-12-03T08:29:07.6017050Z",
+      comment: "",
     },
   ],
 };

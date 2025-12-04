@@ -4,6 +4,7 @@ import { NewSamplePage } from "./pages/addNewSamplePage";
 import {
   currentRecipes,
   mockParameters,
+  mockProjects,
   mockRecipeDetails,
   mockRecipes,
   mockRecipesAmount,
@@ -19,6 +20,7 @@ test.beforeEach(async ({ page }) => {
 
   await mockParameters(page);
   await mockSampleCreation(page);
+  await mockProjects(page);
 });
 
 async function prepareSample(page: Page, sample: NewSamplePage) {
@@ -36,7 +38,7 @@ async function prepareSample(page: Page, sample: NewSamplePage) {
   await sample.fillComment("This is comment!");
 }
 
-test("adds new sample successfully", async ({ page }) => {
+test("adds new process successfully", async ({ page }) => {
   await mockTags(page);
 
   const sample = new NewSamplePage(page);
@@ -44,11 +46,11 @@ test("adds new sample successfully", async ({ page }) => {
   await sample.submit();
 });
 
-test("adds new sample with recipe successfully", async ({ page }) => {
+test("adds new process with recipe successfully", async ({ page }) => {
   await mockRecipes(
     page,
     currentRecipes,
-    "**/api/recipes?pageNumber=0&pageSize=1&desc=true"
+    "**/api/recipes?pageSize=1&pageNumber=0&desc=true"
   );
   await mockRecipesAmount(page);
   await mockRecipeDetails(page, MOCKED_RECIPE_ID);
