@@ -15,7 +15,7 @@ export class NewSamplePage extends BaseAddNewPageDragable {
         "div:nth-child(3) > .flex.overflow-auto.h-full.px-2 > .flex.flex-col.gap-2.w-80 > .hidden > .flex.border.gap-2 > .flex.items-center.justify-center.p-2.border.bg-white.border-gray-200.rounded.hover\\:bg-gray-50.hover\\:border-green-300"
       )
       .click();
-    await this.page.getByRole('textbox', { name: 'Prefix:' }).fill('CX');
+    await this.page.getByRole("textbox", { name: "Prefix:" }).fill("DX");
     await this.page.getByRole("combobox", { name: "Projects:" }).click();
     await this.page.getByRole("option", { name: "Upturn" }).click();
     await this.page.keyboard.press("Escape");

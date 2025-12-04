@@ -217,17 +217,20 @@ export async function mockProjectCreation(page: Page) {
 }
 
 export async function mockProjects(page: Page) {
-  await page.route("**/api/projects/all?pageNumber=0&pageSize=6&desc=true", async (route) => {
-    if (route.request().method() === "GET") {
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify(projectsMock),
-      });
-      return;
+  await page.route(
+    "**/api/projects/all?pageNumber=0&pageSize=6&desc=true",
+    async (route) => {
+      if (route.request().method() === "GET") {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify(projectsMock),
+        });
+        return;
+      }
+      return route.continue();
     }
-    return route.continue();
-  });
+  );
 }
 
 export async function mockProjectsAll(page: Page) {

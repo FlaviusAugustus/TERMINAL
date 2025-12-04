@@ -40,7 +40,11 @@ export class DashboardPage {
     }
   }
 
-  async verifyRecentSamples(recentSamples: { code: string | { prefix: string; sequentialNumber: number } }[]) {
+  async verifyRecentSamples(
+    recentSamples: {
+      code: string | { prefix: string; sequentialNumber: number };
+    }[]
+  ) {
     await expect(
       this.page.getByRole("paragraph").filter({ hasText: "Recent Processes" })
     ).toBeVisible();
