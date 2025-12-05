@@ -164,8 +164,12 @@ public static class Extensions
 
     public static GetRecipeDto AsDto(this Recipe recipe) => new(recipe.Id, recipe.RecipeName);
 
-    public static GetCodeDto AsDto(this Code code) => new(code.Prefix);
-
+    public static GetPrefixesDto AsPrefixesDto(this IEnumerable<PrefixCounter> entities) => new()
+    {
+        Prefixes = entities.Select(p => new GetPrefixesDto.PrefixDto(p.Prefix))
+    };
+    public static GetPrefixDto AsPrefixDto(this PrefixCounter prefix) => new(prefix.Prefix);
+    public static GetPrefixDto AsDto(this Code code) => new(code.Prefix);
 
     public static GetInvitationDto AsGetInvitationDto(this Invitation invitation) =>
         new(invitation.ExpiresIn > DateTime.UtcNow, invitation.User.Email);

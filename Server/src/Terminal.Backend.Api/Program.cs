@@ -30,6 +30,7 @@ var app = builder.Build();
 await app.UseInfrastructureAsync();
 app.UsePingEndpoints();
 app.UseProjectsEndpoints();
+app.UsePrefixEndpoints();
 app.UseTagEndpoints();
 app.UseRecipesEndpoints();
 app.UseParametersEndpoints();
