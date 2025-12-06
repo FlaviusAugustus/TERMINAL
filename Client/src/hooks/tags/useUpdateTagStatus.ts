@@ -47,6 +47,8 @@ export function useUpdateTagStatus({ pageSize, pageNumber }: TagsRequest) {
           };
         }
       );
+
+      queryClient.invalidateQueries({ queryKey: ["tags", "all"] });
     },
   });
 }

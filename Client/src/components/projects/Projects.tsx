@@ -126,7 +126,7 @@ const Projects = (props: ProjectsProps) => {
         <div className="flex items-center gap-1">
           <FormInput
             validate={false}
-            className="!text-sm !h-[40px]"
+            className="!text-sm !h-[40px] focus:!ring-0 focus:!ring-offset-0"
             placeholder="Search"
             icon={<MagnifyingGlassIcon className="h-4" />}
             value={localSearch}

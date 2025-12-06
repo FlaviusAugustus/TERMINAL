@@ -55,6 +55,7 @@ export function useUpdateProjectName({
           };
         }
       );
+      queryClient.invalidateQueries({ queryKey: ["projects", "all"] });
     },
   });
 }

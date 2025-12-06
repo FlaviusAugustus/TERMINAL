@@ -21,7 +21,13 @@ async function fetchDataProject(
   let projects;
   let rowsAmount;
   if (params.searchPhrase) {
-    projects = await apiClient.get("/projects/search", { params });
+    projects = await apiClient.get("/projects/search", {
+      params: {
+        searchPhrase: params.searchPhrase,
+        pageNumber: params.pageNumber,
+        pageSize: params.pageSize,
+      },
+    });
     rowsAmount = projects.data.totalAmount;
     return {
       rows: projects.data.projects,
@@ -54,10 +60,10 @@ async function fetchDataProject(
  * @hook
  * @param {ProjectsRequest} params - The parameters for the projects request.
  */
-export function useAllProjects({ pageSize, pageNumber }: ProjectsRequest) {
+export function useAllProjects(params: ProjectsRequest) {
   return useQuery({
-    queryKey: ["projects", "all", { pageSize, pageNumber }],
-    queryFn: () => fetchDataProject({ pageSize, pageNumber }),
+    queryKey: ["projects", "all", params],
+    queryFn: () => fetchDataProject(params),
     placeholderData: keepPreviousData,
   });
 }

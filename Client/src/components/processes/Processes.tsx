@@ -125,6 +125,19 @@ const Processes = (props: SamplesProps) => {
               }
             }}
           />
+          {localSearch && (
+            <IconButton
+              onClick={() => {
+                setLocalSearch("");
+                props.searchProps?.onClearSearch?.();
+              }}
+              className="h-[40px] flex bg-white items-center gap-1 !hover:border-gray-300"
+              title="Clear search"
+            >
+              <XMarkIcon className="h-4" />
+              <p className="text-xs">Clear</p>
+            </IconButton>
+          )}
         </div>
         <VisibleForRoles roles={["Administrator", "Moderator"]}>
           <div className="flex gap-1">
