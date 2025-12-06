@@ -10,10 +10,7 @@ import {
   resetProcesses,
   setCurrentData,
 } from "./helpers/mocks";
-import {
-  processMock,
-  sampleDetailsMock,
-} from "./helpers/mockedData";
+import { processMock, sampleDetailsMock } from "./helpers/mockedData";
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
