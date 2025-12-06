@@ -7,12 +7,10 @@ import {
   mockEntityDetails,
   mockProcesses,
   mockProcessesNextPage,
-  mockSearch,
   resetProcesses,
   setCurrentData,
 } from "./helpers/mocks";
 import {
-  processesMock,
   processMock,
   sampleDetailsMock,
 } from "./helpers/mockedData";
