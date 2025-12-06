@@ -99,7 +99,7 @@ test("shows params details", async ({ page }) => {
   await expect(page.getByText("unit")).toBeVisible();
 });
 
-test("deletes param using X button", async ({ page }) => {
+test("deactivate param using X button", async ({ page }) => {
   await mockParameters(page);
   await mockParameterDeactivation(page, MOCKED_PARAMETER_ID);
   const params = new ParametersPage(page);

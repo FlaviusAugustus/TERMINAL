@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import { BasePage } from "./basePage";
 
 export class ParametersPage extends BasePage {
@@ -18,5 +18,11 @@ export class ParametersPage extends BasePage {
 
   getProjectCell(name: string) {
     return this.page.getByRole("cell", { name });
+  }
+
+  async checkRowStatusByText(rowText: string, expectedStatus: string) {
+    const row = this.page.getByRole("row").filter({ hasText: rowText }).first();
+    const statusSpan = row.locator("span").first();
+    await expect(statusSpan).toHaveText(expectedStatus);
   }
 }

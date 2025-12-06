@@ -9,7 +9,7 @@ export class SamplesPage extends BasePage {
   constructor(page: Page) {
     super(page);
     this.clearButton = page.getByRole("button", { name: "Clear" });
-    this.pageLink = page.getByRole("link", { name: "Samples" });
+    this.pageLink = page.getByRole("link", { name: "Processes" });
   }
 
   async clearSearch() {

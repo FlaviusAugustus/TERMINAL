@@ -60,7 +60,7 @@ export abstract class BasePage {
 
   async deleteRow(n: number) {
     const row = await this.getRow(n);
-    await row.getByRole("button").nth(1).click();
+    await row.getByRole("button").nth(2).click();
     await this.confirmDeletion();
   }
 
