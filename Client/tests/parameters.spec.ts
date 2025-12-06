@@ -104,10 +104,8 @@ test("deactivate param using X button", async ({ page }) => {
   await mockParameterDeactivation(page, MOCKED_PARAMETER_ID);
   const params = new ParametersPage(page);
   await params.goto();
-  const firstRow = await params.getRow(1);
-  const firstRowContent = (await firstRow.textContent())?.trim() ?? "";
   await params.deleteRow(1);
-  await expect(page.getByText(firstRowContent)).not.toBeVisible();
+  await params.checkDeactivationSuccess();
 });
 
 test("deactivates selected params using X button", async ({ page }) => {
@@ -115,10 +113,8 @@ test("deactivates selected params using X button", async ({ page }) => {
   await mockParameterDeactivation(page, MOCKED_PARAMETER_ID);
   const params = new ParametersPage(page);
   await params.goto();
-  const firstRow = await params.getRow(1);
-  const firstRowContent = (await firstRow.textContent())?.trim() ?? "";
   await params.deleteUsingCheckbox(1);
-  await expect(page.getByText(firstRowContent)).not.toBeVisible();
+  await params.checkDeactivationSuccess();
 });
 
 test("deactivate all params using checkbox", async ({ page }) => {
@@ -129,5 +125,5 @@ test("deactivate all params using checkbox", async ({ page }) => {
   const params = new ParametersPage(page);
   await params.goto();
   await params.deleteAllRows();
-  await params.checkDeletionSuccess();
+  await params.checkDeactivationSuccess();
 });

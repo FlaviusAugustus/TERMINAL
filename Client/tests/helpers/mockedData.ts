@@ -332,31 +332,7 @@ export const parametersMock = {
       name: "Pressure",
       order: 0,
       parentId: null,
-    },
-    {
-      $type: "decimal",
-      step: 0.1,
-      defaultValue: 1.5,
-      unit: "h",
-      id: "b334a12b-4e8a-44ef-aa6a-3b83d89e407e",
-      name: "Time",
-      order: 1,
-      parentId: null,
-    },
-    {
-      $type: "text",
-      allowedValues: [
-        "spin-coating",
-        "nucleation",
-        "dip-coating",
-        "without nucleation",
-      ],
-      defaultValue: "spin-coating",
-      id: "6e63f85e-0777-497b-94ad-3c98680bf57f",
-      name: "Nucleation Method",
-      order: 3,
-      parentId: null,
-    },
+    }
   ],
 };
 

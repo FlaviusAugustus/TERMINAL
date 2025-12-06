@@ -76,4 +76,9 @@ export abstract class BasePage {
     await this.page.getByRole("button", { name: /delete selected/i }).click();
     await this.confirmDeletion();
   }
+
+  async checkDeactivationSuccess() {
+    const row = await this.getRow(1);
+    await expect(row.getByText("Not Active")).toBeVisible();
+  }
 }

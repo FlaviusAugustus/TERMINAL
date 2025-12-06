@@ -26,4 +26,10 @@ export class ProjectsPage extends BasePage {
       .locator("svg")
       .click();
   }
+
+  async deleteRow(n: number) {
+    const row = await this.getRow(n);
+    await row.getByRole("button").nth(1).click();
+    await this.confirmDeletion();
+  }
 }
