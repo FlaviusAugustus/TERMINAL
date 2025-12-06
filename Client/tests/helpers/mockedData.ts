@@ -332,7 +332,7 @@ export const parametersMock = {
       name: "Pressure",
       order: 0,
       parentId: null,
-    }
+    },
   ],
 };
 
