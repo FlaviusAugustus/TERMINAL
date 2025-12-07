@@ -401,7 +401,7 @@ export async function mockRecipeCreation(page: Page) {
   });
 }
 
-export async function mockSampleCreation(page: Page) {
+export async function mockProcessCreation(page: Page) {
   await page.route("**/api/process", async (route) => {
     if (route.request().method() === "POST") {
       const requestBody = JSON.parse(route.request().postData() || "{}");

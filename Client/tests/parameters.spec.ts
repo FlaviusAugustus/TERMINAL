@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { ParametersPage } from "./pages/parametersPage";
 import {
@@ -12,8 +12,8 @@ import {
 } from "./helpers/mocks";
 import {
   parameterDetailsMock,
-  parametersMock,
   parameterMock,
+  parametersMock,
 } from "./helpers/mockedData";
 import {
   MOCKED_PARAMETER_ID,
@@ -42,8 +42,8 @@ export const parametersMockForSearching = {
       name: "Time",
       order: 0,
       isActive: true,
-      parentId: null
-    }
+      parentId: null,
+    },
   ],
 };
 
@@ -67,7 +67,11 @@ test("renders table with correct columns", async ({ page }) => {
 });
 
 test("searches for existing param", async ({ page }) => {
-  await mockParameters(page, "**/api/parameters/", parametersMockForSearching.parameters);
+  await mockParameters(
+    page,
+    "**/api/parameters/",
+    parametersMockForSearching.parameters
+  );
   await mockSearch(
     page,
     "**/api/parameters/search**",

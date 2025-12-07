@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
   await mockRecipeCreation(page);
 });
 
-// tests also name validation
+// checks also name validation
 test("adds new recipe successfully", async ({ page }) => {
   const recipe = new NewRecipePage(page);
 
@@ -26,7 +26,7 @@ test("adds new recipe successfully", async ({ page }) => {
   await page.getByRole("option", { name: "without nucleation" }).click();
 
   await recipe.addStep();
-  
+
   await recipe.dragAndDropStep(2);
   await page.locator('[id="headlessui-control-:r2d:"]').click();
 

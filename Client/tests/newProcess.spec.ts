@@ -4,11 +4,11 @@ import { NewSamplePage } from "./pages/addNewSamplePage";
 import {
   currentRecipes,
   mockParameters,
+  mockProcessCreation,
   mockProjects,
   mockRecipeDetails,
   mockRecipes,
   mockRecipesAmount,
-  mockSampleCreation,
   mockTags,
 } from "./helpers/mocks";
 import { MOCKED_RECIPE_ID } from "./constants";
@@ -19,7 +19,7 @@ test.beforeEach(async ({ page }) => {
   await login.login();
 
   await mockParameters(page, "**/api/parameters/");
-  await mockSampleCreation(page);
+  await mockProcessCreation(page);
   await mockProjects(page);
 });
 
@@ -35,7 +35,7 @@ async function prepareSample(page: Page, sample: NewSamplePage) {
   await page.getByRole("option", { name: "without nucleation" }).click();
 
   await sample.addStep();
-  
+
   await sample.dragAndDropStep(2);
   await page.locator('[id="headlessui-control-:r2t:"]').click();
 
