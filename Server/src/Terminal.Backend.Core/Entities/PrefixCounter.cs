@@ -32,4 +32,9 @@ public class PrefixCounter
             LastValue--;
         }
     }
+    
+    public void Update(string prefix)
+    {
+        Prefix = prefix;
+    }
 }

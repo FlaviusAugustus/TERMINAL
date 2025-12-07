@@ -1,7 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Terminal.Backend.Api.Swagger;
+using Terminal.Backend.Application.Commands.Prefix.Create;
 using Terminal.Backend.Application.Commands.Prefix.Delete;
+using Terminal.Backend.Application.Commands.Prefix.Update;
 using Terminal.Backend.Application.Commands.Project.Create;
 using Terminal.Backend.Application.Queries.Prefixes.Get;
 using Terminal.Backend.Core.Enums;
@@ -40,19 +42,19 @@ public static class PrefixesModule
                 ISender sender,
                 CancellationToken ct) =>
             {
-                command = command with { Id = ProjectId.Create() };
                 await sender.Send(command, ct);
-                return Results.Created(ApiRouteBase, new { command.Id });
+                return Results.Created(ApiRouteBase, new { command.prefix });
             }).RequireAuthorization(Permission.ProjectWrite.ToString())
             .WithTags(SwaggerSetup.PrefixTag);
         
         app.MapPatch(ApiRouteBase + "/{prefix:alpha}", async (
                 String prefix,
+                [FromBody] UpdatePrefixCommand command,
                 ISender sender,
                 CancellationToken ct) =>
             {
-                // var command = new ChangeProjectStatusCommand(id, false);
-                // await sender.Send(command, ct);
+                command = command with { OldPrefix = prefix };
+                await sender.Send(command, ct);
                 return Results.Ok();
             }).RequireAuthorization(Permission.ProjectUpdate.ToString())
             .WithTags(SwaggerSetup.PrefixTag);
