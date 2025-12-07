@@ -31,10 +31,12 @@ async function prepareSample(page: Page, sample: NewSamplePage) {
   await page.locator('[id="headlessui-control-:r1j:"]').fill("60");
 
   await sample.dragAndDropStep(0);
-  await page.locator('[id="headlessui-control-:r1n:"]').click();
-  const opt = page.getByRole("option", { name: "without nucleation" });
-  await opt.waitFor({ state: "visible", timeout: 8000 });
-  await opt.click();
+  const nucleationMethodCombobox = page.getByRole("combobox").nth(1);
+  await nucleationMethodCombobox.click();
+  await page.getByRole("listbox").first().waitFor({ state: "visible", timeout: 10000 });
+  const nucleationMethodOption = page.getByRole("option", { name: "without nucleation" });
+  await nucleationMethodOption.waitFor({ state: "visible", timeout: 8000 });
+  await nucleationMethodOption.click();
 
   await sample.addStep();
 
