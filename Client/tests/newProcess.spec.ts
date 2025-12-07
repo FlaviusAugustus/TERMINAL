@@ -31,7 +31,7 @@ async function prepareSample(page: Page, sample: NewSamplePage) {
   await page.locator('[id="headlessui-control-:r1j:"]').fill("60");
 
   await sample.dragAndDropStep(0);
-  await page.locator('[id="headlessui-combobox-button-:r1v:"]').click();
+  await page.locator('[id="headlessui-control-:r1n:"]').click();
   await page.getByRole("option", { name: "without nucleation" }).click();
 
   await sample.addStep();

@@ -22,7 +22,7 @@ test("adds new recipe successfully", async ({ page }) => {
   await page.locator('[id="headlessui-control-:r13:"]').fill("60");
 
   await recipe.dragAndDropStep(0);
-  await page.locator('[id="headlessui-combobox-button-:r1f:"]').click();
+  await page.locator('[id="headlessui-control-:r17:"]').click();
   await page.getByRole("option", { name: "without nucleation" }).click();
 
   await recipe.addStep();
