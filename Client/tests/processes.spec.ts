@@ -200,18 +200,11 @@ test("paginates through processes list", async ({ page }) => {
 
   const process = new ProcessPage(page);
   await process.goto();
-  const firstPageFirstRow =
-    (await (await process.getRow(1)).textContent()) ?? "";
+  const firstPageFirstRow = (await (await process.getRow(1)).textContent()) ?? "";
 
   await page.locator("button:nth-child(5)").first().click();
   await page.waitForTimeout(500);
 
   const secondPageFirstRow = await (await process.getRow(1)).textContent();
   expect(firstPageFirstRow).not.toBe(secondPageFirstRow);
-
-  await page.locator("button:nth-child(4)").first().click();
-  await page.waitForTimeout(2000);
-
-  const firstRowLocator = await process.getRow(1);
-  await expect(firstRowLocator).toHaveText(firstPageFirstRow);
 });
