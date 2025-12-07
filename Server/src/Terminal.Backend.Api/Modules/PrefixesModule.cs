@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Terminal.Backend.Api.Swagger;
+using Terminal.Backend.Application.Commands.Prefix.Delete;
 using Terminal.Backend.Application.Commands.Project.Create;
 using Terminal.Backend.Application.Queries.Prefixes.Get;
 using Terminal.Backend.Core.Enums;
@@ -25,9 +26,17 @@ public static class PrefixesModule
                 Results.Ok(await sender.Send(new GetPrefixesQuery(pageSize, pageNumber, desc ?? true), ct)))
             .RequireAuthorization(Permission.ProjectRead.ToString())
             .WithTags(SwaggerSetup.PrefixTag);
+        
+        app.MapGet(ApiRouteBase + "/amount", async (
+                    ISender sender,
+                    CancellationToken ct
+                ) =>
+                Results.Ok(await sender.Send(new GetPrefixesAmountQuery(), ct)))
+            .RequireAuthorization(Permission.ProjectRead.ToString())
+            .WithTags(SwaggerSetup.PrefixTag);
 
         app.MapPost(ApiRouteBase, async (
-                CreateProjectCommand command,
+                CreatePrefixCommand command,
                 ISender sender,
                 CancellationToken ct) =>
             {
@@ -49,12 +58,14 @@ public static class PrefixesModule
             .WithTags(SwaggerSetup.PrefixTag);
         
         app.MapDelete(ApiRouteBase + "/{prefix:alpha}", async (
-                Guid id,
+                string prefix,
                 ISender sender,
                 CancellationToken ct) =>
             {
+                var command = new DeletePrefixCommand(prefix);
+                await sender.Send(command, ct);
                 return Results.Ok();
-            }).RequireAuthorization(Permission.ProjectDelete.ToString())
+            }).RequireAuthorization(Permission.ProjectRead.ToString())
             .WithTags(SwaggerSetup.PrefixTag);
     }
 }

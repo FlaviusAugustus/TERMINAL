@@ -29,5 +29,7 @@ public enum Permission
     StepRead,
     StepWrite,
     StepUpdate,
-    StepDelete // Step
+    StepDelete, // Step
+    PrefixRead,
+    PrefixDelete, //Prefix
 }

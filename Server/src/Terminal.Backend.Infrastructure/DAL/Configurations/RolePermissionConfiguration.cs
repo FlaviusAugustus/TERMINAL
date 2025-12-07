@@ -38,7 +38,9 @@ internal sealed class RolePermissionConfiguration : IEntityTypeConfiguration<Rol
             Create(Role.Administrator, Permission.ParameterUpdate),
             Create(Role.Administrator, Permission.ParameterDelete), Create(Role.Administrator, Permission.StepRead),
             Create(Role.Administrator, Permission.StepWrite), Create(Role.Administrator, Permission.StepUpdate),
-            Create(Role.Administrator, Permission.StepDelete), Create(Role.Moderator, Permission.UserRead),
+            Create(Role.Administrator, Permission.StepDelete), 
+            Create(Role.Administrator, Permission.PrefixRead), Create(Role.Administrator, Permission.PrefixDelete),
+            Create(Role.Moderator, Permission.UserRead),
             Create(Role.Moderator, Permission.ProjectRead), Create(Role.Moderator, Permission.ProjectWrite),
             Create(Role.Moderator, Permission.ProjectUpdate), Create(Role.Moderator, Permission.ProjectDelete),
             Create(Role.Moderator, Permission.RecipeRead), Create(Role.Moderator, Permission.RecipeWrite),
@@ -51,12 +53,14 @@ internal sealed class RolePermissionConfiguration : IEntityTypeConfiguration<Rol
             Create(Role.Moderator, Permission.ParameterUpdate), Create(Role.Moderator, Permission.ParameterDelete),
             Create(Role.Moderator, Permission.StepRead), Create(Role.Moderator, Permission.StepWrite),
             Create(Role.Moderator, Permission.StepUpdate), Create(Role.Moderator, Permission.StepDelete),
+            Create(Role.Moderator, Permission.PrefixRead), Create(Role.Moderator, Permission.PrefixDelete),
             Create(Role.Registered, Permission.ProjectRead), Create(Role.Registered, Permission.RecipeRead),
             Create(Role.Registered, Permission.TagRead), Create(Role.Registered, Permission.TagWrite),
             Create(Role.Registered, Permission.TagUpdate), Create(Role.Registered, Permission.ProcessRead),
             Create(Role.Registered, Permission.ProcessWrite), Create(Role.Registered, Permission.ProcessUpdate),
             Create(Role.Registered, Permission.ParameterRead), Create(Role.Registered, Permission.StepRead),
-            Create(Role.Registered, Permission.StepWrite), Create(Role.Registered, Permission.StepUpdate));
+            Create(Role.Registered, Permission.StepWrite), Create(Role.Registered, Permission.StepUpdate),
+            Create(Role.Registered, Permission.PrefixRead));
     }
 
     private static RolePermission Create(

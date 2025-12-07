@@ -37,6 +37,7 @@ internal static class Extensions
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IInvitationRepository, InvitationRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IPrefixRepository, PrefixRepository>();
 
         return services;
     }
