@@ -21,14 +21,14 @@ export const projectDetailsMock = {
 export const processesMock = {
   processes: [
     {
-      id: "c382820c-accf-4bae-8b76-04207ebc3777",
+      id: "4ac5c44c-ba0a-44db-81c2-cf718d714777",
       code: {
-        prefix: "ZX",
-        sequentialNumber: 2,
+        prefix: "DX",
+        sequentialNumber: 1,
       },
-      projects: ["Nobelium"],
-      createdAtUtc: "2025-12-03T08:31:00.3092960Z",
-      comment: "",
+      projects: ["Upturn"],
+      createdAtUtc: "2025-12-07T05:15:43.0689250Z",
+      comment: "Sample for testing",
     },
     {
       id: "6552bcb6-91c7-4f49-8b9f-818479c48777",
@@ -126,130 +126,80 @@ export const processesMock = {
 export const processMock = {
   processes: [
     {
-      id: "b315d3ec-bd53-4d6b-8fe2-6768f839a777",
+      id: "557b6f33-f767-4969-989d-260ef7db6777",
       code: {
-        prefix: "CX",
-        sequentialNumber: 1,
+        prefix: "BX",
+        sequentialNumber: 7,
       },
       projects: ["Nitro", "Upturn", "Nobelium"],
-      createdAtUtc: "2025-11-28T20:52:46.8203000Z",
-      comment: "Process 14",
+      createdAtUtc: "2025-11-28T20:52:46.8620480Z",
+      comment: "Process 45",
     },
   ],
 };
 
-export const sampleDetailsMock = {
-  id: "6a88a51d-88cf-4a63-ab59-b4da32d6c777",
-  code: "AX45",
+export const processDetailsMock = {
+  id: "4ac5c44c-ba0a-44db-81c2-cf718d714777",
+  code: {
+    prefix: "DX",
+    sequentialNumber: 1,
+  },
   recipe: null,
-  createdAtUtc: "2025-10-07T20:22:34.8386110Z",
-  comment: "First sample!",
-  projectId: "e2ec5e7b-09f3-4393-b4ed-2b9331859777",
+  createdAtUtc: "2025-12-07T05:15:43.0689250Z",
+  comment: "Sample for testing",
+  projects: [
+    {
+      id: "69f9776d-c995-41ef-abc4-41475f45f6e1",
+      name: "Upturn",
+      isActive: true,
+      samplesIds: ["4ac5c44c-ba0a-44db-81c2-cf718d7140a7"],
+    },
+  ],
   steps: [
     {
-      id: "e3e33829-2a45-4c08-874a-c8264877893a",
+      id: "4e794421-fedb-4f3b-b40e-53912a9df6e6",
       parameters: [
         {
           $type: "integer",
-          value: 300,
-          unit: "sccm",
-          id: "7447c05a-20e3-4765-b9e9-26d539bde7f0",
-          name: "HÔéé",
+          value: 420,
+          unit: "C⁰",
+          id: "1ed9c7e7-c210-49b3-b02b-f9ee6d79a197",
+          name: "Temperature",
         },
-        {
-          $type: "integer",
-          value: 2000,
-          unit: "ppm",
-          id: "2dfd70fe-2dcc-418f-bda2-48decd782c7f",
-          name: "B/C",
-        },
-        {
-          $type: "decimal",
-          value: 2.3,
-          unit: "h",
-          id: "b334a12b-4e8a-44ef-aa6a-3b83d89e407e",
-          name: "Time",
-        },
-        {
-          $type: "integer",
-          value: 20,
-          unit: "Torr",
-          id: "c452eb60-0325-4cad-91b3-08a7bfd08627",
-          name: "Pressure",
-        },
+      ],
+      comment: "Test",
+    },
+    {
+      id: "f0d89022-2e72-4d6b-9a18-cbb49a4f6a63",
+      parameters: [
         {
           $type: "text",
-          value: "spin-coating",
+          value: "dip-coating",
           allowedValues: [
             "spin-coating",
             "nucleation",
             "dip-coating",
             "without nucleation",
           ],
-          id: "6e63f85e-0777-497b-94ad-3c98680bf57f",
+          id: "9d503995-6c08-477c-b571-7f1979ca7a72",
           name: "Nucleation Method",
         },
         {
-          $type: "integer",
-          value: 240,
-          unit: "sccm",
-          id: "133baa9e-5615-4d2b-a58c-eeb0242ab309",
-          name: "BÔééHÔéć",
-        },
-        {
-          $type: "text",
-          value: "silicon",
-          allowedValues: ["silicon", "silicon dioxide", "glass", "tantalum"],
-          id: "f185433d-8644-4118-82a8-a8f3c79f35dd",
-          name: "Substrate",
-        },
-        {
-          $type: "integer",
-          value: 1300,
-          unit: "W",
-          id: "98cc204a-051a-4a0c-8059-2cc3344f094e",
-          name: "Pmw",
-        },
-        {
           $type: "decimal",
-          value: 0,
+          value: 0.5,
           unit: "h",
-          id: "4ed88add-6c06-462a-82ae-da5f09ab3507",
+          id: "cf2e864c-0cf7-411c-b9c8-90524eda0f14",
           name: "Buffer",
         },
-        {
-          $type: "integer",
-          value: 100,
-          unit: "sccm",
-          id: "c88be10d-d98f-4569-bf26-83dca7efbe39",
-          name: "CHÔéä",
-        },
-        {
-          $type: "text",
-          value: "none",
-          allowedValues: ["none", "nitrogen", "oxygen"],
-          id: "f0c81337-8628-4b34-8e3e-d7552f372348",
-          name: "Additional gases",
-        },
-        {
-          $type: "integer",
-          value: 800,
-          unit: "CÔü░",
-          id: "60de6367-5025-423d-8edd-bac518f0b98a",
-          name: "Temperature",
-        },
       ],
-      comment: "First step!",
+      comment: "",
     },
   ],
   tags: [
     {
-      id: "8063c156-d487-4227-bbfd-ed3f7afd51a6",
-      name: "popular-sample",
-    },
-    {
-      id: "d81a415b-dd62-4913-a865-f101bd352ceb",
-      name: "high-pressure",
+      id: "2d8fe564-7edc-427b-867c-215fecffaaa0",
+      name: "new-sample",
+      isActive: true,
     },
   ],
 };

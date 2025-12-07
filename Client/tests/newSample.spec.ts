@@ -18,23 +18,27 @@ test.beforeEach(async ({ page }) => {
   await login.goto();
   await login.login();
 
-  await mockParameters(page);
+  await mockParameters(page, "**/api/parameters/");
   await mockSampleCreation(page);
   await mockProjects(page);
 });
 
 async function prepareSample(page: Page, sample: NewSamplePage) {
   await sample.openAddForm();
-  await sample.addStep();
-  await sample.dragAndDropStep(0);
-  await page.locator('[id="headlessui-control-:r21:"]').click();
-  await page.locator('[id="headlessui-control-:r21:"]').fill("60");
 
   await sample.dragAndDropStep(0);
-  await page.getByText("Step 1").click();
-  await sample.dragAndDropStep(2);
-  await page.locator('[id="headlessui-combobox-button-:r2n:"]').click();
+  await page.locator('[id="headlessui-control-:r1j:"]').click();
+  await page.locator('[id="headlessui-control-:r1j:"]').fill("60");
+
+  await sample.dragAndDropStep(0);
+  await page.locator('[id="headlessui-combobox-button-:r1v:"]').click();
   await page.getByRole("option", { name: "without nucleation" }).click();
+
+  await sample.addStep();
+  
+  await sample.dragAndDropStep(2);
+  await page.locator('[id="headlessui-control-:r2t:"]').click();
+
   await sample.fillComment("This is comment!");
 }
 

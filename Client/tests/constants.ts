@@ -18,9 +18,9 @@ export const USER_ENTITY = "Users";
 export const MOCKED_USER_ID = "b83100f0-7a50-413e-8fb0-9d2c882cf888";
 export const USER_DETAILS_PATH = "**/api/users/" + MOCKED_USER_ID;
 
-export const SAMPLE_ENTITY = "Samples";
-export const MOCKED_SAMPLE_ID = "6a88a51d-88cf-4a63-ab59-b4da32d6c777";
-export const SAMPLE_DETAILS_PATH = "**/api/samples/" + MOCKED_SAMPLE_ID;
+export const PROCESS_ENTITY = "Processes";
+export const MOCKED_PROCESS_ID = "4ac5c44c-ba0a-44db-81c2-cf718d714777";
+export const PROCESS_DETAILS_PATH = "**/api/process/" + MOCKED_PROCESS_ID;
 
 export const RECIPE_ENTITY = "Recipes";
 export const MOCKED_RECIPE_ID = "7476949a-1698-48a7-bae3-ba1c4375d777";

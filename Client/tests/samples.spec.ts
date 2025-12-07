@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
-import { SamplesPage } from "./pages/samplesPage";
-import { SAMPLE_DETAILS_PATH, SAMPLE_ENTITY } from "./constants";
+import { ProcessPage } from "./pages/processPage";
+import { PROCESS_DETAILS_PATH, PROCESS_ENTITY } from "./constants";
 import {
   currentProcesses,
   mockEntityDetails,
@@ -10,7 +10,7 @@ import {
   resetProcesses,
   setCurrentData,
 } from "./helpers/mocks";
-import { processMock, sampleDetailsMock } from "./helpers/mockedData";
+import { processDetailsMock, processMock } from "./helpers/mockedData";
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -20,8 +20,8 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("renders table with correct columns", async ({ page }) => {
-  const samples = new SamplesPage(page);
-  await samples.goto();
+  const process = new ProcessPage(page);
+  await process.goto();
   await expect(page.getByRole("cell", { name: "Code" }).first()).toBeVisible();
   await expect(
     page.getByRole("cell", { name: "Created At" }).locator("div")
@@ -74,26 +74,26 @@ test("renders table with correct columns", async ({ page }) => {
 // });
 
 test("redirects to Add New Process page", async ({ page }) => {
-  const samples = new SamplesPage(page);
-  await samples.goto();
-  await samples.clickAddNew();
+  const process = new ProcessPage(page);
+  await process.goto();
+  await process.clickAddNew();
   await expect(page).toHaveURL(/.*new-process/);
   await expect(page.getByText("Add new process")).toBeVisible();
 });
 
-test("should show sample details", async ({ page }) => {
+test("should show process details", async ({ page }) => {
   await mockProcesses(page);
   await mockEntityDetails(
     page,
-    SAMPLE_DETAILS_PATH,
+    PROCESS_DETAILS_PATH,
     currentProcesses,
-    sampleDetailsMock,
-    SAMPLE_ENTITY
+    processDetailsMock,
+    PROCESS_ENTITY
   );
 
-  const samples = new SamplesPage(page);
-  await samples.goto();
-  const firstRow = await samples.getRow(1);
+  const process = new ProcessPage(page);
+  await process.goto();
+  const firstRow = await process.getRow(1);
   await firstRow.getByRole("button").nth(0).click();
   await expect(page.getByText("Process Details")).toBeVisible();
   await expect(page.getByText("code", { exact: true })).toBeVisible();
@@ -103,145 +103,114 @@ test("should show sample details", async ({ page }) => {
   await expect(page.getByText("tags", { exact: true })).toBeVisible();
 });
 
-test("edits sample details", async ({ page }) => {
+test("edits process details", async ({ page }) => {
   await mockProcesses(page);
   await mockEntityDetails(
     page,
-    SAMPLE_DETAILS_PATH,
+    PROCESS_DETAILS_PATH,
     currentProcesses,
-    sampleDetailsMock,
-    SAMPLE_ENTITY
+    processDetailsMock,
+    PROCESS_ENTITY
   );
 
-  const samples = new SamplesPage(page);
-  await samples.goto();
-  const firstRow = await samples.getRow(1);
+  const process = new ProcessPage(page);
+  await process.goto();
+  const firstRow = await process.getRow(1);
   await firstRow.getByRole("button").nth(1).click();
-  await expect(page.getByText("Edit Sample")).toBeVisible();
+  await expect(page.getByText("Edit Process")).toBeVisible();
 
+  // modify some process parameters
+  await page.getByRole("spinbutton").fill("421");
+  await page.locator('[id="headlessui-combobox-button-:r1d:"]').click();
+  await page.getByRole("option", { name: "popular-sample" }).click();
+  await page.getByRole("combobox", { name: "Tags:" }).press("Escape");
+  await page.locator('[id="headlessui-combobox-button-:r1v:"]').click();
+  await page.getByRole("option", { name: "Nitro" }).click();
+  await page.getByRole("combobox", { name: "Projects:" }).press("Escape");
+  await page.getByRole("button", { name: "Step 2" }).click();
   await page
-    .getByRole("row", { name: /Additional gases/i })
+    .getByRole("cell", { name: "dip-coating" })
     .getByRole("combobox")
-    .selectOption("nitrogen");
-  await page
-    .getByRole("row", { name: /^Time/i })
-    .getByRole("spinbutton")
-    .fill("1.5");
-  await page
-    .getByRole("row", { name: /^Pressure/i })
-    .getByRole("spinbutton")
-    .fill("25");
-  await page
-    .getByRole("row", { name: /^Buffer/i })
-    .getByRole("spinbutton")
-    .fill("100");
-  await page
-    .getByRole("row", { name: /^Substrate/i })
-    .getByRole("combobox")
-    .selectOption("silicon dioxide");
-  await page
-    .getByRole("row", { name: /^CHÔéä/i })
-    .getByRole("spinbutton")
-    .fill("99");
-  await page
-    .getByRole("row", { name: /^BÔééHÔéć/i })
-    .getByRole("spinbutton")
-    .fill("450");
-  await page
-    .getByRole("row", { name: /^HÔéé/i })
-    .getByRole("spinbutton")
-    .fill("2000");
-  await page
-    .getByRole("row", { name: /^B\/C/i })
-    .getByRole("spinbutton")
-    .fill("250");
-  await page
-    .getByRole("row", { name: /^Temperature/i })
-    .getByRole("spinbutton")
-    .fill("720");
-  await page
-    .getByRole("row", { name: /^Pmw/i })
-    .getByRole("spinbutton")
-    .fill("1200");
-
+    .selectOption("spin-coating");
   await page.getByRole("button", { name: "Save" }).click();
   await firstRow.getByRole("button").nth(1).click();
-  // verify random two fields
-  await expect(
-    page.getByRole("row", { name: /^Time/i }).getByRole("spinbutton")
-  ).toHaveValue("1.5");
-  await expect(
-    page.getByRole("row", { name: /^Pressure/i }).getByRole("spinbutton")
-  ).toHaveValue("25");
+
+  // verify changed fields
+  await expect(page.getByText("popular-sample")).toBeVisible();
+  await expect(page.getByText("Nitro")).toBeVisible();
+  await page.getByRole("button", { name: "Step 1" }).click();
+  await expect(page.getByRole("cell", { name: "421" })).toBeVisible();
+  await page.getByRole("button", { name: "Step 2" }).click();
+  await expect(page.getByRole("cell", { name: "dip-coating" })).toBeVisible();
 });
 
-test("deletes sample using X button", async ({ page }) => {
+test("deletes process using X button", async ({ page }) => {
   await mockProcesses(page);
   await mockEntityDetails(
     page,
-    SAMPLE_DETAILS_PATH,
+    PROCESS_DETAILS_PATH,
     currentProcesses,
-    sampleDetailsMock,
-    SAMPLE_ENTITY
+    processDetailsMock,
+    PROCESS_ENTITY
   );
-  const samples = new SamplesPage(page);
-  await samples.goto();
-  const firstRow = await samples.getRow(1);
+  const process = new ProcessPage(page);
+  await process.goto();
+  const firstRow = await process.getRow(1);
   const firstRowContent = (await firstRow.textContent())?.trim() ?? "";
-  await samples.deleteRow(1);
+  await process.deleteRow(1);
   await expect(page.getByText(firstRowContent)).not.toBeVisible();
 });
 
-test("deletes selected samples using X button", async ({ page }) => {
+test("deletes selected process using X button", async ({ page }) => {
   await mockProcesses(page);
   await mockEntityDetails(
     page,
-    SAMPLE_DETAILS_PATH,
+    PROCESS_DETAILS_PATH,
     currentProcesses,
-    sampleDetailsMock,
-    SAMPLE_ENTITY
+    processDetailsMock,
+    PROCESS_ENTITY
   );
-  const samples = new SamplesPage(page);
-  await samples.goto();
-  const firstRow = await samples.getRow(1);
+  const process = new ProcessPage(page);
+  await process.goto();
+  const firstRow = await process.getRow(1);
   const firstRowContent = (await firstRow.textContent())?.trim() ?? "";
-  await samples.deleteUsingCheckbox(1);
+  await process.deleteUsingCheckbox(1);
   await expect(page.getByText(firstRowContent)).not.toBeVisible();
 });
 
-test("deletes all samples using checkbox", async ({ page }) => {
+test("deletes all processes using checkbox", async ({ page }) => {
   setCurrentData(currentProcesses, processMock.processes);
   await mockProcesses(page);
   await mockEntityDetails(
     page,
-    SAMPLE_DETAILS_PATH,
+    "**/api/process/557b6f33-f767-4969-989d-260ef7db6777", // needed for this specific test
     currentProcesses,
-    sampleDetailsMock,
-    SAMPLE_ENTITY
+    processDetailsMock,
+    PROCESS_ENTITY
   );
-  const samples = new SamplesPage(page);
-  await samples.goto();
-  await samples.deleteAllRows();
-  await samples.checkDeletionSuccess();
+  const process = new ProcessPage(page);
+  await process.goto();
+  await process.deleteAllRows();
+  await process.checkDeletionSuccess();
 });
 
-test("paginates through samples list", async ({ page }) => {
+test("paginates through processes list", async ({ page }) => {
   await mockProcesses(page);
   await mockProcessesNextPage(page, processMock.processes);
 
-  const samples = new SamplesPage(page);
-  await samples.goto();
-  const firstPageFirstRow = await (await samples.getRow(1)).textContent();
+  const process = new ProcessPage(page);
+  await process.goto();
+  const firstPageFirstRow = await (await process.getRow(1)).textContent();
 
   await page.locator("button:nth-child(5)").first().click();
   await page.waitForTimeout(500);
 
-  const secondPageFirstRow = await (await samples.getRow(1)).textContent();
+  const secondPageFirstRow = await (await process.getRow(1)).textContent();
   expect(firstPageFirstRow).not.toBe(secondPageFirstRow);
 
   await page.locator("button:nth-child(4)").first().click();
   await page.waitForTimeout(500);
 
-  const firstPageFirstRowBack = await (await samples.getRow(1)).textContent();
+  const firstPageFirstRowBack = await (await process.getRow(1)).textContent();
   expect(firstPageFirstRow).toBe(firstPageFirstRowBack);
 });

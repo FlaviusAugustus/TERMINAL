@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
   await login.goto();
   await login.login();
 
-  await mockParameters(page);
+  await mockParameters(page, "**/api/parameters/");
   await mockRecipeCreation(page);
 });
 
@@ -17,17 +17,19 @@ test("adds new recipe successfully", async ({ page }) => {
   const recipe = new NewRecipePage(page);
 
   await recipe.openAddForm();
-  await recipe.addStep();
   await recipe.dragAndDropStep(0);
-  await page.locator('[id="headlessui-control-:r1h:"]').click();
-  await page.locator('[id="headlessui-control-:r1h:"]').fill("60");
+  await page.locator('[id="headlessui-control-:r13:"]').click();
+  await page.locator('[id="headlessui-control-:r13:"]').fill("60");
 
   await recipe.dragAndDropStep(0);
-  await page.getByText("Step 1").click();
-  await recipe.dragAndDropStep(2);
-  await page.locator('[id="headlessui-control-:r1v:"]').click();
+  await page.locator('[id="headlessui-combobox-button-:r1f:"]').click();
   await page.getByRole("option", { name: "without nucleation" }).click();
-  await recipe.fillComment("This is comment!");
 
+  await recipe.addStep();
+  
+  await recipe.dragAndDropStep(2);
+  await page.locator('[id="headlessui-control-:r2d:"]').click();
+
+  await recipe.fillComment("This is comment!");
   await recipe.submit();
 });

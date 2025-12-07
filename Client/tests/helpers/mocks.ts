@@ -348,9 +348,10 @@ export async function mockParameterCreation(page: Page) {
 
 export async function mockParameters(
   page: Page,
+  path = "**/api/parameters/all",
   dataArray = currentParameters
 ) {
-  await page.route("**/api/parameters/all", async (route) => {
+  await page.route(path, async (route) => {
     if (route.request().method() === "GET") {
       await route.fulfill({
         status: 200,

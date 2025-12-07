@@ -117,7 +117,7 @@ test("deactivates tag using switch", async ({ page }) => {
   await page.getByRole("switch", { name: "Status" }).click();
   await page.getByRole("button", { name: "Submit changes" }).click();
   await firstRow.getByRole("button").nth(0).click();
-  await expect(page.getByText("Not Active", { exact: true })).toBeVisible();
+  await expect(page.locator('tr').filter({ hasText: 'popular-sampleNot Active' }).locator('span')).toBeVisible();
 });
 
 test("delete tag using X button", async ({ page }) => {

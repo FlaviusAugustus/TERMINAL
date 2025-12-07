@@ -21,6 +21,32 @@ import {
   PARAMETER_ENTITY,
 } from "./constants";
 
+export const parametersMockForSearching = {
+  parameters: [
+    {
+      $type: "integer",
+      step: 1,
+      defaultValue: 0,
+      unit: "Torr",
+      id: "c452eb60-0325-4cad-91b3-08a7bfd08777",
+      name: "Pressure",
+      order: 0,
+      parentId: null,
+    },
+    {
+      $type: "decimal",
+      step: 0.1,
+      defaultValue: 0.1,
+      unit: "h",
+      id: "9c326ab7-a386-4e7e-b1fe-0dd4a59467aa",
+      name: "Time",
+      order: 0,
+      isActive: true,
+      parentId: null
+    }
+  ],
+};
+
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
   await loginPage.goto();
@@ -41,7 +67,7 @@ test("renders table with correct columns", async ({ page }) => {
 });
 
 test("searches for existing param", async ({ page }) => {
-  await mockParameters(page);
+  await mockParameters(page, "**/api/parameters/", parametersMockForSearching.parameters);
   await mockSearch(
     page,
     "**/api/parameters/search**",
@@ -91,7 +117,7 @@ test("shows params details", async ({ page }) => {
 
   const params = new ParametersPage(page);
   await params.goto();
-  const firstRow = await params.getRow(2);
+  const firstRow = await params.getRow(1);
   await firstRow.getByRole("button").nth(0).click();
   await expect(page.getByText("Parameter details")).toBeVisible();
   await expect(page.getByText("name", { exact: true })).toBeVisible();

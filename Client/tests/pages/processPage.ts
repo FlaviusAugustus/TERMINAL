@@ -1,7 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./basePage";
 
-export class SamplesPage extends BasePage {
+export class ProcessPage extends BasePage {
   readonly pageLink: Locator;
   readonly clearButton: Locator;
   readonly deleteSuccessText = "samples deleted succesfully";
@@ -16,7 +16,7 @@ export class SamplesPage extends BasePage {
     await this.clearButton.click();
   }
 
-  getSampleCell(name: string) {
+  getProcessCell(name: string) {
     return this.page.getByRole("cell", { name });
   }
 
