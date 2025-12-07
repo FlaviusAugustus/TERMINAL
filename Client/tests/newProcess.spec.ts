@@ -1,4 +1,4 @@
-import { Page, test } from "@playwright/test";
+import { expect, Page, test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { NewSamplePage } from "./pages/addNewSamplePage";
 import {
@@ -31,23 +31,19 @@ async function prepareSample(page: Page, sample: NewSamplePage) {
   await page.locator('[id="headlessui-control-:r1j:"]').fill("60");
 
   await sample.dragAndDropStep(0);
-  const nucleationMethodCombobox = page.getByRole("combobox").nth(1);
-  await nucleationMethodCombobox.click();
+  //const nucleationMethodCombobox = page.getByRole('combobox', { name: /nucleation/i });
+  //await nucleationMethodCombobox.click();
 
-  await page
-    .getByRole("listbox")
-    .first()
-    .waitFor({ state: "visible", timeout: 10000 });
-  const nucleationMethodOption = page.getByRole("option", {
-    name: "without nucleation",
-  });
-  await nucleationMethodOption.waitFor({ state: "visible", timeout: 8000 });
-  await nucleationMethodOption.click();
+  const nucleationCard = page
+    .locator("div")
+    .filter({ hasText: "Nucleation Method" });
+  const nucleationInput = nucleationCard.getByRole("combobox").last();
+  await nucleationInput.click();
+  await expect(page.getByRole("listbox")).toBeVisible();
+  await page.getByRole("option", { name: "without nucleation" }).click();
 
   await sample.addStep();
-
   await sample.dragAndDropStep(2);
-  await page.locator('[id="headlessui-control-:r2t:"]').click();
 
   await sample.fillComment("This is comment!");
 }

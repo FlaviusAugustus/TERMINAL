@@ -121,10 +121,10 @@ test("edits process details", async ({ page }) => {
 
   // modify some process parameters
   await page.getByRole("spinbutton").fill("421");
-  await page.locator('[id="headlessui-combobox-button-:r1d:"]').click();
+  await page.getByRole("combobox", { name: "Tags:" }).click();
   await page.getByRole("option", { name: "popular-sample" }).click();
   await page.getByRole("combobox", { name: "Tags:" }).press("Escape");
-  await page.locator('[id="headlessui-combobox-button-:r1v:"]').click();
+  await page.getByRole("combobox", { name: "Projects:" }).click();
   await page.getByRole("option", { name: "Nitro" }).click();
   await page.getByRole("combobox", { name: "Projects:" }).press("Escape");
   await page.getByRole("button", { name: "Step 2" }).click();
