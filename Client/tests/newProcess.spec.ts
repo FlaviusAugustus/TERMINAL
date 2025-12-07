@@ -32,7 +32,9 @@ async function prepareSample(page: Page, sample: NewSamplePage) {
 
   await sample.dragAndDropStep(0);
   await page.locator('[id="headlessui-control-:r1n:"]').click();
-  await page.getByRole("option", { name: "without nucleation" }).click();
+  const opt = page.getByRole("option", { name: "without nucleation" });
+  await opt.waitFor({ state: "visible", timeout: 8000 });
+  await opt.click();
 
   await sample.addStep();
 
