@@ -33,8 +33,14 @@ async function prepareSample(page: Page, sample: NewSamplePage) {
   await sample.dragAndDropStep(0);
   const nucleationMethodCombobox = page.getByRole("combobox").nth(1);
   await nucleationMethodCombobox.click();
-  await page.getByRole("listbox").first().waitFor({ state: "visible", timeout: 10000 });
-  const nucleationMethodOption = page.getByRole("option", { name: "without nucleation" });
+
+  await page
+    .getByRole("listbox")
+    .first()
+    .waitFor({ state: "visible", timeout: 10000 });
+  const nucleationMethodOption = page.getByRole("option", {
+    name: "without nucleation",
+  });
   await nucleationMethodOption.waitFor({ state: "visible", timeout: 8000 });
   await nucleationMethodOption.click();
 
