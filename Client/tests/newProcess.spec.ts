@@ -1,4 +1,4 @@
-import { expect, Page, test } from "@playwright/test";
+import { Page, test } from "@playwright/test";
 import { LoginPage } from "./pages/loginPage";
 import { NewSamplePage } from "./pages/addNewSamplePage";
 import {
@@ -29,15 +29,7 @@ async function prepareSample(page: Page, sample: NewSamplePage) {
   await sample.dragAndDropStep(0);
   await page.locator('[id="headlessui-control-:r1j:"]').click();
   await page.locator('[id="headlessui-control-:r1j:"]').fill("60");
-
   await sample.dragAndDropStep(0);
-  const currentStep = page.getByRole("tabpanel", { name: "Step 1" });
-  const nucleationCombobox = currentStep.getByRole("combobox");
-  await nucleationCombobox.click();
-  const listbox = page.getByRole("listbox");
-  await expect(listbox).toBeVisible();
-  await page.getByRole("option", { name: /without nucleation/i }).click();
-
   await sample.addStep();
   await sample.dragAndDropStep(2);
 

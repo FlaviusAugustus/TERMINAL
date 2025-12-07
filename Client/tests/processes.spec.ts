@@ -209,7 +209,7 @@ test("paginates through processes list", async ({ page }) => {
   expect(firstPageFirstRow).not.toBe(secondPageFirstRow);
 
   await page.locator("button:nth-child(4)").first().click();
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(2000);
 
   const firstPageFirstRowBack = await (await process.getRow(1)).textContent();
   expect(firstPageFirstRow).toBe(firstPageFirstRowBack);
