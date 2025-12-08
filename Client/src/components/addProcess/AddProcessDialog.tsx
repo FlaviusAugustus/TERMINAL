@@ -48,7 +48,7 @@ const AddProcessDialog = ({
     if (validateProject(projects)) {
       setProjectsError(null);
     }
-  }, [projects]);
+  }, [projects.map((p) => p.id).join(",")]);
 
   const handleClose = () => {
     setProjects([]);
