@@ -10,6 +10,9 @@ defaults:
   run:
     working-directory: ./Client
 
+env:
+  cache-name: cache-node-modules
+
 jobs:
   build-validation:
     runs-on: ubuntu-latest
@@ -20,7 +23,19 @@ jobs:
         with:
           node-version: ${{ inputs.node_version }}
 
+      - name: Cache node module
+        id: cache-npm
+        uses: actions/cache@v4
+        with:
+          path: Client/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
       - name: Install dependencies
+        if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Lint code
@@ -44,30 +59,57 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node_version }}
+      - name: Cache node module
+        id: cache-npm
+        uses: actions/cache@v4
+        with:
+          path: Client/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
       - name: Install dependencies
+        if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm ci
+      - name: Lint code
+        run: npm run lint:test
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      - name: Start server
+        working-directory: .
+        run: |
+          docker compose --env-file .env.sample.local up --build -d --wait server database
       - name: Run Playwright tests
-        run: npx playwright test
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+        run: npx playwright test --workers 8
+      - name: Stop server
+        if: always()
+        working-directory: .
+        run: docker compose -f compose.yaml -f compose.override.yaml down
 
   make-docs:
     if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
-    needs: [build-validation, test]
+    needs: [ build-validation, test ]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ inputs.node_version }}
+      - name: Cache node module
+        id: cache-npm
+        uses: actions/cache@v4
+        with:
+          path: Client/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: Install dependencies
+        if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Generate documentation

@@ -68,7 +68,7 @@ const DashboardPage = () => {
         </EntityAmountCard>
 
         <EntityAmountCard
-          title="Total samples"
+          title="Total processes"
           amount={sampleAmount?.data ?? 0}
         >
           <EntityAmountCardButton
