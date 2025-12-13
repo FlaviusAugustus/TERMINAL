@@ -5,6 +5,7 @@ namespace Terminal.Backend.Core.Entities;
 
 public class PrefixCounter
 {
+    public PrefixId Id { get; private set; }
     public string Prefix { get; private set; }
 
     public int LastValue { get; private set; }
@@ -17,7 +18,9 @@ public class PrefixCounter
         {
             throw new ArgumentException("Prefix cannot be empty", nameof(prefix));
         }
-        Prefix = validatedPrefix(prefix);
+
+        Id = PrefixId.Create();
+        Prefix = ValidatedPrefix(prefix);
         LastValue = 0; 
     }
     public int Increment()
@@ -36,10 +39,10 @@ public class PrefixCounter
     
     public void Update(string prefix)
     {
-        Prefix = validatedPrefix(prefix);
+        Prefix = ValidatedPrefix(prefix);
     }
 
-    private string validatedPrefix(string prefix)
+    private string ValidatedPrefix(string prefix)
     {
         if (string.IsNullOrWhiteSpace(prefix))
         {
