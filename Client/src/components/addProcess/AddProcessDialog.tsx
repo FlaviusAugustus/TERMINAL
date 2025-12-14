@@ -6,7 +6,7 @@ import {
 } from "@components/shared/dialog/DialogComp.tsx";
 import FormInput from "@components/shared/form/FormInput.tsx";
 import LabeledCheckbox from "@components/shared/form/LabeledCheckbox.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LabeledTagInput from "@components/shared/tags/LabeledTagInput.tsx";
 import { Tag } from "@api/models/Tag.ts";
 import SubmitButton from "@components/shared/form/SubmitButton.tsx";
@@ -42,32 +42,48 @@ const AddProcessDialog = ({
   const [comment, setComment] = useState("");
   const [tags, setTags] = useState<Tag[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [projectsError, setProjectsError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (validateProject(projects)) {
+      setProjectsError(null);
+    }
+  }, [projects.map((p) => p.id).join(",")]);
 
   const handleClose = () => {
     setProjects([]);
     setIsOpen(false);
+    setProjectsError(null);
   };
 
   const handleSubmit = async () => {
     if (!validateProject(projects)) {
+      setProjectsError("At lest one project must be selected.");
       return;
     }
-    setPrefix("");
-    setSaveAsRecipe(false);
-    setRecipeName("");
-    setComment("");
-    setTags([]);
-    setProjects([]);
-    await onSubmit({
+    setProjectsError(null);
+
+    const payload = {
       prefix: prefix,
       recipeName: recipeName,
       saveAsRecipe: saveAsRecipe,
       projects: projects.map((p) => p.id),
       comment: comment,
       tagIds: tags.map((tag) => tag.id),
-    });
+    };
 
-    handleClose();
+    try {
+      await onSubmit(payload);
+      setPrefix("");
+      setSaveAsRecipe(false);
+      setRecipeName("");
+      setComment("");
+      setTags([]);
+      setProjects([]);
+      handleClose();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -91,6 +107,11 @@ const AddProcessDialog = ({
             projects={projects ?? []}
             setPojects={setProjects}
           />
+          {projectsError && (
+            <div className="text-red-600 text-sm" role="alert">
+              {projectsError}
+            </div>
+          )}
           <LabeledCheckbox
             label="Save as recipe"
             checked={saveAsRecipe}
