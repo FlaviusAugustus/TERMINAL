@@ -47,8 +47,8 @@ const ProcessPage = () => {
 
   const openDeleteDialog = (id: string | string[]) => {
     const ids = Array.isArray(id) ? id : [id];
-    setDeleteOpen(true);
     setDeleteSamplesIds(ids);
+    setDeleteOpen(true);
   };
 
   const changeSampleDetails = (id: string) => {
