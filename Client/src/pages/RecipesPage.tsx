@@ -43,18 +43,18 @@ const RecipesPage = () => {
 
   const openDeleteDialog = (id: string | string[]) => {
     const ids = Array.isArray(id) ? id : [id];
-    setDeleteOpen(true);
     setDeleteRecipeIds(ids);
+    setDeleteOpen(true);
   };
 
   const changeRecipeDetails = (id: string) => {
-    setDetailsOpen(true);
     setRecipeDetailsId(id);
+    setDetailsOpen(true);
   };
 
   const handleEditRecipe = (id: string) => {
-    setEditOpen(true);
     setRecipeDetailsId(id);
+    setEditOpen(true);
   };
 
   const handleDelete = async (ids: string[] | null) => {
@@ -88,7 +88,9 @@ const RecipesPage = () => {
         />
       </ComponentOrLoader>
       <ComponentOrLoader
-        isLoading={dataQueryRecipeDetails.isLoading}
+        isLoading={
+          dataQueryRecipeDetails.isLoading || dataQueryRecipeDetails.isFetching
+        }
         loader={<Loader />}
       >
         <RecipeDetails
