@@ -31,7 +31,10 @@ const Stats = () => {
         />
       </EntityAmountCard>
 
-      <EntityAmountCard title="Total processes" amount={sampleAmount?.data ?? 0}>
+      <EntityAmountCard
+        title="Total processes"
+        amount={sampleAmount?.data ?? 0}
+      >
         <EntityAmountCardButton
           title="Browse All"
           onClick={() => navigate("/processes")}
