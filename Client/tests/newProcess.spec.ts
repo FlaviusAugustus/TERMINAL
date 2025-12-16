@@ -53,8 +53,12 @@ test("adds new process with recipe successfully", async ({ page }) => {
 
   const sample = new NewSamplePage(page);
   await sample.openAddForm();
-  await page.locator('[id="headlessui-combobox-button-:rp:"]').click();
-  await page.getByRole("option", { name: "recipe" }).click();
+
+  await page.getByRole("combobox").click();
+
+  const firstOption = page.getByRole("option").first();
+  await firstOption.click();
+
   await page.getByRole("textbox", { name: "Comment" }).click();
   await page
     .getByRole("textbox", { name: "Comment" })
