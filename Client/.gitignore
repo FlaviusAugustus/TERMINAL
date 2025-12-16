@@ -6,3 +6,5 @@ node_modules/
 /playwright/.cache/
 
 eslint_report.json
+
+dev-dist/
