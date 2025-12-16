@@ -27,8 +27,6 @@ async function prepareSample(page: Page, sample: NewSamplePage) {
   await sample.openAddForm();
 
   await sample.dragAndDropStep(0);
-  await page.locator('[id="headlessui-control-:r1j:"]').click();
-  await page.locator('[id="headlessui-control-:r1j:"]').fill("60");
   await sample.dragAndDropStep(0);
   await sample.addStep();
   await sample.dragAndDropStep(2);
@@ -55,8 +53,12 @@ test("adds new process with recipe successfully", async ({ page }) => {
 
   const sample = new NewSamplePage(page);
   await sample.openAddForm();
-  await page.locator('[id="headlessui-combobox-button-:rp:"]').click();
-  await page.getByRole("option", { name: "recipe" }).click();
+
+  await page.getByRole("combobox").click();
+
+  const firstOption = page.getByRole("option").first();
+  await firstOption.click();
+
   await page.getByRole("textbox", { name: "Comment" }).click();
   await page
     .getByRole("textbox", { name: "Comment" })

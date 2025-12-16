@@ -140,6 +140,7 @@ test("delete recipe using checkbox", async ({ page }) => {
   const firstRow = await recipes.getRow(1);
   const firstRowContent = (await firstRow.textContent())?.trim() ?? "";
   await recipes.deleteUsingCheckbox(1);
+  await page.waitForTimeout(1000);
   await expect(page.getByText(firstRowContent)).not.toBeVisible();
 });
 

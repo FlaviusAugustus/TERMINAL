@@ -76,9 +76,9 @@ public static class ProcessesModule
             .WithTags(SwaggerSetup.ProcessTag);
         
         app.MapGet(ApiRouteBase + "/grouped-by-days", async (
-                [FromQuery] int days,
                 ISender sender,
-                CancellationToken ct) =>
+                CancellationToken ct,
+                [FromQuery] int days = 7) =>
             {
                 if (days <= 0)
                 {

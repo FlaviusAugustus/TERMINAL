@@ -320,7 +320,7 @@ export const recipesMock = {
   recipes: [
     {
       id: "7476949a-1698-48a7-bae3-ba1c4375d777",
-      name: "recipe",
+      name: "Test-R",
     },
   ],
 };
@@ -329,7 +329,7 @@ export const recipesAmountMock = 1;
 
 export const recipeDetailsMock = {
   id: "7476949a-1698-48a7-bae3-ba1c4375d777",
-  name: "recipe",
+  name: "Test-R",
   steps: [
     {
       id: "feef47f4-a138-4295-88fe-43ec2c84a679",
